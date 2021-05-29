@@ -25,7 +25,8 @@
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "prepare": "husky install"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +38,8 @@
     "@angular/platform-browser": "12.0.0",
     "@angular/platform-browser-dynamic": "12.0.0",
     "@angular/router": "12.0.0",
+    "@ngrx/store": "^12.0.0",
+    "@ngrx/store-devtools": "^12.0.0",
     "@nrwl/angular": "12.3.5",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
@@ -67,6 +70,8 @@
     "eslint": "7.22.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-cypress": "^2.10.3",
+    "eslint-plugin-ngrx": "^1.0.0",
+    "husky": "^6.0.0",
     "jest": "26.2.2",
     "jest-preset-angular": "8.4.0",
     "prettier": "2.2.1",

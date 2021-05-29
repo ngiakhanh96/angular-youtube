@@ -69,6 +69,10 @@
                 {
                   "replace": "apps/ay/src/environments/environment.ts",
                   "with": "apps/ay/src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "libs/shell/feature/src/lib/build-specifics/index.ts",
+                  "with": "libs/shell/feature/src/lib/build-specifics/index.prod.ts"
                 }
               ],
               "outputHashing": "all"
@@ -140,6 +144,31 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/ay-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "shell-feature": {
+      "projectType": "library",
+      "root": "libs/shell/feature",
+      "sourceRoot": "libs/shell/feature/src",
+      "prefix": "angular-youtube",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shell/feature"],
+          "options": {
+            "jestConfig": "libs/shell/feature/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shell/feature/src/**/*.ts",
+              "libs/shell/feature/src/**/*.html"
+            ]
           }
         }
       }

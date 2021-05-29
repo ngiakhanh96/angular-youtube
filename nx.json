@@ -12,9 +12,12 @@
   "npmScope": "angular-youtube",
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
+      "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "accessToken": "OWY2MWYxZGUtNGNhNS00ZDk3LTkwNDgtOWEwYTk2MzYyM2Q4fHJlYWQtd3JpdGU=",
+        "canTrackAnalytics": false,
+        "showUsageWarnings": true
       }
     }
   },
@@ -25,6 +28,9 @@
     "ay-e2e": {
       "tags": [],
       "implicitDependencies": ["ay"]
+    },
+    "shell-feature": {
+      "tags": []
     }
   }
 }
