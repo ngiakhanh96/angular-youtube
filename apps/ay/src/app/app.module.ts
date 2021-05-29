@@ -1,21 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { ShellFeatureModule } from '@angular-youtube/shell/feature';
 import { AppComponent } from './app.component';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    StoreModule.forRoot({}, {}),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production,
-    }),
-  ],
+  imports: [BrowserModule, ShellFeatureModule],
   providers: [],
   bootstrap: [AppComponent],
 })
