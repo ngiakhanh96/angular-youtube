@@ -5,6 +5,9 @@
   },
   "defaultProject": "ay",
   "schematics": {
+    "@schematics/angular:component": {
+      "displayBlock": true
+    },
     "@nrwl/angular": {
       "application": {
         "linter": "eslint"
@@ -168,6 +171,206 @@
             "lintFilePatterns": [
               "libs/shell/feature/src/**/*.ts",
               "libs/shell/feature/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "shell-ui-master-header": {
+      "projectType": "library",
+      "root": "libs/shell/ui/master-header",
+      "sourceRoot": "libs/shell/ui/master-header/src",
+      "prefix": "angular-youtube",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shell/ui/master-header"],
+          "options": {
+            "jestConfig": "libs/shell/ui/master-header/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shell/ui/master-header/src/**/*.ts",
+              "libs/shell/ui/master-header/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "shell-ui-start-header": {
+      "projectType": "library",
+      "root": "libs/shell/ui/start-header",
+      "sourceRoot": "libs/shell/ui/start-header/src",
+      "prefix": "angular-youtube",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shell/ui/start-header"],
+          "options": {
+            "jestConfig": "libs/shell/ui/start-header/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shell/ui/start-header/src/**/*.ts",
+              "libs/shell/ui/start-header/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "shell-ui-center-header": {
+      "projectType": "library",
+      "root": "libs/shell/ui/center-header",
+      "sourceRoot": "libs/shell/ui/center-header/src",
+      "prefix": "angular-youtube",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shell/ui/center-header"],
+          "options": {
+            "jestConfig": "libs/shell/ui/center-header/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shell/ui/center-header/src/**/*.ts",
+              "libs/shell/ui/center-header/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "shell-ui-end-header": {
+      "projectType": "library",
+      "root": "libs/shell/ui/end-header",
+      "sourceRoot": "libs/shell/ui/end-header/src",
+      "prefix": "angular-youtube",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shell/ui/end-header"],
+          "options": {
+            "jestConfig": "libs/shell/ui/end-header/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shell/ui/end-header/src/**/*.ts",
+              "libs/shell/ui/end-header/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "shell-ui-icon-button": {
+      "projectType": "library",
+      "root": "libs/shell/ui/icon-button",
+      "sourceRoot": "libs/shell/ui/icon-button/src",
+      "prefix": "angular-youtube",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shell/ui/icon-button"],
+          "options": {
+            "jestConfig": "libs/shell/ui/icon-button/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shell/ui/icon-button/src/**/*.ts",
+              "libs/shell/ui/icon-button/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "shell-ui-topbar-logo-renderer": {
+      "projectType": "library",
+      "root": "libs/shell/ui/topbar-logo-renderer",
+      "sourceRoot": "libs/shell/ui/topbar-logo-renderer/src",
+      "prefix": "angular-youtube",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shell/ui/topbar-logo-renderer"],
+          "options": {
+            "jestConfig": "libs/shell/ui/topbar-logo-renderer/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shell/ui/topbar-logo-renderer/src/**/*.ts",
+              "libs/shell/ui/topbar-logo-renderer/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "shell-ui-search-box": {
+      "projectType": "library",
+      "root": "libs/shell/ui/search-box",
+      "sourceRoot": "libs/shell/ui/search-box/src",
+      "prefix": "angular-youtube",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shell/ui/search-box"],
+          "options": {
+            "jestConfig": "libs/shell/ui/search-box/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shell/ui/search-box/src/**/*.ts",
+              "libs/shell/ui/search-box/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "shell-ui-topbar-menu-button-renderer": {
+      "projectType": "library",
+      "root": "libs/shell/ui/topbar-menu-button-renderer",
+      "sourceRoot": "libs/shell/ui/topbar-menu-button-renderer/src",
+      "prefix": "angular-youtube",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shell/ui/topbar-menu-button-renderer"],
+          "options": {
+            "jestConfig": "libs/shell/ui/topbar-menu-button-renderer/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shell/ui/topbar-menu-button-renderer/src/**/*.ts",
+              "libs/shell/ui/topbar-menu-button-renderer/src/**/*.html"
             ]
           }
         }

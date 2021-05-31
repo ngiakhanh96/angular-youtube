@@ -1,0 +1,42 @@
+:host {
+  @apply block h-full;
+}
+
+#search-form {
+  @apply h-full flex;
+}
+
+#container {
+  border-color: rgb(204, 204, 204);
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: rgb(238, 238, 238) 0px 1px 2px 0px inset;
+  @apply h-full flex-grow flex-shrink;
+  padding: 2px 6px 2px 6px;
+  color: rgb(17,17,17);
+}
+
+#search-input {
+  @apply h-full;
+}
+
+#search {
+  outline: none;
+  @apply h-full w-full;
+  padding: 1px 2px;
+  margin-left: 4px;
+  font-size: 16px;
+}
+
+#search-icon-legacy {
+  background-color: rgb(240, 240, 240);
+  width: 65px;
+  border-color: rgb(204, 204, 204);
+  border-style: solid;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-top-width: 1px;
+  box-shadow: rgb(237, 237, 237) 0px 1px 2px 0px inset;
+  padding: 1px 6px;
+}
+

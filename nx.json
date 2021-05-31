@@ -31,6 +31,30 @@
     },
     "shell-feature": {
       "tags": []
+    },
+    "shell-ui-master-header": {
+      "tags": []
+    },
+    "shell-ui-start-header": {
+      "tags": []
+    },
+    "shell-ui-center-header": {
+      "tags": []
+    },
+    "shell-ui-end-header": {
+      "tags": []
+    },
+    "shell-ui-icon-button": {
+      "tags": []
+    },
+    "shell-ui-topbar-logo-renderer": {
+      "tags": []
+    },
+    "shell-ui-search-box": {
+      "tags": []
+    },
+    "shell-ui-topbar-menu-button-renderer": {
+      "tags": []
     }
   }
 }

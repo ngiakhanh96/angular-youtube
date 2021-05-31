@@ -1,0 +1,19 @@
+:host {
+  @apply block
+}
+
+.end-header {
+  @apply h-full flex;
+  height: 40px;
+  >* {
+    @apply h-full;
+
+  }
+  >*:not(:last-child) {
+    margin-right: 8px;
+    width: 40px;
+  }
+  >*:nth-last-child(1) {
+    width: 60px;
+  }
+}
