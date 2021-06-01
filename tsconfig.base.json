@@ -42,6 +42,12 @@
       ],
       "@angular-youtube/shared/ui/button-renderer": [
         "libs/shared/ui/button-renderer/src/index.ts"
+      ],
+      "@angular-youtube/shell/data-access": [
+        "libs/shell/data-access/src/index.ts"
+      ],
+      "@angular-youtube/shared/data-access": [
+        "libs/shared/data-access/src/index.ts"
       ]
     }
   },

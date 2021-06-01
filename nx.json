@@ -58,6 +58,12 @@
     },
     "shared-ui-button-renderer": {
       "tags": []
+    },
+    "shell-data-access": {
+      "tags": []
+    },
+    "shared-data-access": {
+      "tags": []
     }
   }
 }

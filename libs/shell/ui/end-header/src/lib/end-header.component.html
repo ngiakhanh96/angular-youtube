@@ -1,5 +1,5 @@
 <div class="end-header">
-  <ng-container *ngIf="false">
+  <ng-container *ngIf="isLoggedIn">
     <div class="create-content">
       <ay-topbar-menu-button-renderer ariaLabel="Create" viewBox="-9 0 40 24"
         path="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4zM14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2z">
@@ -18,13 +18,12 @@
     <div class="account-profile">
       <ay-topbar-menu-button-renderer ariaLabel="Account profile photo that opens list of alternate accounts">
         <ng-template ayTopbarMenuButtonTmp>
-          <img id="img" alt="Avatar image" height="32" width="32" style="border-radius: 50%;"
-            src="https://yt3.ggpht.com/yti/ANoDKi7iIC1SKQ1KvYX21kgSe-10Mq_KgtwCUdzDQA=s88-c-k-c0x00ffffff-no-rj-mo">
+          <img id="img" alt="Avatar image" height="32" width="32" style="border-radius: 50%;" [src]="user?.photoUrl">
         </ng-template>
       </ay-topbar-menu-button-renderer>
     </div>
   </ng-container>
-  <ng-container *ngIf="true">
+  <ng-container *ngIf="!isLoggedIn">
     <div class="apps">
       <ay-topbar-menu-button-renderer ariaLabel="Youtube apps" viewBox="-8 0 40 24"
         path="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z">
@@ -35,7 +34,7 @@
         path="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z">
       </ay-topbar-menu-button-renderer>
     </div>
-    <div class="signin-button">
+    <div class="signin-button" (click)="signInWithGoogle()">
       <ay-button-renderer color="rgb(6, 95, 212)">
         <ng-template ayButtonIconTmp>
           <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope yt-icon"
