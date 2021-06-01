@@ -10,5 +10,6 @@ module.exports = {
     '<rootDir>/libs/shell/ui/topbar-logo-renderer',
     '<rootDir>/libs/shell/ui/search-box',
     '<rootDir>/libs/shell/ui/topbar-menu-button-renderer',
+    '<rootDir>/libs/shared/ui/button-renderer',
   ],
 };

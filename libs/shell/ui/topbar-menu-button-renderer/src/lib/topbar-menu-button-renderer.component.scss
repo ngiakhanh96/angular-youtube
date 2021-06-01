@@ -1,3 +1,11 @@
 :host {
-  @apply flex h-full justify-center;
+  @apply flex h-full justify-center cursor-pointer;
+}
+
+#button:focus {
+  outline: unset;
+  >svg {
+    background-color: rgb(0, 0, 0, 0.2);
+    border-radius: 50%;
+  }
 }

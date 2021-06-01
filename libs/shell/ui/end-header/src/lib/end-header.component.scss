@@ -9,11 +9,11 @@
     @apply h-full;
 
   }
-  >*:not(:last-child) {
+  >.create-content, .apps, .notifications, .settings {
     margin-right: 8px;
     width: 40px;
   }
-  >*:nth-last-child(1) {
+  >.account-profile {
     width: 60px;
   }
 }

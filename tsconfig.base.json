@@ -39,6 +39,9 @@
       ],
       "@angular-youtube/shell/ui/topbar-menu-button-renderer": [
         "libs/shell/ui/topbar-menu-button-renderer/src/index.ts"
+      ],
+      "@angular-youtube/shared/ui/button-renderer": [
+        "libs/shared/ui/button-renderer/src/index.ts"
       ]
     }
   },

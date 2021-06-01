@@ -25,36 +25,7 @@ export class TopbarMenuButtonRendererComponent {
   })
   public topbarMenuButtonTmp: TemplateRef<unknown> | null = null;
 
-  @Input()
-  public set ariaLabel(v: string) {
-    this._ariaLabel = v;
-  }
-
-  public get ariaLabel(): string {
-    return this._ariaLabel;
-  }
-
-  private _ariaLabel = '';
-
-  @Input()
-  public set viewBox(v: string) {
-    this._viewBox = v;
-  }
-
-  public get viewBox(): string {
-    return this._viewBox;
-  }
-
-  private _viewBox = '';
-
-  @Input()
-  public set path(v: string) {
-    this._path = v;
-  }
-
-  public get path(): string {
-    return this._path;
-  }
-
-  private _path = '';
+  @Input() public ariaLabel = '';
+  @Input() public viewBox = '';
+  @Input() public path = '';
 }

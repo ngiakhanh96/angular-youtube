@@ -55,6 +55,9 @@
     },
     "shell-ui-topbar-menu-button-renderer": {
       "tags": []
+    },
+    "shared-ui-button-renderer": {
+      "tags": []
     }
   }
 }

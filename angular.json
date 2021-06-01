@@ -375,6 +375,31 @@
           }
         }
       }
+    },
+    "shared-ui-button-renderer": {
+      "projectType": "library",
+      "root": "libs/shared/ui/button-renderer",
+      "sourceRoot": "libs/shared/ui/button-renderer/src",
+      "prefix": "angular-youtube",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/ui/button-renderer"],
+          "options": {
+            "jestConfig": "libs/shared/ui/button-renderer/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/button-renderer/src/**/*.ts",
+              "libs/shared/ui/button-renderer/src/**/*.html"
+            ]
+          }
+        }
+      }
     }
   }
 }
