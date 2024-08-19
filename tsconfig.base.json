@@ -8,47 +8,22 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es2015",
+    "target": "es2022",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@angular-youtube/shell/feature": ["libs/shell/feature/src/index.ts"],
-      "@angular-youtube/shell/ui/master-header": [
-        "libs/shell/ui/master-header/src/index.ts"
+      "@angular-youtube/shared-data-access": [
+        "modules/shared/data-access/src/index.ts"
       ],
-      "@angular-youtube/shell/ui/start-header": [
-        "libs/shell/ui/start-header/src/index.ts"
+      "@angular-youtube/shared-ui": ["modules/shared/ui/src/index.ts"],
+      "@angular-youtube/shell-data-access": [
+        "modules/shell/data-access/src/index.ts"
       ],
-      "@angular-youtube/shell/ui/center-header": [
-        "libs/shell/ui/center-header/src/index.ts"
-      ],
-      "@angular-youtube/shell/ui/end-header": [
-        "libs/shell/ui/end-header/src/index.ts"
-      ],
-      "@angular-youtube/shell/ui/icon-button": [
-        "libs/shell/ui/icon-button/src/index.ts"
-      ],
-      "@angular-youtube/shell/ui/topbar-logo-renderer": [
-        "libs/shell/ui/topbar-logo-renderer/src/index.ts"
-      ],
-      "@angular-youtube/shell/ui/search-box": [
-        "libs/shell/ui/search-box/src/index.ts"
-      ],
-      "@angular-youtube/shell/ui/topbar-menu-button-renderer": [
-        "libs/shell/ui/topbar-menu-button-renderer/src/index.ts"
-      ],
-      "@angular-youtube/shared/ui/button-renderer": [
-        "libs/shared/ui/button-renderer/src/index.ts"
-      ],
-      "@angular-youtube/shell/data-access": [
-        "libs/shell/data-access/src/index.ts"
-      ],
-      "@angular-youtube/shared/data-access": [
-        "libs/shared/data-access/src/index.ts"
-      ]
+      "@angular-youtube/shell-feature": ["modules/shell/feature/src/index.ts"],
+      "@angular-youtube/shell-ui": ["modules/shell/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

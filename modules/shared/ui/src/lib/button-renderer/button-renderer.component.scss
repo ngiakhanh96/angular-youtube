@@ -1,0 +1,32 @@
+:host {
+  @apply block h-full w-full;
+}
+
+.button {
+  @apply flex h-full w-full justify-center items-center cursor-pointer;
+  text-decoration-line: none;
+  text-decoration-style: solid;
+  text-decoration-thickness: auto;
+  text-size-adjust: 100%;
+  text-transform: uppercase;
+  border-radius: 2px;
+  padding: 5px 11px;
+  // border-width: 1px;
+  border-style: solid;
+}
+
+.button-icon {
+  @apply flex-shrink-0;
+}
+
+.button-text {
+  width: inherit;
+  opacity: 0.8;
+  height: 17px;
+  white-space: nowrap;
+  font-weight: bold;
+  text-align: center;
+  font-size: 14px;
+  margin-left: 8px;
+  @apply flex items-center;
+}

@@ -1,69 +1,87 @@
 {
-  "implicitDependencies": {
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "defaultBase": "master",
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "production": [
+      "default",
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/eslint.config.js",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/tsconfig.spec.json",
+      "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/test-setup.[jt]s",
+      "!{projectRoot}/cypress/**/*",
+      "!{projectRoot}/**/*.cy.[jt]s?(x)",
+      "!{projectRoot}/cypress.config.[jt]s"
+    ],
+    "sharedGlobals": []
+  },
+  "nxCloudAccessToken": "MDgxNmViN2QtNmJiZi00ZmNhLTg4NDEtM2FlMDYwMjMyNDM1fHJlYWQtd3JpdGU=",
+  "targetDefaults": {
+    "@angular-devkit/build-angular:application": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     },
-    ".eslintrc.json": "*"
-  },
-  "affected": {
-    "defaultBase": "main"
-  },
-  "npmScope": "angular-youtube",
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@nrwl/nx-cloud",
+    "@nx/eslint:lint": {
+      "cache": true,
+      "inputs": [
+        "default",
+        "{workspaceRoot}/.eslintrc.json",
+        "{workspaceRoot}/.eslintignore",
+        "{workspaceRoot}/eslint.config.js"
+      ]
+    },
+    "@nx/jest:jest": {
+      "cache": true,
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"],
-        "accessToken": "OWY2MWYxZGUtNGNhNS00ZDk3LTkwNDgtOWEwYTk2MzYyM2Q4fHJlYWQtd3JpdGU=",
-        "canTrackAnalytics": false,
-        "showUsageWarnings": true
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "e2e-ci--**/*": {
+      "dependsOn": ["^build"]
+    }
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/cypress/plugin",
+      "options": {
+        "targetName": "e2e",
+        "openTargetName": "open-cypress",
+        "componentTestingTargetName": "component-test",
+        "ciTargetName": "e2e-ci"
+      }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
       }
     }
-  },
-  "projects": {
-    "ay": {
-      "tags": []
+  ],
+  "generators": {
+    "@nx/angular:application": {
+      "e2eTestRunner": "cypress",
+      "linter": "eslint",
+      "style": "scss",
+      "unitTestRunner": "jest"
     },
-    "ay-e2e": {
-      "tags": [],
-      "implicitDependencies": ["ay"]
+    "@nx/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "jest"
     },
-    "shell-feature": {
-      "tags": []
-    },
-    "shell-ui-master-header": {
-      "tags": []
-    },
-    "shell-ui-start-header": {
-      "tags": []
-    },
-    "shell-ui-center-header": {
-      "tags": []
-    },
-    "shell-ui-end-header": {
-      "tags": []
-    },
-    "shell-ui-icon-button": {
-      "tags": []
-    },
-    "shell-ui-topbar-logo-renderer": {
-      "tags": []
-    },
-    "shell-ui-search-box": {
-      "tags": []
-    },
-    "shell-ui-topbar-menu-button-renderer": {
-      "tags": []
-    },
-    "shared-ui-button-renderer": {
-      "tags": []
-    },
-    "shell-data-access": {
-      "tags": []
-    },
-    "shared-data-access": {
-      "tags": []
+    "@nx/angular:component": {
+      "style": "css"
     }
-  }
+  },
+  "defaultProject": "angular-youtube"
 }

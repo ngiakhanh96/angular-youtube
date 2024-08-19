@@ -1,0 +1,9 @@
+<a class="button" [href]="href" [style.color]="color" [style.borderColor]="color" [style.fill]="color">
+  <div class="button-icon" *ngIf="buttonIconTmp">
+    <ng-template [ngTemplateOutlet]="buttonIconTmp"></ng-template>
+  </div>
+  <div class="button-text" *ngIf="buttonTextTmp">
+    <ng-template [ngTemplateOutlet]="buttonTextTmp"></ng-template>
+  </div>
+  <!-- <asl-google-signin-button class="mx-5"></asl-google-signin-button> -->
+</a>
