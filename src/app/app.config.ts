@@ -6,16 +6,19 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { shellRoutes } from 'modules/shell/feature/src/lib/shell.routes';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideStore(),
     provideEffects(),
-    provideClientHydration(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(shellRoutes, withInMemoryScrolling({
       scrollPositionRestoration: 'top',
     })),
+    provideHttpClient(
+      withFetch()
+    ),
     provideStoreDevtools({ maxAge: 25, logOnly: false }),
     importProvidersFrom(SocialLoginModule),
     {

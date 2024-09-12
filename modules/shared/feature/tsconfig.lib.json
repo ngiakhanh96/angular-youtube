@@ -5,8 +5,7 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": [],
-    "composite": true
+    "types": []
   },
   "exclude": [
     "src/**/*.spec.ts",
@@ -14,5 +13,5 @@
     "jest.config.ts",
     "src/**/*.test.ts"
   ],
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "../ui/src/lib/spinner/spinner.service.ts", "../data-access/src/lib/services/sandbox.service.ts", "../data-access/src/lib/components/base-with-sandbox.component.ts"]
 }

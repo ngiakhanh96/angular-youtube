@@ -18,6 +18,9 @@
       "@angular-youtube/shared-data-access": [
         "modules/shared/data-access/src/index.ts"
       ],
+      "@angular-youtube/shared-feature": [
+        "modules/shared/feature/src/index.ts"
+      ],
       "@angular-youtube/shared-ui": ["modules/shared/ui/src/index.ts"],
       "@angular-youtube/shell-data-access": [
         "modules/shell/data-access/src/index.ts"
