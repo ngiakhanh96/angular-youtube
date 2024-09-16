@@ -1,6 +1,5 @@
 import {
   GoogleSigninButtonModule,
-  SocialAuthService,
   SocialUser,
 } from '@abacritt/angularx-social-login';
 import {
@@ -9,8 +8,7 @@ import {
   ButtonTextTemplateDirective,
 } from '@angular-youtube/shared-ui';
 import { NgIf } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, input } from '@angular/core';
 import {
   TopbarMenuButtonRendererComponent,
   TopbarMenuButtonTemplateDirective,
@@ -31,19 +29,10 @@ import {
     TopbarMenuButtonTemplateDirective,
   ],
 })
-export class EndHeaderComponent implements OnInit {
-  private store = inject(Store);
-  private authService = inject(SocialAuthService);
-
-  public user: SocialUser | null = null;
+export class EndHeaderComponent {
+  public user = input.required<SocialUser | null>();
 
   public get isLoggedIn(): boolean {
-    return this.user != null;
-  }
-
-  ngOnInit() {
-    this.authService.authState.subscribe((user) => {
-      console.log(user);
-    });
+    return this.user() != null;
   }
 }
