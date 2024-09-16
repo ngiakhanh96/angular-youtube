@@ -1,22 +1,15 @@
 import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ContentChild,
-  Directive,
-  Input,
-  TemplateRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, Directive, Input, TemplateRef, inject } from '@angular/core';
 
 @Directive({ selector: '[ayButtonTextTmp]', standalone: true })
-export class ButtonTextTemplateDirective {
-  constructor(public template: TemplateRef<unknown>) {}
+export class ButtonTextTemplateDirective {  template = inject<TemplateRef<unknown>>(TemplateRef);
+
 }
 
 @Directive({ selector: '[ayButtonIconTmp]', standalone: true })
-export class ButtonIconTemplateDirective {
-  constructor(public template: TemplateRef<unknown>) {}
+export class ButtonIconTemplateDirective {  template = inject<TemplateRef<unknown>>(TemplateRef);
+
 }
 
 @Component({

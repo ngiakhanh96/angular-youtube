@@ -1,6 +1,6 @@
-import { MasterHeaderComponent } from '@angular-youtube/shell-ui';
+import { MasterHeaderComponent } from '@angular-youtube/header-feature';
+import { BrowseComponent } from '@angular-youtube/home-page-feature';
 import { Component } from '@angular/core';
-import { BrowseComponent } from '../browse/browse.component';
 
 @Component({
   selector: 'ay-layout',

@@ -9,14 +9,14 @@ import {
 } from '@ngrx/store';
 import { filter, Observable, Subscription } from 'rxjs';
 import {
+  getResponse,
+  getResponseDetails,
+} from '../store/base/selectors/base.selector';
+import {
   HttpResponse,
   ResponseDetails,
 } from '../store/models/http-response.model';
 import { BaseState } from '../store/models/state.model';
-import {
-  getResponse,
-  getResponseDetails,
-} from '../store/selectors/common.selector';
 
 @Injectable()
 export abstract class SandboxService implements OnDestroy {

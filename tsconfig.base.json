@@ -15,6 +15,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@angular-youtube/header-feature": [
+        "modules/header/feature/src/index.ts"
+      ],
+      "@angular-youtube/header-ui": ["modules/header/ui/src/index.ts"],
+      "@angular-youtube/home-page-feature": [
+        "modules/home-page/feature/src/index.ts"
+      ],
       "@angular-youtube/shared-data-access": [
         "modules/shared/data-access/src/index.ts"
       ],
