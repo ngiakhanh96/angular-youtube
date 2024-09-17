@@ -1,4 +1,5 @@
 import {
+  CommonEffects,
   commonReducer,
   CommonSandboxService,
   commonStateName,
@@ -16,7 +17,7 @@ export const shellRoutes: Route[] = [
     children: [],
     providers: [
       provideState(commonStateName, commonReducer),
-      provideEffects(),
+      provideEffects(CommonEffects),
       { provide: SandboxService, useExisting: CommonSandboxService },
     ],
   },

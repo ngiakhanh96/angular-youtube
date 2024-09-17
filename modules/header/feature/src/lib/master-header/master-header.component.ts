@@ -32,6 +32,7 @@ export class MasterHeaderComponent extends BaseWithSandBoxComponent {
   );
   userEffect = effect(() => {
     const user = this.user();
+    console.log(user);
     this.dispatchAction(
       commonActionGroup.updateAccessToken({ accessToken: user?.authToken })
     );
