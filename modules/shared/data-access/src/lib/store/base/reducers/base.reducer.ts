@@ -52,21 +52,19 @@ export function updateResponse(
 }
 
 export function createAyReducer<
-  Actions extends BaseActionGroup,
-  S extends BaseState
+  TActionsGroup extends BaseActionGroup,
+  TState extends BaseState
 >(
-  actions: Actions,
-  initialState: Parameters<
-    typeof createReducer<S, Action, ActionReducer<S, Action>>
-  >[0],
+  actionGroup: TActionsGroup,
+  initialState: TState,
   ...ons: Parameters<
-    typeof createReducer<S, Action, ActionReducer<S, Action>>
+    typeof createReducer<TState, Action, ActionReducer<TState, Action>>
   >[1][]
 ) {
   return createReducer(
     initialState,
     on(
-      actions.updateResponse,
+      actionGroup.updateResponse,
       (
         state,
         { requestActionCreator, status, errorResponse, showSpinner }

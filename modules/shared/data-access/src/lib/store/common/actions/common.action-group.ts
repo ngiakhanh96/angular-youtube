@@ -4,7 +4,7 @@ import { createAyActionGroup } from '../../base/actions/base.action-group';
 export const commonActionGroup = createAyActionGroup({
   source: 'Common',
   events: {
-    updateAccessToken: props<{ accessToken: string }>(),
+    updateAccessToken: props<{ accessToken: string | undefined }>(),
     updateAccessTokenSuccess: emptyProps(),
     signOut: emptyProps(),
     refreshAccessToken: emptyProps(),

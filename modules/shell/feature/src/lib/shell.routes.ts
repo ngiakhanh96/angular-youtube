@@ -1,7 +1,8 @@
 import {
-  CommonEffects,
   commonReducer,
+  CommonSandboxService,
   commonStateName,
+  SandboxService,
 } from '@angular-youtube/shared-data-access';
 import { Route } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
@@ -15,7 +16,8 @@ export const shellRoutes: Route[] = [
     children: [],
     providers: [
       provideState(commonStateName, commonReducer),
-      provideEffects(CommonEffects),
+      provideEffects(),
+      { provide: SandboxService, useExisting: CommonSandboxService },
     ],
   },
 ];

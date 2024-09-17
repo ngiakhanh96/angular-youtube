@@ -19,17 +19,19 @@ import {
 import { BaseState } from '../store/models/state.model';
 
 @Injectable()
-export abstract class SandboxService implements OnDestroy {
+export abstract class BaseSandboxService<TState extends BaseState>
+  implements OnDestroy
+{
   public response$: Observable<HttpResponse>;
   protected store = inject(Store);
   protected getResponseSelector: MemoizedSelector<
     object,
     HttpResponse,
-    (s1: BaseState) => HttpResponse
+    (s1: TState) => HttpResponse
   >;
   private spinnerService = inject(SpinnerService);
   private subs: Subscription[] = [];
-  constructor(protected getStateSelector: MemoizedSelector<object, BaseState>) {
+  constructor(protected getStateSelector: MemoizedSelector<object, TState>) {
     this.getResponseSelector = createSelector(
       this.getStateSelector,
       getResponse
