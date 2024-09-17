@@ -34,7 +34,7 @@ export class MasterHeaderComponent extends BaseWithSandBoxComponent {
     const user = this.user();
     console.log(user);
     this.dispatchAction(
-      commonActionGroup.updateAccessToken({ accessToken: user?.authToken })
+      commonActionGroup.updateAccessToken({ accessToken: user?.idToken })
     );
   });
   constructor() {

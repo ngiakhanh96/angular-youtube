@@ -19,7 +19,7 @@ export const authInterceptor: HttpInterceptorFn = (
     // cloned headers, updated with the authorization.
     if (authToken != null) {
       req = req.clone({
-        headers: req.headers.set('Authorization', authToken),
+        headers: req.headers.set('Authorization', `Bearer ${authToken}`),
       });
     }
   }
