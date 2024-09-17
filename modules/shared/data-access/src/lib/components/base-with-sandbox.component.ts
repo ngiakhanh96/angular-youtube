@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { first } from 'rxjs';
-import { SandboxService } from '../services/injection-token/sandbox-service.injection-token';
-import { HttpResponseStatus } from '../store/models/http-response.model';
+import { SandboxService } from '../injection-tokens/sandbox-service.injection-token';
+import { HttpResponseStatus } from '../models/http-response.model';
 
 export abstract class BaseWithSandBoxComponent {
   protected sandbox = inject(SandboxService);

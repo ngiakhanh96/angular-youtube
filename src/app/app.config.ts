@@ -3,6 +3,7 @@ import {
   SocialAuthServiceConfig,
   SocialLoginModule,
 } from '@abacritt/angularx-social-login';
+import { YoutubeApiKey } from '@angular-youtube/shared-data-access';
 import { authInterceptor } from '@angular-youtube/shell-data-access';
 import {
   provideHttpClient,
@@ -57,5 +58,9 @@ export const appConfig: ApplicationConfig = {
       } as SocialAuthServiceConfig,
     },
     SsrCookieService,
+    {
+      provide: YoutubeApiKey,
+      useValue: 'AIzaSyCn5erIAtKzaNiuh-5IJgnorW7yOEH5gyE',
+    },
   ],
 };

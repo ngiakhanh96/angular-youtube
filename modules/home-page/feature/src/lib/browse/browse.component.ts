@@ -1,13 +1,11 @@
-
-
 import { YoutubeService } from '@angular-youtube/shared-data-access';
 import { Component, inject, OnInit } from '@angular/core';
-import { YouTubePlayer } from '@angular/youtube-player';
+import { ThumbnailComponent } from '../thumbnail/thumbnail.component';
 
 @Component({
   selector: 'ay-browse',
   standalone: true,
-  imports: [YouTubePlayer],
+  imports: [ThumbnailComponent],
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.scss'],
 })

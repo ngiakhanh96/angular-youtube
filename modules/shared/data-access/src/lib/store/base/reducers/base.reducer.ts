@@ -10,8 +10,8 @@ import {
   HttpErrorResponseDetails,
   HttpResponse,
   HttpResponseStatus,
-} from '../../models/http-response.model';
-import { BaseState } from '../../models/state.model';
+} from '../../../models/http-response.model';
+import { BaseState } from '../../../models/state.model';
 import { BaseActionGroup } from '../actions/base.action-group';
 
 const initialCommonState: BaseState = {

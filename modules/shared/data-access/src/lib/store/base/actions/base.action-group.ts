@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import {
   HttpErrorResponseDetails,
   HttpResponseStatus,
-} from '../../models/http-response.model';
+} from '../../../models/http-response.model';
 
 export function createAyActionGroup<
   Source extends string,

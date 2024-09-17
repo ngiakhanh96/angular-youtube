@@ -16,7 +16,7 @@ import {
   switchMap,
   takeUntil,
 } from 'rxjs';
-import { HttpResponseStatus } from '../../models/http-response.model';
+import { HttpResponseStatus } from '../../../models/http-response.model';
 import {
   ActionForSuccessfulResponse,
   BaseActionGroup,
