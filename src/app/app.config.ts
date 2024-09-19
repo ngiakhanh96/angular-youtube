@@ -20,7 +20,6 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { shellRoutes } from 'modules/shell/feature/src/lib/shell.routes';
-import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -57,7 +56,6 @@ export const appConfig: ApplicationConfig = {
         },
       } as SocialAuthServiceConfig,
     },
-    SsrCookieService,
     {
       provide: YoutubeApiKey,
       useValue: 'AIzaSyCn5erIAtKzaNiuh-5IJgnorW7yOEH5gyE',

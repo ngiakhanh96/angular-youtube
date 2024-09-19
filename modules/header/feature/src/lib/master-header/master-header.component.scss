@@ -1,5 +1,5 @@
 :host {
-  @apply block
+  @apply block;
 }
 
 .master-header {
@@ -11,24 +11,22 @@
   border-bottom-width: 1px;
   height: 56px;
 
-  >* {
-    @apply flex
+  > * {
+    @apply flex;
   }
 
-  >#start {
+  > #start {
     @apply flex-grow-0 flex-shrink-0;
     width: 169px;
   }
 
-  >#center {
+  > #center {
     @apply flex-grow-0 flex-shrink items-center;
     flex-basis: 728px;
   }
 
-  >#end {
+  > #end {
     @apply flex-grow-0 flex-shrink-0 items-center;
     flex-basis: auto;
   }
 }
-
-

@@ -6,6 +6,8 @@ export * from './lib/models/state.model';
 export * from './lib/services/base.sandbox.service';
 export * from './lib/services/common.sandbox.service';
 export * from './lib/services/http/youtube.service';
+export * from './lib/services/local-storage.service';
+export * from './lib/services/session-storage.service';
 export * from './lib/store/base/actions/base.action-group';
 export * from './lib/store/base/effects/base.effect';
 export * from './lib/store/base/reducers/base.reducer';

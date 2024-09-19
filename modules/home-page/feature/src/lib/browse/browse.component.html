@@ -1,3 +1,13 @@
-<div>
-  <ay-thumbnail></ay-thumbnail>
+<div class="browse__container">
+  @for (video of videoList(); track video.videoId) {
+  <div class="browse__thumbnail">
+    <ay-thumbnail
+      [videoId]="video.videoId"
+      [title]="video.title"
+      [author]="video.author"
+      [viewCount]="video.viewCount"
+      [publishedDate]="video.publishedDate"
+    />
+  </div>
+  }
 </div>

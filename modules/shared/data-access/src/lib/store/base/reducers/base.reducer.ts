@@ -14,7 +14,7 @@ import {
 import { BaseState } from '../../../models/state.model';
 import { BaseActionGroup } from '../actions/base.action-group';
 
-const initialCommonState: BaseState = {
+export const initialBaseState: BaseState = {
   httpResponse: {
     isPendingCount: 0,
     details: {},
@@ -53,7 +53,7 @@ export function updateResponse(
 
 export function createAyReducer<
   TActionsGroup extends BaseActionGroup,
-  TState extends BaseState
+  TState extends Required<BaseState>
 >(
   actionGroup: TActionsGroup,
   initialState: TState,
@@ -61,7 +61,7 @@ export function createAyReducer<
     typeof createReducer<TState, Action, ActionReducer<TState, Action>>
   >[1][]
 ) {
-  return createReducer(
+  return createReducer<TState, Action<string>, ActionReducer<TState>>(
     initialState,
     on(
       actionGroup.updateResponse,
