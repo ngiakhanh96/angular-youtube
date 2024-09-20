@@ -7,7 +7,7 @@ import {
   ButtonRendererComponent,
   ButtonTextTemplateDirective,
 } from '@angular-youtube/shared-ui';
-import { NgIf } from '@angular/common';
+import { NgIf, NgOptimizedImage } from '@angular/common';
 import { Component, input } from '@angular/core';
 import {
   TopbarMenuButtonRendererComponent,
@@ -27,6 +27,7 @@ import {
     ButtonTextTemplateDirective,
     ButtonIconTemplateDirective,
     TopbarMenuButtonTemplateDirective,
+    NgOptimizedImage,
   ],
 })
 export class EndHeaderComponent {

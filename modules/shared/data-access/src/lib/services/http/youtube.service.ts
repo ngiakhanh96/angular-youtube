@@ -34,4 +34,27 @@ export class YoutubeService {
         })
       );
   }
+
+  getChannelInfo() {
+    const url = 'https://youtube.googleapis.com/youtube/v3/channels';
+    return this.httpClient
+      .get<IYoutubeVideos>(url, {
+        params: {
+          part: ['snippet,contentDetails,statistics'],
+          id: 'UCET00YnetHT7tOpu12v8jxg',
+          key: this.apiKey,
+        },
+      })
+      .pipe(
+        map((res) => {
+          console.log(res);
+          return res;
+        }),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catchError((err: any) => {
+          console.error(err);
+          return err;
+        })
+      );
+  }
 }

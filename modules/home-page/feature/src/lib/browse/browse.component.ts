@@ -5,7 +5,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 export interface IThumbnailDetails {
   videoId: string;
   title: string;
-  author: string;
+  channelName: string;
   viewCount: number;
   publishedDate: Date;
 }
@@ -20,12 +20,12 @@ export interface IThumbnailDetails {
 export class BrowseComponent implements OnInit {
   private youtubeService = inject(YoutubeService);
   protected date = new Date(2024, 8, 17);
-  protected videoList = signal([
+  protected videoList = signal<IThumbnailDetails[]>([
     {
       videoId: 'GGqPl7SRLYc',
       title:
-        'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-      author: 'FOX 5 New York',
+        'NÊN CHỜ HAY NÊN QUÊN - CHU THÚY QUỲNH Gây Nghiện Với Giọng Live Đậm Chất Riêng | Mây Lang Thang asdasdasdasdasda',
+      channelName: 'Diệu Nhiên Lofi',
       viewCount: 5900,
       publishedDate: this.date,
     },
@@ -33,7 +33,7 @@ export class BrowseComponent implements OnInit {
       videoId: '_XCtJYgs5Ms',
       title:
         'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-      author: 'FOX 5 New York',
+      channelName: 'FOX 5 New York',
       viewCount: 5900,
       publishedDate: this.date,
     },
@@ -41,7 +41,7 @@ export class BrowseComponent implements OnInit {
       videoId: 'ddxY9C7pZSE',
       title:
         'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-      author: 'FOX 5 New York',
+      channelName: 'FOX 5 New York',
       viewCount: 5900,
       publishedDate: this.date,
     },
@@ -49,7 +49,7 @@ export class BrowseComponent implements OnInit {
       videoId: '9-LuToOq8Lc',
       title:
         'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-      author: 'FOX 5 New York',
+      channelName: 'FOX 5 New York',
       viewCount: 5900,
       publishedDate: this.date,
     },
@@ -57,7 +57,7 @@ export class BrowseComponent implements OnInit {
       videoId: 'QaJbAennB_Q',
       title:
         'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-      author: 'FOX 5 New York',
+      channelName: 'FOX 5 New York',
       viewCount: 5900,
       publishedDate: this.date,
     },
@@ -65,28 +65,13 @@ export class BrowseComponent implements OnInit {
       videoId: 'rOBF7omfM4U',
       title:
         'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-      author: 'FOX 5 New York',
-      viewCount: 5900,
-      publishedDate: this.date,
-    },
-    {
-      videoId: 'rOBF7omfM4U',
-      title:
-        'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-      author: 'FOX 5 New York',
-      viewCount: 5900,
-      publishedDate: this.date,
-    },
-    {
-      videoId: 'rOBF7omfM4U',
-      title:
-        'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-      author: 'FOX 5 New York',
+      channelName: 'FOX 5 New York',
       viewCount: 5900,
       publishedDate: this.date,
     },
   ]);
   ngOnInit(): void {
     this.youtubeService.getOverviewVideos().subscribe();
+    this.youtubeService.getChannelInfo().subscribe();
   }
 }

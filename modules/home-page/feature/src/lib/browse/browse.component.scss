@@ -14,7 +14,4 @@
 .browse__thumbnail {
   flex-grow: 1;
   flex-shrink: 1;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  @apply min-w-80;
 }

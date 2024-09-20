@@ -1,3 +1,4 @@
+import { NgOptimizedImage } from '@angular/common';
 import {
   afterNextRender,
   Component,
@@ -10,7 +11,7 @@ import { YouTubePlayer } from '@angular/youtube-player';
 @Component({
   selector: 'ay-thumbnail',
   standalone: true,
-  imports: [YouTubePlayer],
+  imports: [YouTubePlayer, NgOptimizedImage],
   templateUrl: './thumbnail.component.html',
   styleUrls: ['./thumbnail.component.scss'],
 })
@@ -18,10 +19,11 @@ export class ThumbnailComponent {
   youtubePlayer = viewChild(YouTubePlayer, { read: ElementRef });
   videoId = input.required<string>();
   title = input.required<string>();
-  author = input.required<string>();
+  channelName = input.required<string>();
   viewCount = input.required<number>();
   publishedDate = input.required<Date>();
   duration = input<number>();
+  channelLogoUrl = input.required<string>();
 
   constructor() {
     afterNextRender(() => {

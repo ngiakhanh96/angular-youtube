@@ -1,7 +1,27 @@
 <div class="thumbnail__container">
-  <youtube-player
-    class="thumbnail__player"
-    [videoId]="videoId()"
-  ></youtube-player>
-  <div class="thumbnail__duration">3:22:22</div>
+  <div class="thumbnail__player-container">
+    <youtube-player class="thumbnail__player" [videoId]="videoId()" />
+    <div class="thumbnail__duration">3:22:22</div>
+  </div>
+
+  <div class="thumbnail__meta">
+    <div class="thumbnail__channel-logo">
+      <img
+        alt=""
+        class="yt-core-image yt-spec-avatar-shape__image yt-core-image--fill-parent-height yt-core-image--fill-parent-width yt-core-image--content-mode-scale-to-fill yt-core-image--loaded"
+        [ngSrc]="channelLogoUrl()"
+        width="36"
+        height="36"
+        priority
+      />
+    </div>
+    <div class="thumbnail__video-info">
+      <div class="thumbnail__video-title">{{ title() }}</div>
+      <div class="thumbnail__channel-name">{{ channelName() }}</div>
+      <div class="thumbnail__video-statistic">
+        <div class="thumbnail__video-view-count">568K views</div>
+        <div class="thumbnail__video-publish-date"> • 1 year ago</div>
+      </div>
+    </div>
+  </div>
 </div>

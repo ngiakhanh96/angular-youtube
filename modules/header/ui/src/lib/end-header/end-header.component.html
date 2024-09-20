@@ -36,7 +36,8 @@
             height="32"
             width="32"
             style="border-radius: 50%"
-            [src]="user()?.photoUrl"
+            [ngSrc]="user()?.photoUrl ?? ''"
+            priority
           />
         </ng-template>
       </ay-topbar-menu-button-renderer>
