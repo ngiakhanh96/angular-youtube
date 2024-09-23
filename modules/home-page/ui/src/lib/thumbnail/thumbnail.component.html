@@ -1,6 +1,10 @@
 <div class="thumbnail__container">
   <div class="thumbnail__player-container">
-    <youtube-player class="thumbnail__player" [videoId]="videoId()" />
+    <ay-youtube-player
+      class="thumbnail__player"
+      [videoId]="videoId()"
+      [playerVars]="playerVars"
+    />
     <div class="thumbnail__duration">3:22:22</div>
   </div>
 

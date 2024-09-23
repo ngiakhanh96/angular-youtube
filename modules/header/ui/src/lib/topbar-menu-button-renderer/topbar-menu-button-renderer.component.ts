@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  ContentChild,
   Directive,
-  Input,
   TemplateRef,
+  contentChild,
   inject,
+  input,
 } from '@angular/core';
 
 @Directive({ selector: '[ayTopbarMenuButtonTmp]', standalone: true })
@@ -21,13 +21,11 @@ export class TopbarMenuButtonTemplateDirective {
   imports: [CommonModule],
 })
 export class TopbarMenuButtonRendererComponent {
-  @ContentChild(TopbarMenuButtonTemplateDirective, {
+  public topbarMenuButtonTmp = contentChild(TopbarMenuButtonTemplateDirective, {
     read: TemplateRef,
-    static: false,
-  })
-  public topbarMenuButtonTmp: TemplateRef<unknown> | null = null;
+  });
 
-  @Input() public ariaLabel = '';
-  @Input() public viewBox = '';
-  @Input() public path = '';
+  public ariaLabel = input('');
+  public viewBox = input('');
+  public path = input('');
 }

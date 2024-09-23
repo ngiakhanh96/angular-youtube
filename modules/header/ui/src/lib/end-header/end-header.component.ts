@@ -7,8 +7,8 @@ import {
   ButtonRendererComponent,
   ButtonTextTemplateDirective,
 } from '@angular-youtube/shared-ui';
-import { NgIf, NgOptimizedImage } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
+import { Component, computed, input } from '@angular/core';
 import {
   TopbarMenuButtonRendererComponent,
   TopbarMenuButtonTemplateDirective,
@@ -22,7 +22,6 @@ import {
   imports: [
     TopbarMenuButtonRendererComponent,
     ButtonRendererComponent,
-    NgIf,
     GoogleSigninButtonModule,
     ButtonTextTemplateDirective,
     ButtonIconTemplateDirective,
@@ -32,8 +31,5 @@ import {
 })
 export class EndHeaderComponent {
   public user = input.required<SocialUser | null>();
-
-  public get isLoggedIn(): boolean {
-    return this.user() != null;
-  }
+  public isLoggedIn = computed(() => this.user() != null);
 }

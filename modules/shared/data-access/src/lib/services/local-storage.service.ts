@@ -1,5 +1,5 @@
 import { Platform } from '@angular/cdk/platform';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MemoryStorage } from './memory-storage.service';
 
 @Injectable({
@@ -7,8 +7,8 @@ import { MemoryStorage } from './memory-storage.service';
 })
 export class LocalStorage implements Storage {
   private readonly storage: Storage;
-
-  constructor(private _platform: Platform) {
+  private _platform = inject(Platform);
+  constructor() {
     if (this._platform.isBrowser && window?.localStorage) {
       this.storage = window.localStorage;
     } else {

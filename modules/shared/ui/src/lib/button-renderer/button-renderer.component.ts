@@ -1,12 +1,12 @@
 import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
-import { CommonModule, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
-  ContentChild,
   Directive,
-  Input,
   TemplateRef,
+  contentChild,
   inject,
+  input,
 } from '@angular/core';
 
 @Directive({ selector: '[ayButtonTextTmp]', standalone: true })
@@ -24,19 +24,16 @@ export class ButtonIconTemplateDirective {
   templateUrl: './button-renderer.component.html',
   styleUrls: ['./button-renderer.component.scss'],
   standalone: true,
-  imports: [CommonModule, GoogleSigninButtonModule, NgTemplateOutlet],
+  imports: [GoogleSigninButtonModule, NgTemplateOutlet],
 })
 export class ButtonRendererComponent {
-  @ContentChild(ButtonTextTemplateDirective, {
+  public buttonTextTmp = contentChild(ButtonTextTemplateDirective, {
     read: TemplateRef,
-  })
-  public buttonTextTmp: TemplateRef<unknown> | null = null;
-
-  @ContentChild(ButtonIconTemplateDirective, {
+  });
+  public buttonIconTmp = contentChild(ButtonIconTemplateDirective, {
     read: TemplateRef,
-  })
-  public buttonIconTmp: TemplateRef<unknown> | null = null;
+  });
 
-  @Input() public href = '#';
-  @Input() public color = 'rgb(6, 95, 212)';
+  public href = input('#');
+  public color = input('rgb(6, 95, 212)');
 }
