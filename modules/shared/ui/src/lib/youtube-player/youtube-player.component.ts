@@ -1,3 +1,4 @@
+/// <reference types="youtube" />
 import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
@@ -10,7 +11,6 @@ import {
   NgZone,
   OnChanges,
   OnDestroy,
-  Output,
   PLATFORM_ID,
   SimpleChanges,
   ViewEncapsulation,
@@ -22,6 +22,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { outputFromObservable } from '@angular/core/rxjs-interop';
 import {
   BehaviorSubject,
   Observable,
@@ -188,27 +189,31 @@ export class YouTubePlayerComponent
   placeholderImageQuality = input<PlaceholderImageQuality>('standard');
 
   /** Outputs are direct proxies from the player itself. */
-  @Output() readonly ready: Observable<YT.PlayerEvent> =
-    this._getLazyEmitter<YT.PlayerEvent>('onReady');
+  readonly ready = outputFromObservable(
+    this._getLazyEmitter<YT.PlayerEvent>('onReady')
+  );
 
-  @Output() readonly stateChange: Observable<YT.OnStateChangeEvent> =
-    this._getLazyEmitter<YT.OnStateChangeEvent>('onStateChange');
+  readonly stateChange = outputFromObservable(
+    this._getLazyEmitter<YT.OnStateChangeEvent>('onStateChange')
+  );
 
-  @Output() readonly errorThrown: Observable<YT.OnErrorEvent> =
-    this._getLazyEmitter<YT.OnErrorEvent>('onError');
+  readonly errorThrown = outputFromObservable(
+    this._getLazyEmitter<YT.OnErrorEvent>('onError')
+  );
 
-  @Output() readonly apiChange: Observable<YT.PlayerEvent> =
-    this._getLazyEmitter<YT.PlayerEvent>('onApiChange');
+  readonly apiChange = outputFromObservable(
+    this._getLazyEmitter<YT.PlayerEvent>('onApiChange')
+  );
 
-  @Output()
-  readonly playbackQualityChange: Observable<YT.OnPlaybackQualityChangeEvent> =
+  readonly playbackQualityChange = outputFromObservable(
     this._getLazyEmitter<YT.OnPlaybackQualityChangeEvent>(
       'onPlaybackQualityChange'
-    );
+    )
+  );
 
-  @Output()
-  readonly playbackRateChange: Observable<YT.OnPlaybackRateChangeEvent> =
-    this._getLazyEmitter<YT.OnPlaybackRateChangeEvent>('onPlaybackRateChange');
+  readonly playbackRateChange = outputFromObservable(
+    this._getLazyEmitter<YT.OnPlaybackRateChangeEvent>('onPlaybackRateChange')
+  );
 
   /** The element that will be replaced by the iframe. */
   youtubeContainer =
