@@ -690,14 +690,20 @@ export class YouTubePlayerComponent
         return player
           ? fromEventPattern<T>(
               (listener: (event: T) => void) => {
-                player.addEventListener(name, listener);
+                player.addEventListener(
+                  name,
+                  listener as (event: YT.PlayerEvent) => void
+                );
               },
               (listener: (event: T) => void) => {
                 // The API seems to throw when we try to unbind from a destroyed player and it doesn't
                 // expose whether the player has been destroyed so we have to wrap it in a try/catch to
                 // prevent the entire stream from erroring out.
                 try {
-                  player?.removeEventListener?.(name, listener);
+                  player?.removeEventListener?.(
+                    name,
+                    listener as (event: YT.PlayerEvent) => void
+                  );
                 } catch {
                   /* empty */
                 }
