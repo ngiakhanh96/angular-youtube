@@ -1,6 +1,6 @@
 import { ThumbnailComponent } from '@angular-youtube/home-page-ui';
 import { YoutubeService } from '@angular-youtube/shared-data-access';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 
 export interface IThumbnailDetails {
   videoId: string;
@@ -17,7 +17,7 @@ export interface IThumbnailDetails {
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.scss'],
 })
-export class BrowseComponent implements OnInit {
+export class BrowseComponent {
   private youtubeService = inject(YoutubeService);
   protected date = new Date(2024, 8, 17);
   protected videoList = signal<IThumbnailDetails[]>([
@@ -70,7 +70,8 @@ export class BrowseComponent implements OnInit {
       publishedDate: this.date,
     },
   ]);
-  ngOnInit(): void {
+
+  constructor() {
     this.youtubeService.getOverviewVideos().subscribe();
     this.youtubeService.getChannelInfo().subscribe();
   }

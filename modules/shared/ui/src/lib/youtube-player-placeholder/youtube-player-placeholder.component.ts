@@ -56,4 +56,6 @@ export class YouTubePlayerPlaceholderComponent {
 
     return `url(${url})`;
   });
+
+  showPlayButton = input(true);
 }

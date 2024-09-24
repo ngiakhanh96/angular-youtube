@@ -38,7 +38,7 @@ export class ThumbnailComponent {
     playlist: undefined,
     playsinline: <YT.PlaysInline.Inline>1,
     rel: <YT.RelatedVideos.Hide>0,
-    showinfo: undefined,
+    showinfo: <YT.ShowInfo.Hide>0,
     start: undefined,
     end: undefined,
   };

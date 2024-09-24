@@ -188,6 +188,8 @@ export class YouTubePlayerComponent
    */
   placeholderImageQuality = input<PlaceholderImageQuality>('standard');
 
+  showPlayButton = input(true);
+
   /** Outputs are direct proxies from the player itself. */
   readonly ready = outputFromObservable(
     this._getLazyEmitter<YT.PlayerEvent>('onReady')
@@ -518,7 +520,7 @@ export class YouTubePlayerComponent
       return true;
     }
 
-    return this._hasPlaceholder && !!this.videoId && !this._player;
+    return this._hasPlaceholder && !!this.videoId() && !this._player;
   }
 
   /** Gets an object that should be used to store the temporary API state. */
@@ -652,7 +654,7 @@ export class YouTubePlayerComponent
 
   /** Cues the player based on the current component state. */
   private _cuePlayer() {
-    if (this._player && this.videoId) {
+    if (this._player && this.videoId()) {
       this._player.cueVideoById({
         videoId: this.videoId(),
         startSeconds: this.startSeconds(),
@@ -672,8 +674,9 @@ export class YouTubePlayerComponent
 
   /** Sets the player's quality based on the current input values. */
   private _setQuality() {
-    if (this._player && this.suggestedQuality) {
-      this._player.setPlaybackQuality(this.suggestedQuality()!);
+    const suggestedQuality = this.suggestedQuality();
+    if (this._player && suggestedQuality) {
+      this._player.setPlaybackQuality(suggestedQuality);
     }
   }
 
