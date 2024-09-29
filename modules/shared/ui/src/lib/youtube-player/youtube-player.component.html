@@ -1,10 +1,10 @@
-@if (_shouldShowPlaceholder()) {
+@if (shouldShowPlaceholder()) {
 <ay-youtube-player-placeholder
   [videoId]="videoId()!"
   [width]="width()"
   [height]="height()"
-  [isLoading]="_isLoading"
-  [buttonLabel]="placeholderButtonLabel()"
+  [isLoading]="_isLoading()"
+  [buttonLabel]="finalPlaceholderButtonLabel()"
   [quality]="finalPlaceholderImageQuality()"
   [showPlayButton]="showPlayButton()"
   (click)="_load(true)"
@@ -12,7 +12,7 @@
 }
 <div
   class="youtube-player__player"
-  [style.display]="_shouldShowPlaceholder() ? 'none' : ''"
+  [style.display]="shouldShowPlaceholder() ? 'none' : ''"
 >
   <div #youtubeContainer></div>
 </div>

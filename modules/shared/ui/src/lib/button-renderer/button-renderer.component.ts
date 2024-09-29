@@ -1,4 +1,3 @@
-import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
@@ -24,7 +23,7 @@ export class ButtonIconTemplateDirective {
   templateUrl: './button-renderer.component.html',
   styleUrls: ['./button-renderer.component.scss'],
   standalone: true,
-  imports: [GoogleSigninButtonModule, NgTemplateOutlet],
+  imports: [NgTemplateOutlet],
 })
 export class ButtonRendererComponent {
   public buttonTextTmp = contentChild(ButtonTextTemplateDirective, {

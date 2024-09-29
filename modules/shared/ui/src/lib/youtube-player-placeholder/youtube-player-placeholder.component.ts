@@ -1,17 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, computed, input, ViewEncapsulation } from '@angular/core';
 
 /**  Quality of the placeholder image.  */
 export type PlaceholderImageQuality = 'high' | 'standard' | 'low';
 
 @Component({
   selector: 'ay-youtube-player-placeholder',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './youtube-player-placeholder.component.html',
   standalone: true,

@@ -7,6 +7,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { MatRippleModule } from '@angular/material/core';
 
 @Directive({ selector: '[ayTopbarMenuButtonTmp]', standalone: true })
 export class TopbarMenuButtonTemplateDirective {
@@ -18,7 +19,7 @@ export class TopbarMenuButtonTemplateDirective {
   templateUrl: './topbar-menu-button-renderer.component.html',
   styleUrls: ['./topbar-menu-button-renderer.component.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatRippleModule],
 })
 export class TopbarMenuButtonRendererComponent {
   public topbarMenuButtonTmp = contentChild(TopbarMenuButtonTemplateDirective, {

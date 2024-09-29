@@ -1,4 +1,12 @@
-<button id="button" [attr.aria-label]="ariaLabel()">
+<button
+  id="button"
+  [attr.aria-label]="ariaLabel()"
+  matRipple
+  [matRippleCentered]="true"
+  [matRippleUnbounded]="true"
+  [matRippleColor]="'rgb(0, 0, 0, 0.2)'"
+  [matRippleRadius]="20"
+>
   <ng-template
     [ngTemplateOutlet]="topbarMenuButtonTmp()! || default"
   ></ng-template>

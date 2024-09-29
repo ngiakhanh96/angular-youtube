@@ -1,12 +1,20 @@
 <div class="thumbnail__container">
-  <div class="thumbnail__player-container">
+  <div
+    class="thumbnail__player-container"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+  >
     <ay-youtube-player
       class="thumbnail__player"
       [videoId]="videoId()"
-      [playerVars]="playerVars"
+      [playerVars]="playerVars()"
       [showPlayButton]="false"
     />
-    <div class="thumbnail__duration">3:22:22</div>
+    <div
+      class="thumbnail__duration"
+      [style.display]="thumbnailDurationDisplay()"
+      >3:22:22</div
+    >
   </div>
 
   <div class="thumbnail__meta">

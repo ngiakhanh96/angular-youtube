@@ -2,10 +2,15 @@
   @apply flex h-full justify-center cursor-pointer;
 }
 
+#button {
+  @apply w-full;
+}
+
 #button:focus {
-  outline: unset;
-  >svg {
-    background-color: rgb(0, 0, 0, 0.2);
-    border-radius: 50%;
-  }
+  // outline: unset;
+
+  // > svg {
+  //   background-color: rgb(0, 0, 0, 0.2);
+  //   border-radius: 50%;
+  // }
 }

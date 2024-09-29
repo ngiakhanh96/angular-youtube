@@ -1,20 +1,19 @@
 /// <reference types="youtube" />
 import { isPlatformBrowser } from '@angular/common';
 import {
-  AfterViewInit,
   CSP_NONCE,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   InjectionToken,
   NgZone,
-  OnChanges,
   OnDestroy,
   PLATFORM_ID,
-  SimpleChanges,
+  Signal,
   ViewEncapsulation,
   booleanAttribute,
+  computed,
+  effect,
   inject,
   input,
   isDevMode,
@@ -22,15 +21,19 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { outputFromObservable } from '@angular/core/rxjs-interop';
+import {
+  outputFromObservable,
+  takeUntilDestroyed,
+} from '@angular/core/rxjs-interop';
 import {
   BehaviorSubject,
   Observable,
-  Subject,
+  Subscription,
+  filter,
   fromEventPattern,
   of,
   switchMap,
-  takeUntil,
+  take,
 } from 'rxjs';
 import {
   PlaceholderImageQuality,
@@ -41,6 +44,7 @@ declare global {
   interface Window {
     YT: typeof YT | undefined;
     onYouTubeIframeAPIReady: (() => void) | undefined;
+    youtubeIframeAPIReady$: BehaviorSubject<boolean>;
   }
 }
 
@@ -111,30 +115,27 @@ enum PlayerState {
  */
 @Component({
   selector: 'ay-youtube-player',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [YouTubePlayerPlaceholderComponent],
   templateUrl: './youtube-player.component.html',
   styleUrls: ['./youtube-player.component.scss'],
 })
-export class YouTubePlayerComponent
-  implements AfterViewInit, OnChanges, OnDestroy
-{
+export class YouTubePlayerComponent implements OnDestroy {
   /** Whether we're currently rendering inside a browser. */
   private readonly _isBrowser: boolean;
-  private _player: YT.Player | undefined;
+  _player: YT.Player | undefined;
   private _pendingPlayer: YT.Player | undefined;
   private _existingApiReadyCallback: (() => void) | undefined;
   private _pendingPlayerState: PendingPlayerState | undefined;
-  private readonly _destroyed = new Subject<void>();
   private readonly _playerChanges = new BehaviorSubject<YT.Player | undefined>(
     undefined
   );
   private readonly _nonce = inject(CSP_NONCE, { optional: true });
   private readonly _changeDetectorRef = inject(ChangeDetectorRef);
-  protected _isLoading = false;
-  protected _hasPlaceholder = true;
+  private readonly _takeUntilDestroyed = takeUntilDestroyed();
+  protected _isLoading = signal(false);
+  protected _hasPlaceholder = signal(true);
 
   /** YouTube Video ID to view */
   videoId = input.required<string>();
@@ -189,6 +190,7 @@ export class YouTubePlayerComponent
   placeholderImageQuality = input<PlaceholderImageQuality>('standard');
 
   showPlayButton = input(true);
+  silentLoad = input(true);
 
   /** Outputs are direct proxies from the player itself. */
   readonly ready = outputFromObservable(
@@ -221,51 +223,49 @@ export class YouTubePlayerComponent
   youtubeContainer =
     viewChild.required<ElementRef<HTMLElement>>('youtubeContainer');
 
-  finalLoadApi = signal<boolean | undefined>(undefined);
-  finalDisablePlaceholder = signal<boolean | undefined>(false);
-  finalPlaceholderButtonLabel = signal<string>('');
-  finalPlaceholderImageQuality = signal<PlaceholderImageQuality>('high');
+  finalLoadApi: Signal<boolean>;
+  finalDisablePlaceholder: Signal<boolean>;
+  finalPlaceholderButtonLabel: Signal<string>;
+  finalPlaceholderImageQuality: Signal<PlaceholderImageQuality>;
   private _ngZone = inject(NgZone);
   platformId = inject(PLATFORM_ID);
   constructor() {
     const config = inject(YOUTUBE_PLAYER_CONFIG, { optional: true });
-    this.finalLoadApi.set(config?.loadApi ?? this.loadApi());
-    this.finalDisablePlaceholder.set(
-      config?.disablePlaceholder ?? this.disablePlaceholder()
+    this.finalLoadApi = computed(() => config?.loadApi ?? this.loadApi());
+    this.finalDisablePlaceholder = computed(
+      () => config?.disablePlaceholder ?? this.disablePlaceholder()
     );
-    this.finalPlaceholderButtonLabel.set(
-      config?.placeholderButtonLabel ?? this.placeholderButtonLabel()
+    this.finalPlaceholderButtonLabel = computed(
+      () => config?.placeholderButtonLabel ?? this.placeholderButtonLabel()
     );
-    this.finalPlaceholderImageQuality.set(
-      config?.placeholderImageQuality ?? this.placeholderImageQuality()
+    this.finalPlaceholderImageQuality = computed(
+      () => config?.placeholderImageQuality ?? this.placeholderImageQuality()
     );
     this._isBrowser = isPlatformBrowser(this.platformId);
-  }
 
-  ngAfterViewInit() {
-    this._conditionallyLoad();
-  }
+    effect(() => {
+      const _shouldRecreatePlayer = this._shouldRecreatePlayer();
+      const width = this.width();
+      const height = this.height();
+      const suggestedQuality = this.suggestedQuality();
+      const startSeconds = this.startSeconds();
+      const endSeconds = this.endSeconds();
+      if (_shouldRecreatePlayer) {
+        setTimeout(() => this._conditionallyLoad());
+      } else if (this._player) {
+        if (width || height) {
+          this._setSize();
+        }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this._shouldRecreatePlayer(changes)) {
-      this._conditionallyLoad();
-    } else if (this._player) {
-      if (changes['width'] || changes['height']) {
-        this._setSize();
+        if (suggestedQuality) {
+          this._setQuality();
+        }
+
+        if (startSeconds || endSeconds || suggestedQuality) {
+          this._cuePlayer();
+        }
       }
-
-      if (changes['suggestedQuality']) {
-        this._setQuality();
-      }
-
-      if (
-        changes['startSeconds'] ||
-        changes['endSeconds'] ||
-        changes['suggestedQuality']
-      ) {
-        this._cuePlayer();
-      }
-    }
+    });
   }
 
   ngOnDestroy() {
@@ -277,17 +277,16 @@ export class YouTubePlayerComponent
     }
 
     this._playerChanges.complete();
-    this._destroyed.next();
-    this._destroyed.complete();
   }
 
   /** See https://developers.google.com/youtube/iframe_api_reference#playVideo */
-  playVideo() {
+  playVideo(hidePlaceHolderWhenFinishLoading: boolean) {
+    this._hasPlaceholder.set(false);
     if (this._player) {
       this._player.playVideo();
     } else {
       this._getPendingState().playbackState = PlayerState.PLAYING;
-      this._load(true);
+      this._load(true, hidePlaceHolderWhenFinishLoading);
     }
   }
 
@@ -469,15 +468,15 @@ export class YouTubePlayerComponent
    * Loads the YouTube API and sets up the player.
    * @param playVideo Whether to automatically play the video once the player is loaded.
    */
-  protected _load(playVideo: boolean) {
+  protected _load(playVideo: boolean, hidePlaceHolderWhenFinishLoading = true) {
     // Don't do anything if we're not in a browser environment.
     if (!this._isBrowser) {
       return;
     }
 
     if (!window.YT || !window.YT.Player) {
-      if (this.loadApi()) {
-        this._isLoading = true;
+      if (this.finalLoadApi()) {
+        this._isLoading.set(true);
         loadApi(this._nonce);
       } else if (this.showBeforeIframeApiLoads() && isDevMode()) {
         throw new Error(
@@ -486,32 +485,48 @@ export class YouTubePlayerComponent
             'https://developers.google.com/youtube/iframe_api_reference'
         );
       }
-
-      this._existingApiReadyCallback = window.onYouTubeIframeAPIReady;
-
-      window.onYouTubeIframeAPIReady = () => {
-        this._existingApiReadyCallback?.();
-        this._ngZone.run(() => this._createPlayer(playVideo));
-      };
+      if (!window.youtubeIframeAPIReady$) {
+        window.youtubeIframeAPIReady$ = new BehaviorSubject(false);
+        const existingOnYouTubeIframeAPIReady = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => {
+          existingOnYouTubeIframeAPIReady?.();
+          window.youtubeIframeAPIReady$.next(true);
+        };
+      }
+      if (!this._youtubeIframeAPIReadySubscription) {
+        this._youtubeIframeAPIReadySubscription = window.youtubeIframeAPIReady$
+          .pipe(
+            filter((val) => val === true),
+            take(1),
+            this._takeUntilDestroyed
+          )
+          .subscribe(() => {
+            console.log('testtttt');
+            this._ngZone.run(() =>
+              this._createPlayer(playVideo, hidePlaceHolderWhenFinishLoading)
+            );
+          });
+      }
     } else {
-      this._createPlayer(playVideo);
+      this._createPlayer(playVideo, hidePlaceHolderWhenFinishLoading);
     }
   }
+  private _youtubeIframeAPIReadySubscription?: Subscription;
 
   /** Loads the player depending on the internal state of the component. */
   private _conditionallyLoad() {
     // If the placeholder isn't shown anymore, we have to trigger a load.
-    if (!this._shouldShowPlaceholder()) {
-      this._load(false);
+    if (!this.shouldShowPlaceholder() || this.silentLoad()) {
+      this._load(false, false);
     } else if (this.playerVars()?.autoplay === 1) {
       // If it's an autoplaying video, we have to hide the placeholder and start playing.
-      this._load(true);
+      this._load(true, false);
     }
   }
 
   /** Whether to show the placeholder element. */
-  protected _shouldShowPlaceholder(): boolean {
-    if (this.disablePlaceholder()) {
+  protected shouldShowPlaceholder = computed(() => {
+    if (this.finalDisablePlaceholder()) {
       return false;
     }
 
@@ -520,8 +535,8 @@ export class YouTubePlayerComponent
       return true;
     }
 
-    return this._hasPlaceholder && !!this.videoId() && !this._player;
-  }
+    return this._hasPlaceholder() && !!this.videoId() && !this._player;
+  });
 
   /** Gets an object that should be used to store the temporary API state. */
   private _getPendingState(): PendingPlayerState {
@@ -536,20 +551,23 @@ export class YouTubePlayerComponent
    * Determines whether a change in the component state
    * requires the YouTube player to be recreated.
    */
-  private _shouldRecreatePlayer(changes: SimpleChanges): boolean {
+  private _shouldRecreatePlayer = computed(() => {
     const change =
-      changes['videoId'] ||
-      changes['playerVars'] ||
-      changes['disableCookies'] ||
-      changes['disablePlaceholder'];
-    return !!change && !change.isFirstChange();
-  }
+      this.videoId() ||
+      this.playerVars() ||
+      this.disableCookies() ||
+      this.disablePlaceholder();
+    return !!change;
+  });
 
   /**
    * Creates a new YouTube player and destroys the existing one.
    * @param playVideo Whether to play the video once it loads.
    */
-  private _createPlayer(playVideo: boolean) {
+  private _createPlayer(
+    playVideo: boolean,
+    hidePlaceHolderWhenFinishLoading: boolean
+  ) {
     this._player?.destroy();
     this._pendingPlayer?.destroy();
 
@@ -583,8 +601,10 @@ export class YouTubePlayerComponent
     const whenReady = () => {
       // Only assign the player once it's ready, otherwise YouTube doesn't expose some APIs.
       this._ngZone.run(() => {
-        this._isLoading = false;
-        this._hasPlaceholder = false;
+        this._isLoading.set(false);
+        if (!this.silentLoad() || hidePlaceHolderWhenFinishLoading) {
+          this._hasPlaceholder.set(false);
+        }
         this._player = player;
         this._pendingPlayer = undefined;
         player.removeEventListener('onReady', whenReady);
@@ -681,9 +701,7 @@ export class YouTubePlayerComponent
   }
 
   /** Gets an observable that adds an event listener to the player when a user subscribes to it. */
-  private _getLazyEmitter<T extends YT.PlayerEvent>(
-    name: keyof YT.Events
-  ): Observable<T> {
+  private _getLazyEmitter<T extends YT.PlayerEvent>(name: keyof YT.Events) {
     // Start with the stream of players. This way the events will be transferred
     // over to the new player if it gets swapped out under-the-hood.
     return this._playerChanges.pipe(
@@ -725,7 +743,7 @@ export class YouTubePlayerComponent
           })
         ),
       // Ensures that everything is cleared out on destroy.
-      takeUntil(this._destroyed)
+      this._takeUntilDestroyed
     );
   }
 }

@@ -1,6 +1,6 @@
 import { YouTubePlayerComponent } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, input, signal, viewChild } from '@angular/core';
 
 @Component({
   selector: 'ay-thumbnail',
@@ -17,7 +17,8 @@ export class ThumbnailComponent {
   publishedDate = input.required<Date>();
   duration = input<number>();
   channelLogoUrl = input.required<string>();
-  playerVars = <YT.PlayerVars>{
+  _player = viewChild.required(YouTubePlayerComponent);
+  playerVars = signal(<YT.PlayerVars>{
     autohide: <YT.AutoHide.HideAllControls>1,
     autoplay: <YT.AutoPlay.NoAutoPlay>0,
     cc_load_policy: <YT.ClosedCaptionsLoadPolicy.ForceOn>1,
@@ -41,5 +42,21 @@ export class ThumbnailComponent {
     showinfo: <YT.ShowInfo.Hide>0,
     start: undefined,
     end: undefined,
-  };
+  });
+  thumbnailDurationDisplay = signal('flex');
+  _isAlreadyPlayedOnce = false;
+  onMouseEnter() {
+    if (this._player().getPlayerState() !== <YT.PlayerState.PLAYING>1) {
+      this._player()?.playVideo(true);
+    }
+    if (!this._isAlreadyPlayedOnce) {
+      this._player()?.playVideo(true);
+      this.thumbnailDurationDisplay.set('none');
+      this._isAlreadyPlayedOnce = true;
+    }
+  }
+
+  onMouseLeave() {
+    this._player()?.pauseVideo();
+  }
 }
