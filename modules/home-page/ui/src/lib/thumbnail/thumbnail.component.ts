@@ -71,7 +71,7 @@ export class ThumbnailComponent {
     this._player()?.pauseVideo();
   }
 
-  onReady(event: any) {
+  onReady() {
     this._isReady = true;
   }
 }
