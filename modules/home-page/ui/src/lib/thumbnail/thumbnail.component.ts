@@ -45,18 +45,33 @@ export class ThumbnailComponent {
   });
   thumbnailDurationDisplay = signal('flex');
   _isAlreadyPlayedOnce = false;
+  _isReady = false;
+  _interval?: number;
   onMouseEnter() {
-    if (this._player().getPlayerState() !== <YT.PlayerState.PLAYING>1) {
-      this._player()?.playVideo(true);
-    }
-    if (!this._isAlreadyPlayedOnce) {
-      this._player()?.playVideo(true);
-      this.thumbnailDurationDisplay.set('none');
-      this._isAlreadyPlayedOnce = true;
+    console.log('testwwww');
+    if (this._isReady) {
+      console.log('ready');
+      setTimeout(() => this._player()?.playVideo(true), 100);
+      if (!this._isAlreadyPlayedOnce) {
+        this.thumbnailDurationDisplay.set('none');
+        this._isAlreadyPlayedOnce = true;
+      }
+      if (this._interval) {
+        clearInterval(this._interval);
+      }
+    } else {
+      this._interval ??= window.setInterval(() => this.onMouseEnter(), 100);
     }
   }
 
   onMouseLeave() {
+    if (this._interval) {
+      clearInterval(this._interval);
+    }
     this._player()?.pauseVideo();
+  }
+
+  onReady(event: any) {
+    this._isReady = true;
   }
 }

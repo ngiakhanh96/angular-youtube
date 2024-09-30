@@ -1,7 +1,7 @@
 <div class="thumbnail__container">
   <div
     class="thumbnail__player-container"
-    (mouseenter)="onMouseEnter()"
+    (mouseover)="onMouseEnter()"
     (mouseleave)="onMouseLeave()"
   >
     <ay-youtube-player
@@ -9,6 +9,7 @@
       [videoId]="videoId()"
       [playerVars]="playerVars()"
       [showPlayButton]="false"
+      (ready)="onReady($event)"
     />
     <div
       class="thumbnail__duration"

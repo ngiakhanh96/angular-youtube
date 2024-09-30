@@ -18,7 +18,9 @@ import {
   input,
   isDevMode,
   numberAttribute,
+  output,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import {
@@ -193,9 +195,7 @@ export class YouTubePlayerComponent implements OnDestroy {
   silentLoad = input(true);
 
   /** Outputs are direct proxies from the player itself. */
-  readonly ready = outputFromObservable(
-    this._getLazyEmitter<YT.PlayerEvent>('onReady')
-  );
+  readonly ready = output<YT.Player>();
 
   readonly stateChange = outputFromObservable(
     this._getLazyEmitter<YT.OnStateChangeEvent>('onStateChange')
@@ -227,7 +227,6 @@ export class YouTubePlayerComponent implements OnDestroy {
   finalDisablePlaceholder: Signal<boolean>;
   finalPlaceholderButtonLabel: Signal<string>;
   finalPlaceholderImageQuality: Signal<PlaceholderImageQuality>;
-  private _ngZone = inject(NgZone);
   platformId = inject(PLATFORM_ID);
   constructor() {
     const config = inject(YOUTUBE_PLAYER_CONFIG, { optional: true });
@@ -245,14 +244,18 @@ export class YouTubePlayerComponent implements OnDestroy {
 
     effect(() => {
       const _shouldRecreatePlayer = this._shouldRecreatePlayer();
+      if (_shouldRecreatePlayer) {
+        setTimeout(() => this._conditionallyLoad());
+      }
+    });
+
+    effect(() => {
       const width = this.width();
       const height = this.height();
       const suggestedQuality = this.suggestedQuality();
       const startSeconds = this.startSeconds();
       const endSeconds = this.endSeconds();
-      if (_shouldRecreatePlayer) {
-        setTimeout(() => this._conditionallyLoad());
-      } else if (this._player) {
+      if (untracked(() => this._shouldRecreatePlayer()) && this._player) {
         if (width || height) {
           this._setSize();
         }
@@ -281,8 +284,8 @@ export class YouTubePlayerComponent implements OnDestroy {
 
   /** See https://developers.google.com/youtube/iframe_api_reference#playVideo */
   playVideo(hidePlaceHolderWhenFinishLoading: boolean) {
-    this._hasPlaceholder.set(false);
     if (this._player) {
+      this._hasPlaceholder.set(false);
       this._player.playVideo();
     } else {
       this._getPendingState().playbackState = PlayerState.PLAYING;
@@ -493,20 +496,16 @@ export class YouTubePlayerComponent implements OnDestroy {
           window.youtubeIframeAPIReady$.next(true);
         };
       }
-      if (!this._youtubeIframeAPIReadySubscription) {
-        this._youtubeIframeAPIReadySubscription = window.youtubeIframeAPIReady$
-          .pipe(
-            filter((val) => val === true),
-            take(1),
-            this._takeUntilDestroyed
-          )
-          .subscribe(() => {
-            console.log('testtttt');
-            this._ngZone.run(() =>
-              this._createPlayer(playVideo, hidePlaceHolderWhenFinishLoading)
-            );
-          });
-      }
+      this._youtubeIframeAPIReadySubscription ??= window.youtubeIframeAPIReady$
+        .pipe(
+          filter((val) => val === true),
+          take(1),
+          this._takeUntilDestroyed
+        )
+        .subscribe(() => {
+          console.log('createPlayer');
+          this._createPlayer(playVideo, hidePlaceHolderWhenFinishLoading);
+        });
     } else {
       this._createPlayer(playVideo, hidePlaceHolderWhenFinishLoading);
     }
@@ -582,54 +581,49 @@ export class YouTubePlayerComponent implements OnDestroy {
 
     // Important! We need to create the Player object outside of the `NgZone`, because it kicks
     // off a 250ms setInterval which will continually trigger change detection if we don't.
-    const player = this._ngZone.runOutsideAngular(() => {
-      return new YT.Player(this.youtubeContainer().nativeElement, {
-        videoId: this.videoId(),
-        host: this.disableCookies()
-          ? 'https://www.youtube-nocookie.com'
-          : undefined,
-        width: this.width(),
-        height: this.height(),
-        // Calling `playVideo` on load doesn't appear to actually play
-        // the video so we need to trigger it through `playerVars` instead.
-        playerVars: playVideo
-          ? { ...(this.playerVars() || {}), autoplay: 1 }
-          : this.playerVars(),
-      });
+    const player = new YT.Player(this.youtubeContainer().nativeElement, {
+      videoId: this.videoId(),
+      host: this.disableCookies()
+        ? 'https://www.youtube-nocookie.com'
+        : undefined,
+      width: this.width(),
+      height: this.height(),
+      // Calling `playVideo` on load doesn't appear to actually play
+      // the video so we need to trigger it through `playerVars` instead.
+      playerVars: playVideo
+        ? { ...(this.playerVars() || {}), autoplay: 1 }
+        : this.playerVars(),
     });
 
     const whenReady = () => {
       // Only assign the player once it's ready, otherwise YouTube doesn't expose some APIs.
-      this._ngZone.run(() => {
-        this._isLoading.set(false);
-        if (!this.silentLoad() || hidePlaceHolderWhenFinishLoading) {
-          this._hasPlaceholder.set(false);
-        }
-        this._player = player;
-        this._pendingPlayer = undefined;
-        player.removeEventListener('onReady', whenReady);
-        this._playerChanges.next(player);
-        this._setSize();
-        this._setQuality();
+      this._isLoading.set(false);
+      if (!this.silentLoad() || hidePlaceHolderWhenFinishLoading) {
+        this._hasPlaceholder.set(false);
+      }
+      this._player = player;
+      this._pendingPlayer = undefined;
+      player.removeEventListener('onReady', whenReady);
+      this.ready.emit(player);
+      this._setSize();
+      this._setQuality();
 
-        if (this._pendingPlayerState) {
-          this._applyPendingPlayerState(player, this._pendingPlayerState);
-          this._pendingPlayerState = undefined;
-        }
+      if (this._pendingPlayerState) {
+        this._applyPendingPlayerState(player, this._pendingPlayerState);
+        this._pendingPlayerState = undefined;
+      }
 
-        // Only cue the player when it either hasn't started yet or it's cued,
-        // otherwise cuing it can interrupt a player with autoplay enabled.
-        const state = player.getPlayerState();
-        if (
-          state === PlayerState.UNSTARTED ||
-          state === PlayerState.CUED ||
-          state == null
-        ) {
-          this._cuePlayer();
-        }
-
-        this._changeDetectorRef.markForCheck();
-      });
+      // Only cue the player when it either hasn't started yet or it's cued,
+      // otherwise cuing it can interrupt a player with autoplay enabled.
+      const state = player.getPlayerState();
+      if (
+        state === PlayerState.UNSTARTED ||
+        state === PlayerState.CUED ||
+        state == null
+      ) {
+        this._cuePlayer();
+      }
+      this._changeDetectorRef.markForCheck();
     };
 
     this._pendingPlayer = player;
@@ -699,7 +693,7 @@ export class YouTubePlayerComponent implements OnDestroy {
       this._player.setPlaybackQuality(suggestedQuality);
     }
   }
-
+  private _ngZone = inject(NgZone);
   /** Gets an observable that adds an event listener to the player when a user subscribes to it. */
   private _getLazyEmitter<T extends YT.PlayerEvent>(name: keyof YT.Events) {
     // Start with the stream of players. This way the events will be transferred
@@ -773,7 +767,7 @@ function loadApi(nonce: string | null): void {
   };
   script.addEventListener('load', callback);
   script.addEventListener('error', callback);
-  (script as any).src = url;
+  script.src = url;
   script.async = true;
 
   if (nonce) {
