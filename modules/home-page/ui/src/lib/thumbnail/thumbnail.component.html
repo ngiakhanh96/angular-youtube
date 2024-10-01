@@ -14,7 +14,7 @@
     <div
       class="thumbnail__duration"
       [style.display]="thumbnailDurationDisplay()"
-      >3:22:22</div
+      >{{ durationString() }}</div
     >
   </div>
 
@@ -34,8 +34,10 @@
       <div class="thumbnail__video-title">{{ title() }}</div>
       <div class="thumbnail__channel-name">{{ channelName() }}</div>
       <div class="thumbnail__video-statistic">
-        <div class="thumbnail__video-view-count">568K views</div>
-        <div class="thumbnail__video-publish-date"> • 1 year ago</div>
+        <div class="thumbnail__video-view-count">{{ viewCountString() }}</div>
+        <div class="thumbnail__video-publish-date">
+          • {{ publishDateString() }}</div
+        >
       </div>
     </div>
   </div>

@@ -6,7 +6,6 @@ import {
   Component,
   ElementRef,
   InjectionToken,
-  NgZone,
   OnDestroy,
   PLATFORM_ID,
   Signal,
@@ -29,7 +28,6 @@ import {
 } from '@angular/core/rxjs-interop';
 import {
   BehaviorSubject,
-  Observable,
   Subscription,
   filter,
   fromEventPattern,
@@ -255,7 +253,7 @@ export class YouTubePlayerComponent implements OnDestroy {
       const suggestedQuality = this.suggestedQuality();
       const startSeconds = this.startSeconds();
       const endSeconds = this.endSeconds();
-      if (untracked(() => this._shouldRecreatePlayer()) && this._player) {
+      if (untracked(this._shouldRecreatePlayer) && this._player) {
         if (width || height) {
           this._setSize();
         }
@@ -480,7 +478,7 @@ export class YouTubePlayerComponent implements OnDestroy {
     if (!window.YT || !window.YT.Player) {
       if (this.finalLoadApi()) {
         this._isLoading.set(true);
-        loadApi(this._nonce);
+        YouTubePlayerComponent.loadApi(this._nonce);
       } else if (this.showBeforeIframeApiLoads() && isDevMode()) {
         throw new Error(
           'Namespace YT not found, cannot construct embedded youtube player. ' +
@@ -604,6 +602,7 @@ export class YouTubePlayerComponent implements OnDestroy {
       this._player = player;
       this._pendingPlayer = undefined;
       player.removeEventListener('onReady', whenReady);
+      this._playerChanges.next(player);
       this.ready.emit(player);
       this._setSize();
       this._setQuality();
@@ -693,7 +692,7 @@ export class YouTubePlayerComponent implements OnDestroy {
       this._player.setPlaybackQuality(suggestedQuality);
     }
   }
-  private _ngZone = inject(NgZone);
+
   /** Gets an observable that adds an event listener to the player when a user subscribes to it. */
   private _getLazyEmitter<T extends YT.PlayerEvent>(name: keyof YT.Events) {
     // Start with the stream of players. This way the events will be transferred
@@ -726,56 +725,45 @@ export class YouTubePlayerComponent implements OnDestroy {
             )
           : of();
       }),
-      // By default we run all the API interactions outside the zone
-      // so we have to bring the events back in manually when they emit.
-      (source) =>
-        new Observable<T>((observer) =>
-          source.subscribe({
-            next: (value) => this._ngZone.run(() => observer.next(value)),
-            error: (error) => observer.error(error),
-            complete: () => observer.complete(),
-          })
-        ),
       // Ensures that everything is cleared out on destroy.
       this._takeUntilDestroyed
     );
   }
-}
 
-let apiLoaded = false;
-
-/** Loads the YouTube API from a specified URL only once. */
-function loadApi(nonce: string | null): void {
-  if (apiLoaded) {
-    return;
-  }
-
-  // We can use `document` directly here, because this logic doesn't run outside the browser.
-  const url = 'https://www.youtube.com/iframe_api';
-  const script = document.createElement('script');
-  const callback = (event: Event) => {
-    script.removeEventListener('load', callback);
-    script.removeEventListener('error', callback);
-
-    if (event.type === 'error') {
-      apiLoaded = false;
-
-      if (isDevMode()) {
-        console.error(`Failed to load YouTube API from ${url}`);
-      }
+  static apiLoaded = false;
+  /** Loads the YouTube API from a specified URL only once. */
+  static loadApi(nonce: string | null): void {
+    if (YouTubePlayerComponent.apiLoaded) {
+      return;
     }
-  };
-  script.addEventListener('load', callback);
-  script.addEventListener('error', callback);
-  script.src = url;
-  script.async = true;
 
-  if (nonce) {
-    script.setAttribute('nonce', nonce);
+    // We can use `document` directly here, because this logic doesn't run outside the browser.
+    const url = 'https://www.youtube.com/iframe_api';
+    const script = document.createElement('script');
+    const callback = (event: Event) => {
+      script.removeEventListener('load', callback);
+      script.removeEventListener('error', callback);
+
+      if (event.type === 'error') {
+        YouTubePlayerComponent.apiLoaded = false;
+
+        if (isDevMode()) {
+          console.error(`Failed to load YouTube API from ${url}`);
+        }
+      }
+    };
+    script.addEventListener('load', callback);
+    script.addEventListener('error', callback);
+    script.src = url;
+    script.async = true;
+
+    if (nonce) {
+      script.setAttribute('nonce', nonce);
+    }
+
+    // Set this immediately to true so we don't start loading another script
+    // while this one is pending. If loading fails, we'll flip it back to false.
+    YouTubePlayerComponent.apiLoaded = true;
+    document.body.appendChild(script);
   }
-
-  // Set this immediately to true so we don't start loading another script
-  // while this one is pending. If loading fails, we'll flip it back to false.
-  apiLoaded = true;
-  document.body.appendChild(script);
 }

@@ -26,49 +26,49 @@ export class BrowseComponent {
       title:
         'NÊN CHỜ HAY NÊN QUÊN - CHU THÚY QUỲNH Gây Nghiện Với Giọng Live Đậm Chất Riêng | Mây Lang Thang asdasdasdasdasda',
       channelName: 'Diệu Nhiên Lofi',
+      viewCount: 12333333333333,
+      publishedDate: this.date,
+    },
+    {
+      videoId: '_XCtJYgs5Ms',
+      title:
+        'City Hall scandal intensifies: New calls for Mayor Adams to resign',
+      channelName: 'FOX 5 New York',
       viewCount: 5900,
       publishedDate: this.date,
     },
-    // {
-    //   videoId: '_XCtJYgs5Ms',
-    //   title:
-    //     'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-    //   channelName: 'FOX 5 New York',
-    //   viewCount: 5900,
-    //   publishedDate: this.date,
-    // },
-    // {
-    //   videoId: 'ddxY9C7pZSE',
-    //   title:
-    //     'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-    //   channelName: 'FOX 5 New York',
-    //   viewCount: 5900,
-    //   publishedDate: this.date,
-    // },
-    // {
-    //   videoId: '9-LuToOq8Lc',
-    //   title:
-    //     'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-    //   channelName: 'FOX 5 New York',
-    //   viewCount: 5900,
-    //   publishedDate: this.date,
-    // },
-    // {
-    //   videoId: 'QaJbAennB_Q',
-    //   title:
-    //     'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-    //   channelName: 'FOX 5 New York',
-    //   viewCount: 5900,
-    //   publishedDate: this.date,
-    // },
-    // {
-    //   videoId: 'rOBF7omfM4U',
-    //   title:
-    //     'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-    //   channelName: 'FOX 5 New York',
-    //   viewCount: 5900,
-    //   publishedDate: this.date,
-    // },
+    {
+      videoId: 'ddxY9C7pZSE',
+      title:
+        'City Hall scandal intensifies: New calls for Mayor Adams to resign',
+      channelName: 'FOX 5 New York',
+      viewCount: 5900,
+      publishedDate: this.date,
+    },
+    {
+      videoId: '9-LuToOq8Lc',
+      title:
+        'City Hall scandal intensifies: New calls for Mayor Adams to resign',
+      channelName: 'FOX 5 New York',
+      viewCount: 5900,
+      publishedDate: this.date,
+    },
+    {
+      videoId: 'QaJbAennB_Q',
+      title:
+        'City Hall scandal intensifies: New calls for Mayor Adams to resign',
+      channelName: 'FOX 5 New York',
+      viewCount: 5900,
+      publishedDate: this.date,
+    },
+    {
+      videoId: 'rOBF7omfM4U',
+      title:
+        'City Hall scandal intensifies: New calls for Mayor Adams to resign',
+      channelName: 'FOX 5 New York',
+      viewCount: 5900,
+      publishedDate: this.date,
+    },
   ]);
 
   constructor() {
