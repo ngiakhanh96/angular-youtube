@@ -1,3 +1,10 @@
 .youtube-player__player {
   @apply w-full h-full;
+  iframe {
+    border-radius: var(--border-radius);
+  }
+}
+
+:host {
+  --border-radius: 12px;
 }

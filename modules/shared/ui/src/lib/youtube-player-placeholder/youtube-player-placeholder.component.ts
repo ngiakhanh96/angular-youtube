@@ -15,6 +15,7 @@ export type PlaceholderImageQuality = 'high' | 'standard' | 'low';
     '[style.background-image]': 'backgroundImageUrl()',
     '[style.width]': 'width()',
     '[style.height]': 'height()',
+    '[style.borderRadius]': 'borderRadius()',
   },
 })
 export class YouTubePlayerPlaceholderComponent {
@@ -26,6 +27,8 @@ export class YouTubePlayerPlaceholderComponent {
 
   /** Height of the video for which to show the placeholder. */
   height = input<string>('100%');
+
+  borderRadius = input<string>('12px');
 
   /** Whether the video is currently being loaded. */
   isLoading = input.required<boolean>();

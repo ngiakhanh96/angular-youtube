@@ -10,19 +10,19 @@ import {
 import { MatRippleModule } from '@angular/material/core';
 
 @Directive({ selector: '[ayTopbarMenuButtonTmp]', standalone: true })
-export class TopbarMenuButtonTemplateDirective {
+export class SvgButtonTemplateDirective {
   template = inject<TemplateRef<unknown>>(TemplateRef);
 }
 
 @Component({
-  selector: 'ay-topbar-menu-button-renderer',
-  templateUrl: './topbar-menu-button-renderer.component.html',
-  styleUrls: ['./topbar-menu-button-renderer.component.scss'],
+  selector: 'ay-svg-button-renderer',
+  templateUrl: './svg-button-renderer.component.html',
+  styleUrls: ['./svg-button-renderer.component.scss'],
   standalone: true,
   imports: [CommonModule, MatRippleModule],
 })
-export class TopbarMenuButtonRendererComponent {
-  public topbarMenuButtonTmp = contentChild(TopbarMenuButtonTemplateDirective, {
+export class SvgButtonRendererComponent {
+  public avgButtonTmp = contentChild(SvgButtonTemplateDirective, {
     read: TemplateRef,
   });
 

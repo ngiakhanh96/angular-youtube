@@ -19,7 +19,7 @@ export interface IThumbnailDetails {
 })
 export class BrowseComponent {
   private youtubeService = inject(YoutubeService);
-  protected date = new Date(2024, 8, 17);
+  protected date = new Date(2023, 9, 2, 22, 30);
   protected videoList = signal<IThumbnailDetails[]>([
     {
       videoId: 'GGqPl7SRLYc',

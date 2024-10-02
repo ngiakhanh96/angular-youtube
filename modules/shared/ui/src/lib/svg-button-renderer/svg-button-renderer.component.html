@@ -7,9 +7,7 @@
   [matRippleColor]="'rgb(0, 0, 0, 0.2)'"
   [matRippleRadius]="20"
 >
-  <ng-template
-    [ngTemplateOutlet]="topbarMenuButtonTmp()! || default"
-  ></ng-template>
+  <ng-template [ngTemplateOutlet]="avgButtonTmp()! || default"></ng-template>
 </button>
 <ng-template #default>
   <svg

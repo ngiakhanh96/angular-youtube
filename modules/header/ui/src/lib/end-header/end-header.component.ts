@@ -6,13 +6,12 @@ import {
   ButtonIconTemplateDirective,
   ButtonRendererComponent,
   ButtonTextTemplateDirective,
+  SettingsButtonComponent,
+  SvgButtonRendererComponent,
+  SvgButtonTemplateDirective,
 } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
-import {
-  TopbarMenuButtonRendererComponent,
-  TopbarMenuButtonTemplateDirective,
-} from '../topbar-menu-button-renderer/topbar-menu-button-renderer.component';
 
 @Component({
   selector: 'ay-end-header',
@@ -20,13 +19,14 @@ import {
   styleUrls: ['./end-header.component.scss'],
   standalone: true,
   imports: [
-    TopbarMenuButtonRendererComponent,
+    SvgButtonRendererComponent,
     ButtonRendererComponent,
     GoogleSigninButtonModule,
     ButtonTextTemplateDirective,
     ButtonIconTemplateDirective,
-    TopbarMenuButtonTemplateDirective,
+    SvgButtonTemplateDirective,
     NgOptimizedImage,
+    SettingsButtonComponent,
   ],
 })
 export class EndHeaderComponent {

@@ -120,6 +120,9 @@ enum PlayerState {
   imports: [YouTubePlayerPlaceholderComponent],
   templateUrl: './youtube-player.component.html',
   styleUrls: ['./youtube-player.component.scss'],
+  host: {
+    '[style.--border-radius]': 'borderRadius()',
+  },
 })
 export class YouTubePlayerComponent implements OnDestroy {
   /** Whether we're currently rendering inside a browser. */
@@ -145,6 +148,8 @@ export class YouTubePlayerComponent implements OnDestroy {
 
   /** Width of video player */
   width = input<string>('100%');
+
+  borderRadius = input<string>('12px');
 
   /** The moment when the player is supposed to start playing */
   startSeconds = input(undefined, { transform: coerceTime });

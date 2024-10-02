@@ -27,7 +27,7 @@
 }
 
 .thumbnail__video-info {
-  @apply flex flex-col flex-grow basis-0 flex-shrink pr-6 w-0;
+  @apply flex flex-col flex-grow basis-0 flex-shrink w-0;
 }
 
 .thumbnail__video-title {
@@ -54,13 +54,21 @@
 }
 
 .thumbnail__duration {
-  @apply absolute bg-[#00000099] right-2 bottom-1 text-white flex flex-row items-center;
+  @apply absolute bg-[#00000099] right-2 bottom-1 text-white flex-row items-center;
   border-radius: 2px;
   padding-left: 4px;
   padding-right: 4px;
   font-size: 0.8rem;
-  line-height: 1.8rem;
+  line-height: 20px;
   font-weight: 500;
-  border-radius: 6px;
+  border-radius: 4px;
   height: 20px;
+}
+
+.thumbnail__settings {
+  @apply flex w-[30px] mt-[6px];
+}
+
+.thumbnail__settings-button {
+  @apply flex-[0_0_40px];
 }

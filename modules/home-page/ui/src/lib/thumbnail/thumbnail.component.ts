@@ -1,11 +1,14 @@
-import { YouTubePlayerComponent } from '@angular-youtube/shared-ui';
+import {
+  SettingsButtonComponent,
+  YouTubePlayerComponent,
+} from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
 import { Component, computed, input, signal, viewChild } from '@angular/core';
 
 @Component({
   selector: 'ay-thumbnail',
   standalone: true,
-  imports: [YouTubePlayerComponent, NgOptimizedImage],
+  imports: [YouTubePlayerComponent, NgOptimizedImage, SettingsButtonComponent],
   templateUrl: './thumbnail.component.html',
   styleUrls: ['./thumbnail.component.scss'],
 })
@@ -204,13 +207,17 @@ export class ThumbnailComponent {
           hours +=
             amount * ThumbnailComponent.hoursInIntervals[durationArrIndex++];
           if (index === matches.length - 2 - 2 && hours > 0) {
-            durationString += `${hours < 10 ? `0${hours}` : hours}`;
+            durationString += `${hours}`;
           }
         } else {
           if (durationString !== '') {
             durationString += ':';
           }
-          durationString += `${amount < 10 ? `0${amount}` : amount}`;
+          if (index === matches.length - 2 - 1 && durationString === '') {
+            durationString += `${amount}`;
+          } else {
+            durationString += `${amount < 10 ? `0${amount}` : amount}`;
+          }
         }
       });
 
