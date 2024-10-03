@@ -9,14 +9,14 @@ import {
 } from '@ngrx/store';
 import { filter, Observable, Subscription } from 'rxjs';
 import { HttpResponse, ResponseDetails } from '../models/http-response.model';
-import { BaseState } from '../models/state.model';
+import { IBaseState } from '../models/state.model';
 import {
   getResponse,
   getResponseDetails,
 } from '../store/base/selectors/base.selector';
 
 @Injectable()
-export abstract class BaseSandboxService<TState extends BaseState>
+export abstract class BaseSandboxService<TState extends IBaseState>
   implements OnDestroy
 {
   public response$: Observable<HttpResponse>;

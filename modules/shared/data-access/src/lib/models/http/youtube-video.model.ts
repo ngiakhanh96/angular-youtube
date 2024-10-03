@@ -2,7 +2,8 @@ export interface IYoutubeVideos {
   kind: string;
   etag: string;
   items: IItem[];
-  nextPageToken: string;
+  prevPageToken?: string;
+  nextPageToken?: string;
   pageInfo: IPageInfo;
 }
 

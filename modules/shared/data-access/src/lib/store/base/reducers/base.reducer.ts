@@ -11,10 +11,10 @@ import {
   HttpResponse,
   HttpResponseStatus,
 } from '../../../models/http-response.model';
-import { BaseState } from '../../../models/state.model';
+import { IBaseState } from '../../../models/state.model';
 import { BaseActionGroup } from '../actions/base.action-group';
 
-export const initialBaseState: BaseState = {
+export const initialBaseState: IBaseState = {
   httpResponse: {
     isPendingCount: 0,
     details: {},
@@ -23,7 +23,7 @@ export const initialBaseState: BaseState = {
 
 export function updateResponse(
   action: ActionCreator<string, Creator>,
-  state: BaseState,
+  state: IBaseState,
   responseStatus: HttpResponseStatus,
   showSpinner: boolean,
   error?: HttpErrorResponseDetails
@@ -53,7 +53,7 @@ export function updateResponse(
 
 export function createAyReducer<
   TActionsGroup extends BaseActionGroup,
-  TState extends Required<BaseState>
+  TState extends Required<IBaseState>
 >(
   actionGroup: TActionsGroup,
   initialState: TState,

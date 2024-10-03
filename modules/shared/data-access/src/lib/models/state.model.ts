@@ -1,5 +1,5 @@
 import { HttpResponse } from './http-response.model';
 
-export interface BaseState {
+export interface IBaseState {
   httpResponse: HttpResponse;
 }

@@ -11,6 +11,7 @@ import {
   HttpErrorResponseDetails,
   HttpResponseStatus,
 } from '../../../models/http-response.model';
+import { IBaseState } from '../../../models/state.model';
 
 export function createAyActionGroup<
   Source extends string,
@@ -42,9 +43,13 @@ export interface UpdateResponseAction {
 export interface SendingRequestAction {
   requestActionCreator: ActionCreator<string, Creator<any[], Action>>;
   requestAction: Action;
-  requestActionCallback: (action: Action) => Observable<Action>;
+  requestActionCallback?: (action: Action) => Observable<Action>;
+  requestActionCallBackWithState?: (
+    input: [Action, IBaseState]
+  ) => Observable<Action>;
   showSpinner: boolean;
   actionForSuccessfulResponse: ActionForSuccessfulResponse;
+  observableFactory?: (value: Action) => Observable<unknown>;
 }
 
 export interface CancelRequestAction {

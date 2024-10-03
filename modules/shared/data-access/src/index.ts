@@ -2,6 +2,7 @@ export * from './lib/components/base-with-sandbox.component';
 export * from './lib/injection-tokens/sandbox-service.injection-token';
 export * from './lib/injection-tokens/youtube-api-key.injection-token';
 export * from './lib/models/http-response.model';
+export * from './lib/models/http/youtube-video.model';
 export * from './lib/models/state.model';
 export * from './lib/services/base.sandbox.service';
 export * from './lib/services/common.sandbox.service';

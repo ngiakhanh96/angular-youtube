@@ -19,6 +19,9 @@
         "modules/header/feature/src/index.ts"
       ],
       "@angular-youtube/header-ui": ["modules/header/ui/src/index.ts"],
+      "@angular-youtube/home-page-data-access": [
+        "modules/home-page/data-access/src/index.ts"
+      ],
       "@angular-youtube/home-page-feature": [
         "modules/home-page/feature/src/index.ts"
       ],

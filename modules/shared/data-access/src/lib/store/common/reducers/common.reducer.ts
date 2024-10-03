@@ -1,5 +1,5 @@
 import { createFeature, on } from '@ngrx/store';
-import { BaseState } from '../../../models/state.model';
+import { IBaseState } from '../../../models/state.model';
 import {
   createAyReducer,
   initialBaseState,
@@ -7,7 +7,7 @@ import {
 import { commonActionGroup } from '../actions/common.action-group';
 
 export const commonStateName = 'common';
-export interface ICommonState extends BaseState {
+export interface ICommonState extends IBaseState {
   test: string;
 }
 export const initialCommonState: ICommonState = {

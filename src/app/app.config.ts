@@ -19,7 +19,7 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { shellRoutes } from 'modules/shell/feature/src/lib/shell.routes';
+import { shellRoutes } from './shell.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
