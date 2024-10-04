@@ -41,7 +41,7 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
     this.dispatchAction(
       homePageActionGroup.loadYoutubePopularVideos({
         nextPage: false,
-        itemPerPage: 8,
+        itemPerPage: 20,
       })
     );
     this.videosWithMetaData = this.select(selectHomePageVideos);

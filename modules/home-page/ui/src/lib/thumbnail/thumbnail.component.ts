@@ -73,8 +73,9 @@ export class ThumbnailComponent {
             this._player()?.playVideo(true);
           } else {
             clearInterval(this._playVideoInterval);
+            this._playVideoInterval = undefined;
           }
-        }, 100);
+        }, 50);
       }
 
       if (!this._isAlreadyPlayedOnce) {
@@ -82,6 +83,7 @@ export class ThumbnailComponent {
         this._isAlreadyPlayedOnce = true;
       }
       clearInterval(this._onMouseEnterInterval);
+      this._onMouseEnterInterval = undefined;
     } else {
       this._onMouseEnterInterval ??= window.setInterval(
         () => this.onMouseEnter(),
@@ -93,6 +95,8 @@ export class ThumbnailComponent {
   onMouseLeave() {
     clearInterval(this._onMouseEnterInterval);
     clearInterval(this._playVideoInterval);
+    this._onMouseEnterInterval = undefined;
+    this._playVideoInterval = undefined;
     this._player()?.pauseVideo();
   }
 
