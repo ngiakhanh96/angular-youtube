@@ -1,4 +1,9 @@
 import {
+  HomePageEffects,
+  homePageReducer,
+  homePageStateName,
+} from '@angular-youtube/home-page-data-access';
+import {
   CommonEffects,
   commonReducer,
   CommonSandboxService,
@@ -9,13 +14,8 @@ import { LayoutComponent } from '@angular-youtube/shell-feature';
 import { Route } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
-import { HomePageEffects } from '../../modules/home-page/data-access/src/lib/store/effects/home-page.effect';
-import {
-  homePageReducer,
-  homePageStateName,
-} from '../../modules/home-page/data-access/src/lib/store/reducers/home-page.reducer';
 
-export const shellRoutes: Route[] = [
+export const mainRoutes: Route[] = [
   {
     path: '',
     component: LayoutComponent,

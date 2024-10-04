@@ -20,7 +20,7 @@ export abstract class BaseSandboxService<TState extends IBaseState>
   implements OnDestroy
 {
   public response$: Observable<HttpResponse>;
-  protected store = inject(Store);
+  public store = inject(Store);
   protected getResponseSelector: MemoizedSelector<
     object,
     HttpResponse,

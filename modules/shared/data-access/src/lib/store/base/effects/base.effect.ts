@@ -84,7 +84,7 @@ export abstract class BaseEffects<TActionGroup extends BaseActionGroup> {
       action: ReturnType<TActionCreator>
     ) => Observable<TState>,
     callBackFn: (
-      input: [ReturnType<TActionCreator>, TState]
+      actionWithState: [ReturnType<TActionCreator>, TState]
     ) => Observable<Action>,
     showSpinner = true,
     actionForSuccessfulResponse: ActionForSuccessfulResponse = ActionForSuccessfulResponse.UpdateResponseAndHideSpinner
@@ -102,11 +102,11 @@ export abstract class BaseEffects<TActionGroup extends BaseActionGroup> {
             this.actionsGroup.cancelRequest({
               requestActionCreator: requestActionCreator,
             }),
-            this.actionsGroup.sendingRequest({
+            this.actionsGroup.sendingRequestWithState({
               requestAction: requestActionWithState,
               requestActionCreator: requestActionCreator,
               requestActionCallBackWithState: callBackFn as (
-                input: [Action, IBaseState]
+                actionWithState: [Action, IBaseState]
               ) => Observable<Action>,
               showSpinner: showSpinner,
               actionForSuccessfulResponse: actionForSuccessfulResponse,
@@ -123,7 +123,7 @@ export abstract class BaseEffects<TActionGroup extends BaseActionGroup> {
   private readonly sendingRequestWithStateFn = () =>
     createEffect(() =>
       this.actions$.pipe(
-        ofType(this.actionsGroup.sendingRequest),
+        ofType(this.actionsGroup.sendingRequestWithState),
         concatLatestFrom((sendingRequest) =>
           sendingRequest.observableFactory!(sendingRequest)
         ),

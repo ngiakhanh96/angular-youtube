@@ -1,11 +1,16 @@
 import { inject } from '@angular/core';
-import { Action } from '@ngrx/store';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { Action, MemoizedSelector, select } from '@ngrx/store';
 import { first } from 'rxjs';
 import { SandboxService } from '../injection-tokens/sandbox-service.injection-token';
 import { HttpResponseStatus } from '../models/http-response.model';
 
 export abstract class BaseWithSandBoxComponent {
-  protected sandbox = inject(SandboxService);
+  private sandbox = inject(SandboxService);
+  protected untilDestroyed = takeUntilDestroyed();
+  protected select<T>(selector: MemoizedSelector<object, T>) {
+    return toSignal(this.sandbox.store.pipe(select(selector)));
+  }
   protected dispatchAction(action: Action, successfulCallBack?: () => void) {
     setTimeout(() => {
       this.sandbox.dispatch(action);

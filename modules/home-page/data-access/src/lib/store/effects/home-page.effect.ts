@@ -1,10 +1,11 @@
 import {
   BaseEffects,
+  IChannelItem,
   YoutubeService,
 } from '@angular-youtube/shared-data-access';
 import { inject } from '@angular/core';
 import { select } from '@ngrx/store';
-import { map } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import { homePageActionGroup } from '../actions/home-page.action-group';
 import { selectHomePageState } from '../reducers/home-page.reducer';
 
@@ -15,15 +16,30 @@ export class HomePageEffects extends BaseEffects<typeof homePageActionGroup> {
     (_) => this.store.pipe(select(selectHomePageState)),
     ([action, homePageState]) => {
       return this.youtubeService
-        .getOverviewVideos(
-          20,
+        .getPopularVideos(
+          action.itemPerPage,
           action.nextPage ? homePageState.nextPageToken : undefined
         )
         .pipe(
-          map((result) => {
+          switchMap((videosWithMetaData) => {
+            return this.youtubeService
+              .getChannelsInfo(
+                videosWithMetaData.items.map((p) => p.snippet.channelId),
+                action.itemPerPage
+              )
+              .pipe(
+                map(
+                  (channelsInfo) => [videosWithMetaData, channelsInfo] as const
+                )
+              );
+          }),
+          map(([videosWithMetaData, channelsInfo]) => {
+            const channelsInfoMap: Record<string, IChannelItem> = {};
+            channelsInfo.items.forEach((p) => (channelsInfoMap[p.id] = p));
             return this.actionsGroup.loadYoutubePopularVideosSuccess({
               nextPage: action.nextPage,
-              videos: result,
+              videos: videosWithMetaData,
+              channelsInfo: channelsInfoMap,
             });
           })
         );

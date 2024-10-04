@@ -1,6 +1,16 @@
+import {
+  homePageActionGroup,
+  selectHomePageChannelsInfo,
+  selectHomePageVideos,
+} from '@angular-youtube/home-page-data-access';
 import { ThumbnailComponent } from '@angular-youtube/home-page-ui';
-import { YoutubeService } from '@angular-youtube/shared-data-access';
-import { Component, inject, signal } from '@angular/core';
+import {
+  BaseWithSandBoxComponent,
+  IChannelItem,
+  IPopularYoutubeVideos,
+  YoutubeService,
+} from '@angular-youtube/shared-data-access';
+import { Component, computed, inject, Signal } from '@angular/core';
 
 export interface IThumbnailDetails {
   videoId: string;
@@ -8,6 +18,8 @@ export interface IThumbnailDetails {
   channelName: string;
   viewCount: number;
   publishedDate: Date;
+  duration: string;
+  channelLogoUrl: string;
 }
 
 @Component({
@@ -17,62 +29,42 @@ export interface IThumbnailDetails {
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.scss'],
 })
-export class BrowseComponent {
+export class BrowseComponent extends BaseWithSandBoxComponent {
   private youtubeService = inject(YoutubeService);
   protected date = new Date(2023, 9, 2, 22, 30);
-  protected videoList = signal<IThumbnailDetails[]>([
-    {
-      videoId: 'GGqPl7SRLYc',
-      title:
-        'NÊN CHỜ HAY NÊN QUÊN - CHU THÚY QUỲNH Gây Nghiện Với Giọng Live Đậm Chất Riêng | Mây Lang Thang asdasdasdasdasda',
-      channelName: 'Diệu Nhiên Lofi',
-      viewCount: 12333333333333,
-      publishedDate: this.date,
-    },
-    {
-      videoId: '_XCtJYgs5Ms',
-      title:
-        'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-      channelName: 'FOX 5 New York',
-      viewCount: 5900,
-      publishedDate: this.date,
-    },
-    {
-      videoId: 'ddxY9C7pZSE',
-      title:
-        'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-      channelName: 'FOX 5 New York',
-      viewCount: 5900,
-      publishedDate: this.date,
-    },
-    {
-      videoId: '9-LuToOq8Lc',
-      title:
-        'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-      channelName: 'FOX 5 New York',
-      viewCount: 5900,
-      publishedDate: this.date,
-    },
-    {
-      videoId: 'QaJbAennB_Q',
-      title:
-        'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-      channelName: 'FOX 5 New York',
-      viewCount: 5900,
-      publishedDate: this.date,
-    },
-    {
-      videoId: 'rOBF7omfM4U',
-      title:
-        'City Hall scandal intensifies: New calls for Mayor Adams to resign',
-      channelName: 'FOX 5 New York',
-      viewCount: 5900,
-      publishedDate: this.date,
-    },
-  ]);
+  protected videosWithMetaData: Signal<IPopularYoutubeVideos | undefined>;
+  protected videos: Signal<IThumbnailDetails[]>;
+  protected channelsInfo: Signal<Record<string, IChannelItem> | undefined>;
 
   constructor() {
-    this.youtubeService.getOverviewVideos().subscribe();
-    this.youtubeService.getChannelInfo().subscribe();
+    super();
+    this.dispatchAction(
+      homePageActionGroup.loadYoutubePopularVideos({
+        nextPage: false,
+        itemPerPage: 8,
+      })
+    );
+    this.videosWithMetaData = this.select(selectHomePageVideos);
+    this.channelsInfo = this.select(selectHomePageChannelsInfo);
+    this.videos = computed(() => {
+      const videosWithMetaData = this.videosWithMetaData();
+      const channelsInfo = this.channelsInfo() ?? {};
+      return (
+        videosWithMetaData?.items.map(
+          (p) =>
+            <IThumbnailDetails>{
+              videoId: p.id,
+              title: p.snippet.title,
+              channelName: p.snippet.channelTitle,
+              viewCount: +p.statistics.viewCount,
+              publishedDate: new Date(p.snippet.publishedAt),
+              duration: p.contentDetails.duration,
+              channelLogoUrl:
+                channelsInfo[p.snippet.channelId]?.snippet.thumbnails.default
+                  .url ?? '',
+            }
+        ) ?? []
+      );
+    });
   }
 }

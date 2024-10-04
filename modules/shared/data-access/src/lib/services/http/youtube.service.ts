@@ -5,10 +5,10 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { YoutubeApiKey } from '../../injection-tokens/youtube-api-key.injection-token';
-import { IYoutubeVideos } from '../../models/http/youtube-video.model';
+import { IYoutubeChannelsInfo } from '../../models/http/channels-info.model';
+import { IPopularYoutubeVideos } from '../../models/http/popular-youtube-videos.model';
 
 export const AUTHORIZED = new HttpContextToken<boolean>(() => true);
 
@@ -18,12 +18,13 @@ export const AUTHORIZED = new HttpContextToken<boolean>(() => true);
 export class YoutubeService {
   private apiKey = inject(YoutubeApiKey);
   private httpClient = inject(HttpClient);
+  private commonUrl = 'https://youtube.googleapis.com/youtube/v3/';
 
-  getOverviewVideos(
+  getPopularVideos(
     maxResults = 20,
     pageToken?: string
-  ): Observable<IYoutubeVideos> {
-    const url = 'https://youtube.googleapis.com/youtube/v3/videos';
+  ): Observable<IPopularYoutubeVideos> {
+    const url = `${this.commonUrl}videos`;
     const params = new HttpParams({
       fromObject: {
         part: ['snippet,contentDetails,statistics'],
@@ -36,33 +37,28 @@ export class YoutubeService {
     if (pageToken) {
       params.set('pageToken', pageToken);
     }
-    return this.httpClient.get<IYoutubeVideos>(url, {
+    return this.httpClient.get<IPopularYoutubeVideos>(url, {
       params: params,
       context: new HttpContext().set(AUTHORIZED, false),
     });
   }
 
-  getChannelInfo() {
-    const url = 'https://youtube.googleapis.com/youtube/v3/channels';
-    return this.httpClient
-      .get<IYoutubeVideos>(url, {
-        params: {
-          part: ['snippet,contentDetails,statistics'],
-          id: 'UCET00YnetHT7tOpu12v8jxg',
-          key: this.apiKey,
-        },
-        context: new HttpContext().set(AUTHORIZED, false),
-      })
-      .pipe(
-        map((res) => {
-          console.log(res);
-          return res;
-        }),
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        catchError((err: any) => {
-          console.error(err);
-          return of(err);
-        })
-      );
+  getChannelsInfo(channelIds: string[], maxResults = 20, pageToken?: string) {
+    const url = `${this.commonUrl}channels`;
+    const params = new HttpParams({
+      fromObject: {
+        part: ['snippet,contentDetails,statistics'],
+        id: channelIds,
+        key: this.apiKey,
+        maxResults: maxResults,
+      },
+    });
+    if (pageToken) {
+      params.set('pageToken', pageToken);
+    }
+    return this.httpClient.get<IYoutubeChannelsInfo>(url, {
+      params: params,
+      context: new HttpContext().set(AUTHORIZED, false),
+    });
   }
 }

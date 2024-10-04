@@ -20,6 +20,7 @@ export function createAyActionGroup<
   const baseActionGroupEvents: BaseActionGroupEvents = {
     updateResponse: props<UpdateResponseAction>(),
     sendingRequest: props<SendingRequestAction>(),
+    sendingRequestWithState: props<SendingRequestAction>(),
     cancelRequest: props<CancelRequestAction>(),
   };
 
@@ -45,7 +46,7 @@ export interface SendingRequestAction {
   requestAction: Action;
   requestActionCallback?: (action: Action) => Observable<Action>;
   requestActionCallBackWithState?: (
-    input: [Action, IBaseState]
+    actionWithState: [Action, IBaseState]
   ) => Observable<Action>;
   showSpinner: boolean;
   actionForSuccessfulResponse: ActionForSuccessfulResponse;
@@ -63,6 +64,7 @@ export type AyActionCreator<T> = ActionCreator<
 export interface BaseActions {
   updateResponse: UpdateResponseAction;
   sendingRequest: SendingRequestAction;
+  sendingRequestWithState: SendingRequestAction;
   cancelRequest: CancelRequestAction;
 }
 

@@ -13,22 +13,22 @@ import {
 import {
   ApplicationConfig,
   importProvidersFrom,
-  provideExperimentalZonelessChangeDetection,
+  provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { shellRoutes } from './shell.routes';
+import { mainRoutes } from './routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideStore(),
     provideEffects(),
-    provideExperimentalZonelessChangeDetection(),
-    //provideZoneChangeDetection({ eventCoalescing: true }),
+    // provideExperimentalZonelessChangeDetection(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
-      shellRoutes,
+      mainRoutes,
       withInMemoryScrolling({
         scrollPositionRestoration: 'top',
       })

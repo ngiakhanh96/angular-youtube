@@ -1,21 +1,25 @@
 import {
   createAyReducer,
   IBaseState,
+  IChannelItem,
   initialBaseState,
-  IYoutubeVideos,
+  IPopularYoutubeVideos,
 } from '@angular-youtube/shared-data-access';
 import { createFeature, on } from '@ngrx/store';
 import { homePageActionGroup } from '../actions/home-page.action-group';
 
 export const homePageStateName = 'homePage';
+
 export interface IHomePageState extends IBaseState {
   nextPageToken: string | undefined;
-  videos: IYoutubeVideos | undefined;
+  videos: IPopularYoutubeVideos | undefined;
+  channelsInfo: Record<string, IChannelItem>;
 }
 export const initialHomePageState: IHomePageState = {
   ...initialBaseState,
   nextPageToken: undefined,
   videos: undefined,
+  channelsInfo: {},
 };
 
 const reducer = createAyReducer(
@@ -23,13 +27,17 @@ const reducer = createAyReducer(
   initialHomePageState,
   on(
     homePageActionGroup.loadYoutubePopularVideosSuccess,
-    (state, { nextPage, videos }) => ({
+    (state, { nextPage, videos, channelsInfo }) => ({
       ...state,
       videos: {
         ...videos,
         items: nextPage
           ? [...(state.videos?.items ?? []), ...videos.items]
-          : state.videos?.items ?? [],
+          : videos.items,
+      },
+      channelsInfo: {
+        ...state.channelsInfo,
+        ...channelsInfo,
       },
     })
   )
@@ -38,6 +46,9 @@ const reducer = createAyReducer(
 export const {
   reducer: homePageReducer,
   selectHomePageState,
+  selectNextPageToken: selectHomePageNextPageToken,
+  selectVideos: selectHomePageVideos,
+  selectChannelsInfo: selectHomePageChannelsInfo,
   selectHttpResponse: selectHomePageHttpResponse,
 } = createFeature<string, IHomePageState>({
   name: homePageStateName,
