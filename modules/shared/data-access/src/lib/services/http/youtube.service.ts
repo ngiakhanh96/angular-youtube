@@ -25,7 +25,7 @@ export class YoutubeService {
     pageToken?: string
   ): Observable<IPopularYoutubeVideos> {
     const url = `${this.commonUrl}videos`;
-    const params = new HttpParams({
+    let params = new HttpParams({
       fromObject: {
         part: ['snippet,contentDetails,statistics'],
         chart: 'mostPopular',
@@ -35,7 +35,7 @@ export class YoutubeService {
       },
     });
     if (pageToken) {
-      params.set('pageToken', pageToken);
+      params = params.append('pageToken', pageToken);
     }
     return this.httpClient.get<IPopularYoutubeVideos>(url, {
       params: params,
@@ -45,7 +45,7 @@ export class YoutubeService {
 
   getChannelsInfo(channelIds: string[], maxResults = 20, pageToken?: string) {
     const url = `${this.commonUrl}channels`;
-    const params = new HttpParams({
+    let params = new HttpParams({
       fromObject: {
         part: ['snippet,contentDetails,statistics'],
         id: channelIds,
@@ -54,7 +54,7 @@ export class YoutubeService {
       },
     });
     if (pageToken) {
-      params.set('pageToken', pageToken);
+      params = params.append('pageToken', pageToken);
     }
     return this.httpClient.get<IYoutubeChannelsInfo>(url, {
       params: params,

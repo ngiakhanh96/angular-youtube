@@ -69,5 +69,11 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
 
   onScrollDown() {
     console.log('onScrollDown');
+    this.dispatchAction(
+      homePageActionGroup.loadYoutubePopularVideos({
+        nextPage: true,
+        itemPerPage: 20,
+      })
+    );
   }
 }
