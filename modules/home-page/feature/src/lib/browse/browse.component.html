@@ -1,4 +1,11 @@
-<div class="browse__container">
+<div
+  class="browse__container"
+  infiniteScroll
+  [scrollWindow]="false"
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="50"
+  (scrolled)="onScrollDown()"
+>
   @for (video of videos(); track video.videoId) {
   <div class="browse__thumbnail">
     <ay-thumbnail

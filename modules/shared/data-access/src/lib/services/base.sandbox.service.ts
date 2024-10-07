@@ -10,29 +10,27 @@ import {
 import { filter, Observable, Subscription } from 'rxjs';
 import { HttpResponse, ResponseDetails } from '../models/http-response.model';
 import { IBaseState } from '../models/state.model';
+import { selectSharedState } from '../store/base/reducers/shared.reducer';
 import {
   getResponse,
   getResponseDetails,
 } from '../store/base/selectors/base.selector';
 
-@Injectable()
-export abstract class BaseSandboxService<TState extends IBaseState>
-  implements OnDestroy
-{
+@Injectable({
+  providedIn: 'root',
+})
+export class SandboxService implements OnDestroy {
   public response$: Observable<HttpResponse>;
   public store = inject(Store);
   protected getResponseSelector: MemoizedSelector<
     object,
     HttpResponse,
-    (s1: TState) => HttpResponse
+    (s1: IBaseState) => HttpResponse
   >;
   private spinnerService = inject(SpinnerService);
   private subs: Subscription[] = [];
-  constructor(protected getStateSelector: MemoizedSelector<object, TState>) {
-    this.getResponseSelector = createSelector(
-      this.getStateSelector,
-      getResponse
-    );
+  constructor() {
+    this.getResponseSelector = createSelector(selectSharedState, getResponse);
     this.response$ = this.store.pipe(select(this.getResponseSelector));
     this.subs.push(
       this.response$.pipe(filter((p) => p != null)).subscribe((response) => {
@@ -46,7 +44,7 @@ export abstract class BaseSandboxService<TState extends IBaseState>
   }
 
   getResponseDetailsSelector(action: Action) {
-    return createSelector(this.getStateSelector, (state) =>
+    return createSelector(selectSharedState, (state) =>
       getResponseDetails(state, action.type)
     );
   }

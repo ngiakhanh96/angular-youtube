@@ -1,8 +1,7 @@
-import { emptyProps, props } from '@ngrx/store';
-import { createAyActionGroup } from '../../base/actions/base.action-group';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-export const commonActionGroup = createAyActionGroup({
-  source: 'Common',
+export const loginActionGroup = createActionGroup({
+  source: 'Login',
   events: {
     updateAccessToken: props<{ accessToken: string | undefined }>(),
     updateAccessTokenSuccess: emptyProps(),

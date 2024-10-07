@@ -8,9 +8,9 @@ import {
   BaseWithSandBoxComponent,
   IChannelItem,
   IPopularYoutubeVideos,
-  YoutubeService,
 } from '@angular-youtube/shared-data-access';
-import { Component, computed, inject, Signal } from '@angular/core';
+import { Component, computed, Signal } from '@angular/core';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 export interface IThumbnailDetails {
   videoId: string;
@@ -25,12 +25,11 @@ export interface IThumbnailDetails {
 @Component({
   selector: 'ay-browse',
   standalone: true,
-  imports: [ThumbnailComponent],
+  imports: [ThumbnailComponent, InfiniteScrollDirective],
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.scss'],
 })
 export class BrowseComponent extends BaseWithSandBoxComponent {
-  private youtubeService = inject(YoutubeService);
   protected date = new Date(2023, 9, 2, 22, 30);
   protected videosWithMetaData: Signal<IPopularYoutubeVideos | undefined>;
   protected videos: Signal<IThumbnailDetails[]>;
@@ -66,5 +65,9 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
         ) ?? []
       );
     });
+  }
+
+  onScrollDown() {
+    console.log('onScrollDown');
   }
 }

@@ -4,13 +4,11 @@ import {
   EndHeaderComponent,
   StartHeaderComponent,
 } from '@angular-youtube/header-ui';
-import {
-  BaseWithSandBoxComponent,
-  commonActionGroup,
-} from '@angular-youtube/shared-data-access';
+import { BaseWithSandBoxComponent } from '@angular-youtube/shared-data-access';
 import { AsyncPipe } from '@angular/common';
 import { Component, effect, inject, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { loginActionGroup } from 'modules/shared/data-access/src/lib/store/common/actions/common.action-group';
 
 @Component({
   selector: 'ay-master-header',
@@ -34,7 +32,7 @@ export class MasterHeaderComponent extends BaseWithSandBoxComponent {
     const user = this.user();
     console.log(user);
     this.dispatchAction(
-      commonActionGroup.updateAccessToken({ accessToken: user?.idToken })
+      loginActionGroup.updateAccessToken({ accessToken: user?.idToken })
     );
   });
   constructor() {

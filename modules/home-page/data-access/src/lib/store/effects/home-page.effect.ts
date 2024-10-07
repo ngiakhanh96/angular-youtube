@@ -9,10 +9,10 @@ import { map, switchMap } from 'rxjs';
 import { homePageActionGroup } from '../actions/home-page.action-group';
 import { selectHomePageState } from '../reducers/home-page.reducer';
 
-export class HomePageEffects extends BaseEffects<typeof homePageActionGroup> {
+export class HomePageEffects extends BaseEffects {
   private youtubeService = inject(YoutubeService);
   loadYoutubePopularVideos$ = this.createHttpEffectWithStateAndUpdateResponse(
-    this.actionsGroup.loadYoutubePopularVideos,
+    homePageActionGroup.loadYoutubePopularVideos,
     (_) => this.store.pipe(select(selectHomePageState)),
     ([action, homePageState]) => {
       return this.youtubeService
@@ -36,7 +36,7 @@ export class HomePageEffects extends BaseEffects<typeof homePageActionGroup> {
           map(([videosWithMetaData, channelsInfo]) => {
             const channelsInfoMap: Record<string, IChannelItem> = {};
             channelsInfo.items.forEach((p) => (channelsInfoMap[p.id] = p));
-            return this.actionsGroup.loadYoutubePopularVideosSuccess({
+            return homePageActionGroup.loadYoutubePopularVideosSuccess({
               nextPage: action.nextPage,
               videos: videosWithMetaData,
               channelsInfo: channelsInfoMap,
@@ -45,8 +45,4 @@ export class HomePageEffects extends BaseEffects<typeof homePageActionGroup> {
         );
     }
   );
-
-  constructor() {
-    super(homePageActionGroup);
-  }
 }

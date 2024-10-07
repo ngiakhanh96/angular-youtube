@@ -1,31 +1,25 @@
-import { createFeature, on } from '@ngrx/store';
-import { IBaseState } from '../../../models/state.model';
-import {
-  createAyReducer,
-  initialBaseState,
-} from '../../base/reducers/base.reducer';
-import { commonActionGroup } from '../actions/common.action-group';
+import { createFeature, createReducer, on } from '@ngrx/store';
+import { initialBaseState } from '../../base/reducers/base.reducer';
+import { loginActionGroup } from '../actions/common.action-group';
 
-export const commonStateName = 'common';
-export interface ICommonState extends IBaseState {
+export const loginStateName = 'login';
+export interface ILoginState {
   test: string;
 }
-export const initialCommonState: ICommonState = {
+export const initialLoginState: ILoginState = {
   ...initialBaseState,
   test: '',
 };
 
-const reducer = createAyReducer(
-  commonActionGroup,
-  initialCommonState,
-  on(commonActionGroup.updateAccessTokenSuccess, (state) => state)
+const reducer = createReducer(
+  initialLoginState,
+  on(loginActionGroup.updateAccessTokenSuccess, (state) => state)
 );
 
-export const {
-  reducer: commonReducer,
-  selectCommonState,
-  selectHttpResponse: selectCommonHttpResponse,
-} = createFeature<string, ICommonState>({
-  name: commonStateName,
+export const { reducer: loginReducer, selectLoginState } = createFeature<
+  string,
+  ILoginState
+>({
+  name: loginStateName,
   reducer: reducer,
 });

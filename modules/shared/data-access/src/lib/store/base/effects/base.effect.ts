@@ -1,11 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import {
-  Actions,
-  createEffect,
-  CreateEffectMetadata,
-  ofType,
-} from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 import { Action, ActionCreator, Creator, Store } from '@ngrx/store';
 import {
@@ -19,27 +14,12 @@ import {
 } from 'rxjs';
 import { HttpResponseStatus } from '../../../models/http-response.model';
 import { IBaseState } from '../../../models/state.model';
-import {
-  ActionForSuccessfulResponse,
-  BaseActionGroup,
-  UpdateResponseAction,
-} from '../actions/base.action-group';
+import { ActionForSuccessfulResponse } from '../actions/base.action-group';
+import { sharedActionGroup } from '../actions/shared.action-group';
 
-export abstract class BaseEffects<TActionGroup extends BaseActionGroup> {
+export abstract class BaseEffects {
   protected actions$ = inject(Actions);
   protected store = inject(Store);
-  protected sendingRequest$: Observable<
-    Action<string> | (UpdateResponseAction & Action<string>)
-  > &
-    CreateEffectMetadata;
-  protected sendingRequestWithState$: Observable<
-    Action<string> | (UpdateResponseAction & Action<string>)
-  > &
-    CreateEffectMetadata;
-  constructor(protected actionsGroup: TActionGroup) {
-    this.sendingRequest$ = this.sendingRequestFn();
-    this.sendingRequestWithState$ = this.sendingRequestWithStateFn();
-  }
 
   protected createHttpEffectAndUpdateResponse<
     TActionCreator extends ActionCreator<string, Creator<any[], Action>>
@@ -53,15 +33,15 @@ export abstract class BaseEffects<TActionGroup extends BaseActionGroup> {
       this.actions$.pipe(
         ofType(requestActionCreator),
         switchMap((requestAction) => [
-          this.actionsGroup.updateResponse({
+          sharedActionGroup.updateResponse({
             requestActionCreator: requestActionCreator,
             status: HttpResponseStatus.Pending,
             showSpinner: showSpinner,
           }),
-          this.actionsGroup.cancelRequest({
+          sharedActionGroup.cancelRequest({
             requestActionCreator: requestActionCreator,
           }),
-          this.actionsGroup.sendingRequest({
+          sharedActionGroup.sendingRequest({
             requestAction: requestAction,
             requestActionCreator: requestActionCreator,
             requestActionCallback: callBackFn as (
@@ -94,15 +74,15 @@ export abstract class BaseEffects<TActionGroup extends BaseActionGroup> {
         ofType(requestActionCreator),
         switchMap((requestActionWithState) => {
           return [
-            this.actionsGroup.updateResponse({
+            sharedActionGroup.updateResponse({
               requestActionCreator: requestActionCreator,
               status: HttpResponseStatus.Pending,
               showSpinner: showSpinner,
             }),
-            this.actionsGroup.cancelRequest({
+            sharedActionGroup.cancelRequest({
               requestActionCreator: requestActionCreator,
             }),
-            this.actionsGroup.sendingRequestWithState({
+            sharedActionGroup.sendingRequestWithState({
               requestAction: requestActionWithState,
               requestActionCreator: requestActionCreator,
               requestActionCallBackWithState: callBackFn as (
@@ -123,7 +103,7 @@ export abstract class BaseEffects<TActionGroup extends BaseActionGroup> {
   private readonly sendingRequestWithStateFn = () =>
     createEffect(() =>
       this.actions$.pipe(
-        ofType(this.actionsGroup.sendingRequestWithState),
+        ofType(sharedActionGroup.sendingRequestWithState),
         concatLatestFrom((sendingRequest) =>
           sendingRequest.observableFactory!(sendingRequest)
         ),
@@ -141,7 +121,7 @@ export abstract class BaseEffects<TActionGroup extends BaseActionGroup> {
               }
               return [
                 successAction,
-                this.actionsGroup.updateResponse({
+                sharedActionGroup.updateResponse({
                   requestActionCreator:
                     sendingRequestAction.requestActionCreator,
                   status: HttpResponseStatus.Success,
@@ -151,7 +131,7 @@ export abstract class BaseEffects<TActionGroup extends BaseActionGroup> {
             }),
             catchError((error: HttpErrorResponse) => {
               return of(
-                this.actionsGroup.updateResponse({
+                sharedActionGroup.updateResponse({
                   requestActionCreator:
                     sendingRequestAction.requestActionCreator,
                   status: HttpResponseStatus.Error,
@@ -165,7 +145,7 @@ export abstract class BaseEffects<TActionGroup extends BaseActionGroup> {
             }),
             takeUntil(
               this.actions$.pipe(
-                ofType(this.actionsGroup.cancelRequest),
+                ofType(sharedActionGroup.cancelRequest),
                 filter(
                   (action) =>
                     action.requestActionCreator ===
@@ -181,7 +161,7 @@ export abstract class BaseEffects<TActionGroup extends BaseActionGroup> {
   private readonly sendingRequestFn = () =>
     createEffect(() =>
       this.actions$.pipe(
-        ofType(this.actionsGroup.sendingRequest),
+        ofType(sharedActionGroup.sendingRequest),
         mergeMap((sendingRequestAction) =>
           sendingRequestAction.requestActionCallback!(
             sendingRequestAction.requestAction
@@ -195,7 +175,7 @@ export abstract class BaseEffects<TActionGroup extends BaseActionGroup> {
               }
               return [
                 successAction,
-                this.actionsGroup.updateResponse({
+                sharedActionGroup.updateResponse({
                   requestActionCreator:
                     sendingRequestAction.requestActionCreator,
                   status: HttpResponseStatus.Success,
@@ -205,7 +185,7 @@ export abstract class BaseEffects<TActionGroup extends BaseActionGroup> {
             }),
             catchError((error: HttpErrorResponse) => {
               return of(
-                this.actionsGroup.updateResponse({
+                sharedActionGroup.updateResponse({
                   requestActionCreator:
                     sendingRequestAction.requestActionCreator,
                   status: HttpResponseStatus.Error,
@@ -219,7 +199,7 @@ export abstract class BaseEffects<TActionGroup extends BaseActionGroup> {
             }),
             takeUntil(
               this.actions$.pipe(
-                ofType(this.actionsGroup.cancelRequest),
+                ofType(sharedActionGroup.cancelRequest),
                 filter(
                   (action) =>
                     action.requestActionCreator ===

@@ -5,10 +5,11 @@ import {
 } from '@angular-youtube/home-page-data-access';
 import {
   CommonEffects,
-  commonReducer,
-  CommonSandboxService,
-  commonStateName,
-  SandboxService,
+  loginReducer,
+  loginStateName,
+  SharedEffects,
+  sharedReducer,
+  sharedStateName,
 } from '@angular-youtube/shared-data-access';
 import { LayoutComponent } from '@angular-youtube/shell-feature';
 import { Route } from '@angular/router';
@@ -21,10 +22,10 @@ export const mainRoutes: Route[] = [
     component: LayoutComponent,
     children: [],
     providers: [
-      provideState(commonStateName, commonReducer),
+      provideState(loginStateName, loginReducer),
       provideState(homePageStateName, homePageReducer),
-      provideEffects(CommonEffects, HomePageEffects),
-      { provide: SandboxService, useExisting: CommonSandboxService },
+      provideState(sharedStateName, sharedReducer),
+      provideEffects(SharedEffects, CommonEffects, HomePageEffects),
     ],
   },
 ];

@@ -3,12 +3,13 @@
 }
 
 .browse__container {
-  @apply flex flex-row flex-wrap;
+  @apply flex flex-row flex-wrap overflow-scroll;
   row-gap: 40px;
   column-gap: 16px;
   padding-left: 24px;
   padding-right: 24px;
   padding-top: 24px;
+  height: calc(100vh - 56px);
 }
 
 .browse__thumbnail {

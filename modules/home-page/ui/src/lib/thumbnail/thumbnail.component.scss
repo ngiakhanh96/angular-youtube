@@ -7,7 +7,7 @@
 }
 
 .thumbnail__player-container {
-  @apply w-full h-full flex flex-row relative aspect-video;
+  @apply w-full flex flex-row relative aspect-video;
 }
 
 .thumbnail__player {
@@ -39,7 +39,7 @@
 }
 
 .thumbnail__channel-name {
-  @apply overflow-hidden text-ellipsis text-[#606060] whitespace-pre;
+  @apply overflow-hidden text-ellipsis text-[#606060] whitespace-pre text-[14px];
   display: -webkit-box;
   -webkit-line-clamp: 1;
   line-clamp: 1;
@@ -47,7 +47,7 @@
 }
 
 .thumbnail__video-statistic {
-  @apply flex flex-row;
+  @apply flex flex-row text-[14px];
   * {
     @apply overflow-hidden text-ellipsis text-[#606060] whitespace-pre;
   }

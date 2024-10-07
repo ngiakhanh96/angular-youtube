@@ -2,8 +2,8 @@ import { inject } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Action, MemoizedSelector, select } from '@ngrx/store';
 import { first } from 'rxjs';
-import { SandboxService } from '../injection-tokens/sandbox-service.injection-token';
 import { HttpResponseStatus } from '../models/http-response.model';
+import { SandboxService } from '../services/base.sandbox.service';
 
 export abstract class BaseWithSandBoxComponent {
   private sandbox = inject(SandboxService);
