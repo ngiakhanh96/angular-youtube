@@ -1,5 +1,5 @@
 import { SvgButtonRendererComponent } from '@angular-youtube/shared-ui';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SearchBoxComponent } from '../search-box/search-box.component';
 
 @Component({
@@ -8,5 +8,6 @@ import { SearchBoxComponent } from '../search-box/search-box.component';
   styleUrls: ['./center-header.component.scss'],
   standalone: true,
   imports: [SearchBoxComponent, SvgButtonRendererComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CenterHeaderComponent {}

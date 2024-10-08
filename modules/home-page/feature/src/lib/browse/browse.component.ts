@@ -9,7 +9,12 @@ import {
   IChannelItem,
   IPopularYoutubeVideos,
 } from '@angular-youtube/shared-data-access';
-import { Component, computed, Signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  Signal,
+} from '@angular/core';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 export interface IThumbnailDetails {
@@ -28,6 +33,7 @@ export interface IThumbnailDetails {
   imports: [ThumbnailComponent, InfiniteScrollDirective],
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BrowseComponent extends BaseWithSandBoxComponent {
   protected date = new Date(2023, 9, 2, 22, 30);

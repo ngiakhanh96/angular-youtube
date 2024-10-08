@@ -11,7 +11,12 @@ import {
   SvgButtonTemplateDirective,
 } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 
 @Component({
   selector: 'ay-end-header',
@@ -28,6 +33,7 @@ import { Component, computed, input } from '@angular/core';
     NgOptimizedImage,
     SettingsButtonComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EndHeaderComponent {
   public user = input.required<SocialUser | null>();

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   Directive,
   TemplateRef,
@@ -20,6 +21,7 @@ export class SvgButtonTemplateDirective {
   styleUrls: ['./svg-button-renderer.component.scss'],
   standalone: true,
   imports: [CommonModule, MatRippleModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SvgButtonRendererComponent {
   public avgButtonTmp = contentChild(SvgButtonTemplateDirective, {

@@ -6,7 +6,13 @@ import {
 } from '@angular-youtube/header-ui';
 import { BaseWithSandBoxComponent } from '@angular-youtube/shared-data-access';
 import { AsyncPipe } from '@angular/common';
-import { Component, effect, inject, Signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  Signal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { loginActionGroup } from 'modules/shared/data-access/src/lib/store/common/actions/common.action-group';
 
@@ -21,6 +27,7 @@ import { loginActionGroup } from 'modules/shared/data-access/src/lib/store/commo
     EndHeaderComponent,
     AsyncPipe,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MasterHeaderComponent extends BaseWithSandBoxComponent {
   protected authService = inject(SocialAuthService);

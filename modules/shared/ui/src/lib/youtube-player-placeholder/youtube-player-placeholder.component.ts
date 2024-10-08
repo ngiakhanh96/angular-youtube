@@ -1,11 +1,15 @@
-import { Component, computed, input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 
 /**  Quality of the placeholder image.  */
 export type PlaceholderImageQuality = 'high' | 'standard' | 'low';
 
 @Component({
   selector: 'ay-youtube-player-placeholder',
-  encapsulation: ViewEncapsulation.None,
   templateUrl: './youtube-player-placeholder.component.html',
   standalone: true,
   styleUrls: ['./youtube-player-placeholder.component.scss'],
@@ -17,6 +21,7 @@ export type PlaceholderImageQuality = 'high' | 'standard' | 'low';
     '[style.height]': 'height()',
     '[style.borderRadius]': 'borderRadius()',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class YouTubePlayerPlaceholderComponent {
   /** ID of the video for which to show the placeholder. */

@@ -1,5 +1,11 @@
 import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, inject, input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  OnInit,
+} from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
   RouteConfigLoadEnd,
@@ -22,6 +28,7 @@ import { SpinnerService } from './spinner.service';
     RouterModule,
   ],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpinnerComponent implements OnInit {
   detectRouteTransitions = input(false);

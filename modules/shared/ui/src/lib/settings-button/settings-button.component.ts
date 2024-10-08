@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SvgButtonRendererComponent } from '../svg-button-renderer/svg-button-renderer.component';
 
 @Component({
@@ -7,5 +7,6 @@ import { SvgButtonRendererComponent } from '../svg-button-renderer/svg-button-re
   styleUrls: ['./settings-button.component.scss'],
   standalone: true,
   imports: [SvgButtonRendererComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsButtonComponent {}

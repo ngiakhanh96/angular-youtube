@@ -3,7 +3,14 @@ import {
   YouTubePlayerComponent,
 } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
-import { Component, computed, input, signal, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
 
 @Component({
   selector: 'ay-thumbnail',
@@ -11,6 +18,7 @@ import { Component, computed, input, signal, viewChild } from '@angular/core';
   imports: [YouTubePlayerComponent, NgOptimizedImage, SettingsButtonComponent],
   templateUrl: './thumbnail.component.html',
   styleUrls: ['./thumbnail.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThumbnailComponent {
   videoId = input.required<string>();
