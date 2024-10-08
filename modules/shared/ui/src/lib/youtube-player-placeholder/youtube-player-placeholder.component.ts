@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   input,
+  ViewEncapsulation,
 } from '@angular/core';
 
 /**  Quality of the placeholder image.  */
@@ -13,6 +14,7 @@ export type PlaceholderImageQuality = 'high' | 'standard' | 'low';
   templateUrl: './youtube-player-placeholder.component.html',
   standalone: true,
   styleUrls: ['./youtube-player-placeholder.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   host: {
     class: 'youtube-player-placeholder',
     '[class.youtube-player-placeholder-loading]': 'isLoading()',
