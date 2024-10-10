@@ -7,10 +7,11 @@ import {
   contentChild,
   inject,
   input,
+  output,
 } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 
-@Directive({ selector: '[ayTopbarMenuButtonTmp]', standalone: true })
+@Directive({ selector: '[aySvgButtonTmp]', standalone: true })
 export class SvgButtonTemplateDirective {
   template = inject<TemplateRef<unknown>>(TemplateRef);
 }
@@ -31,4 +32,8 @@ export class SvgButtonRendererComponent {
   public ariaLabel = input('');
   public viewBox = input('');
   public path = input('');
+  public disabled = input<boolean>(false);
+  public radius = input<number>(20);
+
+  click = output<MouseEvent>();
 }

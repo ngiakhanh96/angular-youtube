@@ -9,6 +9,7 @@
       [videoId]="videoId()"
       [playerVars]="playerVars()"
       [showPlayButton]="false"
+      [silentLoad]="true"
       (ready)="onReady()"
     />
     <div
@@ -21,7 +22,7 @@
   <div class="thumbnail__meta">
     <div class="thumbnail__channel-logo">
       <img
-        alt=""
+        alt="thumbnail channel logo"
         class="yt-core-image yt-spec-avatar-shape__image yt-core-image--fill-parent-height yt-core-image--fill-parent-width yt-core-image--content-mode-scale-to-fill yt-core-image--loaded"
         [ngSrc]="channelLogoUrl()"
         width="36"

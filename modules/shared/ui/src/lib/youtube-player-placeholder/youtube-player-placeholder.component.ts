@@ -5,6 +5,10 @@ import {
   input,
   ViewEncapsulation,
 } from '@angular/core';
+import {
+  SvgButtonRendererComponent,
+  SvgButtonTemplateDirective,
+} from '../svg-button-renderer/svg-button-renderer.component';
 
 /**  Quality of the placeholder image.  */
 export type PlaceholderImageQuality = 'high' | 'standard' | 'low';
@@ -15,6 +19,7 @@ export type PlaceholderImageQuality = 'high' | 'standard' | 'low';
   standalone: true,
   styleUrls: ['./youtube-player-placeholder.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  imports: [SvgButtonRendererComponent, SvgButtonTemplateDirective],
   host: {
     class: 'youtube-player-placeholder',
     '[class.youtube-player-placeholder-loading]': 'isLoading()',

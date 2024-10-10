@@ -200,7 +200,7 @@ export class YouTubePlayerComponent implements OnDestroy {
   placeholderImageQuality = input<PlaceholderImageQuality>('standard');
 
   showPlayButton = input(true);
-  silentLoad = input(true);
+  silentLoad = input(false);
 
   /** Outputs are direct proxies from the player itself. */
   readonly ready = output<YT.Player>();

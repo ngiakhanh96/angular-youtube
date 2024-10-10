@@ -15,6 +15,7 @@ import {
   importProvidersFrom,
   provideZoneChangeDetection,
 } from '@angular/core';
+import { MAT_RIPPLE_GLOBAL_OPTIONS } from '@angular/material/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
@@ -27,6 +28,15 @@ export const appConfig: ApplicationConfig = {
     provideEffects(),
     // provideExperimentalZonelessChangeDetection(),
     provideZoneChangeDetection({ eventCoalescing: true }),
+    {
+      provide: MAT_RIPPLE_GLOBAL_OPTIONS,
+      useValue: {
+        animation: {
+          enterDuration: 200,
+          exitDuration: 200,
+        },
+      },
+    },
     provideRouter(
       mainRoutes,
       withInMemoryScrolling({

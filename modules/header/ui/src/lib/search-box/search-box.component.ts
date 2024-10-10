@@ -1,3 +1,4 @@
+import { SvgButtonRendererComponent } from '@angular-youtube/shared-ui';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
@@ -5,6 +6,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss'],
   standalone: true,
+  imports: [SvgButtonRendererComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent {
