@@ -1,3 +1,14 @@
+@use '@angular/material' as mat;
+
+$theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+    ),
+  )
+);
+
 .spinner-container {
   position: fixed;
   height: 100%;
@@ -9,4 +20,5 @@
   left: 0;
   background: rgba(0, 0, 0, 0.32);
   z-index: 2000;
+  @include mat.progress-spinner-color($theme, $color-variant: primary);
 }

@@ -1,5 +1,8 @@
-import { SvgButtonRendererComponent } from '@angular-youtube/shared-ui';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  SidebarService,
+  SvgButtonRendererComponent,
+} from '@angular-youtube/shared-ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 @Component({
   selector: 'ay-icon-button',
@@ -9,4 +12,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   imports: [SvgButtonRendererComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IconButtonComponent {}
+export class IconButtonComponent {
+  sidebarService = inject(SidebarService);
+
+  onClick() {
+    this.sidebarService.toggle();
+  }
+}

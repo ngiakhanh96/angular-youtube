@@ -7,7 +7,6 @@ import {
   contentChild,
   inject,
   input,
-  output,
 } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 
@@ -34,6 +33,4 @@ export class SvgButtonRendererComponent {
   public path = input('');
   public disabled = input<boolean>(false);
   public radius = input<number>(20);
-
-  click = output<MouseEvent>();
 }

@@ -7,7 +7,6 @@
   [matRippleColor]="'rgb(0, 0, 0, 0.2)'"
   [matRippleRadius]="radius()"
   [matRippleDisabled]="disabled()"
-  (click)="click.emit($event)"
 >
   <ng-template [ngTemplateOutlet]="avgButtonTmp()! || default"></ng-template>
 </button>

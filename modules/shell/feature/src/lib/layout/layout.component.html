@@ -1,3 +1,18 @@
-<ay-master-header></ay-master-header>
-<ay-browse></ay-browse>
-
+<mat-sidenav-container>
+  <mat-sidenav
+    #sideNav
+    [mode]="mode()"
+    [fixedInViewport]="mobileQueryMatches()"
+    [opened]="sidebarService.state$ | async"
+  >
+    <mat-nav-list>
+      @for (nav of fillerNav; track nav) {
+      <a mat-list-item routerLink=".">{{ nav }}</a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <ay-master-header></ay-master-header>
+    <ay-browse></ay-browse>
+  </mat-sidenav-content>
+</mat-sidenav-container>
