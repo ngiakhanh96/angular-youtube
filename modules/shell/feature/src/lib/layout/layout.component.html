@@ -4,6 +4,7 @@
     [mode]="mode()"
     [fixedInViewport]="mobileQueryMatches()"
     [opened]="sidebarService.state$ | async"
+    (openedChange)="onOpenedChange($event)"
   >
     <mat-nav-list>
       @for (nav of fillerNav; track nav) {

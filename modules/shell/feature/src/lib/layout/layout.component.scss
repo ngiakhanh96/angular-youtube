@@ -1,4 +1,8 @@
 :host {
   min-height: 100%;
-  @apply flex-row w-full h-full relative block
+  @apply flex-row w-full h-full relative block;
+}
+
+mat-sidenav {
+  @apply rounded-none w-60;
 }

@@ -30,7 +30,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 export class LayoutComponent {
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
   media = inject(MediaMatcher);
-  mobileQuery = this.media.matchMedia('(max-width: 600px)');
+  mobileQuery = this.media.matchMedia('(max-width: 1312px)');
   mobileQueryMatches = signal(this.mobileQuery.matches);
   mode = computed(() => (this.mobileQueryMatches() ? 'over' : 'side'));
   sidebarService = inject(SidebarService);
@@ -38,5 +38,9 @@ export class LayoutComponent {
     this.mobileQuery.onchange = (event: MediaQueryListEvent) => {
       this.mobileQueryMatches.set(event.matches);
     };
+  }
+
+  onOpenedChange(state: boolean) {
+    this.sidebarService.setState(state);
   }
 }

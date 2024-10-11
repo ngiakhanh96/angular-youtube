@@ -11,13 +11,8 @@ export class SidebarService {
 
   state$ = this.stateSubject.asObservable();
 
-  open() {
-    this.currentState = true;
-    this.stateSubject.next(this.currentState);
-  }
-
-  collapse() {
-    this.currentState = false;
+  setState(state: boolean) {
+    this.currentState = state;
     this.stateSubject.next(this.currentState);
   }
 
