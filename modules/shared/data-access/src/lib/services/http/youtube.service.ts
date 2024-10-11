@@ -18,6 +18,7 @@ export const AUTHORIZED = new HttpContextToken<boolean>(() => true);
 export class YoutubeService {
   private apiKey = inject(YoutubeApiKey);
   private httpClient = inject(HttpClient);
+  //TODO should move to appconfig
   private commonUrl = 'https://youtube.googleapis.com/youtube/v3/';
 
   getPopularVideos(

@@ -3,7 +3,7 @@ import {
   selectHomePageChannelsInfo,
   selectHomePageVideos,
 } from '@angular-youtube/home-page-data-access';
-import { ThumbnailComponent } from '@angular-youtube/home-page-ui';
+import { RichGridRenderComponent } from '@angular-youtube/home-page-ui';
 import {
   BaseWithSandBoxComponent,
   IChannelItem,
@@ -30,7 +30,7 @@ export interface IThumbnailDetails {
 @Component({
   selector: 'ay-browse',
   standalone: true,
-  imports: [ThumbnailComponent, InfiniteScrollDirective],
+  imports: [RichGridRenderComponent, InfiniteScrollDirective],
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

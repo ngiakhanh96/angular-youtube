@@ -13,28 +13,28 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'ay-thumbnail',
+  selector: 'ay-rich-grid-renderer',
   standalone: true,
   imports: [YouTubePlayerComponent, NgOptimizedImage, SettingsButtonComponent],
-  templateUrl: './thumbnail.component.html',
-  styleUrls: ['./thumbnail.component.scss'],
+  templateUrl: './rich-grid-renderer.component.html',
+  styleUrls: ['./rich-grid-renderer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ThumbnailComponent {
+export class RichGridRenderComponent {
   videoId = input.required<string>();
   title = input.required<string>();
   channelName = input.required<string>();
   viewCount = input.required<number>();
   viewCountString = computed(() =>
-    ThumbnailComponent.computeViewCountString(this.viewCount())
+    RichGridRenderComponent.computeViewCountString(this.viewCount())
   );
   publishedDate = input.required<Date>();
   publishDateString = computed(() =>
-    ThumbnailComponent.computePublishDateString(this.publishedDate())
+    RichGridRenderComponent.computePublishDateString(this.publishedDate())
   );
   duration = input.required<string>();
   durationString = computed(() =>
-    ThumbnailComponent.computeDurationString(this.duration())
+    RichGridRenderComponent.computeDurationString(this.duration())
   );
   channelLogoUrl = input.required<string>();
   _player = viewChild.required(YouTubePlayerComponent);
@@ -65,10 +65,10 @@ export class ThumbnailComponent {
   });
   thumbnailDurationDisplay = signal('flex');
   static secondsInOneMinute = 60;
-  static secondsInOneHour = ThumbnailComponent.secondsInOneMinute * 60;
-  static secondsInOneDay = ThumbnailComponent.secondsInOneHour * 24;
-  static secondsInOneMonth = ThumbnailComponent.secondsInOneDay * 30;
-  static secondsInOneYear = ThumbnailComponent.secondsInOneMonth * 12;
+  static secondsInOneHour = RichGridRenderComponent.secondsInOneMinute * 60;
+  static secondsInOneDay = RichGridRenderComponent.secondsInOneHour * 24;
+  static secondsInOneMonth = RichGridRenderComponent.secondsInOneDay * 30;
+  static secondsInOneYear = RichGridRenderComponent.secondsInOneMonth * 12;
   _isAlreadyPlayedOnce = false;
   _isReady = false;
   _onMouseEnterInterval?: number;
@@ -118,36 +118,36 @@ export class ThumbnailComponent {
       (new Date().getTime() - date.getTime()) / 1000
     );
     let dateDiffNumber = 0;
-    if (dateDiffInSeconds <= ThumbnailComponent.secondsInOneMinute) {
+    if (dateDiffInSeconds <= RichGridRenderComponent.secondsInOneMinute) {
       publishDateString += `${dateDiffInSeconds} second`;
       dateDiffNumber = dateDiffInSeconds;
-    } else if (dateDiffInSeconds <= ThumbnailComponent.secondsInOneHour) {
+    } else if (dateDiffInSeconds <= RichGridRenderComponent.secondsInOneHour) {
       const dateDiffInMinutes = Math.floor(
-        dateDiffInSeconds / ThumbnailComponent.secondsInOneMinute
+        dateDiffInSeconds / RichGridRenderComponent.secondsInOneMinute
       );
       publishDateString += `${dateDiffInMinutes} minute`;
       dateDiffNumber = dateDiffInMinutes;
-    } else if (dateDiffInSeconds <= ThumbnailComponent.secondsInOneDay) {
+    } else if (dateDiffInSeconds <= RichGridRenderComponent.secondsInOneDay) {
       const dateDiffInMinutes = Math.floor(
-        dateDiffInSeconds / ThumbnailComponent.secondsInOneHour
+        dateDiffInSeconds / RichGridRenderComponent.secondsInOneHour
       );
       publishDateString += `${dateDiffInMinutes} hour`;
       dateDiffNumber = dateDiffInMinutes;
-    } else if (dateDiffInSeconds <= ThumbnailComponent.secondsInOneMonth) {
+    } else if (dateDiffInSeconds <= RichGridRenderComponent.secondsInOneMonth) {
       const dateDiffInMinutes = Math.floor(
-        dateDiffInSeconds / ThumbnailComponent.secondsInOneDay
+        dateDiffInSeconds / RichGridRenderComponent.secondsInOneDay
       );
       publishDateString += `${dateDiffInMinutes} day`;
       dateDiffNumber = dateDiffInMinutes;
-    } else if (dateDiffInSeconds <= ThumbnailComponent.secondsInOneYear) {
+    } else if (dateDiffInSeconds <= RichGridRenderComponent.secondsInOneYear) {
       const dateDiffInMinutes = Math.floor(
-        dateDiffInSeconds / ThumbnailComponent.secondsInOneMonth
+        dateDiffInSeconds / RichGridRenderComponent.secondsInOneMonth
       );
       publishDateString += `${dateDiffInMinutes} month`;
       dateDiffNumber = dateDiffInMinutes;
     } else {
       const dateDiffInMinutes = Math.floor(
-        dateDiffInSeconds / ThumbnailComponent.secondsInOneYear
+        dateDiffInSeconds / RichGridRenderComponent.secondsInOneYear
       );
       publishDateString += `${dateDiffInMinutes} year`;
       dateDiffNumber = dateDiffInMinutes;
@@ -227,7 +227,8 @@ export class ThumbnailComponent {
       .forEach((amount, index) => {
         if (index <= matches.length - 2 - 2) {
           hours +=
-            amount * ThumbnailComponent.hoursInIntervals[durationArrIndex++];
+            amount *
+            RichGridRenderComponent.hoursInIntervals[durationArrIndex++];
           if (index === matches.length - 2 - 2 && hours > 0) {
             durationString += `${hours}`;
           }

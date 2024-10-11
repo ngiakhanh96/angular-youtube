@@ -4,4 +4,8 @@
 
 #button {
   @apply w-full;
+
+  svg {
+    @apply pointer-events-none block w-full h-full opacity-60;
+  }
 }

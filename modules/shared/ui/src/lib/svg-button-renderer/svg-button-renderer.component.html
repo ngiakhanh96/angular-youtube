@@ -8,7 +8,7 @@
   [matRippleRadius]="radius()"
   [matRippleDisabled]="disabled()"
 >
-  <ng-template [ngTemplateOutlet]="avgButtonTmp()! || default"></ng-template>
+  <ng-template [ngTemplateOutlet]="avgButtonTmp() ?? default"></ng-template>
 </button>
 <ng-template #default>
   <svg
@@ -16,13 +16,6 @@
     preserveAspectRatio="xMidYMid meet"
     focusable="false"
     aria-hidden="true"
-    style="
-      pointer-events: none;
-      display: block;
-      width: 100%;
-      height: 100%;
-      opacity: 0.6;
-    "
   >
     <g>
       <path [attr.d]="path()"></path>
