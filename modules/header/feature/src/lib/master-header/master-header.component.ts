@@ -11,6 +11,7 @@ import {
   Component,
   effect,
   inject,
+  input,
   Signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -30,6 +31,7 @@ import { loginActionGroup } from 'modules/shared/data-access/src/lib/store/commo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MasterHeaderComponent extends BaseWithSandBoxComponent {
+  showStartHeader = input.required();
   protected authService = inject(SocialAuthService);
   protected user: Signal<SocialUser | null> = toSignal(
     this.authService.authState,
@@ -42,7 +44,4 @@ export class MasterHeaderComponent extends BaseWithSandBoxComponent {
       loginActionGroup.updateAccessToken({ accessToken: user?.idToken })
     );
   });
-  constructor() {
-    super();
-  }
 }

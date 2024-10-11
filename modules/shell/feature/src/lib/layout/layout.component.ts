@@ -1,4 +1,5 @@
 import { MasterHeaderComponent } from '@angular-youtube/header-feature';
+import { StartHeaderComponent } from '@angular-youtube/header-ui';
 import { BrowseComponent } from '@angular-youtube/home-page-feature';
 import { SidebarService } from '@angular-youtube/shared-ui';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -22,6 +23,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatSidenavModule,
     AsyncPipe,
     MatListModule,
+    StartHeaderComponent,
   ],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
@@ -29,11 +31,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 })
 export class LayoutComponent {
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
+  sidebarService = inject(SidebarService);
   media = inject(MediaMatcher);
-  mobileQuery = this.media.matchMedia('(max-width: 1312px)');
+  //TODO should change to 1312px later
+  mobileQuery = this.media.matchMedia('(max-width: 950px)');
   mobileQueryMatches = signal(this.mobileQuery.matches);
   mode = computed(() => (this.mobileQueryMatches() ? 'over' : 'side'));
-  sidebarService = inject(SidebarService);
+  showStartHeader = signal(true);
   constructor() {
     this.mobileQuery.onchange = (event: MediaQueryListEvent) => {
       this.mobileQueryMatches.set(event.matches);
@@ -42,5 +46,15 @@ export class LayoutComponent {
 
   onOpenedChange(state: boolean) {
     this.sidebarService.setState(state);
+  }
+
+  onOpenedStart() {
+    if (this.mode() === 'side') {
+      this.showStartHeader.set(false);
+    }
+  }
+
+  onClosedStart() {
+    this.showStartHeader.set(true);
   }
 }

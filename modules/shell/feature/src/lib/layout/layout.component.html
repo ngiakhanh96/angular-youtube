@@ -1,19 +1,22 @@
-<mat-sidenav-container>
+<mat-sidenav-container [@.disabled]="true">
   <mat-sidenav
     #sideNav
     [mode]="mode()"
     [fixedInViewport]="mobileQueryMatches()"
     [opened]="sidebarService.state$ | async"
     (openedChange)="onOpenedChange($event)"
+    (openedStart)="onOpenedStart()"
+    (closedStart)="onClosedStart()"
   >
     <mat-nav-list>
+      <ay-start-header></ay-start-header>
       @for (nav of fillerNav; track nav) {
       <a mat-list-item routerLink=".">{{ nav }}</a>
       }
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <ay-master-header></ay-master-header>
+    <ay-master-header [showStartHeader]="showStartHeader()"></ay-master-header>
     <ay-browse></ay-browse>
   </mat-sidenav-content>
 </mat-sidenav-container>
