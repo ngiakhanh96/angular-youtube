@@ -3,13 +3,7 @@
 }
 
 .master-header {
-  padding-left: 16px;
-  padding-right: 16px;
-  @apply flex justify-between;
-  border-bottom-color: rgb(218, 220, 224);
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  height: 56px;
+  @apply flex justify-between h-[56px] pl-[16px] pr-[16px];
 
   > * {
     @apply flex;

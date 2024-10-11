@@ -2,9 +2,9 @@ import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import {
   CenterHeaderComponent,
   EndHeaderComponent,
-  StartHeaderComponent,
 } from '@angular-youtube/header-ui';
 import { BaseWithSandBoxComponent } from '@angular-youtube/shared-data-access';
+import { LogoMenuComponent } from '@angular-youtube/shared-ui';
 import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -23,7 +23,7 @@ import { loginActionGroup } from 'modules/shared/data-access/src/lib/store/commo
   styleUrls: ['./master-header.component.scss'],
   standalone: true,
   imports: [
-    StartHeaderComponent,
+    LogoMenuComponent,
     CenterHeaderComponent,
     EndHeaderComponent,
     AsyncPipe,

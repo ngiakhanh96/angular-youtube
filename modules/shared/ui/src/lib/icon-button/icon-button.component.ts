@@ -1,8 +1,6 @@
-import {
-  SidebarService,
-  SvgButtonRendererComponent,
-} from '@angular-youtube/shared-ui';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { SidebarService } from '../sidebar/sidebar.service';
+import { SvgButtonRendererComponent } from '../svg-button-renderer/svg-button-renderer.component';
 
 @Component({
   selector: 'ay-icon-button',

@@ -37,7 +37,10 @@
         "modules/shell/data-access/src/index.ts"
       ],
       "@angular-youtube/shell-feature": ["modules/shell/feature/src/index.ts"],
-      "@angular-youtube/shell-ui": ["modules/shell/ui/src/index.ts"]
+      "@angular-youtube/shell-ui": ["modules/shell/ui/src/index.ts"],
+      "@angular-youtube/sidebar-feature": [
+        "modules/sidebar/feature/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

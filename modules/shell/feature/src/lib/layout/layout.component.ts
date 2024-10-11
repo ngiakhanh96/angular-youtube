@@ -1,7 +1,7 @@
 import { MasterHeaderComponent } from '@angular-youtube/header-feature';
-import { StartHeaderComponent } from '@angular-youtube/header-ui';
 import { BrowseComponent } from '@angular-youtube/home-page-feature';
 import { SidebarService } from '@angular-youtube/shared-ui';
+import { SidebarComponent } from '@angular-youtube/sidebar-feature';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AsyncPipe } from '@angular/common';
 import {
@@ -11,7 +11,6 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
@@ -22,15 +21,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     BrowseComponent,
     MatSidenavModule,
     AsyncPipe,
-    MatListModule,
-    StartHeaderComponent,
+    SidebarComponent,
   ],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent {
-  fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
   sidebarService = inject(SidebarService);
   media = inject(MediaMatcher);
   //TODO should change to 1312px later

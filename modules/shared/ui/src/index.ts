@@ -1,4 +1,7 @@
 export * from './lib/button-renderer/button-renderer.component';
+export * from './lib/icon-button/icon-button.component';
+export * from './lib/logo-menu/logo-menu.component';
+export * from './lib/logo-renderer/logo-renderer.component';
 export * from './lib/settings-button/settings-button.component';
 export * from './lib/sidebar/sidebar.service';
 export * from './lib/spinner/spinner.component';
