@@ -3,7 +3,7 @@
 }
 
 .master-header {
-  @apply flex justify-between h-[56px] pl-[16px] pr-[16px];
+  @apply flex justify-between h-[56px] pl-[16px] pr-[32px];
 
   > * {
     @apply flex;
@@ -20,7 +20,6 @@
   }
 
   > #end {
-    @apply flex-grow-0 flex-shrink-0 items-center;
-    flex-basis: auto;
+    @apply flex-grow-0 flex-shrink-0 items-center justify-end basis-[225px];
   }
 }

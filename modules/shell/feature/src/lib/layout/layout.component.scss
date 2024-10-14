@@ -2,7 +2,9 @@
   min-height: 100%;
   @apply flex-row w-full h-full relative block;
 }
-
-mat-sidenav {
-  @apply rounded-none w-60;
+mat-sidenav-container {
+  background-color: white;
+  mat-sidenav {
+    @apply rounded-none w-[237px];
+  }
 }

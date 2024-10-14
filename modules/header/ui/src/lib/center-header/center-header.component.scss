@@ -5,18 +5,20 @@
 .center-header {
   height: 40px;
   @apply flex items-center;
-  >.search-box {
-    flex-basis: 1e-09px;
+  > .search-box {
+    flex-basis: 1e-9px;
     flex-grow: 1;
     flex-shrink: 1;
-    height: 32px;
+    height: 40px;
     padding-left: 4px;
     padding-right: 4px;
     margin-left: 40px;
   }
 
-  >.voice-search {
+  > .voice-search {
     width: 40px;
     height: 100%;
+    @apply ml-[12px] rounded-[100px];
+    background-color: rgba(0, 0, 0, 0.05);
   }
 }

@@ -16,9 +16,10 @@
     preserveAspectRatio="xMidYMid meet"
     focusable="false"
     aria-hidden="true"
+    [style.opacity]="opacity()"
   >
     <g>
-      <path [attr.d]="path()"></path>
+      <path fill="currentcolor" [attr.d]="path()"></path>
     </g>
   </svg>
 </ng-template>
