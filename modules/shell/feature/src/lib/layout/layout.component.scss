@@ -3,7 +3,9 @@
   @apply flex-row w-full h-full relative block;
 }
 mat-sidenav-container {
-  background-color: white;
+  > * {
+    background-color: white;
+  }
   mat-sidenav {
     @apply rounded-none w-[237px];
   }

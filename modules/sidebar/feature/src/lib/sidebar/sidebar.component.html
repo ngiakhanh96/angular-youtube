@@ -1,1 +1,15 @@
-<ay-logo-menu></ay-logo-menu>
+<div class="sidebar_container">
+  <ay-logo-menu></ay-logo-menu>
+  <mat-list>
+    @for (message of messages(); track message) {
+    <mat-list-item>
+      <mat-icon fontVariationSettings="'FILL' 1" matListItemIcon>home</mat-icon>
+      <h3 matListItemTitle>{{ message.from }}</h3>
+      <p matListItemLine>
+        <span>{{ message.subject }}</span>
+        <span class="demo-2"> -- {{ message.content }}</span>
+      </p>
+    </mat-list-item>
+    }
+  </mat-list>
+</div>

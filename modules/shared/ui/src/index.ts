@@ -1,4 +1,5 @@
 export * from './lib/button-renderer/button-renderer.component';
+export * from './lib/directives/icon/icon.directive';
 export * from './lib/icon-button/icon-button.component';
 export * from './lib/logo-menu/logo-menu.component';
 export * from './lib/logo-renderer/logo-renderer.component';

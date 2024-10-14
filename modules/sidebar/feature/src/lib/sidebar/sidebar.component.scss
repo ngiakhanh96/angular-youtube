@@ -1,7 +1,10 @@
 :host {
   @apply block;
 }
+.sidebar_container {
+  @apply pl-[16px];
 
-ay-logo-menu {
-  @apply h-[56px] w-[169px] ml-[16px];
+  ay-logo-menu {
+    @apply h-[56px] w-[169px];
+  }
 }

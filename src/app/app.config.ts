@@ -11,11 +11,13 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import {
+  APP_INITIALIZER,
   ApplicationConfig,
   importProvidersFrom,
   provideZoneChangeDetection,
 } from '@angular/core';
 import { MAT_RIPPLE_GLOBAL_OPTIONS } from '@angular/material/core';
+import { MatIconRegistry } from '@angular/material/icon';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
@@ -72,6 +74,18 @@ export const appConfig: ApplicationConfig = {
     {
       provide: YoutubeApiKey,
       useValue: 'AIzaSyCn5erIAtKzaNiuh-5IJgnorW7yOEH5gyE',
+    },
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      useFactory: (iconRegistry: MatIconRegistry) => () => {
+        const defaultFontSetClasses = iconRegistry.getDefaultFontSetClass();
+        const outlinedFontSetClasses = defaultFontSetClasses
+          .filter((fontSetClass) => fontSetClass !== 'material-icons')
+          .concat(['material-symbols-outlined']);
+        iconRegistry.setDefaultFontSetClass(...outlinedFontSetClasses);
+      },
+      deps: [MatIconRegistry],
     },
   ],
 };
