@@ -18,6 +18,7 @@ import {
 } from '@angular/core';
 import { MAT_RIPPLE_GLOBAL_OPTIONS } from '@angular/material/core';
 import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
@@ -78,14 +79,18 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       multi: true,
-      useFactory: (iconRegistry: MatIconRegistry) => () => {
-        const defaultFontSetClasses = iconRegistry.getDefaultFontSetClass();
-        const outlinedFontSetClasses = defaultFontSetClasses
-          .filter((fontSetClass) => fontSetClass !== 'material-icons')
-          .concat(['material-symbols-outlined']);
-        iconRegistry.setDefaultFontSetClass(...outlinedFontSetClasses);
-      },
-      deps: [MatIconRegistry],
+      useFactory:
+        (iconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) => () => {
+          const defaultFontSetClasses = iconRegistry.getDefaultFontSetClass();
+          const outlinedFontSetClasses = defaultFontSetClasses
+            .filter((fontSetClass) => fontSetClass !== 'material-icons')
+            .concat(['material-symbols-outlined']);
+          iconRegistry.setDefaultFontSetClass(...outlinedFontSetClasses);
+          iconRegistry.addSvgIconSet(
+            domSanitizer.bypassSecurityTrustResourceUrl('assets/icons.svg')
+          );
+        },
+      deps: [MatIconRegistry, DomSanitizer],
     },
   ],
 };

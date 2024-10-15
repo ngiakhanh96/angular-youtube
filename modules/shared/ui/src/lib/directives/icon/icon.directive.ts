@@ -12,5 +12,5 @@ import { MatIcon } from '@angular/material/icon';
 })
 export class IconDirective {
   host = inject(MatIcon);
-  fontVariationSettings = input<string>('');
+  fontVariationSettings = input<string>("'FILL' 1");
 }
