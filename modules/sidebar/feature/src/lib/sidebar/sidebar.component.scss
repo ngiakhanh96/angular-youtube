@@ -5,17 +5,29 @@
   --mdc-list-list-item-one-line-container-height: 40px;
 }
 .sidebar_container {
-  @apply pl-[16px];
+  @apply pl-[16px] flex flex-col;
 
   ay-logo-menu {
     @apply h-[56px] w-[169px];
   }
 
   .sidebar_item {
-    @apply cursor-pointer;
+    @apply cursor-pointer rounded-[10px];
   }
 
   .sidebar_itemTitle {
     @apply text-[14px] tracking-normal;
+  }
+
+  & :nth-child(n + 3 of .sidebar_section) {
+    @apply border-solid border-t border-[#0000001a];
+  }
+
+  .sidebar_header {
+    @apply flex flex-row font-medium;
+  }
+
+  mat-list {
+    @apply mt-[4px] mb-[4px] mr-[16px];
   }
 }

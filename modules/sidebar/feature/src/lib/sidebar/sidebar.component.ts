@@ -8,6 +8,7 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
+import { SidebarSectionHeaderComponent } from '../sidebar-section-header/sidebar-section-header.component';
 
 export interface ISidebarMenuItem {
   iconName: string;
@@ -17,13 +18,19 @@ export interface ISidebarMenuItem {
 @Component({
   selector: 'ay-sidebar',
   standalone: true,
-  imports: [LogoMenuComponent, MatListModule, MatIconModule, IconDirective],
+  imports: [
+    LogoMenuComponent,
+    MatListModule,
+    MatIconModule,
+    IconDirective,
+    SidebarSectionHeaderComponent,
+  ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
-  sidebarMenuItems = signal<ISidebarMenuItem[]>([
+  entrySidebarMenuItems = signal<ISidebarMenuItem[]>([
     {
       iconName: 'home',
       displayText: 'Home',
@@ -39,6 +46,45 @@ export class SidebarComponent {
     {
       iconName: 'youtube-music',
       displayText: 'Youtube Music',
+    },
+    // {
+    //   iconName: 'you',
+    //   displayText: 'You',
+    // },
+    // {
+    //   iconName: 'downloads',
+    //   displayText: 'Downloads',
+    // },
+  ]);
+
+  youSidebarMenuItems = signal<ISidebarMenuItem[]>([
+    {
+      iconName: 'history',
+      displayText: 'History',
+    },
+    {
+      iconName: 'playlists',
+      displayText: 'Playlists',
+    },
+    {
+      iconName: 'your-videos',
+      displayText: 'Your videos',
+    },
+    {
+      iconName: 'watch-later',
+      displayText: 'Watch later',
+    },
+    {
+      iconName: 'liked-videos',
+      displayText: 'Liked videos',
+    },
+    {
+      iconName: 'downloads',
+      displayText: 'Downloads',
+    },
+    {
+      iconName: 'your-clips',
+      displayText: 'Your clips',
     },
   ]);
 
