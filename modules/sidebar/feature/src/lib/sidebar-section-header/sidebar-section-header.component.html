@@ -1,13 +1,10 @@
 <div class="sidebar_section_header">
-  <div>{{ displayText() }}</div>
-  <div>
-    <svg
-      [attr.viewBox]="viewBox()"
-      preserveAspectRatio="xMidYMid meet"
-      focusable="false"
-      style="pointer-events: none; display: block; width: 100%; height: 100%"
-    >
-      <path [attr.d]="path()"></path>
-    </svg>
+  <div class="sidebar_section_text">{{ displayText() }}</div>
+  <div class="sidebar_section_icon">
+    <mat-icon
+      aria-hidden="false"
+      fontVariationSettings="'wght' 200"
+      [fontIcon]="fontIcon()"
+    ></mat-icon>
   </div>
 </div>

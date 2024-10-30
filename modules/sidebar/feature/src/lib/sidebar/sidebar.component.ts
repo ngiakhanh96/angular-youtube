@@ -8,6 +8,8 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
+import { SidebarItemContentComponent } from '../directives/sidebar-item-content/sidebar-item-content.component';
+import { SidebarItemDirective } from '../directives/sidebar-item/sidebar-item.directive';
 import { SidebarSectionHeaderComponent } from '../sidebar-section-header/sidebar-section-header.component';
 
 export interface ISidebarMenuItem {
@@ -24,6 +26,8 @@ export interface ISidebarMenuItem {
     MatIconModule,
     IconDirective,
     SidebarSectionHeaderComponent,
+    SidebarItemDirective,
+    SidebarItemContentComponent,
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
@@ -91,7 +95,7 @@ export class SidebarComponent {
   selectedMenuItem = 'home';
   router = inject(Router);
   onClick(menuItem: string) {
-    console.log(menuItem);
+    this.selectedMenuItem = menuItem;
     if (menuItem === 'youtube-music') {
       this.router.navigate(['/externalRedirect'], {
         state: { externalUrl: 'https://music.youtube.com/' },

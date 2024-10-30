@@ -9,38 +9,31 @@
         track sidebarMenuItem.iconName
       ) {
         <mat-list-item
+          [aySidebarItem]="sidebarMenuItem.iconName === selectedMenuItem"
           class="sidebar_item"
-          [style.backgroundColor]="
-            sidebarMenuItem.iconName === selectedMenuItem
-              ? '#0000000d'
-              : 'unset'
-          "
           (click)="onClick(sidebarMenuItem.iconName)"
         >
           <mat-icon
             [svgIcon]="sidebarMenuItem.iconName"
             matListItemIcon
           ></mat-icon>
-          <div
-            class="sidebar_itemTitle"
-            matListItemTitle
-            href="#"
-            [style.fontWeight]="
-              sidebarMenuItem.iconName === selectedMenuItem ? '500' : 'unset'
-            "
-            >{{ sidebarMenuItem.displayText }}</div
-          >
+          <ay-sidebar-item-content
+            [displayText]="sidebarMenuItem.displayText"
+          ></ay-sidebar-item-content>
         </mat-list-item>
       }
     </mat-list>
   </div>
   <div class="sidebar_section">
     <mat-list class="sidebar_you_guide">
-      <mat-list-item class="sidebar_item" style="padding-left: 8px">
+      <mat-list-item
+        [aySidebarItem]="false"
+        class="sidebar_item"
+        style="padding-left: 8px"
+      >
         <ay-sidebar-section-header
           displayText="You"
-          viewBox="-8 4 240 16"
-          path="m9.4 18.4-.7-.7 5.6-5.6-5.7-5.7.7-.7 6.4 6.4-6.3 6.3z"
+          fontIcon="chevron_right"
         ></ay-sidebar-section-header>
       </mat-list-item>
       @for (
@@ -48,27 +41,81 @@
         track sidebarMenuItem.iconName
       ) {
         <mat-list-item
+          [aySidebarItem]="sidebarMenuItem.iconName === selectedMenuItem"
           class="sidebar_item"
-          [style.backgroundColor]="
-            sidebarMenuItem.iconName === selectedMenuItem
-              ? '#0000000d'
-              : 'unset'
-          "
           (click)="onClick(sidebarMenuItem.iconName)"
         >
           <mat-icon
             [svgIcon]="sidebarMenuItem.iconName"
             matListItemIcon
           ></mat-icon>
-          <div
-            class="sidebar_itemTitle"
-            matListItemTitle
-            href="#"
-            [style.fontWeight]="
-              sidebarMenuItem.iconName === selectedMenuItem ? '500' : 'unset'
-            "
-            >{{ sidebarMenuItem.displayText }}</div
-          >
+          <ay-sidebar-item-content
+            [displayText]="sidebarMenuItem.displayText"
+          ></ay-sidebar-item-content>
+        </mat-list-item>
+      }
+    </mat-list>
+  </div>
+  <div class="sidebar_section">
+    <mat-list class="sidebar_you_guide">
+      <mat-list-item
+        [aySidebarItem]="false"
+        class="sidebar_item"
+        style="padding-left: 8px"
+      >
+        <ay-sidebar-section-header
+          displayText="You"
+          fontIcon="chevron_right"
+        ></ay-sidebar-section-header>
+      </mat-list-item>
+      @for (
+        sidebarMenuItem of youSidebarMenuItems();
+        track sidebarMenuItem.iconName
+      ) {
+        <mat-list-item
+          [aySidebarItem]="sidebarMenuItem.iconName === selectedMenuItem"
+          class="sidebar_item"
+          (click)="onClick(sidebarMenuItem.iconName)"
+        >
+          <mat-icon
+            [svgIcon]="sidebarMenuItem.iconName"
+            matListItemIcon
+          ></mat-icon>
+          <ay-sidebar-item-content
+            [displayText]="sidebarMenuItem.displayText"
+          ></ay-sidebar-item-content>
+        </mat-list-item>
+      }
+    </mat-list>
+  </div>
+  <div class="sidebar_section">
+    <mat-list class="sidebar_you_guide">
+      <mat-list-item
+        [aySidebarItem]="false"
+        class="sidebar_item"
+        style="padding-left: 8px"
+      >
+        <ay-sidebar-section-header
+          displayText="You"
+          fontIcon="chevron_right"
+        ></ay-sidebar-section-header>
+      </mat-list-item>
+      @for (
+        sidebarMenuItem of youSidebarMenuItems();
+        track sidebarMenuItem.iconName
+      ) {
+        <mat-list-item
+          [aySidebarItem]="sidebarMenuItem.iconName === selectedMenuItem"
+          class="sidebar_item"
+          (click)="onClick(sidebarMenuItem.iconName)"
+        >
+          <mat-icon
+            [svgIcon]="sidebarMenuItem.iconName"
+            matListItemIcon
+          ></mat-icon>
+          <ay-sidebar-item-content
+            [displayText]="sidebarMenuItem.displayText"
+          ></ay-sidebar-item-content>
         </mat-list-item>
       }
     </mat-list>
