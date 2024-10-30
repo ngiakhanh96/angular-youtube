@@ -7,12 +7,11 @@ mat-sidenav-container {
     background-color: white;
   }
   mat-sidenav {
-    @apply rounded-none w-[237px];
+    @apply rounded-none w-[237px] h-auto;
     scrollbar-color: rgba(0, 0, 0, 0.4) white;
     scrollbar-width: thin;
-    height: auto;
     &:not(:hover) {
-      height: fit-content;
+      @apply h-fit;
     }
   }
 }
