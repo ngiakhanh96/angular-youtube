@@ -16,10 +16,6 @@
     @apply cursor-pointer rounded-[10px];
   }
 
-  .sidebar_itemTitle {
-    @apply text-[14px] tracking-normal;
-  }
-
   & :nth-child(n + 3 of .sidebar_section) {
     @apply border-solid border-t border-[#0000001a];
   }
@@ -30,5 +26,13 @@
 
   mat-list {
     @apply mt-[4px] mb-[4px] mr-[16px];
+  }
+
+  .sidebar_you_guide {
+    ::ng-deep {
+      .sidebar_item_header {
+        @apply pl-[8px];
+      }
+    }
   }
 }
