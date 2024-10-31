@@ -34,6 +34,7 @@ export interface ISidebarMenuItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
+  //TODO handle filled icon on selected item
   entrySidebarMenuItems = signal<ISidebarMenuItem[]>([
     {
       iconName: 'home',

@@ -3,12 +3,12 @@ import { BrowseComponent } from '@angular-youtube/home-page-feature';
 import { SidebarService } from '@angular-youtube/shared-ui';
 import { SidebarComponent } from '@angular-youtube/sidebar-feature';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
   inject,
+  OnInit,
   signal,
 } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -20,45 +20,32 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MasterHeaderComponent,
     BrowseComponent,
     MatSidenavModule,
-    AsyncPipe,
     SidebarComponent,
   ],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
+  host: {
+    '[style.--sidebar-width]': 'sidebarWidth()',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LayoutComponent {
+export class LayoutComponent implements OnInit {
   sidebarService = inject(SidebarService);
   media = inject(MediaMatcher);
   //TODO should change to 1312px later
   mobileQuery = this.media.matchMedia('(max-width: 950px)');
   mobileQueryMatches = signal(this.mobileQuery.matches);
   mode = computed(() => (this.mobileQueryMatches() ? 'over' : 'side'));
-  showStartHeader = signal(true);
-  constructor() {
+  showStartHeader = computed(() => !this.sidebarService.isOpened());
+  sidebarWidth = signal('237px');
+
+  ngOnInit() {
     this.mobileQuery.onchange = (event: MediaQueryListEvent) => {
       this.mobileQueryMatches.set(event.matches);
-      if (!event.matches) {
-        if (this.mode() === 'side' && this.sidebarService.currentState) {
-          this.showStartHeader.set(false);
-        }
-      } else {
-        this.showStartHeader.set(true);
-      }
     };
   }
 
   onOpenedChange(state: boolean) {
     this.sidebarService.setState(state);
-  }
-
-  onOpenedStart() {
-    if (this.mode() === 'side') {
-      this.showStartHeader.set(false);
-    }
-  }
-
-  onClosedStart() {
-    this.showStartHeader.set(true);
   }
 }

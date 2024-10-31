@@ -3,10 +3,8 @@
     #sideNav
     [mode]="mode()"
     [fixedInViewport]="true"
-    [opened]="sidebarService.state$ | async"
+    [opened]="sidebarService.isOpened()"
     (openedChange)="onOpenedChange($event)"
-    (openedStart)="onOpenedStart()"
-    (closedStart)="onClosedStart()"
   >
     <ay-sidebar></ay-sidebar>
   </mat-sidenav>

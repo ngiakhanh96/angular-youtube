@@ -2,31 +2,29 @@
   @apply block;
 }
 
-.master-header {
+.master_header {
   @apply flex justify-between h-[56px] pl-[16px] pr-[32px];
 
   > * {
     @apply flex;
   }
 
-  > #start {
-    @apply flex-grow-0 flex-shrink-0;
+  > .master_header_start {
+    @apply flex-grow-0 flex-shrink-0 w-[236px];
     ay-logo-menu {
-      width: 169px;
+      @apply w-[169px];
     }
-    width: 236px;
   }
 
-  > #start-collapsed {
+  > .master_header_start-collapsed {
     @apply flex-grow-0 flex-shrink-0;
   }
 
-  > #center {
-    @apply flex-grow-0 flex-shrink items-center;
-    flex-basis: 728px;
+  > .master_header_center {
+    @apply flex-grow-0 flex-shrink items-center basis-[728px];
   }
 
-  > #end {
+  > .master_header_end {
     @apply flex-grow-0 flex-shrink-0 items-center justify-end basis-[225px];
   }
 }

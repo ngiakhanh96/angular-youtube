@@ -7,7 +7,7 @@ mat-sidenav-container {
     background-color: white;
   }
   mat-sidenav {
-    @apply rounded-none w-[237px] h-auto;
+    @apply rounded-none w-[var(--sidebar-width)] h-auto;
     ::ng-deep {
       & > div {
         scrollbar-color: rgba(0, 0, 0, 0.4) white;

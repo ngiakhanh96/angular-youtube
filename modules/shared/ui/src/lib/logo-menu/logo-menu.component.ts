@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IconButtonComponent } from '../icon-button/icon-button.component';
+import { HamburgerButtonComponent } from '../hamburger-button/hamburger-button.component';
 import { LogoRendererComponent } from '../logo-renderer/logo-renderer.component';
 
 @Component({
@@ -7,7 +7,7 @@ import { LogoRendererComponent } from '../logo-renderer/logo-renderer.component'
   templateUrl: './logo-menu.component.html',
   styleUrls: ['./logo-menu.component.scss'],
   standalone: true,
-  imports: [IconButtonComponent, LogoRendererComponent],
+  imports: [HamburgerButtonComponent, LogoRendererComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LogoMenuComponent {}

@@ -1,15 +1,15 @@
-<div class="master-header">
+<div class="master_header">
   @if (showStartHeader()) {
-    <div id="start">
+    <div class="master_header_start">
       <ay-logo-menu></ay-logo-menu>
     </div>
   } @else {
-    <div id="start-collapsed"> </div>
+    <div class="master_header_start-collapsed"> </div>
   }
-  <div id="center">
+  <div class="master_header_center">
     <ay-center-header></ay-center-header>
   </div>
-  <div id="end">
+  <div class="master_header_end">
     <ay-end-header [user]="user()"></ay-end-header>
   </div>
 </div>
