@@ -6,7 +6,7 @@ import {
   input,
 } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
-import { SidebarItemDirective } from '../sidebar-item/sidebar-item.directive';
+import { SidebarItemDirective } from '../../directives/sidebar-item/sidebar-item.directive';
 
 @Component({
   selector: 'ay-sidebar-item-content',

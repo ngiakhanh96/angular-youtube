@@ -5,7 +5,7 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class SidebarService {
-  public isOpened = signal<boolean>(true);
+  public isOpened = signal<boolean>(false);
 
   setState(state: boolean) {
     this.isOpened.set(state);

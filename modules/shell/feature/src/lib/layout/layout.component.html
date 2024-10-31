@@ -10,6 +10,11 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <ay-master-header [showStartHeader]="showStartHeader()"></ay-master-header>
-    <ay-browse></ay-browse>
+    <div class="layout_body">
+      @if (showStartHeader()) {
+        <ay-sidebar-mini></ay-sidebar-mini>
+      }
+      <ay-browse></ay-browse>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

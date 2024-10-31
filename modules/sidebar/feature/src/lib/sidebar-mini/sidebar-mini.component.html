@@ -1,0 +1,29 @@
+<div class="sidebar_mini_container">
+  <div class="sidebar_mini_section">
+    <mat-list class="sidebar_mini_entry_guide">
+      @for (
+        sidebarMenuItem of entrySidebarMenuItems();
+        track sidebarMenuItem.iconName
+      ) {
+        <mat-list-item
+          [aySidebarItem]="sidebarMenuItem.iconName === selectedMenuItem"
+          class="sidebar_mini_item"
+          (click)="onClick(sidebarMenuItem.iconName)"
+        >
+          <mat-icon
+            matListItemIcon
+            [svgIcon]="sidebarMenuItem.iconName"
+          ></mat-icon>
+          <div matListItemLine style="font-size: 10px; font-weight: 400">{{
+            sidebarMenuItem.displayText
+          }}</div>
+          <!-- <mat-icon
+            [svgIcon]="sidebarMenuItem.iconName"
+            matListItemIcon
+          ></mat-icon>
+          <div>Home</div> -->
+        </mat-list-item>
+      }
+    </mat-list>
+  </div>
+</div>

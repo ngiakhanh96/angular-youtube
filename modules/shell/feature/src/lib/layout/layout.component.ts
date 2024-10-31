@@ -1,7 +1,10 @@
 import { MasterHeaderComponent } from '@angular-youtube/header-feature';
 import { BrowseComponent } from '@angular-youtube/home-page-feature';
 import { SidebarService } from '@angular-youtube/shared-ui';
-import { SidebarComponent } from '@angular-youtube/sidebar-feature';
+import {
+  SidebarComponent,
+  SidebarMiniComponent,
+} from '@angular-youtube/sidebar-feature';
 import { MediaMatcher } from '@angular/cdk/layout';
 import {
   ChangeDetectionStrategy,
@@ -21,6 +24,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     BrowseComponent,
     MatSidenavModule,
     SidebarComponent,
+    SidebarMiniComponent,
   ],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],

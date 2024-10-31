@@ -13,14 +13,10 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
-
-export interface ISidebarMenuItem {
-  iconName: string;
-  displayText: string;
-}
+import { ISidebarMenuItem } from '../sidebar/sidebar.component';
 
 @Component({
-  selector: 'ay-sidebar',
+  selector: 'ay-sidebar-mini',
   standalone: true,
   imports: [
     LogoMenuComponent,
@@ -31,11 +27,11 @@ export interface ISidebarMenuItem {
     SidebarItemDirective,
     SidebarItemContentComponent,
   ],
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss',
+  templateUrl: './sidebar-mini.component.html',
+  styleUrl: './sidebar-mini.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent {
+export class SidebarMiniComponent {
   //TODO handle filled icon on selected item
   entrySidebarMenuItems = signal<ISidebarMenuItem[]>([
     {
@@ -54,36 +50,13 @@ export class SidebarComponent {
       iconName: 'youtube-music',
       displayText: 'Youtube Music',
     },
-  ]);
-
-  youSidebarMenuItems = signal<ISidebarMenuItem[]>([
     {
-      iconName: 'history',
-      displayText: 'History',
-    },
-    {
-      iconName: 'playlists',
-      displayText: 'Playlists',
-    },
-    {
-      iconName: 'your-videos',
-      displayText: 'Your videos',
-    },
-    {
-      iconName: 'watch-later',
-      displayText: 'Watch later',
-    },
-    {
-      iconName: 'liked-videos',
-      displayText: 'Liked videos',
+      iconName: 'you',
+      displayText: 'You',
     },
     {
       iconName: 'downloads',
       displayText: 'Downloads',
-    },
-    {
-      iconName: 'your-clips',
-      displayText: 'Your clips',
     },
   ]);
 

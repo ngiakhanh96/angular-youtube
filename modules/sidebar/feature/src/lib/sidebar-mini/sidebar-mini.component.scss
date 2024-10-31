@@ -1,0 +1,23 @@
+:host {
+  @apply block;
+  --mat-list-list-item-leading-icon-start-space: 0px;
+  --mat-list-list-item-leading-icon-end-space: 0px;
+  --mdc-list-list-item-one-line-container-height: 44px;
+}
+
+.sidebar_mini_container {
+  @apply flex flex-col;
+
+  .sidebar_mini_item {
+    @apply cursor-pointer rounded-[10px];
+  }
+
+  mat-list {
+    @apply mt-[4px] mb-[4px];
+    ::ng-deep {
+      mat-list-item {
+        @apply flex-col;
+      }
+    }
+  }
+}
