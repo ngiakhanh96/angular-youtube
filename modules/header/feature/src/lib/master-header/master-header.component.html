@@ -1,8 +1,10 @@
 <div class="master-header">
   @if (showStartHeader()) {
-  <div id="start">
-    <ay-logo-menu></ay-logo-menu>
-  </div>
+    <div id="start">
+      <ay-logo-menu></ay-logo-menu>
+    </div>
+  } @else {
+    <div id="start-collapsed"> </div>
   }
   <div id="center">
     <ay-center-header></ay-center-header>

@@ -18,4 +18,8 @@ mat-sidenav-container {
       @apply h-fit;
     }
   }
+
+  mat-sidenav-content {
+    overflow: unset;
+  }
 }

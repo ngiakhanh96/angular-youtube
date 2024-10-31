@@ -38,6 +38,13 @@ export class LayoutComponent {
   constructor() {
     this.mobileQuery.onchange = (event: MediaQueryListEvent) => {
       this.mobileQueryMatches.set(event.matches);
+      if (!event.matches) {
+        if (this.mode() === 'side' && this.sidebarService.currentState) {
+          this.showStartHeader.set(false);
+        }
+      } else {
+        this.showStartHeader.set(true);
+      }
     };
   }
 

@@ -11,7 +11,14 @@
 
   > #start {
     @apply flex-grow-0 flex-shrink-0;
-    width: 169px;
+    ay-logo-menu {
+      width: 169px;
+    }
+    width: 236px;
+  }
+
+  > #start-collapsed {
+    @apply flex-grow-0 flex-shrink-0;
   }
 
   > #center {
