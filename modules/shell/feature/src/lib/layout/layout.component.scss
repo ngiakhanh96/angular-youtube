@@ -25,8 +25,7 @@ mat-sidenav-container {
       .layout_body {
         @apply flex flex-row;
         ay-sidebar-mini {
-          //TODO change to 64px
-          @apply w-[100px] flex-shrink-0 flex-grow-0;
+          @apply w-[66px] flex-shrink-0 flex-grow-0;
         }
       }
     }

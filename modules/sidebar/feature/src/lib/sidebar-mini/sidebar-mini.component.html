@@ -10,13 +10,11 @@
           class="sidebar_mini_item"
           (click)="onClick(sidebarMenuItem.iconName)"
         >
-          <mat-icon
-            matListItemIcon
-            [svgIcon]="sidebarMenuItem.iconName"
-          ></mat-icon>
-          <div matListItemLine style="font-size: 10px; font-weight: 400">{{
-            sidebarMenuItem.displayText
-          }}</div>
+          <div matListItemTitle>
+            <mat-icon [svgIcon]="sidebarMenuItem.iconName"></mat-icon>
+          </div>
+
+          <div matListItemLine>{{ sidebarMenuItem.displayText }}</div>
           <!-- <mat-icon
             [svgIcon]="sidebarMenuItem.iconName"
             matListItemIcon

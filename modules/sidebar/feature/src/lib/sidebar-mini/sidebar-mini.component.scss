@@ -1,8 +1,8 @@
 :host {
-  @apply block;
+  @apply block ml-[4px] mr-[4px];
   --mat-list-list-item-leading-icon-start-space: 0px;
   --mat-list-list-item-leading-icon-end-space: 0px;
-  --mdc-list-list-item-one-line-container-height: 44px;
+  --mdc-list-list-item-two-line-container-height: 74px;
 }
 
 .sidebar_mini_container {
@@ -13,10 +13,22 @@
   }
 
   mat-list {
-    @apply mt-[4px] mb-[4px];
+    @apply mb-[4px] pt-[4px];
     ::ng-deep {
       mat-list-item {
-        @apply flex-col;
+        @apply flex-col pl-0 pr-0;
+        .mdc-list-item__primary-text {
+          @apply mt-[12px] ml-[4px];
+          &::before {
+            @apply w-[16px];
+          }
+        }
+        .mdc-list-item__secondary-text {
+          @apply text-center text-[10px];
+          &::before {
+            @apply h-[16px];
+          }
+        }
       }
     }
   }
