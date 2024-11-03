@@ -1,22 +1,29 @@
-<div
-  class="browse__container"
-  infiniteScroll
-  [scrollWindow]="false"
-  [infiniteScrollDistance]="2"
-  [infiniteScrollThrottle]="50"
-  (scrolled)="onScrollDown()"
->
-  @for (video of videos(); track video.videoId) {
-  <div class="browse__thumbnail">
-    <ay-rich-grid-renderer
-      [videoId]="video.videoId"
-      [title]="video.title"
-      [channelName]="video.channelName"
-      [viewCount]="video.viewCount"
-      [publishedDate]="video.publishedDate"
-      [duration]="video.duration"
-      [channelLogoUrl]="video.channelLogoUrl"
-    />
+<div class="browse_container">
+  <div class="browse_video_categories">
+    <ay-video-categories
+      [videoCategories]="videosCategories()"
+    ></ay-video-categories>
   </div>
-  }
+  <div
+    class="browse_video_player_grid"
+    infiniteScroll
+    [scrollWindow]="false"
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="50"
+    (scrolled)="onScrollDown()"
+  >
+    @for (video of videos(); track video.videoId) {
+      <div class="browse_video_player">
+        <ay-rich-grid-renderer
+          [videoId]="video.videoId"
+          [title]="video.title"
+          [channelName]="video.channelName"
+          [viewCount]="video.viewCount"
+          [publishedDate]="video.publishedDate"
+          [duration]="video.duration"
+          [channelLogoUrl]="video.channelLogoUrl"
+        />
+      </div>
+    }
+  </div>
 </div>

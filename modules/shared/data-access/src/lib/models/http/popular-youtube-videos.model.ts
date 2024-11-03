@@ -1,26 +1,22 @@
 import {
   IDefault,
   IHigh,
+  IItem,
   ILocalized,
   IMaxres,
   IMedium,
   IPageInfo,
   IStandard,
+  IYoutubeResponse,
 } from './common.model';
 
-export interface IPopularYoutubeVideos {
-  kind: string;
-  etag: string;
-  items: IVideoItem[];
+export interface IPopularYoutubeVideos extends IYoutubeResponse<IVideoItem> {
   prevPageToken?: string;
   nextPageToken?: string;
   pageInfo: IPageInfo;
 }
 
-export interface IVideoItem {
-  kind: string;
-  etag: string;
-  id: string;
+export interface IVideoItem extends IItem {
   snippet: IVideoSnippet;
   contentDetails: IVideoContentDetails;
   statistics: IVideoStatistics;

@@ -3,7 +3,10 @@ import {
   selectHomePageChannelsInfo,
   selectHomePageVideos,
 } from '@angular-youtube/home-page-data-access';
-import { RichGridRenderComponent } from '@angular-youtube/home-page-ui';
+import {
+  RichGridRenderComponent,
+  VideoCategoriesComponent,
+} from '@angular-youtube/home-page-ui';
 import {
   BaseWithSandBoxComponent,
   IChannelItem,
@@ -13,6 +16,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  signal,
   Signal,
 } from '@angular/core';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
@@ -30,7 +34,11 @@ export interface IThumbnailDetails {
 @Component({
   selector: 'ay-browse',
   standalone: true,
-  imports: [RichGridRenderComponent, InfiniteScrollDirective],
+  imports: [
+    RichGridRenderComponent,
+    InfiniteScrollDirective,
+    VideoCategoriesComponent,
+  ],
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,6 +48,12 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
   protected videosWithMetaData: Signal<IPopularYoutubeVideos | undefined>;
   protected videos: Signal<IThumbnailDetails[]>;
   protected channelsInfo: Signal<Record<string, IChannelItem> | undefined>;
+  protected videosCategories: Signal<string[]> = signal([
+    'test1',
+    'test2',
+    'test3',
+    'test4',
+  ]);
 
   constructor() {
     super();
@@ -47,8 +61,9 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
       homePageActionGroup.loadYoutubePopularVideos({
         nextPage: false,
         itemPerPage: 20,
-      })
+      }),
     );
+    this.dispatchAction(homePageActionGroup.loadYoutubeVideoCategories());
     this.videosWithMetaData = this.select(selectHomePageVideos);
     this.channelsInfo = this.select(selectHomePageChannelsInfo);
     this.videos = computed(() => {
@@ -67,19 +82,18 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
               channelLogoUrl:
                 channelsInfo[p.snippet.channelId]?.snippet.thumbnails.default
                   .url ?? '',
-            }
+            },
         ) ?? []
       );
     });
   }
 
   onScrollDown() {
-    console.log('onScrollDown');
     this.dispatchAction(
       homePageActionGroup.loadYoutubePopularVideos({
         nextPage: true,
         itemPerPage: 20,
-      })
+      }),
     );
   }
 }

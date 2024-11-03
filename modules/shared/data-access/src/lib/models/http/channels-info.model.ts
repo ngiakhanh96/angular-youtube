@@ -1,22 +1,18 @@
 import {
   IDefault,
   IHigh,
+  IItem,
   ILocalized,
   IMedium,
   IPageInfo,
+  IYoutubeResponse,
 } from './common.model';
 
-export interface IYoutubeChannelsInfo {
-  kind: string;
-  etag: string;
+export interface IYoutubeChannelsInfo extends IYoutubeResponse<IChannelItem> {
   pageInfo: IPageInfo;
-  items: IChannelItem[];
 }
 
-export interface IChannelItem {
-  kind: string;
-  etag: string;
-  id: string;
+export interface IChannelItem extends IItem {
   snippet: IChannelSnippet;
   contentDetails: IChannelContentDetails;
   statistics: IChannelStatistics;

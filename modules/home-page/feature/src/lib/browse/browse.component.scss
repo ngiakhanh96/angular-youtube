@@ -2,17 +2,23 @@
   @apply flex-row relative block;
 }
 
-.browse__container {
-  @apply flex flex-row flex-wrap overflow-scroll;
-  row-gap: 40px;
-  column-gap: 16px;
+.browse_container {
+  @apply flex flex-col;
   padding-left: 24px;
   padding-right: 24px;
-  padding-top: 24px;
-  height: calc(100vh - 56px);
-}
-
-.browse__thumbnail {
-  flex-grow: 1;
-  flex-shrink: 1;
+  .browse_video_categories {
+    @apply h-[56px];
+  }
+  .browse_video_player_grid {
+    @apply flex flex-row flex-wrap overflow-scroll;
+    row-gap: 40px;
+    column-gap: 16px;
+    padding-top: 24px;
+    height: calc(100vh - 112px);
+    overflow-x: hidden;
+    .browse_video_player {
+      flex-grow: 1;
+      flex-shrink: 1;
+    }
+  }
 }

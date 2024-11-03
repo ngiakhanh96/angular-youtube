@@ -1,3 +1,9 @@
+export interface IYoutubeResponse<T extends IItem> {
+  kind: string;
+  etag: string;
+  items: T[];
+}
+
 export interface IDefault {
   url: string;
   width: number;
@@ -36,4 +42,10 @@ export interface ILocalized {
 export interface IPageInfo {
   totalResults: number;
   resultsPerPage: number;
+}
+
+export interface IItem {
+  kind: string;
+  etag: string;
+  id: string;
 }

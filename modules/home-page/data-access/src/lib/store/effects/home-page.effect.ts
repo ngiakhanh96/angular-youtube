@@ -22,17 +22,20 @@ export class HomePageEffects extends BaseEffects {
           ? of(homePageState.videos)
           : this.youtubeService.getPopularVideos(
               action.itemPerPage,
-              action.nextPage ? homePageState.videos?.nextPageToken : undefined
+              action.videoCategory,
+              action.nextPage ? homePageState.videos?.nextPageToken : undefined,
             )
       ).pipe(
         switchMap((videosWithMetaData) => {
           return this.youtubeService
             .getChannelsInfo(
               videosWithMetaData.items.map((p) => p.snippet.channelId),
-              action.itemPerPage
+              action.itemPerPage,
             )
             .pipe(
-              map((channelsInfo) => [videosWithMetaData, channelsInfo] as const)
+              map(
+                (channelsInfo) => [videosWithMetaData, channelsInfo] as const,
+              ),
             );
         }),
         map(([videosWithMetaData, channelsInfo]) => {
@@ -43,8 +46,21 @@ export class HomePageEffects extends BaseEffects {
             videos: videosWithMetaData,
             channelsInfo: channelsInfoMap,
           });
-        })
+        }),
       );
-    }
+    },
+  );
+
+  loadYoutubeVideoCategories$ = this.createHttpEffectAndUpdateResponse(
+    homePageActionGroup.loadYoutubeVideoCategories,
+    () => {
+      return this.youtubeService.getVideoCategories().pipe(
+        map((videoCategories) => {
+          return homePageActionGroup.loadYoutubeVideoCategoriesSuccess({
+            videoCategories: videoCategories,
+          });
+        }),
+      );
+    },
   );
 }

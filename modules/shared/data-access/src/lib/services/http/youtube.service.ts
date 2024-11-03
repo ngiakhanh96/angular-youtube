@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { YoutubeApiKey } from '../../injection-tokens/youtube-api-key.injection-token';
 import { IYoutubeChannelsInfo } from '../../models/http/channels-info.model';
 import { IPopularYoutubeVideos } from '../../models/http/popular-youtube-videos.model';
+import { IVideoCategories } from '../../models/http/video-categories-model';
 
 export const AUTHORIZED = new HttpContextToken<boolean>(() => true);
 
@@ -21,22 +22,43 @@ export class YoutubeService {
   //TODO should move to appconfig
   private commonUrl = 'https://youtube.googleapis.com/youtube/v3/';
 
+  getVideoCategories() {
+    const url = `${this.commonUrl}videoCategories`;
+    const params = new HttpParams({
+      fromObject: {
+        part: ['snippet'],
+        regionCode: 'VN',
+        key: this.apiKey,
+      },
+    });
+
+    return this.httpClient.get<IVideoCategories>(url, {
+      params: params,
+      context: new HttpContext().set(AUTHORIZED, false),
+    });
+  }
+
   getPopularVideos(
     maxResults = 20,
-    pageToken?: string
+    videoCategoryId?: number,
+    pageToken?: string,
   ): Observable<IPopularYoutubeVideos> {
     const url = `${this.commonUrl}videos`;
     let params = new HttpParams({
       fromObject: {
         part: ['snippet,contentDetails,statistics'],
         chart: 'mostPopular',
-        regionCode: 'US',
+        regionCode: 'VN',
         key: this.apiKey,
         maxResults: maxResults,
       },
     });
     if (pageToken) {
       params = params.append('pageToken', pageToken);
+    }
+
+    if (videoCategoryId) {
+      params = params.append('videoCategoryId', videoCategoryId);
     }
     return this.httpClient.get<IPopularYoutubeVideos>(url, {
       params: params,
