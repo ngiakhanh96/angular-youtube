@@ -1,3 +1,15 @@
 :host {
-  @apply block;
+  @apply block h-full;
+}
+
+.video-categories {
+  @apply flex h-full mt-[12px];
+  mat-chip-set {
+    @apply w-full;
+    ::ng-deep {
+      .mdc-evolution-chip-set__chips {
+        @apply flex-nowrap overflow-scroll overflow-y-hidden;
+      }
+    }
+  }
 }

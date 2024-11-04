@@ -1,5 +1,7 @@
-<mat-chip-set aria-label="Video Categories">
-  @for (videoCategory of videoCategories(); track videoCategory) {
-    <mat-chip>{{ videoCategory }}</mat-chip>
-  }
-</mat-chip-set>
+<div class="video-categories">
+  <mat-chip-set aria-label="Video Categories">
+    @for (videoCategory of videoCategories(); track videoCategory) {
+      <mat-chip [highlighted]="true">{{ videoCategory }}</mat-chip>
+    }
+  </mat-chip-set>
+</div>

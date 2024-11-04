@@ -13,28 +13,28 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'ay-rich-grid-renderer',
+  selector: 'ay-video-player-card',
   standalone: true,
   imports: [YouTubePlayerComponent, NgOptimizedImage, SettingsButtonComponent],
-  templateUrl: './rich-grid-renderer.component.html',
-  styleUrls: ['./rich-grid-renderer.component.scss'],
+  templateUrl: './video-player-card.component.html',
+  styleUrls: ['./video-player-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RichGridRenderComponent {
+export class VideoPlayerCardComponent {
   videoId = input.required<string>();
   title = input.required<string>();
   channelName = input.required<string>();
   viewCount = input.required<number>();
   viewCountString = computed(() =>
-    RichGridRenderComponent.computeViewCountString(this.viewCount())
+    VideoPlayerCardComponent.computeViewCountString(this.viewCount()),
   );
   publishedDate = input.required<Date>();
   publishDateString = computed(() =>
-    RichGridRenderComponent.computePublishDateString(this.publishedDate())
+    VideoPlayerCardComponent.computePublishDateString(this.publishedDate()),
   );
   duration = input.required<string>();
   durationString = computed(() =>
-    RichGridRenderComponent.computeDurationString(this.duration())
+    VideoPlayerCardComponent.computeDurationString(this.duration()),
   );
   channelLogoUrl = input.required<string>();
   _player = viewChild.required(YouTubePlayerComponent);
@@ -65,10 +65,10 @@ export class RichGridRenderComponent {
   });
   thumbnailDurationDisplay = signal('flex');
   static secondsInOneMinute = 60;
-  static secondsInOneHour = RichGridRenderComponent.secondsInOneMinute * 60;
-  static secondsInOneDay = RichGridRenderComponent.secondsInOneHour * 24;
-  static secondsInOneMonth = RichGridRenderComponent.secondsInOneDay * 30;
-  static secondsInOneYear = RichGridRenderComponent.secondsInOneMonth * 12;
+  static secondsInOneHour = VideoPlayerCardComponent.secondsInOneMinute * 60;
+  static secondsInOneDay = VideoPlayerCardComponent.secondsInOneHour * 24;
+  static secondsInOneMonth = VideoPlayerCardComponent.secondsInOneDay * 30;
+  static secondsInOneYear = VideoPlayerCardComponent.secondsInOneMonth * 12;
   _isAlreadyPlayedOnce = false;
   _isReady = false;
   _onMouseEnterInterval?: number;
@@ -95,7 +95,7 @@ export class RichGridRenderComponent {
     } else {
       this._onMouseEnterInterval ??= window.setInterval(
         () => this.onMouseEnter(),
-        100
+        100,
       );
     }
   }
@@ -115,39 +115,41 @@ export class RichGridRenderComponent {
   static computePublishDateString(date: Date) {
     let publishDateString = '';
     const dateDiffInSeconds = Math.floor(
-      (new Date().getTime() - date.getTime()) / 1000
+      (new Date().getTime() - date.getTime()) / 1000,
     );
     let dateDiffNumber = 0;
-    if (dateDiffInSeconds <= RichGridRenderComponent.secondsInOneMinute) {
+    if (dateDiffInSeconds <= VideoPlayerCardComponent.secondsInOneMinute) {
       publishDateString += `${dateDiffInSeconds} second`;
       dateDiffNumber = dateDiffInSeconds;
-    } else if (dateDiffInSeconds <= RichGridRenderComponent.secondsInOneHour) {
+    } else if (dateDiffInSeconds <= VideoPlayerCardComponent.secondsInOneHour) {
       const dateDiffInMinutes = Math.floor(
-        dateDiffInSeconds / RichGridRenderComponent.secondsInOneMinute
+        dateDiffInSeconds / VideoPlayerCardComponent.secondsInOneMinute,
       );
       publishDateString += `${dateDiffInMinutes} minute`;
       dateDiffNumber = dateDiffInMinutes;
-    } else if (dateDiffInSeconds <= RichGridRenderComponent.secondsInOneDay) {
+    } else if (dateDiffInSeconds <= VideoPlayerCardComponent.secondsInOneDay) {
       const dateDiffInMinutes = Math.floor(
-        dateDiffInSeconds / RichGridRenderComponent.secondsInOneHour
+        dateDiffInSeconds / VideoPlayerCardComponent.secondsInOneHour,
       );
       publishDateString += `${dateDiffInMinutes} hour`;
       dateDiffNumber = dateDiffInMinutes;
-    } else if (dateDiffInSeconds <= RichGridRenderComponent.secondsInOneMonth) {
+    } else if (
+      dateDiffInSeconds <= VideoPlayerCardComponent.secondsInOneMonth
+    ) {
       const dateDiffInMinutes = Math.floor(
-        dateDiffInSeconds / RichGridRenderComponent.secondsInOneDay
+        dateDiffInSeconds / VideoPlayerCardComponent.secondsInOneDay,
       );
       publishDateString += `${dateDiffInMinutes} day`;
       dateDiffNumber = dateDiffInMinutes;
-    } else if (dateDiffInSeconds <= RichGridRenderComponent.secondsInOneYear) {
+    } else if (dateDiffInSeconds <= VideoPlayerCardComponent.secondsInOneYear) {
       const dateDiffInMinutes = Math.floor(
-        dateDiffInSeconds / RichGridRenderComponent.secondsInOneMonth
+        dateDiffInSeconds / VideoPlayerCardComponent.secondsInOneMonth,
       );
       publishDateString += `${dateDiffInMinutes} month`;
       dateDiffNumber = dateDiffInMinutes;
     } else {
       const dateDiffInMinutes = Math.floor(
-        dateDiffInSeconds / RichGridRenderComponent.secondsInOneYear
+        dateDiffInSeconds / VideoPlayerCardComponent.secondsInOneYear,
       );
       publishDateString += `${dateDiffInMinutes} year`;
       dateDiffNumber = dateDiffInMinutes;
@@ -170,7 +172,7 @@ export class RichGridRenderComponent {
         Math.floor((viewCount / 1000) * 10) / 10;
       if (roundedViewCountToOneDecimalPoint >= 10) {
         roundedViewCountToOneDecimalPoint = Math.floor(
-          roundedViewCountToOneDecimalPoint
+          roundedViewCountToOneDecimalPoint,
         );
       }
       viewCountString = `${roundedViewCountToOneDecimalPoint}K`;
@@ -179,7 +181,7 @@ export class RichGridRenderComponent {
         Math.floor((viewCount / 1000000) * 10) / 10;
       if (roundedViewCountToOneDecimalPoint >= 10) {
         roundedViewCountToOneDecimalPoint = Math.floor(
-          roundedViewCountToOneDecimalPoint
+          roundedViewCountToOneDecimalPoint,
         );
       }
       viewCountString = `${roundedViewCountToOneDecimalPoint}M`;
@@ -188,7 +190,7 @@ export class RichGridRenderComponent {
         Math.floor((viewCount / 1000000000) * 10) / 10;
       if (roundedViewCountToOneDecimalPoint >= 10) {
         roundedViewCountToOneDecimalPoint = Math.floor(
-          roundedViewCountToOneDecimalPoint
+          roundedViewCountToOneDecimalPoint,
         );
       }
       viewCountString = `${roundedViewCountToOneDecimalPoint}B`;
@@ -197,7 +199,7 @@ export class RichGridRenderComponent {
         Math.floor((viewCount / 1000000000000) * 10) / 10;
       if (roundedViewCountToOneDecimalPoint >= 10) {
         roundedViewCountToOneDecimalPoint = Math.floor(
-          roundedViewCountToOneDecimalPoint
+          roundedViewCountToOneDecimalPoint,
         );
       }
       viewCountString = `${roundedViewCountToOneDecimalPoint}T`;
@@ -213,7 +215,7 @@ export class RichGridRenderComponent {
   static computeDurationString(duration: string) {
     let durationString = '';
     const matches = duration.match(
-      /P(\d+Y)?(\d+W)?(\d+D)?T(\d+H)?(\d+M)?(\d+S)?/
+      /P(\d+Y)?(\d+W)?(\d+D)?T(\d+H)?(\d+M)?(\d+S)?/,
     );
     if (!matches) {
       return durationString;
@@ -228,7 +230,7 @@ export class RichGridRenderComponent {
         if (index <= matches.length - 2 - 2) {
           hours +=
             amount *
-            RichGridRenderComponent.hoursInIntervals[durationArrIndex++];
+            VideoPlayerCardComponent.hoursInIntervals[durationArrIndex++];
           if (index === matches.length - 2 - 2 && hours > 0) {
             durationString += `${hours}`;
           }

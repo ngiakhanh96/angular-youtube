@@ -1,24 +1,20 @@
 :host {
   @apply flex-row relative block;
+  width: calc(100vw - 72px);
 }
 
 .browse_container {
-  @apply flex flex-col;
+  @apply flex flex-col pl-[24px] pr-[10px];
   padding-left: 24px;
-  padding-right: 24px;
+  padding-right: 8px;
   .browse_video_categories {
-    @apply h-[56px];
+    @apply h-[56px] pr-[14px];
   }
   .browse_video_player_grid {
-    @apply flex flex-row flex-wrap overflow-scroll;
-    row-gap: 40px;
-    column-gap: 16px;
-    padding-top: 24px;
+    @apply flex flex-row flex-wrap overflow-scroll pt-[24px] gap-x-[6px] gap-y-[34px] overflow-x-hidden;
     height: calc(100vh - 112px);
-    overflow-x: hidden;
     .browse_video_player {
-      flex-grow: 1;
-      flex-shrink: 1;
+      @apply flex-grow flex-shrink;
     }
   }
 }

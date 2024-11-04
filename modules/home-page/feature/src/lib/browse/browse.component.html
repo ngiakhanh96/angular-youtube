@@ -1,7 +1,7 @@
 <div class="browse_container">
   <div class="browse_video_categories">
     <ay-video-categories
-      [videoCategories]="videosCategories()"
+      [videoCategories]="videosCategoryDisplayText()"
     ></ay-video-categories>
   </div>
   <div
@@ -14,7 +14,7 @@
   >
     @for (video of videos(); track video.videoId) {
       <div class="browse_video_player">
-        <ay-rich-grid-renderer
+        <ay-video-player-card
           [videoId]="video.videoId"
           [title]="video.title"
           [channelName]="video.channelName"

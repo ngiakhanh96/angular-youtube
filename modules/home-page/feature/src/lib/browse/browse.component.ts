@@ -2,21 +2,22 @@ import {
   homePageActionGroup,
   selectHomePageChannelsInfo,
   selectHomePageVideos,
+  selectVideoCategories,
 } from '@angular-youtube/home-page-data-access';
 import {
-  RichGridRenderComponent,
   VideoCategoriesComponent,
+  VideoPlayerCardComponent,
 } from '@angular-youtube/home-page-ui';
 import {
   BaseWithSandBoxComponent,
   IChannelItem,
   IPopularYoutubeVideos,
+  IVideoCategories,
 } from '@angular-youtube/shared-data-access';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  signal,
   Signal,
 } from '@angular/core';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
@@ -35,7 +36,7 @@ export interface IThumbnailDetails {
   selector: 'ay-browse',
   standalone: true,
   imports: [
-    RichGridRenderComponent,
+    VideoPlayerCardComponent,
     InfiniteScrollDirective,
     VideoCategoriesComponent,
   ],
@@ -48,13 +49,8 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
   protected videosWithMetaData: Signal<IPopularYoutubeVideos | undefined>;
   protected videos: Signal<IThumbnailDetails[]>;
   protected channelsInfo: Signal<Record<string, IChannelItem> | undefined>;
-  protected videosCategories: Signal<string[]> = signal([
-    'test1',
-    'test2',
-    'test3',
-    'test4',
-  ]);
-
+  protected videosCategories: Signal<IVideoCategories | undefined>;
+  protected videosCategoryDisplayText: Signal<string[]>;
   constructor() {
     super();
     this.dispatchAction(
@@ -85,6 +81,11 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
             },
         ) ?? []
       );
+    });
+    this.videosCategories = this.select(selectVideoCategories);
+    this.videosCategoryDisplayText = computed(() => {
+      const videoCategories = this.videosCategories();
+      return videoCategories?.items.map((p) => p.snippet.title) ?? [];
     });
   }
 
