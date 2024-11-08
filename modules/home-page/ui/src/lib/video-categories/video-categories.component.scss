@@ -3,12 +3,31 @@
 }
 
 .video-categories {
-  @apply flex h-full mt-[12px];
+  @apply flex h-full;
+  .video-categories-left-button {
+    @apply mr-[12px];
+  }
+  .video-categories-right-button {
+    @apply ml-[12px];
+  }
   mat-chip-set {
-    @apply w-full;
+    @apply w-[1000px];
     ::ng-deep {
       .mdc-evolution-chip-set__chips {
-        @apply flex-nowrap overflow-scroll overflow-y-hidden;
+        @apply flex-nowrap;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        overflow: auto;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
+        mat-chip {
+          @apply mt-0 mr-0 mb-0 ml-[12px];
+          scroll-snap-align: center;
+        }
       }
     }
   }

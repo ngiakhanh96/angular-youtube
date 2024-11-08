@@ -30,6 +30,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
   styleUrls: ['./layout.component.scss'],
   host: {
     '[style.--sidebar-width]': 'sidebarWidth()',
+    '[style.--sidebar-mini-width]': 'sidebarMiniWidth()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -42,6 +43,7 @@ export class LayoutComponent implements OnInit {
   mode = computed(() => (this.mobileQueryMatches() ? 'over' : 'side'));
   showStartHeader = computed(() => !this.sidebarService.isOpened());
   sidebarWidth = signal('237px');
+  sidebarMiniWidth = signal('66px');
 
   ngOnInit() {
     this.mobileQuery.onchange = (event: MediaQueryListEvent) => {

@@ -14,7 +14,13 @@
       @if (showStartHeader()) {
         <ay-sidebar-mini></ay-sidebar-mini>
       }
-      <ay-browse></ay-browse>
+      <ay-browse
+        [style.width]="
+          showStartHeader()
+            ? 'calc(100vw - var(--sidebar-mini-width))'
+            : 'calc(100vw - var(--sidebar-width))'
+        "
+      ></ay-browse>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

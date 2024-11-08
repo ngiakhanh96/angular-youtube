@@ -1,6 +1,5 @@
 :host {
   @apply flex-row relative block;
-  width: calc(100vw - 72px);
 }
 
 .browse_container {
@@ -8,7 +7,7 @@
   padding-left: 24px;
   padding-right: 8px;
   .browse_video_categories {
-    @apply h-[56px] pr-[14px];
+    @apply h-[32px] pr-[14px] mt-[12px] mb-[12px];
   }
   .browse_video_player_grid {
     @apply flex flex-row flex-wrap overflow-scroll pt-[24px] gap-x-[6px] gap-y-[34px] overflow-x-hidden;

@@ -3,6 +3,7 @@
   @apply flex-row w-full h-full relative block;
 }
 mat-sidenav-container {
+  @apply flex;
   > * {
     background-color: white;
   }
