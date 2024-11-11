@@ -45,7 +45,6 @@ export interface IThumbnailDetails {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BrowseComponent extends BaseWithSandBoxComponent {
-  protected date = new Date(2023, 9, 2, 22, 30);
   protected videosWithMetaData: Signal<IPopularYoutubeVideos | undefined>;
   protected videos: Signal<IThumbnailDetails[]>;
   protected channelsInfo: Signal<Record<string, IChannelItem> | undefined>;

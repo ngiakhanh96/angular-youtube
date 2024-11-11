@@ -3,6 +3,7 @@ import {
   afterNextRender,
   ChangeDetectionStrategy,
   Component,
+  computed,
   ElementRef,
   inject,
   input,
@@ -16,13 +17,19 @@ import { MatChipsModule } from '@angular/material/chips';
   imports: [MatChipsModule, SvgButtonRendererComponent],
   templateUrl: './video-categories.component.html',
   styleUrls: ['./video-categories.component.scss'],
+  host: {
+    '[style.--button-width]': 'buttonWidthPx()',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoCategoriesComponent {
   videoCategories = input.required<string[]>();
   shouldShowScrollLeftButton = signal(false);
   shouldShowScrollRightButton = signal(true);
+  buttonWidth = signal(40);
+  buttonWidthPx = computed(() => this.buttonWidth + 'px');
   private videoCategoryList?: Element;
+  private static scrollingWidth = 400;
   constructor() {
     const hostNativeElement = inject(ElementRef).nativeElement as Element;
     afterNextRender({
@@ -30,33 +37,37 @@ export class VideoCategoriesComponent {
         this.videoCategoryList = hostNativeElement.getElementsByClassName(
           'mdc-evolution-chip-set__chips',
         )[0];
+        (<any>this.videoCategoryList).onscrollend = (event: Event) =>
+          this.onScrollEnd(event);
       },
     });
+  }
+
+  onScrollEnd(event: Event) {
+    if ((<Element>event.target).scrollLeft === 0) {
+      this.shouldShowScrollLeftButton.set(false);
+    } else if (
+      this.videoCategoryList &&
+      (<Element>event.target).scrollLeft ===
+        this.videoCategoryList.scrollWidth - this.videoCategoryList.clientWidth
+    ) {
+      this.shouldShowScrollRightButton.set(false);
+    }
   }
 
   onScrollLeft() {
     if (this.videoCategoryList) {
       this.shouldShowScrollRightButton.set(true);
-      const oldScrollLeftPosition = this.videoCategoryList.scrollLeft;
-      this.videoCategoryList.scrollLeft -= 400;
-      setTimeout(() => {
-        if (this.videoCategoryList?.scrollLeft === oldScrollLeftPosition) {
-          this.shouldShowScrollLeftButton.set(false);
-        }
-      }, 100);
+      this.videoCategoryList.scrollLeft -=
+        VideoCategoriesComponent.scrollingWidth;
     }
   }
 
   onScrollRight() {
     if (this.videoCategoryList) {
       this.shouldShowScrollLeftButton.set(true);
-      const oldScrollLeftPosition = this.videoCategoryList.scrollLeft;
-      this.videoCategoryList.scrollLeft += 400;
-      setTimeout(() => {
-        if (this.videoCategoryList?.scrollLeft === oldScrollLeftPosition) {
-          this.shouldShowScrollRightButton.set(false);
-        }
-      }, 100);
+      this.videoCategoryList.scrollLeft +=
+        VideoCategoriesComponent.scrollingWidth;
     }
   }
 }

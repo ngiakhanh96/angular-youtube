@@ -1,15 +1,15 @@
 @if (shouldShowPlaceholder()) {
-<ay-youtube-player-placeholder
-  [videoId]="videoId()"
-  [width]="width()"
-  [height]="height()"
-  [borderRadius]="borderRadius()"
-  [isLoading]="_isLoading()"
-  [buttonLabel]="finalPlaceholderButtonLabel()"
-  [quality]="finalPlaceholderImageQuality()"
-  [showPlayButton]="showPlayButton()"
-  (click)="_load(true)"
-/>
+  <ay-youtube-player-placeholder
+    [videoId]="videoId()"
+    [width]="width()"
+    [height]="height()"
+    [borderRadius]="borderRadius()"
+    [isLoading]="isLoading()"
+    [buttonLabel]="finalPlaceholderButtonLabel()"
+    [quality]="finalPlaceholderImageQuality()"
+    [showPlayButton]="showPlayButton()"
+    (click)="load(true)"
+  />
 }
 <div
   class="youtube-player__player"

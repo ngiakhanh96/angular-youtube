@@ -165,7 +165,9 @@ export class VideoPlayerCardComponent {
 
   static computeViewCountString(viewCount: number) {
     let viewCountString = '';
-    if (viewCount <= 1000) {
+    if (viewCount === 0) {
+      viewCountString += 'No';
+    } else if (viewCount <= 1000) {
       viewCountString = `${viewCount}`;
     } else if (viewCount <= 1000000) {
       let roundedViewCountToOneDecimalPoint =

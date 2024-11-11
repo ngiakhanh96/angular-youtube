@@ -53,7 +53,7 @@ declare global {
 
 /** Injection token used to configure the `YouTubePlayer`. */
 export const YOUTUBE_PLAYER_CONFIG = new InjectionToken<YouTubePlayerConfig>(
-  'YOUTUBE_PLAYER_CONFIG'
+  'YOUTUBE_PLAYER_CONFIG',
 );
 
 /** Object that can be used to configure the `YouTubePlayer`. */
@@ -137,13 +137,13 @@ export class YouTubePlayerComponent implements OnDestroy {
   private _existingApiReadyCallback: (() => void) | undefined;
   private _pendingPlayerState: PendingPlayerState | undefined;
   private readonly _playerChanges = new BehaviorSubject<YT.Player | undefined>(
-    undefined
+    undefined,
   );
   private readonly _nonce = inject(CSP_NONCE, { optional: true });
   private readonly _changeDetectorRef = inject(ChangeDetectorRef);
   private readonly _takeUntilDestroyed = takeUntilDestroyed();
-  protected _isLoading = signal(false);
-  protected _hasPlaceholder = signal(true);
+  protected isLoading = signal(false);
+  protected hasPlaceholder = signal(true);
 
   /** YouTube Video ID to view */
   videoId = input.required<string>();
@@ -206,25 +206,25 @@ export class YouTubePlayerComponent implements OnDestroy {
   readonly ready = output<YT.Player>();
 
   readonly stateChange = outputFromObservable(
-    this._getLazyEmitter<YT.OnStateChangeEvent>('onStateChange')
+    this._getLazyEmitter<YT.OnStateChangeEvent>('onStateChange'),
   );
 
   readonly errorThrown = outputFromObservable(
-    this._getLazyEmitter<YT.OnErrorEvent>('onError')
+    this._getLazyEmitter<YT.OnErrorEvent>('onError'),
   );
 
   readonly apiChange = outputFromObservable(
-    this._getLazyEmitter<YT.PlayerEvent>('onApiChange')
+    this._getLazyEmitter<YT.PlayerEvent>('onApiChange'),
   );
 
   readonly playbackQualityChange = outputFromObservable(
     this._getLazyEmitter<YT.OnPlaybackQualityChangeEvent>(
-      'onPlaybackQualityChange'
-    )
+      'onPlaybackQualityChange',
+    ),
   );
 
   readonly playbackRateChange = outputFromObservable(
-    this._getLazyEmitter<YT.OnPlaybackRateChangeEvent>('onPlaybackRateChange')
+    this._getLazyEmitter<YT.OnPlaybackRateChangeEvent>('onPlaybackRateChange'),
   );
 
   /** The element that will be replaced by the iframe. */
@@ -240,13 +240,13 @@ export class YouTubePlayerComponent implements OnDestroy {
     const config = inject(YOUTUBE_PLAYER_CONFIG, { optional: true });
     this.finalLoadApi = computed(() => config?.loadApi ?? this.loadApi());
     this.finalDisablePlaceholder = computed(
-      () => config?.disablePlaceholder ?? this.disablePlaceholder()
+      () => config?.disablePlaceholder ?? this.disablePlaceholder(),
     );
     this.finalPlaceholderButtonLabel = computed(
-      () => config?.placeholderButtonLabel ?? this.placeholderButtonLabel()
+      () => config?.placeholderButtonLabel ?? this.placeholderButtonLabel(),
     );
     this.finalPlaceholderImageQuality = computed(
-      () => config?.placeholderImageQuality ?? this.placeholderImageQuality()
+      () => config?.placeholderImageQuality ?? this.placeholderImageQuality(),
     );
     this._isBrowser = isPlatformBrowser(this.platformId);
 
@@ -293,11 +293,11 @@ export class YouTubePlayerComponent implements OnDestroy {
   /** See https://developers.google.com/youtube/iframe_api_reference#playVideo */
   playVideo(hidePlaceHolderWhenFinishLoading: boolean) {
     if (this._player) {
-      this._hasPlaceholder.set(false);
+      this.hasPlaceholder.set(false);
       this._player.playVideo();
     } else {
       this._getPendingState().playbackState = PlayerState.PLAYING;
-      this._load(true, hidePlaceHolderWhenFinishLoading);
+      this.load(true, hidePlaceHolderWhenFinishLoading);
     }
   }
 
@@ -479,7 +479,7 @@ export class YouTubePlayerComponent implements OnDestroy {
    * Loads the YouTube API and sets up the player.
    * @param playVideo Whether to automatically play the video once the player is loaded.
    */
-  protected _load(playVideo: boolean, hidePlaceHolderWhenFinishLoading = true) {
+  protected load(playVideo: boolean, hidePlaceHolderWhenFinishLoading = true) {
     // Don't do anything if we're not in a browser environment.
     if (!this._isBrowser) {
       return;
@@ -487,13 +487,13 @@ export class YouTubePlayerComponent implements OnDestroy {
 
     if (!window.YT || !window.YT.Player) {
       if (this.finalLoadApi()) {
-        this._isLoading.set(true);
+        this.isLoading.set(true);
         YouTubePlayerComponent.loadApi(this._nonce);
       } else if (this.showBeforeIframeApiLoads() && isDevMode()) {
         throw new Error(
           'Namespace YT not found, cannot construct embedded youtube player. ' +
             'Please install the YouTube Player API Reference for iframe Embeds: ' +
-            'https://developers.google.com/youtube/iframe_api_reference'
+            'https://developers.google.com/youtube/iframe_api_reference',
         );
       }
       if (!window.youtubeIframeAPIReady$) {
@@ -508,11 +508,11 @@ export class YouTubePlayerComponent implements OnDestroy {
         .pipe(
           filter((val) => val === true),
           take(1),
-          this._takeUntilDestroyed
+          this._takeUntilDestroyed,
         )
         .subscribe(() => {
           this._ngZone.run(() =>
-            this._createPlayer(playVideo, hidePlaceHolderWhenFinishLoading)
+            this._createPlayer(playVideo, hidePlaceHolderWhenFinishLoading),
           );
         });
     } else {
@@ -525,10 +525,10 @@ export class YouTubePlayerComponent implements OnDestroy {
   private _conditionallyLoad() {
     // If the placeholder isn't shown anymore, we have to trigger a load.
     if (!this.shouldShowPlaceholder() || this.silentLoad()) {
-      this._load(false, false);
+      this.load(false, false);
     } else if (this.playerVars()?.autoplay === 1) {
       // If it's an autoplaying video, we have to hide the placeholder and start playing.
-      this._load(true, false);
+      this.load(true, false);
     }
   }
 
@@ -543,7 +543,7 @@ export class YouTubePlayerComponent implements OnDestroy {
       return true;
     }
 
-    return this._hasPlaceholder() && !!this.videoId() && !this._player;
+    return this.hasPlaceholder() && !!this.videoId() && !this._player;
   });
 
   /** Gets an object that should be used to store the temporary API state. */
@@ -574,7 +574,7 @@ export class YouTubePlayerComponent implements OnDestroy {
    */
   private _createPlayer(
     playVideo: boolean,
-    hidePlaceHolderWhenFinishLoading: boolean
+    hidePlaceHolderWhenFinishLoading: boolean,
   ) {
     this._player?.destroy();
     this._pendingPlayer?.destroy();
@@ -604,15 +604,15 @@ export class YouTubePlayerComponent implements OnDestroy {
           playerVars: playVideo
             ? { ...(this.playerVars() || {}), autoplay: 1 }
             : this.playerVars(),
-        })
+        }),
     );
 
     const whenReady = () => {
       // Only assign the player once it's ready, otherwise YouTube doesn't expose some APIs.
       this._ngZone.run(() => {
-        this._isLoading.set(false);
+        this.isLoading.set(false);
         if (!this.silentLoad() || hidePlaceHolderWhenFinishLoading) {
-          this._hasPlaceholder.set(false);
+          this.hasPlaceholder.set(false);
         }
         this._player = player;
         this._pendingPlayer = undefined;
@@ -648,7 +648,7 @@ export class YouTubePlayerComponent implements OnDestroy {
   /** Applies any state that changed before the player was initialized. */
   private _applyPendingPlayerState(
     player: YT.Player,
-    pendingState: PendingPlayerState
+    pendingState: PendingPlayerState,
   ): void {
     const { playbackState, playbackRate, volume, muted, seek } = pendingState;
 
@@ -697,7 +697,7 @@ export class YouTubePlayerComponent implements OnDestroy {
   private _setSize() {
     this._player?.setSize(
       this.width() as unknown as number,
-      this.height() as unknown as number
+      this.height() as unknown as number,
     );
   }
 
@@ -722,7 +722,7 @@ export class YouTubePlayerComponent implements OnDestroy {
               (listener: (event: T) => void) => {
                 player.addEventListener(
                   name,
-                  listener as (event: YT.PlayerEvent) => void
+                  listener as (event: YT.PlayerEvent) => void,
                 );
               },
               (listener: (event: T) => void) => {
@@ -732,12 +732,12 @@ export class YouTubePlayerComponent implements OnDestroy {
                 try {
                   player?.removeEventListener?.(
                     name,
-                    listener as (event: YT.PlayerEvent) => void
+                    listener as (event: YT.PlayerEvent) => void,
                   );
                 } catch {
                   /* empty */
                 }
-              }
+              },
             )
           : of();
       }),
@@ -749,10 +749,10 @@ export class YouTubePlayerComponent implements OnDestroy {
             next: (value) => this._ngZone.run(() => observer.next(value)),
             error: (error) => observer.error(error),
             complete: () => observer.complete(),
-          })
+          }),
         ),
       // Ensures that everything is cleared out on destroy.
-      this._takeUntilDestroyed
+      this._takeUntilDestroyed,
     );
   }
 

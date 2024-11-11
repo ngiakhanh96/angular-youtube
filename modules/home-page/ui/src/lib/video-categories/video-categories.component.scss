@@ -3,18 +3,18 @@
 }
 
 .video-categories {
-  @apply flex h-full;
+  @apply flex h-full relative;
   .video-categories-left-button {
-    @apply mr-[12px];
+    @apply w-[var(--button-width)] absolute left-0 z-10;
   }
   .video-categories-right-button {
-    @apply ml-[12px];
+    @apply w-[var(--button-width)] absolute right-0 z-10;
   }
   mat-chip-set {
-    @apply w-[1000px];
+    @apply w-full;
     ::ng-deep {
       .mdc-evolution-chip-set__chips {
-        @apply flex-nowrap;
+        @apply flex-nowrap gap-x-[12px] ml-0;
         scroll-snap-type: x mandatory;
         scroll-behavior: smooth;
         scrollbar-width: none;
@@ -25,7 +25,7 @@
         }
 
         mat-chip {
-          @apply mt-0 mr-0 mb-0 ml-[12px];
+          @apply m-0;
           scroll-snap-align: center;
         }
       }
