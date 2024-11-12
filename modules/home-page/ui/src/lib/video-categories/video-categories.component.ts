@@ -26,8 +26,8 @@ export class VideoCategoriesComponent {
   videoCategories = input.required<string[]>();
   shouldShowScrollLeftButton = signal(false);
   shouldShowScrollRightButton = signal(true);
-  buttonWidth = signal(40);
-  buttonWidthPx = computed(() => this.buttonWidth + 'px');
+  buttonWidth = signal(56);
+  buttonWidthPx = computed(() => this.buttonWidth() + 'px');
   private videoCategoryList?: Element;
   private static scrollingWidth = 400;
   constructor() {

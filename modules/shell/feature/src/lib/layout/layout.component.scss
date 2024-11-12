@@ -5,13 +5,13 @@
 mat-sidenav-container {
   @apply flex;
   > * {
-    background-color: white;
+    background-color: var(--white-color);
   }
   mat-sidenav {
     @apply rounded-none w-[var(--sidebar-width)] h-auto;
     ::ng-deep {
       & > div {
-        scrollbar-color: rgba(0, 0, 0, 0.4) white;
+        scrollbar-color: rgba(0, 0, 0, 0.4) var(--white-color);
         scrollbar-width: thin;
       }
     }

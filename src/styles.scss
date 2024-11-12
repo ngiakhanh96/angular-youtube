@@ -2,6 +2,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --white-color: rgb(255, 255, 255);
+  --black-color: rgb(0, 0, 0);
+}
+
 html,
 body {
   @apply h-full;
@@ -9,5 +15,5 @@ body {
 body {
   margin: 0;
   font-family: 'Roboto', 'Arial', sans-serif;
-  scrollbar-color: rgba(0, 0, 0, 0.68) white;
+  scrollbar-color: rgba(0, 0, 0, 0.68) var(--white-color);
 }

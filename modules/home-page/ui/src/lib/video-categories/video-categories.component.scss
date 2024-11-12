@@ -1,15 +1,42 @@
 :host {
   @apply block h-full;
+  --mdc-chip-elevated-selected-container-color: rgba(0, 0, 0, 0.05);
 }
 
 .video-categories {
   @apply flex h-full relative;
-  .video-categories-left-button {
-    @apply w-[var(--button-width)] absolute left-0 z-10;
+  .video-categories-button-container {
+    @apply h-full absolute z-10 flex justify-center items-center;
+    &__left {
+      @apply left-0;
+    }
+    &__right {
+      @apply right-0;
+    }
+    .video-categories-button-padding {
+      @apply w-[50px] h-full pointer-events-none;
+      &__left {
+        background: linear-gradient(
+          to right,
+          var(--white-color) 20%,
+          rgba(255, 255, 255, 0) 80%
+        );
+      }
+
+      &__right {
+        background: linear-gradient(
+          to left,
+          var(--white-color) 20%,
+          rgba(255, 255, 255, 0) 80%
+        );
+      }
+    }
+
+    .video-categories-button {
+      @apply w-[24px] h-full bg-[var(--white-color)] flex justify-center items-center;
+    }
   }
-  .video-categories-right-button {
-    @apply w-[var(--button-width)] absolute right-0 z-10;
-  }
+
   mat-chip-set {
     @apply w-full;
     ::ng-deep {

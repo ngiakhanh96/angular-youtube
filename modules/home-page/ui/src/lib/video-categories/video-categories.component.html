@@ -1,12 +1,20 @@
 <div class="video-categories">
   @if (shouldShowScrollLeftButton()) {
-    <ay-svg-button-renderer
-      class="video-categories-left-button"
-      viewBox="0 0 512 512"
-      path="M256 504C119 504 8 393 8 256S119 8 256 8s248 111 248 248-111 248-248 248zM142.1 273l135.5 135.5c9.4 9.4 24.6 9.4 33.9 0l17-17c9.4-9.4 9.4-24.6 0-33.9L226.9 256l101.6-101.6c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L142.1 239c-9.4 9.4-9.4 24.6 0 34z"
-      (click)="onScrollLeft()"
+    <div
+      class="video-categories-button-container video-categories-button-container__left"
     >
-    </ay-svg-button-renderer>
+      <div class="video-categories-button">
+        <ay-svg-button-renderer
+          viewBox="0 0 24 24"
+          path="M14.96 18.96 8 12l6.96-6.96.71.71L9.41 12l6.25 6.25-.7.71z"
+          (click)="onScrollLeft()"
+        >
+        </ay-svg-button-renderer>
+      </div>
+      <div
+        class="video-categories-button-padding video-categories-button-padding__left"
+      ></div>
+    </div>
   }
 
   <mat-chip-set aria-label="Video Categories">
@@ -15,12 +23,20 @@
     }
   </mat-chip-set>
   @if (shouldShowScrollRightButton()) {
-    <ay-svg-button-renderer
-      class="video-categories-right-button"
-      viewBox="0 0 512 512"
-      path="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zm113.9 231L234.4 103.5c-9.4-9.4-24.6-9.4-33.9 0l-17 17c-9.4 9.4-9.4 24.6 0 33.9L285.1 256 183.5 357.6c-9.4 9.4-9.4 24.6 0 33.9l17 17c9.4 9.4 24.6 9.4 33.9 0L369.9 273c9.4-9.4 9.4-24.6 0-34z"
-      (click)="onScrollRight()"
+    <div
+      class="video-categories-button-container video-categories-button-container__right"
     >
-    </ay-svg-button-renderer>
+      <div
+        class="video-categories-button-padding video-categories-button-padding__right"
+      ></div>
+      <div class="video-categories-button">
+        <ay-svg-button-renderer
+          viewBox="0 0 24 24"
+          path="m9.4 18.4-.7-.7 5.6-5.6-5.7-5.7.7-.7 6.4 6.4-6.3 6.3z"
+          (click)="onScrollRight()"
+        >
+        </ay-svg-button-renderer>
+      </div>
+    </div>
   }
 </div>
