@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   ElementRef,
   inject,
   input,
@@ -28,6 +29,7 @@ export class VideoCategoriesComponent {
   shouldShowScrollRightButton = signal(true);
   buttonWidth = signal(56);
   buttonWidthPx = computed(() => this.buttonWidth() + 'px');
+  selectedVideoCategory = signal('');
   private videoCategoryList?: Element;
   private static scrollingWidth = 400;
   constructor() {
@@ -41,6 +43,18 @@ export class VideoCategoriesComponent {
           this.onScrollEnd(event);
       },
     });
+
+    //TODO change to linkedSignal in angular 19
+    effect(
+      () => {
+        this.selectedVideoCategory.set(this.videoCategories()[0]);
+      },
+      { allowSignalWrites: true },
+    );
+  }
+
+  selectVideoCategory(videoCategory: string) {
+    this.selectedVideoCategory.set(videoCategory);
   }
 
   onScrollEnd(event: Event) {

@@ -1,6 +1,8 @@
 :host {
   @apply block h-full;
-  --mdc-chip-elevated-selected-container-color: rgba(0, 0, 0, 0.05);
+  --mdc-chip-elevated-selected-container-color: rgba(0, 0, 0, 0.2);
+  --mdc-chip-elevated-container-color: rgba(0, 0, 0, 0.05);
+  --mdc-chip-outline-color: var(--white-color);
 }
 
 .video-categories {

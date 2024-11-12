@@ -19,7 +19,11 @@
 
   <mat-chip-set aria-label="Video Categories">
     @for (videoCategory of videoCategories(); track videoCategory) {
-      <mat-chip [highlighted]="true">{{ videoCategory }}</mat-chip>
+      <mat-chip
+        (click)="selectVideoCategory(videoCategory)"
+        [highlighted]="selectedVideoCategory() === videoCategory"
+        >{{ videoCategory }}</mat-chip
+      >
     }
   </mat-chip-set>
   @if (shouldShowScrollRightButton()) {
