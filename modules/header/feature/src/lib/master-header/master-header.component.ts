@@ -5,7 +5,6 @@ import {
 } from '@angular-youtube/header-ui';
 import { BaseWithSandBoxComponent } from '@angular-youtube/shared-data-access';
 import { LogoMenuComponent } from '@angular-youtube/shared-ui';
-import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,12 +21,7 @@ import { loginActionGroup } from 'modules/shared/data-access/src/lib/store/commo
   templateUrl: './master-header.component.html',
   styleUrls: ['./master-header.component.scss'],
   standalone: true,
-  imports: [
-    LogoMenuComponent,
-    CenterHeaderComponent,
-    EndHeaderComponent,
-    AsyncPipe,
-  ],
+  imports: [LogoMenuComponent, CenterHeaderComponent, EndHeaderComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MasterHeaderComponent extends BaseWithSandBoxComponent {
@@ -35,13 +29,13 @@ export class MasterHeaderComponent extends BaseWithSandBoxComponent {
   protected authService = inject(SocialAuthService);
   protected user: Signal<SocialUser | null> = toSignal(
     this.authService.authState,
-    { initialValue: null }
+    { initialValue: null },
   );
   userEffect = effect(() => {
     const user = this.user();
     console.log(user);
     this.dispatchAction(
-      loginActionGroup.updateAccessToken({ accessToken: user?.idToken })
+      loginActionGroup.updateAccessToken({ accessToken: user?.idToken }),
     );
   });
 }

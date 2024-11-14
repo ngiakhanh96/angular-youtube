@@ -1,19 +1,22 @@
 :host {
-  @apply block
+  @apply block;
 }
 
 .end-header {
-  @apply h-full flex;
-  height: 40px;
-  >* {
+  @apply h-[40px] flex;
+  > * {
     @apply h-full;
-
   }
-  >.create-content, .apps, .notifications, .settings {
-    margin-right: 8px;
-    width: 40px;
+  > .create-content,
+  .apps,
+  .notifications,
+  .settings {
+    @apply w-[40px] mr-[8px];
   }
-  >.account-profile {
-    width: 60px;
+  > .signin-button {
+    @apply w-[40px] text-[rgb(6,95,212)];
+  }
+  > .account-profile {
+    @apply w-[60px];
   }
 }

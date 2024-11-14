@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,13 +20,7 @@ import { SpinnerService } from './spinner.service';
   selector: 'ay-spinner',
   templateUrl: './spinner.component.html',
   styleUrls: ['./spinner.component.scss'],
-  imports: [
-    MatProgressSpinnerModule,
-    AsyncPipe,
-    NgIf,
-    NgTemplateOutlet,
-    RouterModule,
-  ],
+  imports: [MatProgressSpinnerModule, AsyncPipe, RouterModule],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -46,7 +40,7 @@ export class SpinnerComponent implements OnInit {
             } else if (event instanceof RouteConfigLoadEnd) {
               this.spinnerService.loadingOff();
             }
-          })
+          }),
         )
         .subscribe();
     }

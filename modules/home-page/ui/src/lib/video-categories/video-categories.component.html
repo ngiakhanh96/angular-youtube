@@ -18,11 +18,11 @@
   }
 
   <mat-chip-set aria-label="Video Categories">
-    @for (videoCategory of videoCategories(); track videoCategory) {
+    @for (videoCategory of videoCategories(); track videoCategory.id) {
       <mat-chip
         (click)="selectVideoCategory(videoCategory)"
-        [highlighted]="selectedVideoCategory() === videoCategory"
-        >{{ videoCategory }}</mat-chip
+        [highlighted]="selectedVideoCategory()?.id === videoCategory.id"
+        >{{ videoCategory.title }}</mat-chip
       >
     }
   </mat-chip-set>

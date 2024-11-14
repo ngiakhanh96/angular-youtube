@@ -1,69 +1,60 @@
 <div class="end-header">
-  @if(isLoggedIn()) {
-  <div class="create-content">
-    <ay-svg-button-renderer
-      ariaLabel="Create"
-      viewBox="-9 0 40 24"
-      path="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4zM14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2z"
-    >
-    </ay-svg-button-renderer>
-  </div>
-  <div class="apps">
-    <ay-svg-button-renderer
-      ariaLabel="Youtube apps"
-      viewBox="-9 0 40 24"
-      path="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"
-    >
-    </ay-svg-button-renderer>
-  </div>
-  <div class="notifications">
-    <ay-svg-button-renderer
-      ariaLabel="Notifications"
-      viewBox="-9 0 40 24"
-      path="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"
-    >
-    </ay-svg-button-renderer>
-  </div>
-  <div class="account-profile">
-    <ay-svg-button-renderer
-      ariaLabel="Account profile photo that opens list of alternate accounts"
-      viewBox="-9 0 40 24"
-    >
-      <ng-template aySvgButtonTmp>
-        <img
-          id="img"
-          alt="Avatar image"
-          height="32"
-          width="32"
-          style="border-radius: 50%"
-          [ngSrc]="user()?.photoUrl ?? ''"
-          priority
-          referrerpolicy="no-referrer"
-        />
-      </ng-template>
-    </ay-svg-button-renderer>
-  </div>
+  @if (isLoggedIn()) {
+    <div class="create-content">
+      <ay-svg-button-renderer
+        ariaLabel="Create"
+        viewBox="-9 0 40 24"
+        path="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4zM14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2z"
+      >
+      </ay-svg-button-renderer>
+    </div>
+    <div class="apps">
+      <ay-svg-button-renderer
+        ariaLabel="Youtube apps"
+        viewBox="-9 0 40 24"
+        path="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"
+      >
+      </ay-svg-button-renderer>
+    </div>
+    <div class="notifications">
+      <ay-svg-button-renderer
+        ariaLabel="Notifications"
+        viewBox="-9 0 40 24"
+        path="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"
+      >
+      </ay-svg-button-renderer>
+    </div>
+    <div class="account-profile">
+      <ay-svg-button-renderer
+        ariaLabel="Account profile photo that opens list of alternate accounts"
+        viewBox="-9 0 40 24"
+      >
+        <ng-template aySvgButtonTmp>
+          <img
+            id="img"
+            alt="Avatar image"
+            height="32"
+            width="32"
+            style="border-radius: 50%"
+            [ngSrc]="user()?.photoUrl ?? ''"
+            priority
+            referrerpolicy="no-referrer"
+          />
+        </ng-template>
+      </ay-svg-button-renderer>
+    </div>
   } @else {
-  <div class="apps">
-    <ay-svg-button-renderer
-      ariaLabel="Youtube apps"
-      viewBox="-8 0 40 24"
-      path="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"
-    >
-    </ay-svg-button-renderer>
-  </div>
-  <div class="settings">
-    <ay-settings-button></ay-settings-button>
-  </div>
-  <div class="signin-button">
-    <ay-button-renderer color="rgb(6, 95, 212)">
-      <ng-template ayButtonIconTmp>
-        <asl-google-signin-button
-          [shape]="'pill'"
-          logo_alignment="center"
-        ></asl-google-signin-button>
-      </ng-template>
-    </ay-button-renderer>
-  </div>
+    <div class="settings">
+      <ay-settings-button></ay-settings-button>
+    </div>
+    <div class="signin-button">
+      <ay-svg-button-renderer
+        ariaLabel="SignIn"
+        viewBox="0 0 24 24"
+        path="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 1c4.96 0 9 4.04 9 9 0 1.42-.34 2.76-.93 3.96-1.53-1.72-3.98-2.89-7.38-3.03A3.996 3.996 0 0016 9c0-2.21-1.79-4-4-4S8 6.79 8 9c0 1.97 1.43 3.6 3.31 3.93-3.4.14-5.85 1.31-7.38 3.03C3.34 14.76 3 13.42 3 12c0-4.96 4.04-9 9-9zM9 9c0-1.65 1.35-3 3-3s3 1.35 3 3-1.35 3-3 3-3-1.35-3-3zm3 12c-3.16 0-5.94-1.64-7.55-4.12C6.01 14.93 8.61 13.9 12 13.9c3.39 0 5.99 1.03 7.55 2.98C17.94 19.36 15.16 21 12 21z"
+        (click)="onClickLogin()"
+      >
+      </ay-svg-button-renderer>
+    </div>
   }
 </div>

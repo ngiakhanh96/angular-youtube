@@ -3,7 +3,6 @@ import {
   afterNextRender,
   ChangeDetectionStrategy,
   Component,
-  computed,
   effect,
   ElementRef,
   inject,
@@ -12,24 +11,24 @@ import {
 } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 
+export interface IVideoCategoryViewModel {
+  title: string;
+  id: string;
+}
+
 @Component({
   selector: 'ay-video-categories',
   standalone: true,
   imports: [MatChipsModule, SvgButtonRendererComponent],
   templateUrl: './video-categories.component.html',
   styleUrls: ['./video-categories.component.scss'],
-  host: {
-    '[style.--button-width]': 'buttonWidthPx()',
-  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoCategoriesComponent {
-  videoCategories = input.required<string[]>();
+  videoCategories = input.required<IVideoCategoryViewModel[]>();
   shouldShowScrollLeftButton = signal(false);
   shouldShowScrollRightButton = signal(true);
-  buttonWidth = signal(56);
-  buttonWidthPx = computed(() => this.buttonWidth() + 'px');
-  selectedVideoCategory = signal('');
+  selectedVideoCategory = signal<IVideoCategoryViewModel | null>(null);
   private videoCategoryList?: Element;
   private static scrollingWidth = 400;
   constructor() {
@@ -53,7 +52,7 @@ export class VideoCategoriesComponent {
     );
   }
 
-  selectVideoCategory(videoCategory: string) {
+  selectVideoCategory(videoCategory: IVideoCategoryViewModel) {
     this.selectedVideoCategory.set(videoCategory);
   }
 

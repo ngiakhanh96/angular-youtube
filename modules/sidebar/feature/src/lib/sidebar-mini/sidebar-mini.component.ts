@@ -1,9 +1,5 @@
-import { IconDirective, LogoMenuComponent } from '@angular-youtube/shared-ui';
-import {
-  SidebarItemContentComponent,
-  SidebarItemDirective,
-  SidebarSectionHeaderComponent,
-} from '@angular-youtube/sidebar-ui';
+import { IconDirective } from '@angular-youtube/shared-ui';
+import { SidebarItemDirective } from '@angular-youtube/sidebar-ui';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,15 +14,7 @@ import { ISidebarMenuItem } from '../sidebar/sidebar.component';
 @Component({
   selector: 'ay-sidebar-mini',
   standalone: true,
-  imports: [
-    LogoMenuComponent,
-    MatListModule,
-    MatIconModule,
-    IconDirective,
-    SidebarSectionHeaderComponent,
-    SidebarItemDirective,
-    SidebarItemContentComponent,
-  ],
+  imports: [MatListModule, MatIconModule, IconDirective, SidebarItemDirective],
   templateUrl: './sidebar-mini.component.html',
   styleUrl: './sidebar-mini.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

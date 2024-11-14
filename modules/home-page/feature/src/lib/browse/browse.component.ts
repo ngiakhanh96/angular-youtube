@@ -5,6 +5,7 @@ import {
   selectVideoCategories,
 } from '@angular-youtube/home-page-data-access';
 import {
+  IVideoCategoryViewModel,
   VideoCategoriesComponent,
   VideoPlayerCardComponent,
 } from '@angular-youtube/home-page-ui';
@@ -49,7 +50,7 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
   protected videos: Signal<IThumbnailDetails[]>;
   protected channelsInfo: Signal<Record<string, IChannelItem> | undefined>;
   protected videosCategories: Signal<IVideoCategories | undefined>;
-  protected videosCategoryDisplayText: Signal<string[]>;
+  protected videosCategoriesViewModel: Signal<IVideoCategoryViewModel[]>;
   constructor() {
     super();
     this.dispatchAction(
@@ -82,9 +83,14 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
       );
     });
     this.videosCategories = this.select(selectVideoCategories);
-    this.videosCategoryDisplayText = computed(() => {
+    this.videosCategoriesViewModel = computed(() => {
       const videoCategories = this.videosCategories();
-      return videoCategories?.items.map((p) => p.snippet.title) ?? [];
+      return (
+        videoCategories?.items.map((p) => ({
+          title: p.snippet.title,
+          id: p.id,
+        })) ?? []
+      );
     });
   }
 

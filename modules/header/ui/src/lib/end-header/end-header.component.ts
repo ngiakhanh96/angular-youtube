@@ -3,9 +3,6 @@ import {
   SocialUser,
 } from '@abacritt/angularx-social-login';
 import {
-  ButtonIconTemplateDirective,
-  ButtonRendererComponent,
-  ButtonTextTemplateDirective,
   SettingsButtonComponent,
   SvgButtonRendererComponent,
   SvgButtonTemplateDirective,
@@ -18,6 +15,12 @@ import {
   input,
 } from '@angular/core';
 
+declare global {
+  interface Window {
+    google: any;
+  }
+}
+
 @Component({
   selector: 'ay-end-header',
   templateUrl: './end-header.component.html',
@@ -25,10 +28,7 @@ import {
   standalone: true,
   imports: [
     SvgButtonRendererComponent,
-    ButtonRendererComponent,
     GoogleSigninButtonModule,
-    ButtonTextTemplateDirective,
-    ButtonIconTemplateDirective,
     SvgButtonTemplateDirective,
     NgOptimizedImage,
     SettingsButtonComponent,
@@ -38,4 +38,21 @@ import {
 export class EndHeaderComponent {
   public user = input.required<SocialUser | null>();
   public isLoggedIn = computed(() => this.user() != null);
+
+  onClickLogin() {
+    const googleLoginWrapper = document.createElement('div');
+    googleLoginWrapper.style.display = 'none';
+    googleLoginWrapper.classList.add('custom-google-button');
+    document.body.appendChild(googleLoginWrapper);
+    window.google.accounts.id.renderButton(googleLoginWrapper, {
+      type: 'icon',
+      width: '200',
+    });
+
+    const googleLoginWrapperButton = googleLoginWrapper.querySelector(
+      'div[role=button]',
+    ) as HTMLElement;
+
+    googleLoginWrapperButton.click();
+  }
 }
