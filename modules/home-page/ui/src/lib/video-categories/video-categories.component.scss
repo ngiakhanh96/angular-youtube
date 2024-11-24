@@ -18,7 +18,7 @@
       @apply right-0;
     }
     .video-categories-button-padding {
-      @apply w-[50px] h-full pointer-events-none;
+      @apply w-[50px] h-full;
       &__left {
         background: linear-gradient(
           to right,
@@ -58,6 +58,10 @@
         mat-chip {
           @apply m-0;
           scroll-snap-align: center;
+
+          .mdc-evolution-chip__action {
+            @apply cursor-pointer;
+          }
         }
       }
     }

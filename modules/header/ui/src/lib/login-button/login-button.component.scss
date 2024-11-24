@@ -1,0 +1,17 @@
+:host {
+  @apply block w-full h-full;
+}
+
+.signin-button {
+  @apply w-full h-full pl-[15px] pr-[15px] flex justify-between place-items-center;
+  color: rgb(6, 95, 212);
+  mat-icon {
+    @apply w-[24px] h-[24px] mr-0 ml-[-6px];
+  }
+  & {
+    --mdc-fab-container-color: var(--white-color);
+    --mdc-fab-hover-state-layer-opacity: none;
+    --mdc-extended-fab-hover-container-elevation-shadow: none;
+    --mdc-extended-fab-container-elevation-shadow: none;
+  }
+}

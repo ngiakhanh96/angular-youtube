@@ -14,6 +14,7 @@ import {
   computed,
   input,
 } from '@angular/core';
+import { LoginButtonComponent } from '../login-button/login-button.component';
 
 declare global {
   interface Window {
@@ -32,6 +33,7 @@ declare global {
     SvgButtonTemplateDirective,
     NgOptimizedImage,
     SettingsButtonComponent,
+    LoginButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
