@@ -8,13 +8,15 @@
     @apply h-full;
   }
   > .create-content,
-  .apps,
   .notifications,
   .settings {
-    @apply w-[40px] mr-[8px];
+    @apply w-[40px] mr-[10px];
   }
-  > .signin-button {
-    @apply w-[98.2px] h-[36px] text-[rgb(6,95,212)];
+  > .signin-button-container {
+    @apply w-[98.2px] text-[rgb(6,95,212)] flex items-center;
+    .signin-button {
+      @apply h-[36px] w-full;
+    }
   }
   > .account-profile {
     @apply w-[60px];

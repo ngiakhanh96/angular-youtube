@@ -19,7 +19,11 @@
     [style.opacity]="opacity()"
   >
     <g>
-      <path fill="currentcolor" [attr.d]="path()"></path>
+      <path
+        fill="currentcolor"
+        [attr.d]="path()"
+        [attr.fill-rule]="fillRule()"
+      ></path>
     </g>
   </svg>
 </ng-template>

@@ -3,15 +3,23 @@
 }
 
 .signin-button {
-  @apply w-full h-full pl-[15px] pr-[15px] flex justify-between place-items-center;
-  color: rgb(6, 95, 212);
-  mat-icon {
-    @apply w-[24px] h-[24px] mr-0 ml-[-6px];
-  }
   & {
     --mdc-fab-container-color: var(--white-color);
-    --mdc-fab-hover-state-layer-opacity: none;
     --mdc-extended-fab-hover-container-elevation-shadow: none;
     --mdc-extended-fab-container-elevation-shadow: none;
+    --mdc-extended-fab-focus-container-elevation-shadow: none;
+    --mdc-extended-fab-pressed-container-elevation-shadow: none;
+    --mat-fab-state-layer-color: rgb(222 241 255);
+    --mat-fab-hover-state-layer-opacity: 1;
+    --mat-fab-focus-state-layer-opacity: 1;
+    --mat-fab-pressed-state-layer-opacity: 1;
+    color: rgb(6, 95, 212);
+  }
+  @apply w-full h-full pl-[15px] pr-[15px] flex justify-between place-items-center 
+  border-[1px] 
+  border-solid
+  border-[rgba(0,0,0,0.1)];
+  mat-icon {
+    @apply w-[24px] h-[24px] mr-0 ml-[-6px];
   }
 }

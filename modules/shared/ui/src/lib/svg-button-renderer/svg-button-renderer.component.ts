@@ -34,4 +34,5 @@ export class SvgButtonRendererComponent {
   public disabled = input<boolean>(false);
   public radius = input<number>(20);
   public opacity = input<number>(1);
+  public fillRule = input<string>('nonZero');
 }
