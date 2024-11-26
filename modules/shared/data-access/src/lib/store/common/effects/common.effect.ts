@@ -6,18 +6,21 @@ import { BaseEffects } from '../../base/effects/base.effect';
 import { loginActionGroup } from '../actions/common.action-group';
 
 export class CommonEffects extends BaseEffects {
-  private cookieService = inject(SessionStorage);
+  private sessionStorageService = inject(SessionStorage);
   updateAccessToken$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loginActionGroup.updateAccessToken),
       map((action) => {
-        if (action.accessToken != null) {
-          this.cookieService.setItem('Authorization', action.accessToken);
+        if (action.user != null) {
+          this.sessionStorageService.setItem(
+            'Authorization',
+            JSON.stringify(action.user),
+          );
         } else {
-          this.cookieService.removeItem('Authorization');
+          this.sessionStorageService.removeItem('Authorization');
         }
         return loginActionGroup.updateAccessTokenSuccess();
-      })
-    )
+      }),
+    ),
   );
 }

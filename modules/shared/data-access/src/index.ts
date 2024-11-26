@@ -6,6 +6,7 @@ export * from './lib/models/http/common.model';
 export * from './lib/models/http/popular-youtube-videos.model';
 export * from './lib/models/http/video-categories-model';
 export * from './lib/models/state.model';
+export * from './lib/services/auth.service';
 export * from './lib/services/base.sandbox.service';
 export * from './lib/services/http/youtube.service';
 export * from './lib/services/local-storage.service';

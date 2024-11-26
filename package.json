@@ -5,7 +5,8 @@
   "scripts": {
     "start": "npx nx serve",
     "build": "npx nx build",
-    "test": "npx nx test"
+    "test": "npx nx test",
+    "start-csr": "npx nx serve-csr"
   },
   "private": true,
   "dependencies": {

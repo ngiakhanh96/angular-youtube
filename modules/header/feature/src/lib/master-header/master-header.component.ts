@@ -1,9 +1,11 @@
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import {
   CenterHeaderComponent,
   EndHeaderComponent,
 } from '@angular-youtube/header-ui';
-import { BaseWithSandBoxComponent } from '@angular-youtube/shared-data-access';
+import {
+  Auth,
+  BaseWithSandBoxComponent,
+} from '@angular-youtube/shared-data-access';
 import { LogoMenuComponent } from '@angular-youtube/shared-ui';
 import {
   ChangeDetectionStrategy,
@@ -11,9 +13,7 @@ import {
   effect,
   inject,
   input,
-  Signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { loginActionGroup } from 'modules/shared/data-access/src/lib/store/common/actions/common.action-group';
 
 @Component({
@@ -26,16 +26,11 @@ import { loginActionGroup } from 'modules/shared/data-access/src/lib/store/commo
 })
 export class MasterHeaderComponent extends BaseWithSandBoxComponent {
   showStartHeader = input.required();
-  protected authService = inject(SocialAuthService);
-  protected user: Signal<SocialUser | null> = toSignal(
-    this.authService.authState,
-    { initialValue: null },
-  );
+  protected authService = inject(Auth);
+
   userEffect = effect(() => {
-    const user = this.user();
+    const user = this.authService.user();
     console.log(user);
-    this.dispatchAction(
-      loginActionGroup.updateAccessToken({ accessToken: user?.idToken }),
-    );
+    this.dispatchAction(loginActionGroup.updateAccessToken({ user: user }));
   });
 }

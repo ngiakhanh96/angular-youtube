@@ -21,6 +21,8 @@
       <ay-svg-button-renderer
         ariaLabel="Account profile photo that opens list of alternate accounts"
         viewBox="-9 0 40 24"
+        #avatar
+        (click)="onClickAvatar()"
       >
         <ng-template aySvgButtonTmp>
           <img
@@ -35,6 +37,13 @@
           />
         </ng-template>
       </ay-svg-button-renderer>
+      <ng-template cdkPortal>
+        <ul class="example-list">
+          <li>Item 1</li>
+          <li>Item 2</li>
+          <li>Item 3</li>
+        </ul>
+      </ng-template>
     </div>
   } @else {
     <div class="settings">

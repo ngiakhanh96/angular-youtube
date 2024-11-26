@@ -11,11 +11,13 @@ import { inject } from '@angular/core';
 
 export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
-  next: HttpHandlerFn
+  next: HttpHandlerFn,
 ) => {
   // Get the auth token from the service.
   const sessionStorageService = inject(SessionStorage);
-  const authToken = sessionStorageService.getItem('Authorization');
+  const authToken = JSON.parse(
+    sessionStorageService.getItem('Authorization') ?? '{}',
+  ).idToken;
 
   if (authToken != null && req.context.get(AUTHORIZED)) {
     // Clone the request and replace the original headers with
