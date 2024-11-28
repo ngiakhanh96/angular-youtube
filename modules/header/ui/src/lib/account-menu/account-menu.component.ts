@@ -1,5 +1,9 @@
 import { IconDirective } from '@angular-youtube/shared-ui';
-import { SidebarItemDirective } from '@angular-youtube/sidebar-ui';
+import { IMenuItem } from '@angular-youtube/sidebar-feature';
+import {
+  SidebarItemContentComponent,
+  SidebarItemDirective,
+} from '@angular-youtube/sidebar-ui';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,17 +13,22 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
-import { IMenuItem } from '../sidebar/sidebar.component';
 
 @Component({
-  selector: 'ay-sidebar-mini',
+  selector: 'ay-account-menu',
   standalone: true,
-  imports: [MatListModule, MatIconModule, IconDirective, SidebarItemDirective],
-  templateUrl: './sidebar-mini.component.html',
-  styleUrl: './sidebar-mini.component.scss',
+  imports: [
+    MatListModule,
+    MatIconModule,
+    IconDirective,
+    SidebarItemDirective,
+    SidebarItemContentComponent,
+  ],
+  templateUrl: './account-menu.component.html',
+  styleUrl: './account-menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarMiniComponent {
+export class AccountMenuComponent {
   //TODO handle filled icon on selected item
   entrySidebarMenuItems = signal<IMenuItem[]>([
     {
@@ -50,13 +59,7 @@ export class SidebarMiniComponent {
 
   selectedIconName = signal('home');
   router = inject(Router);
-  onClick(iconName: string) {
-    this.selectedIconName.set(iconName);
-    if (iconName === 'youtube-music') {
-      this.router.navigate(['/externalRedirect'], {
-        state: { externalUrl: 'https://music.youtube.com/' },
-        skipLocationChange: true,
-      });
-    }
+  onClick(menuItem: string) {
+    this.selectedIconName.set(menuItem);
   }
 }

@@ -1,0 +1,26 @@
+:host {
+  @apply block w-full;
+  --mat-list-list-item-leading-icon-start-space: 8px;
+  --mat-list-list-item-leading-icon-end-space: 24px;
+  --mdc-list-list-item-one-line-container-height: 40px;
+  --mdc-list-list-item-label-text-color: var(--black-color);
+}
+
+.account_menu_container {
+  @apply pl-[16px] flex flex-col;
+
+  // .account_menu_section {
+  //   @apply border-solid border-t border-[#0000001a];
+  // }
+  &:nth-child(n) {
+    @apply border-solid border-t border-[#0000001a];
+  }
+
+  .account_menu_item {
+    @apply cursor-pointer rounded-[10px];
+  }
+
+  mat-list {
+    @apply mt-[4px] mb-[4px] mr-[16px];
+  }
+}

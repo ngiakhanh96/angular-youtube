@@ -6,7 +6,7 @@
         track sidebarMenuItem.iconName
       ) {
         <mat-list-item
-          [aySidebarItem]="sidebarMenuItem.iconName === selectedMenuItem"
+          [aySidebarItem]="sidebarMenuItem.iconName === selectedIconName()"
           class="sidebar_mini_item"
           (click)="onClick(sidebarMenuItem.iconName)"
         >

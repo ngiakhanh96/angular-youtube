@@ -7,19 +7,16 @@ import {
   SvgButtonRendererComponent,
   SvgButtonTemplateDirective,
 } from '@angular-youtube/shared-ui';
-import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
-import { CdkPortal, PortalModule } from '@angular/cdk/portal';
+import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
 import { NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  ElementRef,
-  inject,
   input,
   signal,
-  viewChild,
 } from '@angular/core';
+import { AccountMenuComponent } from '../account-menu/account-menu.component';
 import { LoginButtonComponent } from '../login-button/login-button.component';
 
 declare global {
@@ -41,7 +38,7 @@ declare global {
     SettingsButtonComponent,
     LoginButtonComponent,
     OverlayModule,
-    PortalModule,
+    AccountMenuComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -49,9 +46,20 @@ export class EndHeaderComponent {
   public user = input.required<SocialUser | undefined>();
   public isLoggedIn = computed(() => this.user() != null);
   public isOpenedAvatarMenu = signal(false);
-  private portal = viewChild.required(CdkPortal);
-  private avatarButton = viewChild.required('avatar', { read: ElementRef });
-  private overlay = inject(Overlay);
+  public overlayPositions = signal<ConnectedPosition[]>([
+    {
+      originX: 'end',
+      originY: 'bottom',
+      overlayX: 'end',
+      overlayY: 'top',
+    },
+    {
+      originX: 'start',
+      originY: 'top',
+      overlayX: 'end',
+      overlayY: 'top',
+    },
+  ]);
 
   onClickLogin() {
     const googleLoginWrapper = document.createElement('div');
@@ -71,24 +79,10 @@ export class EndHeaderComponent {
   }
 
   onClickAvatar() {
-    const overlayRef = this.overlay.create(
-      new OverlayConfig({
-        positionStrategy: this.overlay
-          .position()
-          .flexibleConnectedTo(this.avatarButton())
-          .withPositions([
-            {
-              originX: 'start',
-              originY: 'top',
-              overlayX: 'end',
-              overlayY: 'top',
-            },
-          ]),
-        scrollStrategy: this.overlay.scrollStrategies.reposition(),
-        hasBackdrop: true,
-        disposeOnNavigation: true,
-      }),
-    );
-    overlayRef.attach(this.portal());
+    this.isOpenedAvatarMenu.update((v) => !v);
+  }
+
+  onOverlayOutsideClick() {
+    this.isOpenedAvatarMenu.update((v) => !v);
   }
 }

@@ -1,16 +1,13 @@
-<div class="sidebar_container">
-  <div class="sidebar_section">
-    <ay-logo-menu></ay-logo-menu>
-  </div>
-  <div class="sidebar_section">
-    <mat-list class="sidebar_entry_guide">
+<div class="account_menu_container">
+  <div class="account_menu_section">
+    <mat-list>
       @for (
         sidebarMenuItem of entrySidebarMenuItems();
         track sidebarMenuItem.iconName
       ) {
         <mat-list-item
           [aySidebarItem]="sidebarMenuItem.iconName === selectedIconName()"
-          class="sidebar_item"
+          class="account_menu_item"
           (click)="onClick(sidebarMenuItem.iconName)"
         >
           <mat-icon
@@ -24,21 +21,15 @@
       }
     </mat-list>
   </div>
-  <div class="sidebar_section">
-    <mat-list class="sidebar_you_guide">
-      <mat-list-item [aySidebarItem]="false" class="sidebar_item_header">
-        <ay-sidebar-section-header
-          displayText="You"
-          fontIcon="chevron_right"
-        ></ay-sidebar-section-header>
-      </mat-list-item>
+  <div class="account_menu_section">
+    <mat-list>
       @for (
-        sidebarMenuItem of youSidebarMenuItems();
+        sidebarMenuItem of entrySidebarMenuItems();
         track sidebarMenuItem.iconName
       ) {
         <mat-list-item
           [aySidebarItem]="sidebarMenuItem.iconName === selectedIconName()"
-          class="sidebar_item"
+          class="account_menu_item"
           (click)="onClick(sidebarMenuItem.iconName)"
         >
           <mat-icon

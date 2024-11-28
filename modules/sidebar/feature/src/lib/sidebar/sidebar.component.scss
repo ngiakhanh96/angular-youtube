@@ -32,6 +32,7 @@
   .sidebar_you_guide {
     ::ng-deep {
       .sidebar_item_header {
+        @extend .sidebar_item;
         @apply pl-[8px];
       }
     }

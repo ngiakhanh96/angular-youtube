@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
 
-export interface ISidebarMenuItem {
+export interface IMenuItem {
   iconName: string;
   displayText: string;
 }
@@ -37,7 +37,7 @@ export interface ISidebarMenuItem {
 })
 export class SidebarComponent {
   //TODO handle filled icon on selected item
-  entrySidebarMenuItems = signal<ISidebarMenuItem[]>([
+  entrySidebarMenuItems = signal<IMenuItem[]>([
     {
       iconName: 'home',
       displayText: 'Home',
@@ -56,7 +56,7 @@ export class SidebarComponent {
     },
   ]);
 
-  youSidebarMenuItems = signal<ISidebarMenuItem[]>([
+  youSidebarMenuItems = signal<IMenuItem[]>([
     {
       iconName: 'history',
       displayText: 'History',
@@ -87,11 +87,11 @@ export class SidebarComponent {
     },
   ]);
 
-  selectedMenuItem = 'home';
+  selectedIconName = signal('home');
   router = inject(Router);
-  onClick(menuItem: string) {
-    this.selectedMenuItem = menuItem;
-    if (menuItem === 'youtube-music') {
+  onClick(iconName: string) {
+    this.selectedIconName.set(iconName);
+    if (iconName === 'youtube-music') {
       this.router.navigate(['/externalRedirect'], {
         state: { externalUrl: 'https://music.youtube.com/' },
         skipLocationChange: true,
