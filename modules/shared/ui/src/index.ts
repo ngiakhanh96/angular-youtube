@@ -3,6 +3,7 @@ export * from './lib/directives/icon/icon.directive';
 export * from './lib/hamburger-button/hamburger-button.component';
 export * from './lib/logo-menu/logo-menu.component';
 export * from './lib/logo-renderer/logo-renderer.component';
+export * from './lib/overlay-container/overlay-container.component';
 export * from './lib/settings-button/settings-button.component';
 export * from './lib/sidebar/sidebar.service';
 export * from './lib/spinner/spinner.component';

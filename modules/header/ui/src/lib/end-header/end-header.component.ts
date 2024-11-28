@@ -3,6 +3,7 @@ import {
   SocialUser,
 } from '@abacritt/angularx-social-login';
 import {
+  OverlayContainerComponent,
   SettingsButtonComponent,
   SvgButtonRendererComponent,
   SvgButtonTemplateDirective,
@@ -44,6 +45,7 @@ declare global {
     LoginButtonComponent,
     OverlayModule,
     AccountMenuComponent,
+    OverlayContainerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

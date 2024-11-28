@@ -8,6 +8,9 @@
 
 .account_menu_container {
   @apply flex flex-col h-full;
+  .account_menu_header {
+    @apply border-solid border-b border-[rgba(0,0,0,0.1)];
+  }
   .account_menu_items {
     @apply pl-[16px] flex flex-col h-full overflow-y-scroll;
     scrollbar-color: rgba(0, 0, 0, 0.4) var(--white-color);
