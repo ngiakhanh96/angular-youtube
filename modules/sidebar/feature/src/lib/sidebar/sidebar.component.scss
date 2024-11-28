@@ -18,7 +18,7 @@
   }
 
   & :nth-child(n + 3 of .sidebar_section) {
-    @apply border-solid border-t border-[#0000001a];
+    @apply border-solid border-t border-[rgba(0,0,0,0.1)];
   }
 
   .sidebar_header {

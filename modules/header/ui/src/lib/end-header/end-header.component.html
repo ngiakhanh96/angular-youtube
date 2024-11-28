@@ -48,9 +48,14 @@
         [cdkConnectedOverlayPositions]="overlayPositions()"
         [cdkConnectedOverlayGrowAfterOpen]="true"
         [cdkConnectedOverlayWidth]="300"
+        [cdkConnectedOverlayHeight]="500"
+        [cdkConnectedOverlayGrowAfterOpen]="true"
+        [cdkConnectedOverlayScrollStrategy]="scrollStrategy()"
         (overlayOutsideClick)="onOverlayOutsideClick()"
       >
-        <ay-account-menu></ay-account-menu>
+        <div class="overflow-hidden">
+          <ay-account-menu [user]="user()"></ay-account-menu>
+        </div>
       </ng-template>
     </div>
   } @else {

@@ -1,46 +1,92 @@
 <div class="account_menu_container">
-  <div class="account_menu_section">
-    <mat-list>
-      @for (
-        sidebarMenuItem of entrySidebarMenuItems();
-        track sidebarMenuItem.iconName
-      ) {
-        <mat-list-item
-          [aySidebarItem]="sidebarMenuItem.iconName === selectedIconName()"
-          class="account_menu_item"
-          (click)="onClick(sidebarMenuItem.iconName)"
-        >
-          <mat-icon
-            [svgIcon]="sidebarMenuItem.iconName"
-            matListItemIcon
-          ></mat-icon>
-          <ay-sidebar-item-content
-            [displayText]="sidebarMenuItem.displayText"
-          ></ay-sidebar-item-content>
-        </mat-list-item>
-      }
-    </mat-list>
+  <div class="account_menu_header">
+    <div class="account_menu_section">
+      <ay-account-quick-info [user]="user()"></ay-account-quick-info>
+    </div>
   </div>
-  <div class="account_menu_section">
-    <mat-list>
-      @for (
-        sidebarMenuItem of entrySidebarMenuItems();
-        track sidebarMenuItem.iconName
-      ) {
-        <mat-list-item
-          [aySidebarItem]="sidebarMenuItem.iconName === selectedIconName()"
-          class="account_menu_item"
-          (click)="onClick(sidebarMenuItem.iconName)"
-        >
-          <mat-icon
-            [svgIcon]="sidebarMenuItem.iconName"
-            matListItemIcon
-          ></mat-icon>
-          <ay-sidebar-item-content
-            [displayText]="sidebarMenuItem.displayText"
-          ></ay-sidebar-item-content>
-        </mat-list-item>
-      }
-    </mat-list>
+  <div class="account_menu_items">
+    <div class="account_menu_section">
+      <mat-list>
+        @for (menuItem of accountMenuItems(); track menuItem.iconName) {
+          <mat-list-item
+            [aySidebarItem]="menuItem.iconName === selectedIconName()"
+            class="account_menu_item"
+            (click)="onClick(menuItem.iconName)"
+          >
+            <mat-icon [svgIcon]="menuItem.iconName" matListItemIcon></mat-icon>
+            <ay-sidebar-item-content
+              [displayText]="menuItem.displayText"
+            ></ay-sidebar-item-content>
+          </mat-list-item>
+        }
+      </mat-list>
+    </div>
+    <div class="account_menu_section">
+      <mat-list>
+        @for (menuItem of youtubeMenuItems(); track menuItem.iconName) {
+          <mat-list-item
+            [aySidebarItem]="menuItem.iconName === selectedIconName()"
+            class="account_menu_item"
+            (click)="onClick(menuItem.iconName)"
+          >
+            <mat-icon [svgIcon]="menuItem.iconName" matListItemIcon></mat-icon>
+            <ay-sidebar-item-content
+              [displayText]="menuItem.displayText"
+            ></ay-sidebar-item-content>
+          </mat-list-item>
+        }
+      </mat-list>
+    </div>
+    <div class="account_menu_section">
+      <mat-list>
+        @for (
+          menuItem of languageAndAppearanceMenuItems();
+          track menuItem.iconName
+        ) {
+          <mat-list-item
+            [aySidebarItem]="menuItem.iconName === selectedIconName()"
+            class="account_menu_item"
+            (click)="onClick(menuItem.iconName)"
+          >
+            <mat-icon [svgIcon]="menuItem.iconName" matListItemIcon></mat-icon>
+            <ay-sidebar-item-content
+              [displayText]="menuItem.displayText"
+            ></ay-sidebar-item-content>
+          </mat-list-item>
+        }
+      </mat-list>
+    </div>
+    <div class="account_menu_section">
+      <mat-list>
+        @for (menuItem of settingsMenuItems(); track menuItem.iconName) {
+          <mat-list-item
+            [aySidebarItem]="menuItem.iconName === selectedIconName()"
+            class="account_menu_item"
+            (click)="onClick(menuItem.iconName)"
+          >
+            <mat-icon [svgIcon]="menuItem.iconName" matListItemIcon></mat-icon>
+            <ay-sidebar-item-content
+              [displayText]="menuItem.displayText"
+            ></ay-sidebar-item-content>
+          </mat-list-item>
+        }
+      </mat-list>
+    </div>
+    <div class="account_menu_section">
+      <mat-list>
+        @for (menuItem of helpAndFeedbackMenuItems(); track menuItem.iconName) {
+          <mat-list-item
+            [aySidebarItem]="menuItem.iconName === selectedIconName()"
+            class="account_menu_item"
+            (click)="onClick(menuItem.iconName)"
+          >
+            <mat-icon [svgIcon]="menuItem.iconName" matListItemIcon></mat-icon>
+            <ay-sidebar-item-content
+              [displayText]="menuItem.displayText"
+            ></ay-sidebar-item-content>
+          </mat-list-item>
+        }
+      </mat-list>
+    </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 :host {
-  @apply block w-full;
+  @apply block w-full h-full;
   --mat-list-list-item-leading-icon-start-space: 8px;
   --mat-list-list-item-leading-icon-end-space: 24px;
   --mdc-list-list-item-one-line-container-height: 40px;
@@ -7,20 +7,22 @@
 }
 
 .account_menu_container {
-  @apply pl-[16px] flex flex-col;
+  @apply flex flex-col h-full;
+  .account_menu_items {
+    @apply pl-[16px] flex flex-col h-full overflow-y-scroll;
+    scrollbar-color: rgba(0, 0, 0, 0.4) var(--white-color);
+    scrollbar-width: thin;
 
-  // .account_menu_section {
-  //   @apply border-solid border-t border-[#0000001a];
-  // }
-  &:nth-child(n) {
-    @apply border-solid border-t border-[#0000001a];
-  }
+    & :nth-child(n + 2 of .account_menu_section) {
+      @apply border-solid border-t border-[rgba(0,0,0,0.1)];
+    }
 
-  .account_menu_item {
-    @apply cursor-pointer rounded-[10px];
-  }
+    .account_menu_item {
+      @apply cursor-pointer rounded-[10px];
+    }
 
-  mat-list {
-    @apply mt-[4px] mb-[4px] mr-[16px];
+    mat-list {
+      @apply mt-[4px] mb-[4px] mr-[16px];
+    }
   }
 }

@@ -7,12 +7,17 @@ import {
   SvgButtonRendererComponent,
   SvgButtonTemplateDirective,
 } from '@angular-youtube/shared-ui';
-import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
+import {
+  ConnectedPosition,
+  Overlay,
+  OverlayModule,
+} from '@angular/cdk/overlay';
 import { NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   signal,
 } from '@angular/core';
@@ -46,6 +51,7 @@ export class EndHeaderComponent {
   public user = input.required<SocialUser | undefined>();
   public isLoggedIn = computed(() => this.user() != null);
   public isOpenedAvatarMenu = signal(false);
+  public scrollStrategy = signal(inject(Overlay).scrollStrategies.reposition());
   public overlayPositions = signal<ConnectedPosition[]>([
     {
       originX: 'end',

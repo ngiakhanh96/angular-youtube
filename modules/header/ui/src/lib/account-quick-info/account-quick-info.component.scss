@@ -1,0 +1,21 @@
+:host {
+  @apply block w-full;
+}
+
+.account-quick-info {
+  @apply flex;
+  .account-quick-info-avatar {
+  }
+
+  .account-quick-info-channel {
+    @apply flex flex-col;
+    .account-quick-info-name {
+    }
+
+    .account-quick-info-id {
+    }
+
+    .account-quick-info-view {
+    }
+  }
+}
