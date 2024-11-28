@@ -38,6 +38,7 @@
           />
         </ng-template>
       </ay-svg-button-renderer>
+      <!-- TODO extract to separate component/directive -->
       <ng-template
         cdkConnectedOverlay
         cdkConnectedOverlayPanelClass="overlay-panel"
@@ -48,7 +49,6 @@
         [cdkConnectedOverlayPositions]="overlayPositions()"
         [cdkConnectedOverlayGrowAfterOpen]="true"
         [cdkConnectedOverlayWidth]="300"
-        [cdkConnectedOverlayHeight]="500"
         [cdkConnectedOverlayGrowAfterOpen]="true"
         [cdkConnectedOverlayScrollStrategy]="scrollStrategy()"
         (overlayOutsideClick)="onOverlayOutsideClick()"
