@@ -20,4 +20,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 })
 export class AccountAvatarComponent {
   public user = input.required<SocialUser | undefined>();
+  public height = input<number>(32);
+  public width = input<number>(32);
 }

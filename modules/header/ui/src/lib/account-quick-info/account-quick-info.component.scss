@@ -1,21 +1,32 @@
 :host {
   @apply block w-full;
 }
-
+@mixin account-quick-info-text($fontSize) {
+  @apply leading-[20px] font-normal overflow-hidden text-ellipsis whitespace-pre;
+  font-size: $fontSize;
+}
 .account-quick-info {
-  @apply flex;
+  @apply flex p-[16px];
   .account-quick-info-avatar {
+    @apply w-[40px] flex-grow-0 flex-shrink-0 mr-[16px];
+    ay-account-avatar {
+      @apply w-full;
+    }
   }
 
   .account-quick-info-channel {
     @apply flex flex-col;
     .account-quick-info-name {
+      @include account-quick-info-text(16px);
     }
 
     .account-quick-info-id {
+      @include account-quick-info-text(16px);
     }
 
     .account-quick-info-view {
+      @apply mt-[8px] text-[rgb(6,95,212)];
+      @include account-quick-info-text(14px);
     }
   }
 }

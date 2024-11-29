@@ -6,9 +6,9 @@
     <img
       id="img"
       alt="Avatar image"
-      height="32"
-      width="32"
-      style="border-radius: 50%"
+      [height]="height()"
+      [width]="width()"
+      class="rounded-[50%]"
       [ngSrc]="user()?.photoUrl ?? ''"
       priority
       referrerpolicy="no-referrer"
