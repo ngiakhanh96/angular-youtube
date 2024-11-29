@@ -116,6 +116,7 @@ enum PlayerState {
  * iframe API.
  * @see https://developers.google.com/youtube/iframe_api_reference
  */
+//TODO support feature unhover pause and display placeholders
 @Component({
   selector: 'ay-youtube-player',
   encapsulation: ViewEncapsulation.None,

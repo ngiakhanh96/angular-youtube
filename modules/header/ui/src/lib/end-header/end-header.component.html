@@ -38,19 +38,12 @@
           />
         </ng-template>
       </ay-svg-button-renderer>
-      <!-- TODO extract to separate component/directive -->
       <ng-template
-        cdkConnectedOverlay
-        cdkConnectedOverlayPanelClass="overlay-panel"
-        [cdkConnectedOverlayOrigin]="avatar"
-        [cdkConnectedOverlayOpen]="isOpenedAvatarMenu()"
-        [cdkConnectedOverlayDisposeOnNavigation]="true"
-        [cdkConnectedOverlayFlexibleDimensions]="true"
-        [cdkConnectedOverlayPositions]="overlayPositions()"
-        [cdkConnectedOverlayGrowAfterOpen]="true"
-        [cdkConnectedOverlayWidth]="300"
-        [cdkConnectedOverlayHeight]="300"
-        [cdkConnectedOverlayScrollStrategy]="scrollStrategy()"
+        ayOverlay
+        [connectedOverlayOrigin]="avatar"
+        [connectedOverlayOpen]="isOpenedAvatarMenu()"
+        [connectedOverlayPositions]="overlayPositions()"
+        [connectedOverlayWidth]="300"
         (overlayOutsideClick)="onOverlayOutsideClick()"
       >
         <ay-overlay-container>
