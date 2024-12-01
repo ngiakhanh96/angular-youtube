@@ -1,6 +1,8 @@
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
-import { inject, Injectable, Signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  GoogleLoginProvider,
+  SocialAuthService,
+} from '@abacritt/angularx-social-login';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { SessionStorage } from './session-storage.service';
 
 @Injectable({
@@ -9,14 +11,18 @@ import { SessionStorage } from './session-storage.service';
 export class Auth {
   private authService = inject(SocialAuthService);
   private sessionStorageService = inject(SessionStorage);
-  public user: Signal<SocialUser | undefined> = toSignal(
-    this.authService.authState,
-    {
-      initialValue:
-        this.sessionStorageService.getItem('Authorization') != null
-          ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            JSON.parse(this.sessionStorageService.getItem('Authorization')!)
-          : undefined,
-    },
+  public getAccessToken() {
+    this.authService
+      .getAccessToken(GoogleLoginProvider.PROVIDER_ID)
+      .then((accessToken) => {
+        this._accessToken.set(accessToken);
+      });
+  }
+
+  private _accessToken = signal(
+    this.sessionStorageService.getItem('Authorization') != null
+      ? this.sessionStorageService.getItem('Authorization')!
+      : undefined,
   );
+  public accessToken = computed(() => this._accessToken());
 }

@@ -1,6 +1,7 @@
 import {
   createAyActionGroup,
   IChannelItem,
+  IMyChannelInfo,
   IPopularYoutubeVideos,
   IVideoCategories,
 } from '@angular-youtube/shared-data-access';
@@ -22,5 +23,7 @@ export const homePageActionGroup = createAyActionGroup({
     loadYoutubeVideoCategoriesSuccess: props<{
       videoCategories: IVideoCategories;
     }>(),
+    loadMyChannelInfo: emptyProps(),
+    loadMyChannelInfoSuccess: props<{ myChannelInfo: IMyChannelInfo }>(),
   },
 });

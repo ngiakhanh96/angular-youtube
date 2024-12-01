@@ -1,7 +1,5 @@
-import {
-  GoogleSigninButtonModule,
-  SocialUser,
-} from '@abacritt/angularx-social-login';
+import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
+import { IMyChannelInfo } from '@angular-youtube/shared-data-access';
 import {
   OverlayContainerComponent,
   OverlayDirective,
@@ -52,7 +50,10 @@ declare global {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EndHeaderComponent {
-  public user = input.required<SocialUser | undefined>();
+  public user = input.required<IMyChannelInfo | undefined>();
+  public userThumbnail = computed(
+    () => this.user()?.items[0].snippet.thumbnails.default.url,
+  );
   public isLoggedIn = computed(() => this.user() != null);
   public isOpenedAvatarMenu = signal(false);
   public scrollStrategy = signal(inject(Overlay).scrollStrategies.reposition());
@@ -70,23 +71,6 @@ export class EndHeaderComponent {
       overlayY: 'top',
     },
   ]);
-
-  onClickLogin() {
-    const googleLoginWrapper = document.createElement('div');
-    googleLoginWrapper.style.display = 'none';
-    googleLoginWrapper.classList.add('custom-google-button');
-    document.body.appendChild(googleLoginWrapper);
-    window.google.accounts.id.renderButton(googleLoginWrapper, {
-      type: 'icon',
-      width: '200',
-    });
-
-    const googleLoginWrapperButton = googleLoginWrapper.querySelector(
-      'div[role=button]',
-    ) as HTMLElement;
-
-    googleLoginWrapperButton.click();
-  }
 
   onClickAvatar() {
     this.isOpenedAvatarMenu.update((v) => !v);

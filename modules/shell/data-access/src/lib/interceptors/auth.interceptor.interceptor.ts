@@ -15,9 +15,7 @@ export const authInterceptor: HttpInterceptorFn = (
 ) => {
   // Get the auth token from the service.
   const sessionStorageService = inject(SessionStorage);
-  const authToken = JSON.parse(
-    sessionStorageService.getItem('Authorization') ?? '{}',
-  ).idToken;
+  const authToken = sessionStorageService.getItem('Authorization') ?? '';
 
   if (authToken != null && req.context.get(AUTHORIZED)) {
     // Clone the request and replace the original headers with

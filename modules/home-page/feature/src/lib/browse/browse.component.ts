@@ -1,6 +1,6 @@
 import {
   homePageActionGroup,
-  selectHomePageChannelsInfo,
+  selectChannelsInfo,
   selectHomePageVideos,
   selectVideoCategories,
 } from '@angular-youtube/home-page-data-access';
@@ -60,8 +60,8 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
       }),
     );
     this.dispatchAction(homePageActionGroup.loadYoutubeVideoCategories());
-    this.videosWithMetaData = this.select(selectHomePageVideos);
-    this.channelsInfo = this.select(selectHomePageChannelsInfo);
+    this.videosWithMetaData = this.selectSignal(selectHomePageVideos);
+    this.channelsInfo = this.selectSignal(selectChannelsInfo);
     this.videos = computed(() => {
       const videosWithMetaData = this.videosWithMetaData();
       const channelsInfo = this.channelsInfo() ?? {};
@@ -82,7 +82,7 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
         ) ?? []
       );
     });
-    this.videosCategories = this.select(selectVideoCategories);
+    this.videosCategories = this.selectSignal(selectVideoCategories);
     this.videosCategoriesViewModel = computed(() => {
       const videoCategories = this.videosCategories();
       return (

@@ -1,5 +1,10 @@
-import { SocialUser } from '@abacritt/angularx-social-login';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { IMyChannelInfo } from '@angular-youtube/shared-data-access';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { AccountAvatarComponent } from '../account-avatar/account-avatar.component';
 
 @Component({
@@ -11,5 +16,10 @@ import { AccountAvatarComponent } from '../account-avatar/account-avatar.compone
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountQuickInfoComponent {
-  public user = input.required<SocialUser | undefined>();
+  public user = input.required<IMyChannelInfo | undefined>();
+  userThumbnail = computed(
+    () => this.user()?.items[0].snippet.thumbnails.default.url,
+  );
+  userName = computed(() => this.user()?.items[0].snippet.title);
+  userId = computed(() => this.user()?.items[0].snippet.customUrl);
 }

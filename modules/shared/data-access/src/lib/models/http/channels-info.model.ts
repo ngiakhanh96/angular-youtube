@@ -2,11 +2,11 @@ import {
   IDefault,
   IHigh,
   IItem,
-  ILocalized,
   IMedium,
   IPageInfo,
   IYoutubeResponse,
 } from './common.model';
+import { IMyChannelSnippet } from './my-channel-info.model';
 
 export interface IYoutubeChannelsInfo extends IYoutubeResponse<IChannelItem> {
   pageInfo: IPageInfo;
@@ -18,13 +18,7 @@ export interface IChannelItem extends IItem {
   statistics: IChannelStatistics;
 }
 
-export interface IChannelSnippet {
-  title: string;
-  description: string;
-  customUrl: string;
-  publishedAt: string;
-  thumbnails: IChannelThumbnails;
-  localized: ILocalized;
+export interface IChannelSnippet extends IMyChannelSnippet {
   country: string;
 }
 

@@ -1,6 +1,5 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createFeature, createReducer } from '@ngrx/store';
 import { initialBaseState } from '../../base/reducers/base.reducer';
-import { loginActionGroup } from '../actions/common.action-group';
 
 export const loginStateName = 'login';
 export interface ILoginState {
@@ -11,10 +10,7 @@ export const initialLoginState: ILoginState = {
   test: '',
 };
 
-const reducer = createReducer(
-  initialLoginState,
-  on(loginActionGroup.updateAccessTokenSuccess, (state) => state)
-);
+const reducer = createReducer(initialLoginState);
 
 export const { reducer: loginReducer, selectLoginState } = createFeature<
   string,

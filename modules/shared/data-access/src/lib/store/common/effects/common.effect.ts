@@ -11,10 +11,10 @@ export class CommonEffects extends BaseEffects {
     this.actions$.pipe(
       ofType(loginActionGroup.updateAccessToken),
       map((action) => {
-        if (action.user != null) {
+        if (action.accessToken != null) {
           this.sessionStorageService.setItem(
             'Authorization',
-            JSON.stringify(action.user),
+            action.accessToken,
           );
         } else {
           this.sessionStorageService.removeItem('Authorization');

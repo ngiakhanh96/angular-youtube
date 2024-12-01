@@ -2,9 +2,12 @@ import {
   CenterHeaderComponent,
   EndHeaderComponent,
 } from '@angular-youtube/header-ui';
+import { selectMyChannelInfo } from '@angular-youtube/home-page-data-access';
 import {
   Auth,
   BaseWithSandBoxComponent,
+  IMyChannelInfo,
+  loginActionGroup,
 } from '@angular-youtube/shared-data-access';
 import { LogoMenuComponent } from '@angular-youtube/shared-ui';
 import {
@@ -13,8 +16,8 @@ import {
   effect,
   inject,
   input,
+  Signal,
 } from '@angular/core';
-import { loginActionGroup } from 'modules/shared/data-access/src/lib/store/common/actions/common.action-group';
 
 @Component({
   selector: 'ay-master-header',
@@ -26,11 +29,20 @@ import { loginActionGroup } from 'modules/shared/data-access/src/lib/store/commo
 })
 export class MasterHeaderComponent extends BaseWithSandBoxComponent {
   showStartHeader = input.required();
-  protected authService = inject(Auth);
+  user: Signal<IMyChannelInfo | undefined>;
+  authService = inject(Auth);
 
   userEffect = effect(() => {
-    const user = this.authService.user();
-    console.log(user);
-    this.dispatchAction(loginActionGroup.updateAccessToken({ user: user }));
+    const accessToken = this.authService.accessToken();
+    if (accessToken) {
+      this.dispatchAction(
+        loginActionGroup.updateAccessToken({ accessToken: accessToken }),
+      );
+    }
   });
+
+  constructor() {
+    super();
+    this.user = this.selectSignal(selectMyChannelInfo);
+  }
 }

@@ -3,6 +3,7 @@ export * from './lib/injection-tokens/youtube-api-key.injection-token';
 export * from './lib/models/http-response.model';
 export * from './lib/models/http/channels-info.model';
 export * from './lib/models/http/common.model';
+export * from './lib/models/http/my-channel-info.model';
 export * from './lib/models/http/popular-youtube-videos.model';
 export * from './lib/models/http/video-categories-model';
 export * from './lib/models/state.model';

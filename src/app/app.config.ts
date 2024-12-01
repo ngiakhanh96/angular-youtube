@@ -14,7 +14,8 @@ import {
   APP_INITIALIZER,
   ApplicationConfig,
   importProvidersFrom,
-  provideZoneChangeDetection,
+  mergeApplicationConfig,
+  provideExperimentalZonelessChangeDetection,
 } from '@angular/core';
 import { MAT_RIPPLE_GLOBAL_OPTIONS } from '@angular/material/core';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -31,8 +32,6 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideEffects(),
     provideAnimations(),
-    // provideExperimentalZonelessChangeDetection(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
     {
       provide: MAT_RIPPLE_GLOBAL_OPTIONS,
       useValue: {
@@ -46,7 +45,7 @@ export const appConfig: ApplicationConfig = {
       mainRoutes,
       withInMemoryScrolling({
         scrollPositionRestoration: 'top',
-      })
+      }),
     ),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideStoreDevtools({ maxAge: 25, logOnly: false }),
@@ -63,7 +62,7 @@ export const appConfig: ApplicationConfig = {
               '387433020564-0q4ii59780k1ecqvueub42qj1ohdpktv.apps.googleusercontent.com',
               {
                 scopes: `https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtube.channel-memberships.creator https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtubepartner https://www.googleapis.com/auth/youtubepartner-channel-audit`,
-              }
+              },
             ),
           },
         ],
@@ -87,10 +86,15 @@ export const appConfig: ApplicationConfig = {
             .concat(['material-symbols-outlined']);
           iconRegistry.setDefaultFontSetClass(...outlinedFontSetClasses);
           iconRegistry.addSvgIconSet(
-            domSanitizer.bypassSecurityTrustResourceUrl('assets/icons.svg')
+            domSanitizer.bypassSecurityTrustResourceUrl('assets/icons.svg'),
           );
         },
       deps: [MatIconRegistry, DomSanitizer],
     },
   ],
 };
+
+const zonelessConfig: ApplicationConfig = {
+  providers: [provideExperimentalZonelessChangeDetection()],
+};
+export const csrConfig = mergeApplicationConfig(appConfig, zonelessConfig);

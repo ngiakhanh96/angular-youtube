@@ -8,6 +8,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { YoutubeApiKey } from '../../injection-tokens/youtube-api-key.injection-token';
 import { IYoutubeChannelsInfo } from '../../models/http/channels-info.model';
+import { IMyChannelInfo } from '../../models/http/my-channel-info.model';
 import { IPopularYoutubeVideos } from '../../models/http/popular-youtube-videos.model';
 import { IVideoCategories } from '../../models/http/video-categories-model';
 
@@ -82,6 +83,22 @@ export class YoutubeService {
     return this.httpClient.get<IYoutubeChannelsInfo>(url, {
       params: params,
       context: new HttpContext().set(AUTHORIZED, false),
+    });
+  }
+
+  getMyChannelInfo() {
+    const url = `${this.commonUrl}channels`;
+    const params = new HttpParams({
+      fromObject: {
+        part: ['snippet,contentDetails,statistics'],
+        mine: true,
+        key: this.apiKey,
+      },
+    });
+
+    return this.httpClient.get<IMyChannelInfo>(url, {
+      params: params,
+      context: new HttpContext().set(AUTHORIZED, true),
     });
   }
 }

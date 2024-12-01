@@ -1,9 +1,11 @@
 import {
   BaseEffects,
   IChannelItem,
+  loginActionGroup,
   YoutubeService,
 } from '@angular-youtube/shared-data-access';
 import { inject } from '@angular/core';
+import { createEffect, ofType } from '@ngrx/effects';
 import { select } from '@ngrx/store';
 import { map, of, switchMap } from 'rxjs';
 import { homePageActionGroup } from '../actions/home-page.action-group';
@@ -58,6 +60,28 @@ export class HomePageEffects extends BaseEffects {
         map((videoCategories) => {
           return homePageActionGroup.loadYoutubeVideoCategoriesSuccess({
             videoCategories: videoCategories,
+          });
+        }),
+      );
+    },
+  );
+
+  updateAccessTokenSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loginActionGroup.updateAccessTokenSuccess),
+      map((_) => {
+        return homePageActionGroup.loadMyChannelInfo();
+      }),
+    ),
+  );
+
+  loadMyChannelInfo$ = this.createHttpEffectAndUpdateResponse(
+    homePageActionGroup.loadMyChannelInfo,
+    () => {
+      return this.youtubeService.getMyChannelInfo().pipe(
+        map((myChannelInfo) => {
+          return homePageActionGroup.loadMyChannelInfoSuccess({
+            myChannelInfo: myChannelInfo,
           });
         }),
       );

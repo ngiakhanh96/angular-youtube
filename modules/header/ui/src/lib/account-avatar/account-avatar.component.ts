@@ -1,4 +1,3 @@
-import { SocialUser } from '@abacritt/angularx-social-login';
 import {
   SvgButtonRendererComponent,
   SvgButtonTemplateDirective,
@@ -19,7 +18,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountAvatarComponent {
-  public user = input.required<SocialUser | undefined>();
+  public userThumbnail = input.required<string | undefined>();
   public height = input<number>(32);
   public width = input<number>(32);
 }

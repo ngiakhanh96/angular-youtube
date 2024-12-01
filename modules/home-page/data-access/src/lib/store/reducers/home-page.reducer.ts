@@ -2,6 +2,7 @@ import {
   createAyReducer,
   IBaseState,
   IChannelItem,
+  IMyChannelInfo,
   initialBaseState,
   IPopularYoutubeVideos,
   IVideoCategories,
@@ -15,12 +16,14 @@ export interface IHomePageState extends IBaseState {
   videos: IPopularYoutubeVideos | undefined;
   channelsInfo: Record<string, IChannelItem>;
   videoCategories: IVideoCategories | undefined;
+  myChannelInfo: IMyChannelInfo | undefined;
 }
 export const initialHomePageState: IHomePageState = {
   ...initialBaseState,
   videos: undefined,
   channelsInfo: {},
   videoCategories: undefined,
+  myChannelInfo: undefined,
 };
 
 const reducer = createAyReducer(
@@ -49,14 +52,22 @@ const reducer = createAyReducer(
       videoCategories: videoCategories,
     }),
   ),
+  on(
+    homePageActionGroup.loadMyChannelInfoSuccess,
+    (state, { myChannelInfo }) => ({
+      ...state,
+      myChannelInfo: myChannelInfo,
+    }),
+  ),
 );
 
 export const {
   reducer: homePageReducer,
   selectHomePageState,
   selectVideos: selectHomePageVideos,
-  selectChannelsInfo: selectHomePageChannelsInfo,
-  selectVideoCategories: selectVideoCategories,
+  selectChannelsInfo,
+  selectVideoCategories,
+  selectMyChannelInfo,
   selectHttpResponse: selectHomePageHttpResponse,
 } = createFeature<string, IHomePageState>({
   name: homePageStateName,

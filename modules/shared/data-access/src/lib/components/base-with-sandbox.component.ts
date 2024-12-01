@@ -8,7 +8,7 @@ import { SandboxService } from '../services/base.sandbox.service';
 export abstract class BaseWithSandBoxComponent {
   private sandbox = inject(SandboxService);
   protected untilDestroyed = takeUntilDestroyed();
-  protected select<T>(selector: MemoizedSelector<object, T>) {
+  protected selectSignal<T>(selector: MemoizedSelector<object, T>) {
     return toSignal(this.sandbox.store.pipe(select(selector)));
   }
   protected dispatchAction(action: Action, successfulCallBack?: () => void) {
@@ -22,8 +22,8 @@ export abstract class BaseWithSandBoxComponent {
           .pipe(
             first(
               (details) =>
-                !details || details.status !== HttpResponseStatus.Pending
-            )
+                !details || details.status !== HttpResponseStatus.Pending,
+            ),
           )
           .subscribe((details) => {
             if (!details || details.status === HttpResponseStatus.Success) {

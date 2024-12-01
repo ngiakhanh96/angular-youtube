@@ -2,6 +2,7 @@ import { SpinnerComponent } from '@angular-youtube/shared-ui';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+//TODO upgrade to angular 19
 @Component({
   standalone: true,
   imports: [RouterModule, SpinnerComponent],

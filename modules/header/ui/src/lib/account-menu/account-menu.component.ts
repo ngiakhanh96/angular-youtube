@@ -1,4 +1,4 @@
-import { SocialUser } from '@abacritt/angularx-social-login';
+import { IMyChannelInfo } from '@angular-youtube/shared-data-access';
 import { IconDirective } from '@angular-youtube/shared-ui';
 import { IMenuItem } from '@angular-youtube/sidebar-feature';
 import {
@@ -33,7 +33,7 @@ import { AccountQuickInfoComponent } from '../account-quick-info/account-quick-i
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountMenuComponent {
-  public user = input.required<SocialUser | undefined>();
+  public user = input.required<IMyChannelInfo | undefined>();
   accountMenuItems = signal<IMenuItem[]>([
     {
       iconName: 'google-account',
