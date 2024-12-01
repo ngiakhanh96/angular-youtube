@@ -11,7 +11,7 @@ import { SessionStorage } from './session-storage.service';
 export class Auth {
   private authService = inject(SocialAuthService);
   private sessionStorageService = inject(SessionStorage);
-  public getAccessToken() {
+  public login() {
     this.authService
       .getAccessToken(GoogleLoginProvider.PROVIDER_ID)
       .then((accessToken) => {

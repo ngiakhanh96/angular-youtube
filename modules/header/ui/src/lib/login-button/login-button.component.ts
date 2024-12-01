@@ -27,20 +27,6 @@ declare global {
 export class LoginButtonComponent {
   public auth = inject(Auth);
   onClickLogin() {
-    this.auth.getAccessToken();
-    // const googleLoginWrapper = document.createElement('div');
-    // googleLoginWrapper.style.display = 'none';
-    // googleLoginWrapper.classList.add('custom-google-button');
-    // document.body.appendChild(googleLoginWrapper);
-    // window.google.accounts.id.renderButton(googleLoginWrapper, {
-    //   type: 'icon',
-    //   width: '200',
-    // });
-
-    // const googleLoginWrapperButton = googleLoginWrapper.querySelector(
-    //   'div[role=button]',
-    // ) as HTMLElement;
-
-    // googleLoginWrapperButton.click();
+    this.auth.login();
   }
 }
