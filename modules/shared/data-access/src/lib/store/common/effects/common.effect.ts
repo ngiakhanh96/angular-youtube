@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { createEffect, ofType } from '@ngrx/effects';
 import { map } from 'rxjs';
 import { SessionStorage } from '../../../services/session-storage.service';
+import { sharedActionGroup } from '../../base/actions/shared.action-group';
 import { BaseEffects } from '../../base/effects/base.effect';
 import { loginActionGroup } from '../actions/common.action-group';
 
@@ -16,10 +17,10 @@ export class CommonEffects extends BaseEffects {
             'Authorization',
             action.accessToken,
           );
-        } else {
-          this.sessionStorageService.removeItem('Authorization');
+          return loginActionGroup.updateAccessTokenSuccess();
         }
-        return loginActionGroup.updateAccessTokenSuccess();
+        this.sessionStorageService.removeItem('Authorization');
+        return sharedActionGroup.empty();
       }),
     ),
   );

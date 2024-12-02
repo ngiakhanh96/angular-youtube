@@ -9,18 +9,18 @@
     <ay-sidebar></ay-sidebar>
   </mat-sidenav>
   <mat-sidenav-content>
-    <ay-master-header [showStartHeader]="showStartHeader()"></ay-master-header>
+    <ay-master-header
+      [showStartHeader]="showStartHeader()"
+      [mode]="mode()"
+    ></ay-master-header>
     <div class="layout_body">
       @if (showStartHeader()) {
         <ay-sidebar-mini></ay-sidebar-mini>
+      } @else if (this.mode() === 'over') {
+        <div class="layout-sidebar-mini-placeholder"></div>
       }
-      <ay-browse
-        [style.width]="
-          showStartHeader()
-            ? 'calc(100vw - var(--sidebar-mini-width))'
-            : 'calc(100vw - var(--sidebar-width))'
-        "
-      ></ay-browse>
+
+      <ay-browse [style.width]="sideNavContentWith()"></ay-browse>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

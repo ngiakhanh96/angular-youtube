@@ -1,7 +1,4 @@
-import {
-  AUTHORIZED,
-  SessionStorage,
-} from '@angular-youtube/shared-data-access';
+import { Auth, AUTHORIZED } from '@angular-youtube/shared-data-access';
 import type {
   HttpHandlerFn,
   HttpInterceptorFn,
@@ -14,14 +11,16 @@ export const authInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn,
 ) => {
   // Get the auth token from the service.
-  const sessionStorageService = inject(SessionStorage);
-  const authToken = sessionStorageService.getItem('Authorization') ?? '';
+  const authService = inject(Auth);
 
-  if (authToken != null && req.context.get(AUTHORIZED)) {
+  if (authService.accessToken() != null && req.context.get(AUTHORIZED)) {
     // Clone the request and replace the original headers with
     // cloned headers, updated with the authorization.
     req = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${authToken}`),
+      headers: req.headers.set(
+        'Authorization',
+        `Bearer ${authService.accessToken()}`,
+      ),
     });
   }
 

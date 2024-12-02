@@ -10,13 +10,13 @@
   }
 
   > .master_header_start {
-    @apply flex-grow-0 flex-shrink-0 w-[236px];
+    @apply flex-grow-0 flex-shrink-0 w-[var(--logo-menu-width)];
     ay-logo-menu {
       @apply w-[169px];
     }
   }
 
-  > .master_header_start-collapsed {
+  > .master_header_start-placeholder {
     @apply flex-grow-0 flex-shrink-0;
   }
 

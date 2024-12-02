@@ -31,6 +31,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
   host: {
     '[style.--sidebar-width]': 'sidebarWidth()',
     '[style.--sidebar-mini-width]': 'sidebarMiniWidth()',
+    '[style.--sidebar-mini-margin-left]': 'sidebarMiniMarginLeft()',
+    '[style.--sidebar-mini-margin-right]': 'sidebarMiniMarginRight()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -44,6 +46,15 @@ export class LayoutComponent implements OnInit {
   showStartHeader = computed(() => !this.sidebarService.isOpened());
   sidebarWidth = signal('237px');
   sidebarMiniWidth = signal('66px');
+  sidebarMiniMarginLeft = signal('4px');
+  sidebarMiniMarginRight = signal('4px');
+  sideNavContentWith = computed(() => {
+    if (!this.showStartHeader() && this.mode() === 'side') {
+      return 'calc(100vw - var(--sidebar-width))';
+    }
+
+    return `calc(100vw - var(--sidebar-mini-width) - ${this.sidebarMiniMarginLeft()} - ${this.sidebarMiniMarginRight()})`;
+  });
 
   ngOnInit() {
     this.mobileQuery.onchange = (event: MediaQueryListEvent) => {

@@ -7,6 +7,7 @@ import {
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { YoutubeApiKey } from '../../injection-tokens/youtube-api-key.injection-token';
+import { IAuth } from '../../models/http/auth.model';
 import { IYoutubeChannelsInfo } from '../../models/http/channels-info.model';
 import { IMyChannelInfo } from '../../models/http/my-channel-info.model';
 import { IPopularYoutubeVideos } from '../../models/http/popular-youtube-videos.model';
@@ -21,10 +22,11 @@ export class YoutubeService {
   private apiKey = inject(YoutubeApiKey);
   private httpClient = inject(HttpClient);
   //TODO should move to appconfig
-  private commonUrl = 'https://youtube.googleapis.com/youtube/v3/';
+  private youtubeBaseUrl = 'https://youtube.googleapis.com/youtube/v3/';
+  private authBaseUrl = 'https://www.googleapis.com/oauth2/v1/';
 
   getVideoCategories() {
-    const url = `${this.commonUrl}videoCategories`;
+    const url = `${this.youtubeBaseUrl}videoCategories`;
     const params = new HttpParams({
       fromObject: {
         part: ['snippet'],
@@ -44,7 +46,7 @@ export class YoutubeService {
     videoCategoryId?: number,
     pageToken?: string,
   ): Observable<IPopularYoutubeVideos> {
-    const url = `${this.commonUrl}videos`;
+    const url = `${this.youtubeBaseUrl}videos`;
     let params = new HttpParams({
       fromObject: {
         part: ['snippet,contentDetails,statistics'],
@@ -68,7 +70,7 @@ export class YoutubeService {
   }
 
   getChannelsInfo(channelIds: string[], maxResults = 20, pageToken?: string) {
-    const url = `${this.commonUrl}channels`;
+    const url = `${this.youtubeBaseUrl}channels`;
     let params = new HttpParams({
       fromObject: {
         part: ['snippet,contentDetails,statistics'],
@@ -87,7 +89,7 @@ export class YoutubeService {
   }
 
   getMyChannelInfo() {
-    const url = `${this.commonUrl}channels`;
+    const url = `${this.youtubeBaseUrl}channels`;
     const params = new HttpParams({
       fromObject: {
         part: ['snippet,contentDetails,statistics'],
@@ -99,6 +101,21 @@ export class YoutubeService {
     return this.httpClient.get<IMyChannelInfo>(url, {
       params: params,
       context: new HttpContext().set(AUTHORIZED, true),
+    });
+  }
+
+  //TODO bring this to other service
+  getAccessTokenInfo(accessToken: string) {
+    const url = `${this.authBaseUrl}tokeninfo`;
+    const params = new HttpParams({
+      fromObject: {
+        access_token: accessToken,
+      },
+    });
+
+    return this.httpClient.get<IAuth>(url, {
+      params: params,
+      context: new HttpContext().set(AUTHORIZED, false),
     });
   }
 }

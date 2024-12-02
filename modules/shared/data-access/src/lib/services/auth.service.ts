@@ -19,6 +19,11 @@ export class Auth {
       });
   }
 
+  public logout() {
+    this.sessionStorageService.removeItem('Authorization');
+    this._accessToken.set(undefined);
+  }
+
   private _accessToken = signal(
     this.sessionStorageService.getItem('Authorization') != null
       ? this.sessionStorageService.getItem('Authorization')!
