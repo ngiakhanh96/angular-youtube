@@ -25,9 +25,8 @@ mat-sidenav-container {
     ::ng-deep {
       .layout_body {
         @apply flex flex-row;
-        ay-sidebar-mini,
-        .layout-sidebar-mini-placeholder {
-          @apply w-[var(--sidebar-mini-width)] flex-shrink-0 flex-grow-0 ml-[var(--sidebar-mini-margin-left)] mr-[--sidebar-mini-margin-right];
+        ay-sidebar-mini {
+          @apply w-[var(--sidebar-mini-width)] flex-shrink-0 flex-grow-0;
         }
       }
     }

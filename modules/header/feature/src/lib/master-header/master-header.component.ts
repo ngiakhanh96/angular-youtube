@@ -13,7 +13,6 @@ import { LogoMenuComponent } from '@angular-youtube/shared-ui';
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   effect,
   inject,
   input,
@@ -34,15 +33,9 @@ import {
 })
 export class MasterHeaderComponent extends BaseWithSandBoxComponent {
   showStartHeader = input.required();
-  mode = input.required<string>();
   user: Signal<IMyChannelInfo | undefined>;
   authService = inject(Auth);
   logoMenuWidth = signal('236px');
-  logoMenuPlaceHolder = computed(() =>
-    !this.showStartHeader() && this.mode() === 'over'
-      ? 'var(--logo-menu-width)'
-      : '0px',
-  );
 
   userEffect = effect(() => {
     const accessToken = this.authService.accessToken();
