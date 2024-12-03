@@ -9,8 +9,10 @@ import {
 } from '@ngrx/store';
 import { filter, Observable, Subscription } from 'rxjs';
 import { HttpResponse, ResponseDetails } from '../models/http-response.model';
-import { IBaseState } from '../models/state.model';
-import { selectSharedState } from '../store/base/reducers/shared.reducer';
+import {
+  ISharedState,
+  selectSharedState,
+} from '../store/base/reducers/shared.reducer';
 import {
   getResponse,
   getResponseDetails,
@@ -25,7 +27,7 @@ export class SandboxService implements OnDestroy {
   protected getResponseSelector: MemoizedSelector<
     object,
     HttpResponse,
-    (s1: IBaseState) => HttpResponse
+    (s1: ISharedState) => HttpResponse
   >;
   private spinnerService = inject(SpinnerService);
   private subs: Subscription[] = [];
@@ -39,13 +41,13 @@ export class SandboxService implements OnDestroy {
         } else {
           this.spinnerService.loadingOff();
         }
-      })
+      }),
     );
   }
 
   getResponseDetailsSelector(action: Action) {
     return createSelector(selectSharedState, (state) =>
-      getResponseDetails(state, action.type)
+      getResponseDetails(state, action.type),
     );
   }
 

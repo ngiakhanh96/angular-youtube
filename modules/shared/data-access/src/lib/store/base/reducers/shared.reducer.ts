@@ -1,4 +1,5 @@
-import { createFeature } from '@ngrx/store';
+import { createFeature, on } from '@ngrx/store';
+import { IAccessTokenInfo } from '../../../models/http/auth.model';
 import { IBaseState } from '../../../models/state.model';
 import { sharedActionGroup } from '../../base/actions/shared.action-group';
 import {
@@ -7,17 +8,38 @@ import {
 } from '../../base/reducers/base.reducer';
 
 export const sharedStateName = 'shared';
-export const initialCommonState: IBaseState = {
+
+export interface IAccessTokenInfoState extends IAccessTokenInfo {
+  expired_datetime: Date;
+}
+
+export interface ISharedState extends IBaseState {
+  accessTokenInfo: IAccessTokenInfoState | undefined;
+}
+
+export const initialSharedState: ISharedState = {
   ...initialBaseState,
+  accessTokenInfo: undefined,
 };
 
-const reducer = createAyReducer(sharedActionGroup, initialCommonState);
+const reducer = createAyReducer(
+  sharedActionGroup,
+  initialSharedState,
+  on(
+    sharedActionGroup.getAccessTokenInfoSuccess,
+    (state, { accessTokenInfo }) => ({
+      ...state,
+      accessTokenInfo: accessTokenInfo,
+    }),
+  ),
+);
 
 export const {
   reducer: sharedReducer,
   selectSharedState,
+  selectAccessTokenInfo,
   selectHttpResponse: selectSharedHttpResponse,
-} = createFeature<string, IBaseState>({
+} = createFeature<string, ISharedState>({
   name: sharedStateName,
   reducer: reducer,
 });

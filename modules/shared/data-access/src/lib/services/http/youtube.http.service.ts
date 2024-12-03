@@ -7,7 +7,6 @@ import {
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { YoutubeApiKey } from '../../injection-tokens/youtube-api-key.injection-token';
-import { IAuth } from '../../models/http/auth.model';
 import { IYoutubeChannelsInfo } from '../../models/http/channels-info.model';
 import { IMyChannelInfo } from '../../models/http/my-channel-info.model';
 import { IPopularYoutubeVideos } from '../../models/http/popular-youtube-videos.model';
@@ -18,12 +17,11 @@ export const AUTHORIZED = new HttpContextToken<boolean>(() => true);
 @Injectable({
   providedIn: 'root',
 })
-export class YoutubeService {
+export class YoutubeHttpService {
   private apiKey = inject(YoutubeApiKey);
   private httpClient = inject(HttpClient);
   //TODO should move to appconfig
   private youtubeBaseUrl = 'https://youtube.googleapis.com/youtube/v3/';
-  private authBaseUrl = 'https://www.googleapis.com/oauth2/v1/';
 
   getVideoCategories() {
     const url = `${this.youtubeBaseUrl}videoCategories`;
@@ -101,21 +99,6 @@ export class YoutubeService {
     return this.httpClient.get<IMyChannelInfo>(url, {
       params: params,
       context: new HttpContext().set(AUTHORIZED, true),
-    });
-  }
-
-  //TODO bring this to other service
-  getAccessTokenInfo(accessToken: string) {
-    const url = `${this.authBaseUrl}tokeninfo`;
-    const params = new HttpParams({
-      fromObject: {
-        access_token: accessToken,
-      },
-    });
-
-    return this.httpClient.get<IAuth>(url, {
-      params: params,
-      context: new HttpContext().set(AUTHORIZED, false),
     });
   }
 }

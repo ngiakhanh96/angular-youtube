@@ -1,10 +1,11 @@
-export interface IAuth {
-  issued_to: string;
-  audience: string;
-  user_id: string;
+export interface IAccessTokenInfo {
+  azp: string;
+  aud: string;
+  sub: string;
   scope: string;
-  expires_in: number;
+  exp: string;
+  expires_in: string;
   email: string;
-  verified_email: boolean;
+  email_verified: string;
   access_type: string;
 }

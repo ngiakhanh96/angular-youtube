@@ -1,8 +1,8 @@
 import {
   BaseEffects,
   IChannelItem,
-  loginActionGroup,
-  YoutubeService,
+  sharedActionGroup,
+  YoutubeHttpService,
 } from '@angular-youtube/shared-data-access';
 import { inject } from '@angular/core';
 import { createEffect, ofType } from '@ngrx/effects';
@@ -12,7 +12,7 @@ import { homePageActionGroup } from '../actions/home-page.action-group';
 import { selectHomePageState } from '../reducers/home-page.reducer';
 
 export class HomePageEffects extends BaseEffects {
-  private youtubeService = inject(YoutubeService);
+  private youtubeService = inject(YoutubeHttpService);
   loadYoutubePopularVideos$ = this.createHttpEffectWithStateAndUpdateResponse(
     homePageActionGroup.loadYoutubePopularVideos,
     (_) => this.store.pipe(select(selectHomePageState)),
@@ -68,7 +68,7 @@ export class HomePageEffects extends BaseEffects {
 
   updateAccessTokenSuccess$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(loginActionGroup.updateAccessTokenSuccess),
+      ofType(sharedActionGroup.updateAccessTokenSuccess),
       map((_) => {
         return homePageActionGroup.loadMyChannelInfo();
       }),

@@ -1,5 +1,11 @@
 import { MasterHeaderComponent } from '@angular-youtube/header-feature';
 import { BrowseComponent } from '@angular-youtube/home-page-feature';
+import {
+  Auth,
+  BaseWithSandBoxComponent,
+  selectAccessTokenInfo,
+  sharedActionGroup,
+} from '@angular-youtube/shared-data-access';
 import { SidebarService } from '@angular-youtube/shared-ui';
 import {
   SidebarComponent,
@@ -10,6 +16,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   inject,
   OnInit,
   signal,
@@ -34,9 +41,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent
+  extends BaseWithSandBoxComponent
+  implements OnInit
+{
   sidebarService = inject(SidebarService);
   media = inject(MediaMatcher);
+  authService = inject(Auth);
   //TODO should change to 1312px later
   mobileQuery = this.media.matchMedia('(max-width: 950px)');
   mobileQueryMatches = signal(this.mobileQuery.matches);
@@ -44,12 +55,36 @@ export class LayoutComponent implements OnInit {
   showStartHeader = computed(
     () => !this.sidebarService.isOpened() || this.mode() === 'over',
   );
-  sidebarWidth = signal('237px');
+  sidebarWidth = signal('236px');
   sidebarMiniWidth = signal('74px');
   sideNavContentWith = computed(() => {
     return this.showStartHeader()
       ? 'calc(100vw - var(--sidebar-mini-width))'
       : 'calc(100vw - var(--sidebar-width))';
+  });
+  accessTokenInfo = this.selectSignal(selectAccessTokenInfo);
+
+  loginEffect = effect(() => {
+    const accessToken = this.authService.accessToken();
+    this.dispatchAction(
+      sharedActionGroup.updateAccessToken({ accessToken: accessToken }),
+    );
+  });
+
+  refreshTokenEffect = effect(() => {
+    const accessTokenInfo = this.accessTokenInfo();
+    //TODO find a way to get refresh token to get new access token silently
+    if (accessTokenInfo) {
+      const milisecondsDiff =
+        accessTokenInfo.expired_datetime.getTime() - new Date().getTime();
+      if (milisecondsDiff <= 10000) {
+        this.authService.login();
+      } else {
+        setTimeout(() => {
+          this.authService.login();
+        }, milisecondsDiff - 10000);
+      }
+    }
   });
 
   ngOnInit() {

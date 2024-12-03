@@ -6,18 +6,14 @@ import { selectMyChannelInfo } from '@angular-youtube/home-page-data-access';
 import {
   Auth,
   BaseWithSandBoxComponent,
-  IMyChannelInfo,
-  loginActionGroup,
 } from '@angular-youtube/shared-data-access';
 import { LogoMenuComponent } from '@angular-youtube/shared-ui';
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
   inject,
   input,
   signal,
-  Signal,
 } from '@angular/core';
 
 @Component({
@@ -33,19 +29,7 @@ import {
 })
 export class MasterHeaderComponent extends BaseWithSandBoxComponent {
   showStartHeader = input.required();
-  user: Signal<IMyChannelInfo | undefined>;
   authService = inject(Auth);
   logoMenuWidth = signal('236px');
-
-  userEffect = effect(() => {
-    const accessToken = this.authService.accessToken();
-    this.dispatchAction(
-      loginActionGroup.updateAccessToken({ accessToken: accessToken }),
-    );
-  });
-
-  constructor() {
-    super();
-    this.user = this.selectSignal(selectMyChannelInfo);
-  }
+  user = this.selectSignal(selectMyChannelInfo);
 }

@@ -4,9 +4,6 @@ import {
   homePageStateName,
 } from '@angular-youtube/home-page-data-access';
 import {
-  CommonEffects,
-  loginReducer,
-  loginStateName,
   SharedEffects,
   sharedReducer,
   sharedStateName,
@@ -26,7 +23,7 @@ import { ExternalComponent } from './external.component';
 
 const canNavigateToExternalPage: CanActivateFn = (
   route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  state: RouterStateSnapshot,
 ) => {
   const router = inject(Router);
   const externalUrl =
@@ -40,10 +37,9 @@ export const mainRoutes: Route[] = [
     component: LayoutComponent,
     children: [],
     providers: [
-      provideState(loginStateName, loginReducer),
       provideState(homePageStateName, homePageReducer),
       provideState(sharedStateName, sharedReducer),
-      provideEffects(SharedEffects, CommonEffects, HomePageEffects),
+      provideEffects(SharedEffects, HomePageEffects),
     ],
   },
   {
