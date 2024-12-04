@@ -1,7 +1,7 @@
 import { computed, Directive, input, signal } from '@angular/core';
 
 @Directive({
-  selector: 'mat-list-item[aySidebarItem]',
+  selector: 'mat-list-item[aySectionItem]',
   host: {
     '[style.backgroundColor]': "shouldHighlight() ? '#0000000d' : 'unset'",
     '(mouseenter)': 'onMouseEnter()',
@@ -9,8 +9,8 @@ import { computed, Directive, input, signal } from '@angular/core';
   },
   standalone: true,
 })
-export class SidebarItemDirective {
-  isSelected = input<boolean>(false, { alias: 'aySidebarItem' });
+export class SectionItemDirective {
+  isSelected = input<boolean>(false, { alias: 'aySectionItem' });
   isHovered = signal(false);
   shouldHighlight = computed(() => this.isSelected() || this.isHovered());
 

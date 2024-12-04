@@ -10,14 +10,14 @@
       <mat-list>
         @for (menuItem of accountMenuItems(); track menuItem.iconName) {
           <mat-list-item
-            [aySidebarItem]="menuItem.iconName === selectedIconName()"
+            [aySectionItem]="menuItem.iconName === selectedIconName()"
             class="account_menu_item"
             (click)="onClick(menuItem.iconName)"
           >
             <mat-icon [svgIcon]="menuItem.iconName" matListItemIcon></mat-icon>
-            <ay-sidebar-item-content
+            <ay-section-item-content
               [displayText]="menuItem.displayText"
-            ></ay-sidebar-item-content>
+            ></ay-section-item-content>
           </mat-list-item>
         }
       </mat-list>
@@ -26,14 +26,14 @@
       <mat-list>
         @for (menuItem of youtubeMenuItems(); track menuItem.iconName) {
           <mat-list-item
-            [aySidebarItem]="menuItem.iconName === selectedIconName()"
+            [aySectionItem]="menuItem.iconName === selectedIconName()"
             class="account_menu_item"
             (click)="onClick(menuItem.iconName)"
           >
             <mat-icon [svgIcon]="menuItem.iconName" matListItemIcon></mat-icon>
-            <ay-sidebar-item-content
+            <ay-section-item-content
               [displayText]="menuItem.displayText"
-            ></ay-sidebar-item-content>
+            ></ay-section-item-content>
           </mat-list-item>
         }
       </mat-list>
@@ -45,14 +45,14 @@
           track menuItem.iconName
         ) {
           <mat-list-item
-            [aySidebarItem]="menuItem.iconName === selectedIconName()"
+            [aySectionItem]="menuItem.iconName === selectedIconName()"
             class="account_menu_item"
             (click)="onClick(menuItem.iconName)"
           >
             <mat-icon [svgIcon]="menuItem.iconName" matListItemIcon></mat-icon>
-            <ay-sidebar-item-content
+            <ay-section-item-content
               [displayText]="menuItem.displayText"
-            ></ay-sidebar-item-content>
+            ></ay-section-item-content>
           </mat-list-item>
         }
       </mat-list>
@@ -61,14 +61,14 @@
       <mat-list>
         @for (menuItem of settingsMenuItems(); track menuItem.iconName) {
           <mat-list-item
-            [aySidebarItem]="menuItem.iconName === selectedIconName()"
+            [aySectionItem]="menuItem.iconName === selectedIconName()"
             class="account_menu_item"
             (click)="onClick(menuItem.iconName)"
           >
             <mat-icon [svgIcon]="menuItem.iconName" matListItemIcon></mat-icon>
-            <ay-sidebar-item-content
+            <ay-section-item-content
               [displayText]="menuItem.displayText"
-            ></ay-sidebar-item-content>
+            ></ay-section-item-content>
           </mat-list-item>
         }
       </mat-list>
@@ -77,14 +77,14 @@
       <mat-list>
         @for (menuItem of helpAndFeedbackMenuItems(); track menuItem.iconName) {
           <mat-list-item
-            [aySidebarItem]="menuItem.iconName === selectedIconName()"
+            [aySectionItem]="menuItem.iconName === selectedIconName()"
             class="account_menu_item"
             (click)="onClick(menuItem.iconName)"
           >
             <mat-icon [svgIcon]="menuItem.iconName" matListItemIcon></mat-icon>
-            <ay-sidebar-item-content
+            <ay-section-item-content
               [displayText]="menuItem.displayText"
-            ></ay-sidebar-item-content>
+            ></ay-section-item-content>
           </mat-list-item>
         }
       </mat-list>

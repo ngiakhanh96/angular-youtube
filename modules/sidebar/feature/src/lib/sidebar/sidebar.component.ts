@@ -1,9 +1,11 @@
-import { IconDirective, LogoMenuComponent } from '@angular-youtube/shared-ui';
 import {
-  SidebarItemContentComponent,
-  SidebarItemDirective,
-  SidebarSectionHeaderComponent,
-} from '@angular-youtube/sidebar-ui';
+  IconDirective,
+  ISectionItem,
+  LogoMenuComponent,
+  SectionItemContentComponent,
+  SectionItemDirective,
+} from '@angular-youtube/shared-ui';
+import { SidebarSectionHeaderComponent } from '@angular-youtube/sidebar-ui';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,11 +16,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
 
-export interface IMenuItem {
-  iconName: string;
-  displayText: string;
-}
-
 @Component({
   selector: 'ay-sidebar',
   standalone: true,
@@ -28,8 +25,8 @@ export interface IMenuItem {
     MatIconModule,
     IconDirective,
     SidebarSectionHeaderComponent,
-    SidebarItemDirective,
-    SidebarItemContentComponent,
+    SectionItemDirective,
+    SectionItemContentComponent,
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
@@ -37,7 +34,7 @@ export interface IMenuItem {
 })
 export class SidebarComponent {
   //TODO handle filled icon on selected item
-  entrySidebarMenuItems = signal<IMenuItem[]>([
+  entrySidebarMenuItems = signal<ISectionItem[]>([
     {
       iconName: 'home',
       displayText: 'Home',
@@ -56,7 +53,7 @@ export class SidebarComponent {
     },
   ]);
 
-  youSidebarMenuItems = signal<IMenuItem[]>([
+  youSidebarMenuItems = signal<ISectionItem[]>([
     {
       iconName: 'history',
       displayText: 'History',

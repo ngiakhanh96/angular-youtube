@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SidebarService } from '../sidebar/sidebar.service';
+import { SidebarService } from '../services/sidebar.service';
 import {
   SvgButtonRendererComponent,
   SvgButtonTemplateDirective,

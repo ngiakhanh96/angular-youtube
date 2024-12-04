@@ -1,5 +1,8 @@
-import { IconDirective } from '@angular-youtube/shared-ui';
-import { SidebarItemDirective } from '@angular-youtube/sidebar-ui';
+import {
+  IconDirective,
+  ISectionItem,
+  SectionItemDirective,
+} from '@angular-youtube/shared-ui';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,19 +12,18 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
-import { IMenuItem } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'ay-sidebar-mini',
   standalone: true,
-  imports: [MatListModule, MatIconModule, IconDirective, SidebarItemDirective],
+  imports: [MatListModule, MatIconModule, IconDirective, SectionItemDirective],
   templateUrl: './sidebar-mini.component.html',
   styleUrl: './sidebar-mini.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarMiniComponent {
   //TODO handle filled icon on selected item
-  entrySidebarMenuItems = signal<IMenuItem[]>([
+  entrySidebarMenuItems = signal<ISectionItem[]>([
     {
       iconName: 'home',
       displayText: 'Home',

@@ -1,10 +1,10 @@
 import { IMyChannelInfo } from '@angular-youtube/shared-data-access';
-import { IconDirective } from '@angular-youtube/shared-ui';
-import { IMenuItem } from '@angular-youtube/sidebar-feature';
 import {
-  SidebarItemContentComponent,
-  SidebarItemDirective,
-} from '@angular-youtube/sidebar-ui';
+  IconDirective,
+  ISectionItem,
+  SectionItemContentComponent,
+  SectionItemDirective,
+} from '@angular-youtube/shared-ui';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -24,8 +24,8 @@ import { AccountQuickInfoComponent } from '../account-quick-info/account-quick-i
     MatListModule,
     MatIconModule,
     IconDirective,
-    SidebarItemDirective,
-    SidebarItemContentComponent,
+    SectionItemDirective,
+    SectionItemContentComponent,
     AccountQuickInfoComponent,
   ],
   templateUrl: './account-menu.component.html',
@@ -34,7 +34,7 @@ import { AccountQuickInfoComponent } from '../account-quick-info/account-quick-i
 })
 export class AccountMenuComponent {
   public user = input.required<IMyChannelInfo | undefined>();
-  accountMenuItems = signal<IMenuItem[]>([
+  accountMenuItems = signal<ISectionItem[]>([
     {
       iconName: 'google-account',
       displayText: 'Google Account',
@@ -49,7 +49,7 @@ export class AccountMenuComponent {
     },
   ]);
 
-  youtubeMenuItems = signal<IMenuItem[]>([
+  youtubeMenuItems = signal<ISectionItem[]>([
     {
       iconName: 'youtube-studio',
       displayText: 'Youtube Studio',
@@ -64,7 +64,7 @@ export class AccountMenuComponent {
     },
   ]);
 
-  languageAndAppearanceMenuItems = signal<IMenuItem[]>([
+  languageAndAppearanceMenuItems = signal<ISectionItem[]>([
     {
       iconName: 'data-in-youtube',
       displayText: 'Your data in Youtube',
@@ -91,14 +91,14 @@ export class AccountMenuComponent {
     },
   ]);
 
-  settingsMenuItems = signal<IMenuItem[]>([
+  settingsMenuItems = signal<ISectionItem[]>([
     {
       iconName: 'settings',
       displayText: 'Settings',
     },
   ]);
 
-  helpAndFeedbackMenuItems = signal<IMenuItem[]>([
+  helpAndFeedbackMenuItems = signal<ISectionItem[]>([
     {
       iconName: 'help',
       displayText: 'Help',

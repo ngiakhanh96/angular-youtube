@@ -6,18 +6,18 @@ import {
   input,
 } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
-import { SidebarItemDirective } from '../../directives/sidebar-item/sidebar-item.directive';
+import { SectionItemDirective } from '../directives/section-item/section-item.directive';
 
 @Component({
-  selector: 'ay-sidebar-item-content',
+  selector: 'ay-section-item-content',
   standalone: true,
   imports: [MatListModule],
-  templateUrl: './sidebar-item-content.component.html',
-  styleUrl: './sidebar-item-content.component.scss',
+  templateUrl: './section-item-content.component.html',
+  styleUrl: './section-item-content.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarItemContentComponent {
+export class SectionItemContentComponent {
   displayText = input.required<string>();
-  matListItem = inject(SidebarItemDirective);
+  matListItem = inject(SectionItemDirective);
   shouldHighlight = computed(() => this.matListItem.shouldHighlight());
 }
