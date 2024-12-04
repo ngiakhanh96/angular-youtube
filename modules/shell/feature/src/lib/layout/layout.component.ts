@@ -48,8 +48,7 @@ export class LayoutComponent
   sidebarService = inject(SidebarService);
   media = inject(MediaMatcher);
   authService = inject(Auth);
-  //TODO should change to 1312px later
-  mobileQuery = this.media.matchMedia('(max-width: 950px)');
+  mobileQuery = this.media.matchMedia('(max-width: 1312px)');
   mobileQueryMatches = signal(this.mobileQuery.matches);
   mode = computed(() => (this.mobileQueryMatches() ? 'over' : 'side'));
   showStartHeader = computed(

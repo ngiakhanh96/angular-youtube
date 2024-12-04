@@ -1,13 +1,16 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SidebarService } from '../sidebar/sidebar.service';
-import { SvgButtonRendererComponent } from '../svg-button-renderer/svg-button-renderer.component';
+import {
+  SvgButtonRendererComponent,
+  SvgButtonTemplateDirective,
+} from '../svg-button-renderer/svg-button-renderer.component';
 
 @Component({
   selector: 'ay-hamburger-button',
   templateUrl: './hamburger-button.component.html',
   styleUrls: ['./hamburger-button.component.scss'],
   standalone: true,
-  imports: [SvgButtonRendererComponent],
+  imports: [SvgButtonRendererComponent, SvgButtonTemplateDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HamburgerButtonComponent {

@@ -1,7 +1,12 @@
-<ay-svg-button-renderer
-  viewBox="-8 0 40 24"
-  path="M21 6H3V5h18v1zm0 5H3v1h18v-1zm0 6H3v1h18v-1z"
-  [disabled]="true"
-  (click)="onClick()"
->
+<ay-svg-button-renderer [disabled]="true" (click)="onClick()">
+  <ng-template aySvgButtonTmp>
+    <svg
+      viewBox="0 0 24 24"
+      preserveAspectRatio="xMidYMid meet"
+      focusable="false"
+      class="pointer-events-none block w-[24px] h-[24px]"
+    >
+      <path d="M21 6H3V5h18v1zm0 5H3v1h18v-1zm0 6H3v1h18v-1z"></path>
+    </svg>
+  </ng-template>
 </ay-svg-button-renderer>

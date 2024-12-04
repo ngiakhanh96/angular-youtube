@@ -52,7 +52,7 @@ export class SidebarComponent {
     },
     {
       iconName: 'youtube-music',
-      displayText: 'Youtube Music',
+      displayText: 'YouTube Music',
     },
   ]);
 

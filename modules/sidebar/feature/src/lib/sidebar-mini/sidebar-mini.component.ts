@@ -36,7 +36,7 @@ export class SidebarMiniComponent {
     },
     {
       iconName: 'youtube-music',
-      displayText: 'Youtube Music',
+      displayText: 'YouTube Music',
     },
     {
       iconName: 'you',

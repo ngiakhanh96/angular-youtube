@@ -4,4 +4,8 @@
 
 .logo_menu {
   @apply flex items-center h-full;
+
+  ay-hamburger-button {
+    @apply mr-[12px] ml-[8px];
+  }
 }
