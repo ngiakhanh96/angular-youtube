@@ -1,8 +1,4 @@
-import {
-  ApplicationConfig,
-  mergeApplicationConfig,
-  provideZoneChangeDetection,
-} from '@angular/core';
+import { ApplicationConfig, mergeApplicationConfig } from '@angular/core';
 import {
   provideClientHydration,
   withEventReplay,
@@ -13,7 +9,6 @@ import { appConfig } from './app.config';
 
 const serverConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
     provideServerRendering(),
     provideClientHydration(withEventReplay(), withIncrementalHydration()),
   ],

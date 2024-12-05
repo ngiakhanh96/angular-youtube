@@ -10,7 +10,13 @@ import {
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom, mergeApplicationConfig, provideExperimentalZonelessChangeDetection, inject, provideAppInitializer } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  inject,
+  provideAppInitializer,
+  provideExperimentalZonelessChangeDetection,
+} from '@angular/core';
 import { MAT_RIPPLE_GLOBAL_OPTIONS } from '@angular/material/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -71,7 +77,8 @@ export const appConfig: ApplicationConfig = {
       useValue: 'AIzaSyCn5erIAtKzaNiuh-5IJgnorW7yOEH5gyE',
     },
     provideAppInitializer(() => {
-        const initializerFn = ((iconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) => () => {
+      const initializerFn = (
+        (iconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) => () => {
           const defaultFontSetClasses = iconRegistry.getDefaultFontSetClass();
           const outlinedFontSetClasses = defaultFontSetClasses
             .filter((fontSetClass) => fontSetClass !== 'material-icons')
@@ -80,13 +87,9 @@ export const appConfig: ApplicationConfig = {
           iconRegistry.addSvgIconSet(
             domSanitizer.bypassSecurityTrustResourceUrl('assets/icons.svg'),
           );
-        })(inject(MatIconRegistry), inject(DomSanitizer));
-        return initializerFn();
-      }),
+        }
+      )(inject(MatIconRegistry), inject(DomSanitizer));
+      return initializerFn();
+    }),
   ],
 };
-
-const zonelessConfig: ApplicationConfig = {
-  providers: [provideExperimentalZonelessChangeDetection()],
-};
-export const csrConfig = mergeApplicationConfig(appConfig, zonelessConfig);

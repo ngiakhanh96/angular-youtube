@@ -17,7 +17,7 @@
     @for (videoCategory of videoCategories(); track videoCategory.id) {
       <mat-chip
         (click)="selectVideoCategory(videoCategory)"
-        [highlighted]="selectedVideoCategory()?.id === videoCategory.id"
+        [highlighted]="selectedVideoCategory().id === videoCategory.id"
         >{{ videoCategory.title }}</mat-chip
       >
     }

@@ -3,10 +3,10 @@ import {
   afterNextRender,
   ChangeDetectionStrategy,
   Component,
-  effect,
   ElementRef,
   inject,
   input,
+  linkedSignal,
   signal,
 } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
@@ -17,17 +17,17 @@ export interface IVideoCategoryViewModel {
 }
 
 @Component({
-    selector: 'ay-video-categories',
-    imports: [MatChipsModule, SvgButtonRendererComponent],
-    templateUrl: './video-categories.component.html',
-    styleUrls: ['./video-categories.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ay-video-categories',
+  imports: [MatChipsModule, SvgButtonRendererComponent],
+  templateUrl: './video-categories.component.html',
+  styleUrls: ['./video-categories.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoCategoriesComponent {
   videoCategories = input.required<IVideoCategoryViewModel[]>();
   shouldShowScrollLeftButton = signal(false);
   shouldShowScrollRightButton = signal(true);
-  selectedVideoCategory = signal<IVideoCategoryViewModel | null>(null);
+  selectedVideoCategory = linkedSignal(() => this.videoCategories()[0]);
   private videoCategoryList?: Element;
   private static scrollingWidth = 400;
   constructor() {
@@ -41,14 +41,6 @@ export class VideoCategoriesComponent {
           this.onScrollEnd(event);
       },
     });
-
-    //TODO change to linkedSignal in angular 19
-    effect(
-      () => {
-        this.selectedVideoCategory.set(this.videoCategories()[0]);
-      },
-      { allowSignalWrites: true },
-    );
   }
 
   selectVideoCategory(videoCategory: IVideoCategoryViewModel) {
