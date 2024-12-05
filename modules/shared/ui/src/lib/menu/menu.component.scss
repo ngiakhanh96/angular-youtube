@@ -1,0 +1,13 @@
+:host {
+  @apply block overflow-y-auto;
+}
+
+.menu_sections {
+  @apply pl-[16px] flex flex-col;
+  scrollbar-color: rgba(0, 0, 0, 0.4) var(--white-color);
+  scrollbar-width: thin;
+
+  & :nth-child(n + 2 of .menu_section) {
+    @apply border-solid border-t border-[rgba(0,0,0,0.1)];
+  }
+}

@@ -1,9 +1,9 @@
-<div class="section_menu_section">
+<div class="menu_section">
   <mat-list>
     @for (menuItem of sectionItems(); track menuItem.iconName) {
       <mat-list-item
         [aySectionItem]="menuItem.iconName === selectedIconName()"
-        class="section_menu_item"
+        class="menu_section_item"
         (click)="onClick(menuItem.iconName)"
       >
         <mat-icon [svgIcon]="menuItem.iconName" matListItemIcon></mat-icon>

@@ -1,6 +1,5 @@
 import { IMyChannelInfo } from '@angular-youtube/shared-data-access';
 import {
-  OverlayContainerComponent,
   OverlayDirective,
   SettingsButtonComponent,
   SvgButtonRendererComponent,
@@ -30,21 +29,20 @@ declare global {
 }
 
 @Component({
-    selector: 'ay-end-header',
-    templateUrl: './end-header.component.html',
-    styleUrls: ['./end-header.component.scss'],
-    imports: [
-        SvgButtonRendererComponent,
-        SvgButtonTemplateDirective,
-        NgOptimizedImage,
-        SettingsButtonComponent,
-        LoginButtonComponent,
-        OverlayModule,
-        AccountMenuComponent,
-        OverlayContainerComponent,
-        OverlayDirective,
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ay-end-header',
+  templateUrl: './end-header.component.html',
+  styleUrls: ['./end-header.component.scss'],
+  imports: [
+    SvgButtonRendererComponent,
+    SvgButtonTemplateDirective,
+    NgOptimizedImage,
+    SettingsButtonComponent,
+    LoginButtonComponent,
+    OverlayModule,
+    AccountMenuComponent,
+    OverlayDirective,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EndHeaderComponent {
   public user = input.required<IMyChannelInfo | undefined>();
