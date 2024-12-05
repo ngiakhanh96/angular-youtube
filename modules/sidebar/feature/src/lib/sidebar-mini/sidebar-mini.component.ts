@@ -14,12 +14,11 @@ import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'ay-sidebar-mini',
-  standalone: true,
-  imports: [MatListModule, MatIconModule, IconDirective, SectionItemDirective],
-  templateUrl: './sidebar-mini.component.html',
-  styleUrl: './sidebar-mini.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ay-sidebar-mini',
+    imports: [MatListModule, MatIconModule, IconDirective, SectionItemDirective],
+    templateUrl: './sidebar-mini.component.html',
+    styleUrl: './sidebar-mini.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarMiniComponent {
   //TODO handle filled icon on selected item

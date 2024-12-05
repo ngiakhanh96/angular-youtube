@@ -46,12 +46,11 @@ export class RippleOnHoverDirective {
 }
 
 @Component({
-  selector: 'ay-svg-button-renderer',
-  templateUrl: './svg-button-renderer.component.html',
-  styleUrls: ['./svg-button-renderer.component.scss'],
-  standalone: true,
-  imports: [CommonModule, MatRippleModule, RippleOnHoverDirective],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ay-svg-button-renderer',
+    templateUrl: './svg-button-renderer.component.html',
+    styleUrls: ['./svg-button-renderer.component.scss'],
+    imports: [CommonModule, MatRippleModule, RippleOnHoverDirective],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SvgButtonRendererComponent {
   public avgButtonTmp = contentChild(SvgButtonTemplateDirective, {

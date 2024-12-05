@@ -6,6 +6,7 @@ import {
 import {
   provideClientHydration,
   withEventReplay,
+  withIncrementalHydration,
 } from '@angular/platform-browser';
 import { provideServerRendering } from '@angular/platform-server';
 import { appConfig } from './app.config';
@@ -14,7 +15,7 @@ const serverConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideServerRendering(),
-    provideClientHydration(withEventReplay()),
+    provideClientHydration(withEventReplay(), withIncrementalHydration()),
   ],
 };
 

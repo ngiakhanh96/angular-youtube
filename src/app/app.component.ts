@@ -4,12 +4,11 @@ import { RouterModule } from '@angular/router';
 
 //TODO upgrade to angular 19
 @Component({
-  standalone: true,
-  imports: [RouterModule, SpinnerComponent],
-  selector: 'ay-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [RouterModule, SpinnerComponent],
+    selector: 'ay-root',
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
   title = 'angular-youtube';

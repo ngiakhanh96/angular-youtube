@@ -1,4 +1,3 @@
-import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 import { IMyChannelInfo } from '@angular-youtube/shared-data-access';
 import {
   OverlayContainerComponent,
@@ -31,23 +30,21 @@ declare global {
 }
 
 @Component({
-  selector: 'ay-end-header',
-  templateUrl: './end-header.component.html',
-  styleUrls: ['./end-header.component.scss'],
-  standalone: true,
-  imports: [
-    SvgButtonRendererComponent,
-    GoogleSigninButtonModule,
-    SvgButtonTemplateDirective,
-    NgOptimizedImage,
-    SettingsButtonComponent,
-    LoginButtonComponent,
-    OverlayModule,
-    AccountMenuComponent,
-    OverlayContainerComponent,
-    OverlayDirective,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ay-end-header',
+    templateUrl: './end-header.component.html',
+    styleUrls: ['./end-header.component.scss'],
+    imports: [
+        SvgButtonRendererComponent,
+        SvgButtonTemplateDirective,
+        NgOptimizedImage,
+        SettingsButtonComponent,
+        LoginButtonComponent,
+        OverlayModule,
+        AccountMenuComponent,
+        OverlayContainerComponent,
+        OverlayDirective,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EndHeaderComponent {
   public user = input.required<IMyChannelInfo | undefined>();

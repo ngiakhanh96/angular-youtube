@@ -14,21 +14,20 @@ import {
 export type PlaceholderImageQuality = 'high' | 'standard' | 'low';
 
 @Component({
-  selector: 'ay-youtube-player-placeholder',
-  templateUrl: './youtube-player-placeholder.component.html',
-  standalone: true,
-  styleUrls: ['./youtube-player-placeholder.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  imports: [SvgButtonRendererComponent, SvgButtonTemplateDirective],
-  host: {
-    class: 'youtube-player-placeholder',
-    '[class.youtube-player-placeholder-loading]': 'isLoading()',
-    '[style.background-image]': 'backgroundImageUrl()',
-    '[style.width]': 'width()',
-    '[style.height]': 'height()',
-    '[style.borderRadius]': 'borderRadius()',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ay-youtube-player-placeholder',
+    templateUrl: './youtube-player-placeholder.component.html',
+    styleUrls: ['./youtube-player-placeholder.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    imports: [SvgButtonRendererComponent, SvgButtonTemplateDirective],
+    host: {
+        class: 'youtube-player-placeholder',
+        '[class.youtube-player-placeholder-loading]': 'isLoading()',
+        '[style.background-image]': 'backgroundImageUrl()',
+        '[style.width]': 'width()',
+        '[style.height]': 'height()',
+        '[style.borderRadius]': 'borderRadius()',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class YouTubePlayerPlaceholderComponent {
   /** ID of the video for which to show the placeholder. */

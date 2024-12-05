@@ -3,12 +3,11 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'ay-sidebar-section-header',
-  standalone: true,
-  imports: [MatIconModule, IconDirective],
-  templateUrl: './sidebar-section-header.component.html',
-  styleUrl: './sidebar-section-header.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ay-sidebar-section-header',
+    imports: [MatIconModule, IconDirective],
+    templateUrl: './sidebar-section-header.component.html',
+    styleUrl: './sidebar-section-header.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarSectionHeaderComponent {
   displayText = input.required<string>();

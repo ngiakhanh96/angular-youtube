@@ -20,12 +20,11 @@ export class ButtonIconTemplateDirective {
 }
 
 @Component({
-  selector: 'ay-button-renderer',
-  templateUrl: './button-renderer.component.html',
-  styleUrls: ['./button-renderer.component.scss'],
-  standalone: true,
-  imports: [NgTemplateOutlet],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ay-button-renderer',
+    templateUrl: './button-renderer.component.html',
+    styleUrls: ['./button-renderer.component.scss'],
+    imports: [NgTemplateOutlet],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ButtonRendererComponent {
   public buttonTextTmp = contentChild(ButtonTextTemplateDirective, {

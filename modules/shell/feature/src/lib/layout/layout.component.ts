@@ -24,22 +24,21 @@ import {
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
-  selector: 'ay-layout',
-  standalone: true,
-  imports: [
-    MasterHeaderComponent,
-    BrowseComponent,
-    MatSidenavModule,
-    SidebarComponent,
-    SidebarMiniComponent,
-  ],
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss'],
-  host: {
-    '[style.--sidebar-width]': 'sidebarWidth()',
-    '[style.--sidebar-mini-width]': 'sidebarMiniWidth()',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ay-layout',
+    imports: [
+        MasterHeaderComponent,
+        BrowseComponent,
+        MatSidenavModule,
+        SidebarComponent,
+        SidebarMiniComponent,
+    ],
+    templateUrl: './layout.component.html',
+    styleUrls: ['./layout.component.scss'],
+    host: {
+        '[style.--sidebar-width]': 'sidebarWidth()',
+        '[style.--sidebar-mini-width]': 'sidebarMiniWidth()',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutComponent
   extends BaseWithSandBoxComponent

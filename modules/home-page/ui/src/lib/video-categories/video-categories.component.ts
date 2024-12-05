@@ -17,12 +17,11 @@ export interface IVideoCategoryViewModel {
 }
 
 @Component({
-  selector: 'ay-video-categories',
-  standalone: true,
-  imports: [MatChipsModule, SvgButtonRendererComponent],
-  templateUrl: './video-categories.component.html',
-  styleUrls: ['./video-categories.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ay-video-categories',
+    imports: [MatChipsModule, SvgButtonRendererComponent],
+    templateUrl: './video-categories.component.html',
+    styleUrls: ['./video-categories.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VideoCategoriesComponent {
   videoCategories = input.required<IVideoCategoryViewModel[]>();

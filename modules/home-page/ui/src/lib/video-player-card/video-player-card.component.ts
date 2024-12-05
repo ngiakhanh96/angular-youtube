@@ -13,12 +13,11 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'ay-video-player-card',
-  standalone: true,
-  imports: [YouTubePlayerComponent, NgOptimizedImage, SettingsButtonComponent],
-  templateUrl: './video-player-card.component.html',
-  styleUrls: ['./video-player-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ay-video-player-card',
+    imports: [YouTubePlayerComponent, NgOptimizedImage, SettingsButtonComponent],
+    templateUrl: './video-player-card.component.html',
+    styleUrls: ['./video-player-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VideoPlayerCardComponent {
   videoId = input.required<string>();

@@ -118,16 +118,15 @@ enum PlayerState {
  */
 //TODO support feature unhover pause and display placeholders
 @Component({
-  selector: 'ay-youtube-player',
-  encapsulation: ViewEncapsulation.None,
-  standalone: true,
-  imports: [YouTubePlayerPlaceholderComponent],
-  templateUrl: './youtube-player.component.html',
-  styleUrls: ['./youtube-player.component.scss'],
-  host: {
-    '[style.--border-radius]': 'borderRadius()',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ay-youtube-player',
+    encapsulation: ViewEncapsulation.None,
+    imports: [YouTubePlayerPlaceholderComponent],
+    templateUrl: './youtube-player.component.html',
+    styleUrls: ['./youtube-player.component.scss'],
+    host: {
+        '[style.--border-radius]': 'borderRadius()',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class YouTubePlayerComponent implements OnDestroy {
   private _ngZone = inject(NgZone);

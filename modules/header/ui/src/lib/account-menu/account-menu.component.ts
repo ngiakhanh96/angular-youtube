@@ -18,19 +18,18 @@ import { Router } from '@angular/router';
 import { AccountQuickInfoComponent } from '../account-quick-info/account-quick-info.component';
 
 @Component({
-  selector: 'ay-account-menu',
-  standalone: true,
-  imports: [
-    MatListModule,
-    MatIconModule,
-    IconDirective,
-    SectionItemDirective,
-    SectionItemContentComponent,
-    AccountQuickInfoComponent,
-  ],
-  templateUrl: './account-menu.component.html',
-  styleUrl: './account-menu.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ay-account-menu',
+    imports: [
+        MatListModule,
+        MatIconModule,
+        IconDirective,
+        SectionItemDirective,
+        SectionItemContentComponent,
+        AccountQuickInfoComponent,
+    ],
+    templateUrl: './account-menu.component.html',
+    styleUrl: './account-menu.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountMenuComponent {
   public user = input.required<IMyChannelInfo | undefined>();

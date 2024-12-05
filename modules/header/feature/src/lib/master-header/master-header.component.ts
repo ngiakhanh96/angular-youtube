@@ -17,15 +17,14 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'ay-master-header',
-  templateUrl: './master-header.component.html',
-  styleUrls: ['./master-header.component.scss'],
-  standalone: true,
-  imports: [LogoMenuComponent, CenterHeaderComponent, EndHeaderComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[style.--logo-menu-width]': 'logoMenuWidth()',
-  },
+    selector: 'ay-master-header',
+    templateUrl: './master-header.component.html',
+    styleUrls: ['./master-header.component.scss'],
+    imports: [LogoMenuComponent, CenterHeaderComponent, EndHeaderComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        '[style.--logo-menu-width]': 'logoMenuWidth()',
+    }
 })
 export class MasterHeaderComponent extends BaseWithSandBoxComponent {
   showStartHeader = input.required();

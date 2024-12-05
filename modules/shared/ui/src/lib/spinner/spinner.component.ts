@@ -17,12 +17,11 @@ import { tap } from 'rxjs';
 import { SpinnerService } from './spinner.service';
 
 @Component({
-  selector: 'ay-spinner',
-  templateUrl: './spinner.component.html',
-  styleUrls: ['./spinner.component.scss'],
-  imports: [MatProgressSpinnerModule, AsyncPipe, RouterModule],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ay-spinner',
+    templateUrl: './spinner.component.html',
+    styleUrls: ['./spinner.component.scss'],
+    imports: [MatProgressSpinnerModule, AsyncPipe, RouterModule],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpinnerComponent implements OnInit {
   detectRouteTransitions = input(false);

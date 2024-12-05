@@ -16,18 +16,17 @@ export interface ISectionItem {
 }
 
 @Component({
-  selector: 'ay-menu-section',
-  templateUrl: './menu-section.component.html',
-  styleUrls: ['./menu-section.component.scss'],
-  standalone: true,
-  imports: [
-    MatListModule,
-    MatIconModule,
-    IconDirective,
-    SectionItemDirective,
-    SectionItemContentComponent,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ay-menu-section',
+    templateUrl: './menu-section.component.html',
+    styleUrls: ['./menu-section.component.scss'],
+    imports: [
+        MatListModule,
+        MatIconModule,
+        IconDirective,
+        SectionItemDirective,
+        SectionItemContentComponent,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuSectionComponent {
   sectionItems = input.required<ISectionItem[]>();

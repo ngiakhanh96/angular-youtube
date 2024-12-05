@@ -17,20 +17,19 @@ import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'ay-sidebar',
-  standalone: true,
-  imports: [
-    LogoMenuComponent,
-    MatListModule,
-    MatIconModule,
-    IconDirective,
-    SidebarSectionHeaderComponent,
-    SectionItemDirective,
-    SectionItemContentComponent,
-  ],
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ay-sidebar',
+    imports: [
+        LogoMenuComponent,
+        MatListModule,
+        MatIconModule,
+        IconDirective,
+        SidebarSectionHeaderComponent,
+        SectionItemDirective,
+        SectionItemContentComponent,
+    ],
+    templateUrl: './sidebar.component.html',
+    styleUrl: './sidebar.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent {
   //TODO handle filled icon on selected item
