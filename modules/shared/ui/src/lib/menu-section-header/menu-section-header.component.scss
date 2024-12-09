@@ -1,11 +1,11 @@
-.sidebar_section_header {
+.menu_section_header {
   @apply flex flex-row font-medium;
 
-  .sidebar_section_text {
+  .menu_section_text {
     @apply mr-[2px];
   }
 
-  .sidebar_section_icon {
+  .menu_section_icon {
     @apply flex items-center;
   }
 }

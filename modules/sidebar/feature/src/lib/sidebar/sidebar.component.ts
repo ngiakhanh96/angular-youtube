@@ -1,14 +1,12 @@
 import {
-  IconDirective,
-  ISectionItem,
+  ISection,
   LogoMenuComponent,
-  SectionItemContentComponent,
-  SectionItemDirective,
+  MenuComponent,
 } from '@angular-youtube/shared-ui';
-import { SidebarSectionHeaderComponent } from '@angular-youtube/sidebar-ui';
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   inject,
   signal,
 } from '@angular/core';
@@ -17,81 +15,145 @@ import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'ay-sidebar',
-    imports: [
-        LogoMenuComponent,
-        MatListModule,
-        MatIconModule,
-        IconDirective,
-        SidebarSectionHeaderComponent,
-        SectionItemDirective,
-        SectionItemContentComponent,
-    ],
-    templateUrl: './sidebar.component.html',
-    styleUrl: './sidebar.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ay-sidebar',
+  imports: [LogoMenuComponent, MatListModule, MatIconModule, MenuComponent],
+  templateUrl: './sidebar.component.html',
+  styleUrl: './sidebar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
   //TODO handle filled icon on selected item
-  entrySidebarMenuItems = signal<ISectionItem[]>([
+  menuItems = signal<ISection[]>([
     {
-      iconName: 'home',
-      displayText: 'Home',
+      sectionItems: [
+        {
+          iconName: 'home',
+          displayText: 'Home',
+        },
+        {
+          iconName: 'shorts',
+          displayText: 'Shorts',
+        },
+        {
+          iconName: 'subscriptions',
+          displayText: 'Subscriptions',
+        },
+        {
+          iconName: 'youtube-music',
+          displayText: 'YouTube Music',
+        },
+      ],
     },
     {
-      iconName: 'shorts',
-      displayText: 'Shorts',
+      header: 'You',
+      sectionItems: [
+        {
+          iconName: 'history',
+          displayText: 'History',
+        },
+        {
+          iconName: 'playlists',
+          displayText: 'Playlists',
+        },
+        {
+          iconName: 'your-videos',
+          displayText: 'Your videos',
+        },
+        {
+          iconName: 'watch-later',
+          displayText: 'Watch later',
+        },
+        {
+          iconName: 'liked-videos',
+          displayText: 'Liked videos',
+        },
+        {
+          iconName: 'downloads',
+          displayText: 'Downloads',
+        },
+        {
+          iconName: 'your-clips',
+          displayText: 'Your clips',
+        },
+      ],
     },
     {
-      iconName: 'subscriptions',
-      displayText: 'Subscriptions',
+      header: 'You2',
+      sectionItems: [
+        {
+          iconName: 'history',
+          displayText: 'History',
+        },
+        {
+          iconName: 'playlists',
+          displayText: 'Playlists',
+        },
+        {
+          iconName: 'your-videos',
+          displayText: 'Your videos',
+        },
+        {
+          iconName: 'watch-later',
+          displayText: 'Watch later',
+        },
+        {
+          iconName: 'liked-videos',
+          displayText: 'Liked videos',
+        },
+        {
+          iconName: 'downloads',
+          displayText: 'Downloads',
+        },
+        {
+          iconName: 'your-clips',
+          displayText: 'Your clips',
+        },
+      ],
     },
     {
-      iconName: 'youtube-music',
-      displayText: 'YouTube Music',
-    },
-  ]);
-
-  youSidebarMenuItems = signal<ISectionItem[]>([
-    {
-      iconName: 'history',
-      displayText: 'History',
-    },
-    {
-      iconName: 'playlists',
-      displayText: 'Playlists',
-    },
-    {
-      iconName: 'your-videos',
-      displayText: 'Your videos',
-    },
-    {
-      iconName: 'watch-later',
-      displayText: 'Watch later',
-    },
-    {
-      iconName: 'liked-videos',
-      displayText: 'Liked videos',
-    },
-    {
-      iconName: 'downloads',
-      displayText: 'Downloads',
-    },
-    {
-      iconName: 'your-clips',
-      displayText: 'Your clips',
+      header: 'You3',
+      sectionItems: [
+        {
+          iconName: 'history',
+          displayText: 'History',
+        },
+        {
+          iconName: 'playlists',
+          displayText: 'Playlists',
+        },
+        {
+          iconName: 'your-videos',
+          displayText: 'Your videos',
+        },
+        {
+          iconName: 'watch-later',
+          displayText: 'Watch later',
+        },
+        {
+          iconName: 'liked-videos',
+          displayText: 'Liked videos',
+        },
+        {
+          iconName: 'downloads',
+          displayText: 'Downloads',
+        },
+        {
+          iconName: 'your-clips',
+          displayText: 'Your clips',
+        },
+      ],
     },
   ]);
 
   selectedIconName = signal('home');
   router = inject(Router);
-  onClick(iconName: string) {
-    this.selectedIconName.set(iconName);
-    if (iconName === 'youtube-music') {
+
+  onClickEffect = effect(() => {
+    if (this.selectedIconName() === 'youtube-music') {
       this.router.navigate(['/externalRedirect'], {
         state: { externalUrl: 'https://music.youtube.com/' },
         skipLocationChange: true,
       });
     }
-  }
+  });
 }

@@ -8,16 +8,7 @@ mat-sidenav-container {
     background-color: var(--white-color);
   }
   mat-sidenav {
-    @apply rounded-none w-[var(--sidebar-width)] h-auto;
-    ::ng-deep {
-      & > div {
-        scrollbar-color: rgba(0, 0, 0, 0.4) var(--white-color);
-        scrollbar-width: thin;
-      }
-    }
-    &:not(:hover) {
-      @apply h-fit;
-    }
+    @apply rounded-none w-[var(--sidebar-width)] h-screen;
   }
 
   mat-sidenav-content {

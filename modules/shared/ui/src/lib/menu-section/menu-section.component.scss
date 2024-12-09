@@ -2,12 +2,19 @@
   @apply block;
 }
 
-.menu_section {
+.menu_section_container {
   .menu_section_item {
     @apply cursor-pointer rounded-[10px];
   }
 
   mat-list {
-    @apply mt-[4px] mb-[4px] mr-[16px];
+    @apply mt-[4px] mb-[4px] mr-[8px];
+  }
+
+  ::ng-deep {
+    .menu_item_header {
+      @extend .menu_section_item;
+      @apply pl-[8px];
+    }
   }
 }

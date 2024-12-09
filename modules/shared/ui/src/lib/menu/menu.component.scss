@@ -3,7 +3,7 @@
 }
 
 .menu_sections {
-  @apply pl-[16px] flex flex-col;
+  @apply flex flex-col;
   scrollbar-color: rgba(0, 0, 0, 0.4) var(--white-color);
   scrollbar-width: thin;
 

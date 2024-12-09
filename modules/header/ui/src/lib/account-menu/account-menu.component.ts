@@ -1,5 +1,5 @@
 import { IMyChannelInfo } from '@angular-youtube/shared-data-access';
-import { ISectionItem, MenuComponent } from '@angular-youtube/shared-ui';
+import { ISection, MenuComponent } from '@angular-youtube/shared-ui';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -24,150 +24,86 @@ import { AccountQuickInfoComponent } from '../account-quick-info/account-quick-i
 })
 export class AccountMenuComponent {
   public user = input.required<IMyChannelInfo | undefined>();
-  menuItems = signal<ISectionItem[][]>([
-    [
-      {
-        iconName: 'google-account',
-        displayText: 'Google Account',
-      },
-      {
-        iconName: 'switch-account',
-        displayText: 'Switch account',
-      },
-      {
-        iconName: 'sign-out',
-        displayText: 'Sign out',
-      },
-    ],
-    [
-      {
-        iconName: 'youtube-studio',
-        displayText: 'Youtube Studio',
-      },
-      {
-        iconName: 'youtube-premium-benefits',
-        displayText: 'Your Premium benefits',
-      },
-      {
-        iconName: 'purchases-and-memberships',
-        displayText: 'Purchases and memberships',
-      },
-    ],
-    [
-      {
-        iconName: 'data-in-youtube',
-        displayText: 'Your data in Youtube',
-      },
-      {
-        iconName: 'appearance',
-        displayText: 'Appearance: Device theme',
-      },
-      {
-        iconName: 'language',
-        displayText: 'Language: English',
-      },
-      {
-        iconName: 'restricted-mode',
-        displayText: 'Restricted Mode: Off',
-      },
-      {
-        iconName: 'location',
-        displayText: 'Location: Singapore',
-      },
-      {
-        iconName: 'keyboard-shortcuts',
-        displayText: 'Keyboard shortcuts',
-      },
-    ],
-    [
-      {
-        iconName: 'settings',
-        displayText: 'Settings',
-      },
-    ],
-    [
-      {
-        iconName: 'help',
-        displayText: 'Help',
-      },
-      {
-        iconName: 'send-feedback',
-        displayText: 'Send feedback',
-      },
-    ],
-  ]);
-  accountMenuItems = signal<ISectionItem[]>([
+  menuItems = signal<ISection[]>([
     {
-      iconName: 'google-account',
-      displayText: 'Google Account',
+      sectionItems: [
+        {
+          iconName: 'google-account',
+          displayText: 'Google Account',
+        },
+        {
+          iconName: 'switch-account',
+          displayText: 'Switch account',
+        },
+        {
+          iconName: 'sign-out',
+          displayText: 'Sign out',
+        },
+      ],
     },
     {
-      iconName: 'switch-account',
-      displayText: 'Switch account',
+      sectionItems: [
+        {
+          iconName: 'youtube-studio',
+          displayText: 'Youtube Studio',
+        },
+        {
+          iconName: 'youtube-premium-benefits',
+          displayText: 'Your Premium benefits',
+        },
+        {
+          iconName: 'purchases-and-memberships',
+          displayText: 'Purchases and memberships',
+        },
+      ],
     },
     {
-      iconName: 'sign-out',
-      displayText: 'Sign out',
-    },
-  ]);
-
-  youtubeMenuItems = signal<ISectionItem[]>([
-    {
-      iconName: 'youtube-studio',
-      displayText: 'Youtube Studio',
-    },
-    {
-      iconName: 'youtube-premium-benefits',
-      displayText: 'Your Premium benefits',
-    },
-    {
-      iconName: 'purchases-and-memberships',
-      displayText: 'Purchases and memberships',
-    },
-  ]);
-
-  languageAndAppearanceMenuItems = signal<ISectionItem[]>([
-    {
-      iconName: 'data-in-youtube',
-      displayText: 'Your data in Youtube',
-    },
-    {
-      iconName: 'appearance',
-      displayText: 'Appearance: Device theme',
+      sectionItems: [
+        {
+          iconName: 'data-in-youtube',
+          displayText: 'Your data in Youtube',
+        },
+        {
+          iconName: 'appearance',
+          displayText: 'Appearance: Device theme',
+        },
+        {
+          iconName: 'language',
+          displayText: 'Language: English',
+        },
+        {
+          iconName: 'restricted-mode',
+          displayText: 'Restricted Mode: Off',
+        },
+        {
+          iconName: 'location',
+          displayText: 'Location: Singapore',
+        },
+        {
+          iconName: 'keyboard-shortcuts',
+          displayText: 'Keyboard shortcuts',
+        },
+      ],
     },
     {
-      iconName: 'language',
-      displayText: 'Language: English',
+      sectionItems: [
+        {
+          iconName: 'settings',
+          displayText: 'Settings',
+        },
+      ],
     },
     {
-      iconName: 'restricted-mode',
-      displayText: 'Restricted Mode: Off',
-    },
-    {
-      iconName: 'location',
-      displayText: 'Location: Singapore',
-    },
-    {
-      iconName: 'keyboard-shortcuts',
-      displayText: 'Keyboard shortcuts',
-    },
-  ]);
-
-  settingsMenuItems = signal<ISectionItem[]>([
-    {
-      iconName: 'settings',
-      displayText: 'Settings',
-    },
-  ]);
-
-  helpAndFeedbackMenuItems = signal<ISectionItem[]>([
-    {
-      iconName: 'help',
-      displayText: 'Help',
-    },
-    {
-      iconName: 'send-feedback',
-      displayText: 'Send feedback',
+      sectionItems: [
+        {
+          iconName: 'help',
+          displayText: 'Help',
+        },
+        {
+          iconName: 'send-feedback',
+          displayText: 'Send feedback',
+        },
+      ],
     },
   ]);
 

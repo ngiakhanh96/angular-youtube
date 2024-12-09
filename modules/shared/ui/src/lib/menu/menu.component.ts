@@ -9,6 +9,11 @@ import {
   MenuSectionComponent,
 } from '../menu-section/menu-section.component';
 
+export interface ISection {
+  header?: string;
+  sectionItems: ISectionItem[];
+}
+
 @Component({
   selector: 'ay-menu',
   templateUrl: './menu.component.html',
@@ -17,6 +22,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent {
-  items = input.required<ISectionItem[][]>();
+  items = input.required<ISection[]>();
   selectedIconName = model<string>();
 }

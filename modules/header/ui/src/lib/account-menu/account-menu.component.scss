@@ -12,4 +12,8 @@
   .account_menu_header {
     @apply border-solid border-b border-[rgba(0,0,0,0.1)];
   }
+
+  ay-menu {
+    @apply pl-[16px];
+  }
 }
