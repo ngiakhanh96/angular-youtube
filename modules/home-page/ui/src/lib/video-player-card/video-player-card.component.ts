@@ -1,4 +1,5 @@
 import {
+  ISection,
   SettingsButtonComponent,
   YouTubePlayerComponent,
 } from '@angular-youtube/shared-ui';
@@ -13,13 +14,55 @@ import {
 } from '@angular/core';
 
 @Component({
-    selector: 'ay-video-player-card',
-    imports: [YouTubePlayerComponent, NgOptimizedImage, SettingsButtonComponent],
-    templateUrl: './video-player-card.component.html',
-    styleUrls: ['./video-player-card.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ay-video-player-card',
+  imports: [YouTubePlayerComponent, NgOptimizedImage, SettingsButtonComponent],
+  templateUrl: './video-player-card.component.html',
+  styleUrls: ['./video-player-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoPlayerCardComponent {
+  settingItems = signal<ISection[]>([
+    {
+      sectionItems: [
+        {
+          iconName: 'add-to-queue',
+          displayText: 'Add to queue',
+        },
+        {
+          iconName: 'watch-later',
+          displayText: 'Save to Watch later',
+        },
+        {
+          iconName: 'save-to-playlist',
+          displayText: 'Save to playlist',
+        },
+        {
+          iconName: 'downloads',
+          displayText: 'Download',
+        },
+        {
+          iconName: 'share',
+          displayText: 'Share',
+        },
+      ],
+    },
+    {
+      sectionItems: [
+        {
+          iconName: 'not-interested',
+          displayText: 'Not interested',
+        },
+        {
+          iconName: 'dont-recommend-channel',
+          displayText: "Don't recommend channel",
+        },
+        {
+          iconName: 'report',
+          displayText: 'Report',
+        },
+      ],
+    },
+  ]);
   videoId = input.required<string>();
   title = input.required<string>();
   channelName = input.required<string>();

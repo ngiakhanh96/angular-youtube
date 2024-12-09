@@ -42,7 +42,10 @@
     </div>
     <div class="thumbnail__settings">
       <div class="thumbnail__settings-button">
-        <ay-settings-button></ay-settings-button>
+        <ay-settings-button
+          [items]="settingItems()"
+          [mini]="true"
+        ></ay-settings-button>
       </div>
     </div>
   </div>

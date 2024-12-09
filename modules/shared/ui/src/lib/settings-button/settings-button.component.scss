@@ -1,4 +1,4 @@
 :host {
-  height: 40px;
-  display: block;
+  @apply block h-[40px];
+  --mdc-list-list-item-one-line-container-height: 40px;
 }

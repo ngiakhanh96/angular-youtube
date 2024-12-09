@@ -1,5 +1,5 @@
 import { CdkConnectedOverlay, Overlay } from '@angular/cdk/overlay';
-import { Directive, inject, signal } from '@angular/core';
+import { Directive, effect, inject, input, signal } from '@angular/core';
 
 @Directive({
   selector: '[ayOverlay]',
@@ -10,7 +10,6 @@ import { Directive, inject, signal } from '@angular/core';
       inputs: [
         'cdkConnectedOverlayOrigin: connectedOverlayOrigin',
         'cdkConnectedOverlayOpen: connectedOverlayOpen',
-        'cdkConnectedOverlayPositions: connectedOverlayPositions',
         'cdkConnectedOverlayWidth: connectedOverlayWidth',
       ],
       outputs: ['overlayOutsideClick'],
@@ -18,12 +17,36 @@ import { Directive, inject, signal } from '@angular/core';
   ],
 })
 export class OverlayDirective {
+  panelClass = input<string[]>([]);
   private cdkConnectedOverlay = inject(CdkConnectedOverlay);
-  public scrollStrategy = signal(inject(Overlay).scrollStrategies.reposition());
+  private scrollStrategy = signal(
+    inject(Overlay).scrollStrategies.reposition(),
+  );
+
   constructor() {
-    this.cdkConnectedOverlay.panelClass = 'overlay-panel';
+    effect(() => {
+      this.cdkConnectedOverlay.panelClass = [
+        'overlay-panel',
+        ...this.panelClass(),
+      ];
+    });
+
     this.cdkConnectedOverlay.disposeOnNavigation = true;
     this.cdkConnectedOverlay.flexibleDimensions = true;
     this.cdkConnectedOverlay.scrollStrategy = this.scrollStrategy();
+    this.cdkConnectedOverlay.positions = [
+      {
+        originX: 'end',
+        originY: 'bottom',
+        overlayX: 'end',
+        overlayY: 'top',
+      },
+      {
+        originX: 'start',
+        originY: 'top',
+        overlayX: 'end',
+        overlayY: 'top',
+      },
+    ];
   }
 }

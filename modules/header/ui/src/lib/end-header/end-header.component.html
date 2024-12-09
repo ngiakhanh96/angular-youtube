@@ -42,8 +42,8 @@
         ayOverlay
         [connectedOverlayOrigin]="avatar"
         [connectedOverlayOpen]="isOpenedAvatarMenu()"
-        [connectedOverlayPositions]="overlayPositions()"
         [connectedOverlayWidth]="300"
+        [panelClass]="['mdc-list-list-item-one-line-container-height-40px']"
         (overlayOutsideClick)="onOverlayOutsideClick()"
       >
         <ay-account-menu [user]="user()"></ay-account-menu>
@@ -51,7 +51,7 @@
     </div>
   } @else {
     <div class="settings">
-      <ay-settings-button></ay-settings-button>
+      <ay-settings-button [items]="settingItems()"></ay-settings-button>
     </div>
     <div class="signin-button-container">
       <div class="signin-button">

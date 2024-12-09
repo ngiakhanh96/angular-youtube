@@ -108,7 +108,4 @@ export class AccountMenuComponent {
   ]);
 
   selectedIconName = signal('');
-  onClick(menuItem: string) {
-    this.selectedIconName.set(menuItem);
-  }
 }

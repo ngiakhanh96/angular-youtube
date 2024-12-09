@@ -23,3 +23,11 @@ body {
   @apply bg-[var(--white-color)] rounded-[12px] overflow-hidden;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 32px 0px;
 }
+
+.mdc-list-list-item-one-line-container-height-40px {
+  --mdc-list-list-item-one-line-container-height: 40px;
+}
+
+.mdc-list-list-item-one-line-container-height-36px {
+  --mdc-list-list-item-one-line-container-height: 36px;
+}

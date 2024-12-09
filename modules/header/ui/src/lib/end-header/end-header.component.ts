@@ -1,21 +1,17 @@
 import { IMyChannelInfo } from '@angular-youtube/shared-data-access';
 import {
+  ISection,
   OverlayDirective,
   SettingsButtonComponent,
   SvgButtonRendererComponent,
   SvgButtonTemplateDirective,
 } from '@angular-youtube/shared-ui';
-import {
-  ConnectedPosition,
-  Overlay,
-  OverlayModule,
-} from '@angular/cdk/overlay';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  inject,
   input,
   signal,
 } from '@angular/core';
@@ -51,19 +47,54 @@ export class EndHeaderComponent {
   );
   public isLoggedIn = computed(() => this.user() != null);
   public isOpenedAvatarMenu = signal(false);
-  public scrollStrategy = signal(inject(Overlay).scrollStrategies.reposition());
-  public overlayPositions = signal<ConnectedPosition[]>([
+  settingItems = signal<ISection[]>([
     {
-      originX: 'end',
-      originY: 'bottom',
-      overlayX: 'end',
-      overlayY: 'top',
+      sectionItems: [
+        {
+          iconName: 'data-in-youtube',
+          displayText: 'Your data in Youtube',
+        },
+        {
+          iconName: 'appearance',
+          displayText: 'Appearance: Device theme',
+        },
+        {
+          iconName: 'language',
+          displayText: 'Language: English',
+        },
+        {
+          iconName: 'restricted-mode',
+          displayText: 'Restricted Mode: Off',
+        },
+        {
+          iconName: 'location',
+          displayText: 'Location: Singapore',
+        },
+        {
+          iconName: 'keyboard-shortcuts',
+          displayText: 'Keyboard shortcuts',
+        },
+      ],
     },
     {
-      originX: 'start',
-      originY: 'top',
-      overlayX: 'end',
-      overlayY: 'top',
+      sectionItems: [
+        {
+          iconName: 'settings',
+          displayText: 'Settings',
+        },
+      ],
+    },
+    {
+      sectionItems: [
+        {
+          iconName: 'help',
+          displayText: 'Help',
+        },
+        {
+          iconName: 'send-feedback',
+          displayText: 'Send feedback',
+        },
+      ],
     },
   ]);
 
