@@ -8,6 +8,7 @@ import {
   sharedReducer,
   sharedStateName,
 } from '@angular-youtube/shared-data-access';
+import { SpinnerService } from '@angular-youtube/shared-ui';
 import { LayoutComponent } from '@angular-youtube/shell-feature';
 import { inject } from '@angular/core';
 import {
@@ -26,6 +27,8 @@ const canNavigateToExternalPage: CanActivateFn = (
   state: RouterStateSnapshot,
 ) => {
   const router = inject(Router);
+  const spinner = inject(SpinnerService);
+  spinner.loadingOn();
   const externalUrl =
     router.getCurrentNavigation()?.extras.state?.['externalUrl'];
   window.open(externalUrl, '_self');

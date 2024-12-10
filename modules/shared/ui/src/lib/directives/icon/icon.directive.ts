@@ -8,9 +8,11 @@ import { MatIcon } from '@angular/material/icon';
   standalone: true,
   host: {
     '[style.font-variation-settings]': 'fontVariationSettings()',
+    '[style.fill]': 'fill()',
   },
 })
 export class IconDirective {
   host = inject(MatIcon);
   fontVariationSettings = input<string>("'FILL' 1");
+  fill = input<string>('black');
 }

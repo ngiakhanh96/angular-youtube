@@ -14,11 +14,11 @@ import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'ay-sidebar-mini',
-    imports: [MatListModule, MatIconModule, IconDirective, SectionItemDirective],
-    templateUrl: './sidebar-mini.component.html',
-    styleUrl: './sidebar-mini.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ay-sidebar-mini',
+  imports: [MatListModule, MatIconModule, IconDirective, SectionItemDirective],
+  templateUrl: './sidebar-mini.component.html',
+  styleUrl: './sidebar-mini.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarMiniComponent {
   //TODO handle filled icon on selected item
@@ -36,7 +36,7 @@ export class SidebarMiniComponent {
       displayText: 'Subscriptions',
     },
     {
-      iconName: 'youtube-music',
+      iconName: 'youtube-music-light',
       displayText: 'YouTube Music',
     },
     {
@@ -53,7 +53,7 @@ export class SidebarMiniComponent {
   router = inject(Router);
   onClick(iconName: string) {
     this.selectedIconName.set(iconName);
-    if (iconName === 'youtube-music') {
+    if (iconName === 'youtube-music-light') {
       this.router.navigate(['/externalRedirect'], {
         state: { externalUrl: 'https://music.youtube.com/' },
         skipLocationChange: true,

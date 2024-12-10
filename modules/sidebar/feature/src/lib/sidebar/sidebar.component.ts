@@ -38,7 +38,7 @@ export class SidebarComponent {
           displayText: 'Subscriptions',
         },
         {
-          iconName: 'youtube-music',
+          iconName: 'youtube-music-light',
           displayText: 'YouTube Music',
         },
       ],
@@ -154,13 +154,37 @@ export class SidebarComponent {
 
   selectedIconName = signal('home');
   router = inject(Router);
+
   selectedIconNameChange(selectedIconName: string) {
+    const prevIconName = this.selectedIconName();
     this.selectedIconName.set(selectedIconName);
-    if (this.selectedIconName() === 'youtube-music') {
+    if (selectedIconName === 'youtube-music') {
+      window.open('https://music.youtube.com/');
+      setTimeout(() => {
+        this.selectedIconName.set(prevIconName);
+      });
+      return;
+    }
+    if (selectedIconName === 'youtube-kids') {
+      window.open('https://www.youtubekids.com/');
+      setTimeout(() => {
+        this.selectedIconName.set(prevIconName);
+      });
+      return;
+    }
+    if (selectedIconName === 'youtube-studio') {
+      window.open('https://studio.youtube.com/');
+      setTimeout(() => {
+        this.selectedIconName.set(prevIconName);
+      });
+      return;
+    }
+    if (this.selectedIconName() === 'youtube-music-light') {
       this.router.navigate(['/externalRedirect'], {
         state: { externalUrl: 'https://music.youtube.com/' },
         skipLocationChange: true,
       });
+      return;
     }
   }
 }
