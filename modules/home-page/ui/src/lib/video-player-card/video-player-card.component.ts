@@ -1,5 +1,5 @@
+import { Auth } from '@angular-youtube/shared-data-access';
 import {
-  ISection,
   SettingsButtonComponent,
   YouTubePlayerComponent,
 } from '@angular-youtube/shared-ui';
@@ -8,6 +8,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   signal,
   viewChild,
@@ -21,48 +22,70 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoPlayerCardComponent {
-  settingItems = signal<ISection[]>([
-    {
-      sectionItems: [
-        {
-          iconName: 'add-to-queue',
-          displayText: 'Add to queue',
-        },
-        {
-          iconName: 'watch-later',
-          displayText: 'Save to Watch later',
-        },
-        {
-          iconName: 'save-to-playlist',
-          displayText: 'Save to playlist',
-        },
-        {
-          iconName: 'downloads',
-          displayText: 'Download',
-        },
-        {
-          iconName: 'share',
-          displayText: 'Share',
-        },
-      ],
-    },
-    {
-      sectionItems: [
-        {
-          iconName: 'not-interested',
-          displayText: 'Not interested',
-        },
-        {
-          iconName: 'dont-recommend-channel',
-          displayText: "Don't recommend channel",
-        },
-        {
-          iconName: 'report',
-          displayText: 'Report',
-        },
-      ],
-    },
-  ]);
+  authService = inject(Auth);
+  settingItems = computed(() =>
+    this.authService.accessToken()
+      ? [
+          {
+            sectionItems: [
+              {
+                iconName: 'add-to-queue',
+                displayText: 'Add to queue',
+              },
+              {
+                iconName: 'watch-later',
+                displayText: 'Save to Watch later',
+              },
+              {
+                iconName: 'save-to-playlist',
+                displayText: 'Save to playlist',
+              },
+              {
+                iconName: 'downloads',
+                displayText: 'Download',
+              },
+              {
+                iconName: 'share',
+                displayText: 'Share',
+              },
+            ],
+          },
+          {
+            sectionItems: [
+              {
+                iconName: 'not-interested',
+                displayText: 'Not interested',
+              },
+              {
+                iconName: 'dont-recommend-channel',
+                displayText: "Don't recommend channel",
+              },
+              {
+                iconName: 'report',
+                displayText: 'Report',
+              },
+            ],
+          },
+        ]
+      : [
+          {
+            sectionItems: [
+              {
+                iconName: 'add-to-queue',
+                displayText: 'Add to queue',
+              },
+              {
+                iconName: 'downloads',
+                displayText: 'Download',
+              },
+              {
+                iconName: 'share',
+                displayText: 'Share',
+              },
+            ],
+          },
+        ],
+  );
   videoId = input.required<string>();
   title = input.required<string>();
   channelName = input.required<string>();

@@ -2,48 +2,48 @@
   @apply block h-full;
 }
 
-#search-form {
+.search-form {
   @apply h-full flex;
-}
 
-#container {
-  @apply h-full flex-grow flex-shrink ml-[32px];
-  border-color: rgb(204, 204, 204);
-  border-style: solid;
-  border-width: 1px;
-  box-shadow: rgb(238, 238, 238) 0px 1px 2px 0px inset;
-  padding: 0 4px 0 16px;
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
-  border-radius: 40px 0 0 40px;
-}
+  .search-box-container {
+    @apply h-full flex-grow flex-shrink ml-[32px];
+    border-color: rgb(204, 204, 204);
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: rgb(238, 238, 238) 0px 1px 2px 0px inset;
+    padding: 0 4px 0 16px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-radius: 40px 0 0 40px;
 
-#search-input {
-  @apply h-full flex items-center;
-}
-
-#search {
-  outline: none;
-  @apply h-full w-full;
-  padding: 1px 0px;
-  font-size: 16px;
-}
-
-#search-icon-legacy {
-  background-color: rgb(248, 248, 248);
-  width: 65px;
-  border-color: rgb(204, 204, 204);
-  border-style: solid;
-  border-right-width: 1px;
-  border-bottom-width: 1px;
-  border-top-width: 1px;
-  box-shadow: rgb(237, 237, 237) 0px 1px 2px 0px inset;
-  padding: 1px 6px;
-  border-radius: 0 40px 40px 0;
-  color: rgb(0, 0, 0);
-}
-
-::placeholder {
-  color: black;
-  opacity: 0.7; /* Firefox */
+    .search-box {
+      @apply h-full flex items-center;
+      ::placeholder {
+        color: black;
+        opacity: 0.7; /* Firefox */
+      }
+      .search-input {
+        outline: none;
+        @apply h-full w-full;
+        padding: 1px 0px;
+        font-size: 16px;
+      }
+    }
+  }
+  .search-button-container {
+    @apply cursor-pointer;
+    .search-icon-legacy {
+      background-color: var(--search-icon-legacy-bg-color);
+      width: 65px;
+      border-color: rgb(204, 204, 204);
+      border-style: solid;
+      border-right-width: 1px;
+      border-bottom-width: 1px;
+      border-top-width: 1px;
+      box-shadow: rgb(237, 237, 237) 0px 1px 2px 0px inset;
+      padding: 1px 6px;
+      border-radius: 0 40px 40px 0;
+      color: rgb(0, 0, 0);
+    }
+  }
 }

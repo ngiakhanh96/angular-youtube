@@ -23,5 +23,5 @@ export interface ISection {
 })
 export class MenuComponent {
   items = input.required<ISection[]>();
-  selectedIconName = model<string>();
+  selectedIconName = model.required<string>();
 }

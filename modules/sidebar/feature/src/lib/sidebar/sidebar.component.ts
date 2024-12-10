@@ -6,7 +6,6 @@ import {
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
   inject,
   signal,
 } from '@angular/core';
@@ -78,68 +77,76 @@ export class SidebarComponent {
       ],
     },
     {
-      header: 'You2',
+      header: 'Explore',
       sectionItems: [
         {
-          iconName: 'history',
-          displayText: 'History',
+          iconName: 'trending',
+          displayText: 'Trending',
         },
         {
-          iconName: 'playlists',
-          displayText: 'Playlists',
+          iconName: 'music',
+          displayText: 'Music',
         },
         {
-          iconName: 'your-videos',
-          displayText: 'Your videos',
+          iconName: 'movies',
+          displayText: 'Movies',
         },
         {
-          iconName: 'watch-later',
-          displayText: 'Watch later',
+          iconName: 'gaming',
+          displayText: 'Gaming',
         },
         {
-          iconName: 'liked-videos',
-          displayText: 'Liked videos',
+          iconName: 'news',
+          displayText: 'News',
         },
         {
-          iconName: 'downloads',
-          displayText: 'Downloads',
+          iconName: 'sports',
+          displayText: 'Sports',
         },
         {
-          iconName: 'your-clips',
-          displayText: 'Your clips',
+          iconName: 'fashion-and-beauty',
+          displayText: 'Fashion & Beauty',
+        },
+        {
+          iconName: 'podcasts',
+          displayText: 'Podcasts',
         },
       ],
     },
     {
-      header: 'You3',
+      header: 'More from YouTube',
       sectionItems: [
         {
-          iconName: 'history',
-          displayText: 'History',
+          iconName: 'youtube-studio',
+          displayText: 'YouTube Studio',
         },
         {
-          iconName: 'playlists',
-          displayText: 'Playlists',
+          iconName: 'youtube-music',
+          displayText: 'YouTube Music',
         },
         {
-          iconName: 'your-videos',
-          displayText: 'Your videos',
+          iconName: 'youtube-kids',
+          displayText: 'YouTube Kids',
+        },
+      ],
+    },
+    {
+      sectionItems: [
+        {
+          iconName: 'settings',
+          displayText: 'Settings',
         },
         {
-          iconName: 'watch-later',
-          displayText: 'Watch later',
+          iconName: 'report',
+          displayText: 'Report History',
         },
         {
-          iconName: 'liked-videos',
-          displayText: 'Liked videos',
+          iconName: 'help',
+          displayText: 'Help',
         },
         {
-          iconName: 'downloads',
-          displayText: 'Downloads',
-        },
-        {
-          iconName: 'your-clips',
-          displayText: 'Your clips',
+          iconName: 'send-feedback',
+          displayText: 'Send feedback',
         },
       ],
     },
@@ -147,13 +154,13 @@ export class SidebarComponent {
 
   selectedIconName = signal('home');
   router = inject(Router);
-
-  onClickEffect = effect(() => {
+  selectedIconNameChange(selectedIconName: string) {
+    this.selectedIconName.set(selectedIconName);
     if (this.selectedIconName() === 'youtube-music') {
       this.router.navigate(['/externalRedirect'], {
         state: { externalUrl: 'https://music.youtube.com/' },
         skipLocationChange: true,
       });
     }
-  });
+  }
 }

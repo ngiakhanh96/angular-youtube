@@ -1,8 +1,8 @@
-<form id="search-form">
-  <div id="container">
-    <div id="search-input" slot="search-input">
+<form class="search-form">
+  <div class="search-box-container">
+    <div class="search-box" slot="search-box">
       <input
-        id="search"
+        class="search-input"
         autocapitalize="none"
         autocomplete="off"
         autocorrect="off"
@@ -16,16 +16,22 @@
         role="combobox"
         aria-autocomplete="list"
         dir="ltr"
-        class="ytd-searchbox"
       />
     </div>
   </div>
-  <ay-svg-button-renderer
-    id="search-icon-legacy"
-    viewBox="0 -4 24 32"
-    ariaLabel="Search"
-    path="M16.296 16.996a8 8 0 11.707-.708l3.909 3.91-.707.707-3.909-3.909zM18 11a7 7 0 00-14 0 7 7 0 1014 0z"
-    (click)="onSearch($event)"
-    [disabled]="true"
-  ></ay-svg-button-renderer>
+  <div
+    class="search-button-container"
+    (mouseenter)="mouseEnter($event)"
+    (mouseleave)="mouseLeave($event)"
+  >
+    <ay-svg-button-renderer
+      class="search-icon-legacy"
+      viewBox="0 -4 24 32"
+      ariaLabel="Search"
+      path="M16.296 16.996a8 8 0 11.707-.708l3.909 3.91-.707.707-3.909-3.909zM18 11a7 7 0 00-14 0 7 7 0 1014 0z"
+      (click)="onSearch($event)"
+      [disabled]="true"
+    >
+    </ay-svg-button-renderer>
+  </div>
 </form>

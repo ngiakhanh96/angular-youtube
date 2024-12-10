@@ -2,6 +2,10 @@
   <div class="sidebar_section">
     <ay-logo-menu></ay-logo-menu>
   </div>
-  <ay-menu [items]="menuItems()" [(selectedIconName)]="selectedIconName">
+  <ay-menu
+    [items]="menuItems()"
+    [selectedIconName]="selectedIconName()"
+    (selectedIconNameChange)="selectedIconNameChange($event)"
+  >
   </ay-menu>
 </div>
