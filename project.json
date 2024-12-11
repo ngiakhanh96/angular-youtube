@@ -11,7 +11,10 @@
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/angular-youtube",
+        "outputPath": {
+          "base": "docs",
+          "browser": ""
+        },
         "index": "./src/index.html",
         "browser": "./src/main.ts",
         "tsConfig": "tsconfig.app.json",
@@ -76,7 +79,10 @@
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/angular-youtube",
+        "outputPath": {
+          "base": "docs",
+          "browser": ""
+        },
         "index": "./src/index.html",
         "browser": "./src/main.ts",
         "tsConfig": "tsconfig.app.json",
