@@ -14,8 +14,9 @@
       @if (showStartHeader()) {
         <ay-sidebar-mini></ay-sidebar-mini>
       }
-
-      <ay-browse [style.width]="sideNavContentWith()"></ay-browse>
+      <div class="layout_body_content" [style.width]="sideNavContentWith()">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

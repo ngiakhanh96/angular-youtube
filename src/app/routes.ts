@@ -1,15 +1,10 @@
-import {
-  HomePageEffects,
-  homePageReducer,
-  homePageStateName,
-} from '@angular-youtube/home-page-data-access';
+import { HomePageEffects } from '@angular-youtube/home-page-data-access';
 import {
   SharedEffects,
   sharedReducer,
   sharedStateName,
 } from '@angular-youtube/shared-data-access';
 import { SpinnerService } from '@angular-youtube/shared-ui';
-import { LayoutComponent } from '@angular-youtube/shell-feature';
 import { inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -37,13 +32,12 @@ const canNavigateToExternalPage: CanActivateFn = (
 export const mainRoutes: Route[] = [
   {
     path: '',
-    component: LayoutComponent,
-    children: [],
     providers: [
-      provideState(homePageStateName, homePageReducer),
       provideState(sharedStateName, sharedReducer),
       provideEffects(SharedEffects, HomePageEffects),
     ],
+    loadChildren: () =>
+      import('@angular-youtube/shell-feature').then((m) => m.SHELL_ROUTES),
   },
   {
     path: 'externalRedirect',

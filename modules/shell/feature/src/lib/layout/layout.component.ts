@@ -1,5 +1,4 @@
 import { MasterHeaderComponent } from '@angular-youtube/header-feature';
-import { BrowseComponent } from '@angular-youtube/home-page-feature';
 import {
   Auth,
   BaseWithSandBoxComponent,
@@ -22,23 +21,25 @@ import {
   signal,
 } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-    selector: 'ay-layout',
-    imports: [
-        MasterHeaderComponent,
-        BrowseComponent,
-        MatSidenavModule,
-        SidebarComponent,
-        SidebarMiniComponent,
-    ],
-    templateUrl: './layout.component.html',
-    styleUrls: ['./layout.component.scss'],
-    host: {
-        '[style.--sidebar-width]': 'sidebarWidth()',
-        '[style.--sidebar-mini-width]': 'sidebarMiniWidth()',
-    },
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ay-layout',
+  imports: [
+    MasterHeaderComponent,
+    MatSidenavModule,
+    SidebarComponent,
+    SidebarMiniComponent,
+    RouterOutlet,
+  ],
+  templateUrl: './layout.component.html',
+  styleUrls: ['./layout.component.scss'],
+  host: {
+    '[style.--sidebar-width]': 'sidebarWidth()',
+    '[style.--sidebar-mini-width]': 'sidebarMiniWidth()',
+    '[style.--sidenav-content-width]': 'sideNavContentWith()',
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent
   extends BaseWithSandBoxComponent
