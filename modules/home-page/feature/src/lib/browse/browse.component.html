@@ -23,6 +23,7 @@
             [publishedDate]="video.publishedDate"
             [duration]="video.duration"
             [channelLogoUrl]="video.channelLogoUrl"
+            (select)="onSelect($event)"
           />
         </div>
       }

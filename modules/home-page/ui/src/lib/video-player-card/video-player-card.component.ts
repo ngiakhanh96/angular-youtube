@@ -8,8 +8,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  HostListener,
   inject,
   input,
+  output,
   signal,
   viewChild,
 } from '@angular/core';
@@ -129,6 +131,7 @@ export class VideoPlayerCardComponent {
     end: undefined,
   });
   thumbnailDurationDisplay = signal('flex');
+  select = output<string>();
   static secondsInOneMinute = 60;
   static secondsInOneHour = VideoPlayerCardComponent.secondsInOneMinute * 60;
   static secondsInOneDay = VideoPlayerCardComponent.secondsInOneHour * 24;
@@ -138,6 +141,12 @@ export class VideoPlayerCardComponent {
   _isReady = false;
   _onMouseEnterInterval?: number;
   _playVideoInterval?: number;
+
+  @HostListener('click', ['$event'])
+  onClick(event: MouseEvent) {
+    this.select.emit(this.videoId());
+  }
+
   onMouseEnter() {
     if (this._isReady) {
       if (this._player()?.getPlayerState() !== <YT.PlayerState.PLAYING>1) {

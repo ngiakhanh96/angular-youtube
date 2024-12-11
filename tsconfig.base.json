@@ -26,6 +26,13 @@
         "modules/home-page/feature/src/index.ts"
       ],
       "@angular-youtube/home-page-ui": ["modules/home-page/ui/src/index.ts"],
+      "@angular-youtube/details-page-data-access": [
+        "modules/details-page/data-access/src/index.ts"
+      ],
+      "@angular-youtube/details-page-feature": [
+        "modules/details-page/feature/src/index.ts"
+      ],
+      "@angular-youtube/details-page-ui": ["modules/details-page/ui/src/index.ts"],
       "@angular-youtube/shared-data-access": [
         "modules/shared/data-access/src/index.ts"
       ],

@@ -34,15 +34,15 @@ export interface IThumbnailDetails {
 }
 
 @Component({
-    selector: 'ay-browse',
-    imports: [
-        VideoPlayerCardComponent,
-        InfiniteScrollDirective,
-        VideoCategoriesComponent,
-    ],
-    templateUrl: './browse.component.html',
-    styleUrls: ['./browse.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ay-browse',
+  imports: [
+    VideoPlayerCardComponent,
+    InfiniteScrollDirective,
+    VideoCategoriesComponent,
+  ],
+  templateUrl: './browse.component.html',
+  styleUrls: ['./browse.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BrowseComponent extends BaseWithSandBoxComponent {
   protected videosWithMetaData: Signal<IPopularYoutubeVideos | undefined>;
@@ -101,4 +101,6 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
       }),
     );
   }
+
+  onSelect(videoId: string) {}
 }
