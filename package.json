@@ -5,6 +5,7 @@
   "scripts": {
     "start": "npx nx serve",
     "build": "npx nx build",
+    "build-csr": "npx nx build-csr",
     "test": "npx nx test",
     "start-csr": "npx nx serve-csr"
   },
