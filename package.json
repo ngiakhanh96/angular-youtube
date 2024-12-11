@@ -4,10 +4,11 @@
   "license": "MIT",
   "scripts": {
     "start": "npx nx serve",
+    "start-csr": "npx nx serve-csr",
     "build": "npx nx build",
     "build-csr": "npx nx build-csr",
-    "test": "npx nx test",
-    "start-csr": "npx nx serve-csr"
+    "build-ghp": "npx nx build-csr --baseHref /angular-youtube/",
+    "test": "npx nx test"
   },
   "private": true,
   "dependencies": {
