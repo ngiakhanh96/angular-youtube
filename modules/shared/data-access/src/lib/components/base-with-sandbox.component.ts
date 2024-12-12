@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Action, MemoizedSelector, select } from '@ngrx/store';
 import { first } from 'rxjs';
-import { HttpResponseStatus } from '../models/http-response.model';
+import { HttpResponseStatus } from '../models/http-response/http-response.model';
 import { SandboxService } from '../services/base.sandbox.service';
 
 export abstract class BaseWithSandBoxComponent {

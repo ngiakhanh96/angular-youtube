@@ -12,7 +12,7 @@ import {
   takeUntil,
   throwError,
 } from 'rxjs';
-import { HttpResponseStatus } from '../../../models/http-response.model';
+import { HttpResponseStatus } from '../../../models/http-response/http-response.model';
 import { IBaseState } from '../../../models/state.model';
 import { AuthHttpService } from '../../../services/http/auth.http.service';
 import { SessionStorage } from '../../../services/session-storage.service';

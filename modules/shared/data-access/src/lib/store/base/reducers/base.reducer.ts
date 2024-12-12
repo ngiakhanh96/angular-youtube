@@ -10,7 +10,7 @@ import {
   HttpErrorResponseDetails,
   HttpResponse,
   HttpResponseStatus,
-} from '../../../models/http-response.model';
+} from '../../../models/http-response/http-response.model';
 import { IBaseState } from '../../../models/state.model';
 import { BaseActionGroup } from '../actions/base.action-group';
 
@@ -26,7 +26,7 @@ export function updateResponse(
   state: IBaseState,
   responseStatus: HttpResponseStatus,
   showSpinner: boolean,
-  error?: HttpErrorResponseDetails
+  error?: HttpErrorResponseDetails,
 ): HttpResponse {
   const newPendingCount = showSpinner
     ? responseStatus === HttpResponseStatus.Pending
@@ -53,7 +53,7 @@ export function updateResponse(
 
 export function createAyReducer<
   TActionsGroup extends BaseActionGroup,
-  TState extends Required<IBaseState>
+  TState extends Required<IBaseState>,
 >(
   actionGroup: TActionsGroup,
   initialState: TState,
@@ -67,7 +67,7 @@ export function createAyReducer<
       actionGroup.updateResponse,
       (
         state,
-        { requestActionCreator, status, errorResponse, showSpinner }
+        { requestActionCreator, status, errorResponse, showSpinner },
       ) => ({
         ...state,
         httpResponse: updateResponse(
@@ -75,10 +75,10 @@ export function createAyReducer<
           state,
           status,
           showSpinner,
-          errorResponse
+          errorResponse,
         ),
-      })
+      }),
     ),
-    ...ons
+    ...ons,
   );
 }

@@ -10,12 +10,12 @@ import { Observable } from 'rxjs';
 import {
   HttpErrorResponseDetails,
   HttpResponseStatus,
-} from '../../../models/http-response.model';
+} from '../../../models/http-response/http-response.model';
 import { IBaseState } from '../../../models/state.model';
 
 export function createAyActionGroup<
   Source extends string,
-  Events extends Record<string, ActionCreatorProps<unknown> | Creator>
+  Events extends Record<string, ActionCreatorProps<unknown> | Creator>,
 >(config: Parameters<typeof createActionGroup<Source, Events>>[0]) {
   const baseActionGroupEvents: BaseActionGroupEvents = {
     updateResponse: props<UpdateResponseAction>(),
@@ -46,7 +46,7 @@ export interface SendingRequestAction {
   requestAction: Action;
   requestActionCallback?: (action: Action) => Observable<Action>;
   requestActionCallBackWithState?: (
-    actionWithState: [Action, IBaseState]
+    actionWithState: [Action, IBaseState],
   ) => Observable<Action>;
   showSpinner: boolean;
   actionForSuccessfulResponse: ActionForSuccessfulResponse;

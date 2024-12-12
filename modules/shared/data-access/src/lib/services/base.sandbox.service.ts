@@ -8,7 +8,10 @@ import {
   Store,
 } from '@ngrx/store';
 import { filter, Observable, Subscription } from 'rxjs';
-import { HttpResponse, ResponseDetails } from '../models/http-response.model';
+import {
+  HttpResponse,
+  ResponseDetails,
+} from '../models/http-response/http-response.model';
 import {
   ISharedState,
   selectSharedState,

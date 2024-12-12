@@ -1,18 +1,12 @@
-import {
-  HttpClient,
-  HttpContext,
-  HttpContextToken,
-  HttpParams,
-} from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AUTHORIZED } from '../../http-context-tokens/authorized.http-context-token';
 import { YoutubeApiKey } from '../../injection-tokens/youtube-api-key.injection-token';
-import { IYoutubeChannelsInfo } from '../../models/http/channels-info.model';
-import { IMyChannelInfo } from '../../models/http/my-channel-info.model';
-import { IPopularYoutubeVideos } from '../../models/http/popular-youtube-videos.model';
-import { IVideoCategories } from '../../models/http/video-categories-model';
-
-export const AUTHORIZED = new HttpContextToken<boolean>(() => true);
+import { IYoutubeChannelsInfo } from '../../models/http-response/channels-info.model';
+import { IMyChannelInfo } from '../../models/http-response/my-channel-info.model';
+import { IPopularYoutubeVideos } from '../../models/http-response/popular-youtube-videos.model';
+import { IVideoCategories } from '../../models/http-response/video-categories-model';
 
 @Injectable({
   providedIn: 'root',

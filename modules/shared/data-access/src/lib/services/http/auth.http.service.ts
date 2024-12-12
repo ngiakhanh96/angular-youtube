@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { IAccessTokenInfo } from '../../models/http/auth.model';
-import { AUTHORIZED } from './youtube.http.service';
+import { AUTHORIZED } from '../../http-context-tokens/authorized.http-context-token';
+import { IAccessTokenInfo } from '../../models/http-response/auth.model';
 
 @Injectable({
   providedIn: 'root',

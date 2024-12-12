@@ -1,5 +1,5 @@
 import { createFeature, on } from '@ngrx/store';
-import { IAccessTokenInfo } from '../../../models/http/auth.model';
+import { IAccessTokenInfo } from '../../../models/http-response/auth.model';
 import { IBaseState } from '../../../models/state.model';
 import { sharedActionGroup } from '../../base/actions/shared.action-group';
 import {
