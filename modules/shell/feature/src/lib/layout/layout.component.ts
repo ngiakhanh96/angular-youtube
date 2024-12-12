@@ -35,8 +35,6 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
   host: {
-    '[style.--sidebar-width]': 'sidebarWidth()',
-    '[style.--sidebar-mini-width]': 'sidebarMiniWidth()',
     '[style.--sidenav-content-width]': 'sideNavContentWith()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
