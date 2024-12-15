@@ -1,4 +1,9 @@
-<button class="signin-button" mat-fab extended (click)="onClickLogin()">
-  <mat-icon svgIcon="you" [fill]="'currentcolor'"></mat-icon>
-  Sign in
-</button>
+<ay-text-icon-button
+  displayText="Sign in"
+  svgIcon="you"
+  [border]="'1px solid rgba(0,0,0,0.1)'"
+  color="rgb(6, 95, 212)"
+  backgroundColor="var(--white-color)"
+  hoverBackgroundColor="rgb(222, 241, 255)"
+  (click)="onClickLogin()"
+></ay-text-icon-button>

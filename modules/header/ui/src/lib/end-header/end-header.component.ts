@@ -17,12 +17,7 @@ import {
 } from '@angular/core';
 import { AccountMenuComponent } from '../account-menu/account-menu.component';
 import { LoginButtonComponent } from '../login-button/login-button.component';
-
-declare global {
-  interface Window {
-    google: any;
-  }
-}
+import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
 
 @Component({
   selector: 'ay-end-header',
@@ -37,6 +32,7 @@ declare global {
     OverlayModule,
     AccountMenuComponent,
     OverlayDirective,
+    TextIconButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

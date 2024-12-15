@@ -1,0 +1,24 @@
+:host {
+  @apply block w-full h-full;
+}
+
+.text-icon-button {
+  & {
+    --mdc-fab-container-color: var(--background-color);
+    --mdc-extended-fab-hover-container-elevation-shadow: none;
+    --mdc-extended-fab-container-elevation-shadow: none;
+    --mdc-extended-fab-focus-container-elevation-shadow: none;
+    --mdc-extended-fab-pressed-container-elevation-shadow: none;
+    --mat-fab-state-layer-color: var(--hover-background-color);
+    --mat-fab-hover-state-layer-opacity: 1;
+    --mat-fab-focus-state-layer-opacity: 1;
+    --mat-fab-pressed-state-layer-opacity: 1;
+    color: var(--color);
+    border: var(--border);
+  }
+  @apply w-full h-full pl-[15px] pr-[15px] flex justify-between place-items-center;
+
+  mat-icon {
+    @apply w-[24px] h-[24px] mr-[var(--margin-right)] ml-[-6px];
+  }
+}

@@ -12,7 +12,7 @@
   />
 }
 <div class="player" [style.display]="!isVideoPlayed() ? 'none' : ''">
-  <video #videoContainer>
+  <video preload="auto" #videoContainer>
     <source [src]="videoUrl()" type="video/mp4" />
   </video>
 </div>

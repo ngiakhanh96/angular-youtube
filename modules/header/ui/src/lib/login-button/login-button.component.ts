@@ -1,21 +1,13 @@
 import { Auth } from '@angular-youtube/shared-data-access';
-import { IconDirective } from '@angular-youtube/shared-ui';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-
-declare global {
-  interface Window {
-    google: any;
-  }
-}
+import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
 
 @Component({
-    selector: 'ay-login-button',
-    templateUrl: './login-button.component.html',
-    styleUrls: ['./login-button.component.scss'],
-    imports: [MatButtonModule, MatIconModule, IconDirective],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ay-login-button',
+  templateUrl: './login-button.component.html',
+  styleUrls: ['./login-button.component.scss'],
+  imports: [TextIconButtonComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginButtonComponent {
   public auth = inject(Auth);

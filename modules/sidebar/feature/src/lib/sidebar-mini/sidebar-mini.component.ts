@@ -1,3 +1,5 @@
+import { selectMyChannelInfo } from '@angular-youtube/home-page-data-access';
+import { BaseWithSandBoxComponent } from '@angular-youtube/shared-data-access';
 import {
   IconDirective,
   ISectionItem,
@@ -6,6 +8,7 @@ import {
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   signal,
 } from '@angular/core';
@@ -20,9 +23,44 @@ import { Router } from '@angular/router';
   styleUrl: './sidebar-mini.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarMiniComponent {
+export class SidebarMiniComponent extends BaseWithSandBoxComponent {
+  user = this.selectSignal(selectMyChannelInfo);
+  isLoggedIn = computed(() => this.user() != null);
+  menuItems = computed(() => {
+    return this.isLoggedIn()
+      ? this.loggedInMenuItems()
+      : this.anonymousMenuItems();
+  });
+
+  anonymousMenuItems = signal<ISectionItem[]>([
+    {
+      iconName: 'home',
+      displayText: 'Home',
+    },
+    {
+      iconName: 'shorts',
+      displayText: 'Shorts',
+    },
+    {
+      iconName: 'subscriptions',
+      displayText: 'Subscriptions',
+    },
+    {
+      iconName: 'youtube-music-light',
+      displayText: 'YouTube Music',
+    },
+    {
+      iconName: 'you',
+      displayText: 'You',
+    },
+    {
+      iconName: 'history',
+      displayText: 'History',
+    },
+  ]);
+
   //TODO handle filled icon on selected item
-  entrySidebarMenuItems = signal<ISectionItem[]>([
+  loggedInMenuItems = signal<ISectionItem[]>([
     {
       iconName: 'home',
       displayText: 'Home',

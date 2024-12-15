@@ -3,12 +3,16 @@
 }
 
 .end-header {
-  @apply h-[40px] flex;
+  @apply h-[40px] flex items-center;
   > * {
     @apply h-full;
   }
-  > .create-content,
-  .notifications,
+
+  .create-content {
+    @apply h-[36px] mr-[8px];
+  }
+
+  > .notifications,
   .settings {
     @apply w-[40px] mr-[10px];
   }
