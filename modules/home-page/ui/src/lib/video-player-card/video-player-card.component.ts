@@ -108,33 +108,7 @@ export class VideoPlayerCardComponent {
     VideoPlayerCardComponent.computeDurationString(this.duration()),
   );
   channelLogoUrl = input.required<string>();
-  // _player = viewChild(YouTubePlayerComponent);
-  _player = viewChild(NativeYouTubePlayerComponent);
-  playerVars = signal(<YT.PlayerVars>{
-    autohide: <YT.AutoHide.HideAllControls>1,
-    autoplay: <YT.AutoPlay.NoAutoPlay>0,
-    cc_load_policy: <YT.ClosedCaptionsLoadPolicy.ForceOn>1,
-    cc_lang_pref: undefined,
-    color: 'red',
-    controls: <YT.Controls.ShowLoadPlayer>1,
-    disablekb: <YT.KeyboardControls.Disable>1,
-    enablejsapi: <YT.JsApi.Enable>1,
-    fs: <YT.FullscreenButton.Hide>0,
-    hl: undefined,
-    iv_load_policy: undefined,
-    list: undefined,
-    listType: undefined,
-    loop: <YT.Loop.SinglePlay>0,
-    modestbranding: <YT.ModestBranding.Modest>1,
-    mute: <YT.Mute.Muted>1,
-    origin: undefined,
-    playlist: undefined,
-    playsinline: <YT.PlaysInline.Inline>1,
-    rel: <YT.RelatedVideos.Hide>0,
-    showinfo: <YT.ShowInfo.Hide>0,
-    start: undefined,
-    end: undefined,
-  });
+
   thumbnailDurationDisplay = signal('flex');
   select = output<string>();
   static secondsInOneMinute = 60;
@@ -142,7 +116,8 @@ export class VideoPlayerCardComponent {
   static secondsInOneDay = VideoPlayerCardComponent.secondsInOneHour * 24;
   static secondsInOneMonth = VideoPlayerCardComponent.secondsInOneDay * 30;
   static secondsInOneYear = VideoPlayerCardComponent.secondsInOneMonth * 12;
-  private _isAlreadyPlayedOnce = false;
+
+  private player = viewChild(NativeYouTubePlayerComponent);
   private authService = inject(Auth);
   @HostListener('click')
   onClick() {
@@ -150,12 +125,12 @@ export class VideoPlayerCardComponent {
   }
 
   onMouseEnter() {
-    this._player()?.playVideo();
+    this.player()?.playVideo();
     this.thumbnailDurationDisplay.set('none');
   }
 
   onMouseLeave() {
-    this._player()?.pauseVideo();
+    this.player()?.pauseVideo();
     this.thumbnailDurationDisplay.set('flex');
   }
 

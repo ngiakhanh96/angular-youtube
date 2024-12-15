@@ -21,8 +21,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   Signal,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 export interface IThumbnailDetails {
@@ -54,6 +56,7 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
   protected videosInfo: Signal<Record<string, IFormatStream> | undefined>;
   protected videosCategories: Signal<IVideoCategories | undefined>;
   protected videosCategoriesViewModel: Signal<IVideoCategoryViewModel[]>;
+  private router = inject(Router);
   constructor() {
     super();
     this.dispatchAction(
@@ -109,5 +112,11 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
     );
   }
 
-  onSelect(videoId: string) {}
+  onSelect(videoId: string) {
+    this.router.navigate(['watch'], {
+      queryParams: {
+        v: videoId,
+      },
+    });
+  }
 }
