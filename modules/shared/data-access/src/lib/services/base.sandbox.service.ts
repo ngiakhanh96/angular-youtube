@@ -1,5 +1,5 @@
 import { SpinnerService } from '@angular-youtube/shared-ui';
-import { inject, Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, Injector, OnDestroy } from '@angular/core';
 import {
   Action,
   createSelector,
@@ -7,6 +7,7 @@ import {
   select,
   Store,
 } from '@ngrx/store';
+import { CreatorsNotAllowedCheck } from '@ngrx/store/src/models';
 import { filter, Observable, Subscription } from 'rxjs';
 import {
   HttpResponse,
@@ -58,8 +59,17 @@ export class SandboxService implements OnDestroy {
     return this.store.pipe(select(this.getResponseDetailsSelector(action)));
   }
 
-  dispatch(action: Action) {
+  dispatchAction(action: Action) {
     this.store.dispatch(action);
+  }
+
+  dispatchActionFromSignal(
+    action: () => Action & CreatorsNotAllowedCheck<() => Action>,
+    config?: {
+      injector: Injector;
+    },
+  ) {
+    this.store.dispatch(action, config);
   }
 
   ngOnDestroy(): void {

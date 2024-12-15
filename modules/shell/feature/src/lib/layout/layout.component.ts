@@ -60,13 +60,11 @@ export class LayoutComponent
       : 'calc(100vw - var(--sidebar-width))';
   });
   accessTokenInfo = this.selectSignal(selectAccessTokenInfo);
-
-  loginEffect = effect(() => {
-    const accessToken = this.authService.accessToken();
-    this.dispatchAction(
-      sharedActionGroup.updateAccessToken({ accessToken: accessToken }),
-    );
-  });
+  updateAccessTokenAction = computed(() =>
+    sharedActionGroup.updateAccessToken({
+      accessToken: this.authService.accessToken(),
+    }),
+  );
 
   refreshTokenEffect = effect(() => {
     const accessTokenInfo = this.accessTokenInfo();
@@ -83,6 +81,11 @@ export class LayoutComponent
       }
     }
   });
+
+  constructor() {
+    super();
+    this.dispatchActionFromSignal(this.updateAccessTokenAction);
+  }
 
   ngOnInit() {
     this.mobileQuery.onchange = (event: MediaQueryListEvent) => {

@@ -1,7 +1,6 @@
 .player {
   @apply w-full h-full;
   video {
-    border-radius: var(--border-radius);
     @apply w-full h-full;
   }
 }

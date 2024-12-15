@@ -1,6 +1,7 @@
-import { inject } from '@angular/core';
+import { inject, Injector } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Action, MemoizedSelector, select } from '@ngrx/store';
+import { CreatorsNotAllowedCheck } from '@ngrx/store/src/models';
 import { first } from 'rxjs';
 import { HttpResponseStatus } from '../models/http-response/http-response.model';
 import { SandboxService } from '../services/base.sandbox.service';
@@ -13,12 +14,41 @@ export abstract class BaseWithSandBoxComponent {
   }
   protected dispatchAction(action: Action, successfulCallBack?: () => void) {
     setTimeout(() => {
-      this.sandbox.dispatch(action);
+      this.sandbox.dispatchAction(action);
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       successfulCallBack ??= () => {};
       setTimeout(() => {
         this.sandbox
           .getResponseDetails(action)
+          .pipe(
+            first(
+              (details) =>
+                !details || details.status !== HttpResponseStatus.Pending,
+            ),
+          )
+          .subscribe((details) => {
+            if (!details || details.status === HttpResponseStatus.Success) {
+              successfulCallBack!();
+            }
+          });
+      });
+    });
+  }
+
+  protected dispatchActionFromSignal(
+    action: () => Action & CreatorsNotAllowedCheck<() => Action>,
+    successfulCallBack?: () => void,
+    config?: {
+      injector: Injector;
+    },
+  ) {
+    setTimeout(() => {
+      this.sandbox.dispatchActionFromSignal(action, config);
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      successfulCallBack ??= () => {};
+      setTimeout(() => {
+        this.sandbox
+          .getResponseDetails(action())
           .pipe(
             first(
               (details) =>
