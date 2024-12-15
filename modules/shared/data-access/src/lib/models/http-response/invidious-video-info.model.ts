@@ -17,7 +17,7 @@ export interface IInvidiousVideoInfo {
   isFamilyFriendly: boolean;
   allowedRegions: string[];
   genre: string;
-  genreUrl: any;
+  genreUrl: string | null;
   author: string;
   authorId: string;
   authorUrl: string;
@@ -32,7 +32,7 @@ export interface IInvidiousVideoInfo {
   isPostLiveDvr: boolean;
   isUpcoming: boolean;
   dashUrl: string;
-  adaptiveFormats: any[];
+  adaptiveFormats: IAdaptiveFormat[];
   formatStreams: IFormatStream[];
   captions: ICaption[];
   recommendedVideos: IRecommendedVideo[];
@@ -94,4 +94,32 @@ export interface IRecommendedVideo {
   lengthSeconds?: number;
   viewCountText?: string;
   viewCount?: number;
+}
+
+export interface IAdaptiveFormat {
+  init: string;
+  index: string;
+  bitrate: string;
+  url: string;
+  itag: string;
+  type: string;
+  clen: string;
+  lmt: string;
+  projectionType: string;
+  container: string;
+  encoding: string;
+  audioQuality?: string;
+  audioSampleRate?: number;
+  audioChannels?: number;
+  fps?: number;
+  size?: string;
+  resolution?: string;
+  qualityLabel?: string;
+  colorInfo?: IColorInfo;
+}
+
+export interface IColorInfo {
+  primaries: string;
+  transferCharacteristics: string;
+  matrixCoefficients: string;
 }

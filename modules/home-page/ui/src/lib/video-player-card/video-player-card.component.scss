@@ -3,11 +3,11 @@
 }
 
 .thumbnail__container {
-  @apply w-full h-full flex flex-col min-w-80;
+  @apply w-full h-full flex flex-col;
 }
 
 .thumbnail__player-container {
-  @apply w-full flex flex-row relative aspect-video;
+  @apply w-full h-[66.66%] flex flex-row relative aspect-video;
 }
 
 .thumbnail__player {

@@ -1,0 +1,18 @@
+@if (!disablePlaceholder() && !isVideoPlayed()) {
+  <ay-youtube-player-placeholder
+    [videoId]="videoId()"
+    [width]="width()"
+    [height]="height()"
+    [borderRadius]="borderRadius()"
+    [isLoading]="false"
+    [buttonLabel]="'Play Video'"
+    [quality]="placeholderImageQuality()"
+    [showPlayButton]="showPlayButton()"
+    (click)="playVideo()"
+  />
+}
+<div class="player" [style.display]="!isVideoPlayed() ? 'none' : ''">
+  <video #videoContainer>
+    <source [src]="videoUrl()" type="video/mp4" />
+  </video>
+</div>

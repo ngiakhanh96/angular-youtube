@@ -1,6 +1,7 @@
 import {
   createAyActionGroup,
   IChannelItem,
+  IFormatStream,
   IMyChannelInfo,
   IPopularYoutubeVideos,
   IVideoCategories,
@@ -18,6 +19,7 @@ export const homePageActionGroup = createAyActionGroup({
       nextPage: boolean;
       videos: IPopularYoutubeVideos;
       channelsInfo: Record<string, IChannelItem>;
+      videosInfo: Record<string, IFormatStream>;
     }>(),
     loadYoutubeVideoCategories: emptyProps(),
     loadYoutubeVideoCategoriesSuccess: props<{

@@ -1,7 +1,7 @@
 import { Auth } from '@angular-youtube/shared-data-access';
 import {
+  NativeYouTubePlayerComponent,
   SettingsButtonComponent,
-  YouTubePlayerComponent,
 } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
 import {
@@ -18,13 +18,16 @@ import {
 
 @Component({
   selector: 'ay-video-player-card',
-  imports: [YouTubePlayerComponent, NgOptimizedImage, SettingsButtonComponent],
+  imports: [
+    NgOptimizedImage,
+    SettingsButtonComponent,
+    NativeYouTubePlayerComponent,
+  ],
   templateUrl: './video-player-card.component.html',
   styleUrls: ['./video-player-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoPlayerCardComponent {
-  authService = inject(Auth);
   settingItems = computed(() =>
     this.authService.accessToken()
       ? [
@@ -89,6 +92,7 @@ export class VideoPlayerCardComponent {
         ],
   );
   videoId = input.required<string>();
+  videoUrl = input.required<string>();
   title = input.required<string>();
   channelName = input.required<string>();
   viewCount = input.required<number>();
@@ -104,7 +108,8 @@ export class VideoPlayerCardComponent {
     VideoPlayerCardComponent.computeDurationString(this.duration()),
   );
   channelLogoUrl = input.required<string>();
-  _player = viewChild.required(YouTubePlayerComponent);
+  // _player = viewChild(YouTubePlayerComponent);
+  _player = viewChild(NativeYouTubePlayerComponent);
   playerVars = signal(<YT.PlayerVars>{
     autohide: <YT.AutoHide.HideAllControls>1,
     autoplay: <YT.AutoPlay.NoAutoPlay>0,
@@ -137,53 +142,21 @@ export class VideoPlayerCardComponent {
   static secondsInOneDay = VideoPlayerCardComponent.secondsInOneHour * 24;
   static secondsInOneMonth = VideoPlayerCardComponent.secondsInOneDay * 30;
   static secondsInOneYear = VideoPlayerCardComponent.secondsInOneMonth * 12;
-  _isAlreadyPlayedOnce = false;
-  _isReady = false;
-  _onMouseEnterInterval?: number;
-  _playVideoInterval?: number;
-
-  @HostListener('click', ['$event'])
-  onClick(event: MouseEvent) {
+  private _isAlreadyPlayedOnce = false;
+  private authService = inject(Auth);
+  @HostListener('click')
+  onClick() {
     this.select.emit(this.videoId());
   }
 
   onMouseEnter() {
-    if (this._isReady) {
-      if (this._player()?.getPlayerState() !== <YT.PlayerState.PLAYING>1) {
-        this._playVideoInterval ??= window.setInterval(() => {
-          if (this._player()?.getPlayerState() !== <YT.PlayerState.PLAYING>1) {
-            this._player()?.playVideo(true);
-          } else {
-            clearInterval(this._playVideoInterval);
-            this._playVideoInterval = undefined;
-          }
-        }, 50);
-      }
-
-      if (!this._isAlreadyPlayedOnce) {
-        this.thumbnailDurationDisplay.set('none');
-        this._isAlreadyPlayedOnce = true;
-      }
-      clearInterval(this._onMouseEnterInterval);
-      this._onMouseEnterInterval = undefined;
-    } else {
-      this._onMouseEnterInterval ??= window.setInterval(
-        () => this.onMouseEnter(),
-        100,
-      );
-    }
+    this._player()?.playVideo();
+    this.thumbnailDurationDisplay.set('none');
   }
 
   onMouseLeave() {
-    clearInterval(this._onMouseEnterInterval);
-    clearInterval(this._playVideoInterval);
-    this._onMouseEnterInterval = undefined;
-    this._playVideoInterval = undefined;
     this._player()?.pauseVideo();
-  }
-
-  onReady() {
-    this._isReady = true;
+    this.thumbnailDurationDisplay.set('flex');
   }
 
   static computePublishDateString(date: Date) {

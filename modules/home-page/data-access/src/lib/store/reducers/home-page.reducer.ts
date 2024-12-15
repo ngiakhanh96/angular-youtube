@@ -1,7 +1,7 @@
 import {
   IChannelItem,
+  IFormatStream,
   IMyChannelInfo,
-  initialBaseState,
   IPopularYoutubeVideos,
   IVideoCategories,
 } from '@angular-youtube/shared-data-access';
@@ -13,13 +13,14 @@ export const homePageStateName = 'homePage';
 export interface IHomePageState {
   videos: IPopularYoutubeVideos | undefined;
   channelsInfo: Record<string, IChannelItem>;
+  videosInfo: Record<string, IFormatStream>;
   videoCategories: IVideoCategories | undefined;
   myChannelInfo: IMyChannelInfo | undefined;
 }
 export const initialHomePageState: IHomePageState = {
-  ...initialBaseState,
   videos: undefined,
   channelsInfo: {},
+  videosInfo: {},
   videoCategories: undefined,
   myChannelInfo: undefined,
 };
@@ -28,7 +29,7 @@ const reducer = createReducer(
   initialHomePageState,
   on(
     homePageActionGroup.loadYoutubePopularVideosSuccess,
-    (state, { nextPage, videos, channelsInfo }) => ({
+    (state, { nextPage, videos, channelsInfo, videosInfo }) => ({
       ...state,
       videos: {
         ...videos,
@@ -39,6 +40,10 @@ const reducer = createReducer(
       channelsInfo: {
         ...state.channelsInfo,
         ...channelsInfo,
+      },
+      videosInfo: {
+        ...state.videosInfo,
+        ...videosInfo,
       },
     }),
   ),
@@ -63,6 +68,7 @@ export const {
   selectHomePageState,
   selectVideos: selectHomePageVideos,
   selectChannelsInfo,
+  selectVideosInfo,
   selectVideoCategories,
   selectMyChannelInfo,
 } = createFeature<string, IHomePageState>({

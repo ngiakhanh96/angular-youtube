@@ -8,6 +8,7 @@ export * from './lib/logo-renderer/logo-renderer.component';
 export * from './lib/menu-section-header/menu-section-header.component';
 export * from './lib/menu-section/menu-section.component';
 export * from './lib/menu/menu.component';
+export * from './lib/native-youtube-player/native-youtube-player.component';
 export * from './lib/section-item-content/section-item-content.component';
 export * from './lib/services/sidebar.service';
 export * from './lib/settings-button/settings-button.component';

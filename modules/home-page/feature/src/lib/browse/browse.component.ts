@@ -3,6 +3,7 @@ import {
   selectChannelsInfo,
   selectHomePageVideos,
   selectVideoCategories,
+  selectVideosInfo,
 } from '@angular-youtube/home-page-data-access';
 import {
   IVideoCategoryViewModel,
@@ -12,6 +13,7 @@ import {
 import {
   BaseWithSandBoxComponent,
   IChannelItem,
+  IFormatStream,
   IPopularYoutubeVideos,
   IVideoCategories,
 } from '@angular-youtube/shared-data-access';
@@ -25,6 +27,7 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 export interface IThumbnailDetails {
   videoId: string;
+  videoUrl: string;
   title: string;
   channelName: string;
   viewCount: number;
@@ -48,6 +51,7 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
   protected videosWithMetaData: Signal<IPopularYoutubeVideos | undefined>;
   protected videos: Signal<IThumbnailDetails[]>;
   protected channelsInfo: Signal<Record<string, IChannelItem> | undefined>;
+  protected videosInfo: Signal<Record<string, IFormatStream> | undefined>;
   protected videosCategories: Signal<IVideoCategories | undefined>;
   protected videosCategoriesViewModel: Signal<IVideoCategoryViewModel[]>;
   constructor() {
@@ -61,9 +65,11 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
     this.dispatchAction(homePageActionGroup.loadYoutubeVideoCategories());
     this.videosWithMetaData = this.selectSignal(selectHomePageVideos);
     this.channelsInfo = this.selectSignal(selectChannelsInfo);
+    this.videosInfo = this.selectSignal(selectVideosInfo);
     this.videos = computed(() => {
       const videosWithMetaData = this.videosWithMetaData();
       const channelsInfo = this.channelsInfo() ?? {};
+      const videosInfo = this.videosInfo() ?? {};
       return (
         videosWithMetaData?.items.map(
           (p) =>
@@ -77,6 +83,7 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
               channelLogoUrl:
                 channelsInfo[p.snippet.channelId]?.snippet.thumbnails.default
                   .url ?? '',
+              videoUrl: videosInfo[p.id]?.url ?? '',
             },
         ) ?? []
       );

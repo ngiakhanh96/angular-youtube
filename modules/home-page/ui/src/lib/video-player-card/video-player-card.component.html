@@ -4,13 +4,19 @@
     (mouseover)="onMouseEnter()"
     (mouseleave)="onMouseLeave()"
   >
-    <ay-youtube-player
+    <!-- <ay-youtube-player
       class="thumbnail__player"
       [videoId]="videoId()"
       [playerVars]="playerVars()"
       [showPlayButton]="false"
       [silentLoad]="true"
       (ready)="onReady()"
+    /> -->
+    <ay-native-youtube-player
+      class="thumbnail__player"
+      [showPlayButton]="false"
+      [videoId]="videoId()"
+      [videoUrl]="videoUrl()"
     />
     <div
       class="thumbnail__duration"
