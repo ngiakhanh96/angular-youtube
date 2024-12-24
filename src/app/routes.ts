@@ -1,4 +1,3 @@
-import { HomePageEffects } from '@angular-youtube/home-page-data-access';
 import {
   SharedEffects,
   sharedReducer,
@@ -34,7 +33,7 @@ export const mainRoutes: Route[] = [
     path: '',
     providers: [
       provideState(sharedStateName, sharedReducer),
-      provideEffects(SharedEffects, HomePageEffects),
+      provideEffects(SharedEffects),
     ],
     loadChildren: () =>
       import('@angular-youtube/shell-feature').then((m) => m.SHELL_ROUTES),

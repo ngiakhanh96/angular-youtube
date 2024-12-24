@@ -1,5 +1,6 @@
 import { inject, Injector } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
 import { Action, MemoizedSelector, select } from '@ngrx/store';
 import { CreatorsNotAllowedCheck } from '@ngrx/store/src/models';
 import { first } from 'rxjs';
@@ -8,7 +9,11 @@ import { SandboxService } from '../services/base.sandbox.service';
 
 export abstract class BaseWithSandBoxComponent {
   private sandbox = inject(SandboxService);
+  protected activatedRoute = inject(ActivatedRoute);
   protected untilDestroyed = takeUntilDestroyed();
+  protected get queryParamsSignal() {
+    return toSignal(this.activatedRoute.queryParams);
+  }
   protected selectSignal<T>(selector: MemoizedSelector<object, T>) {
     return toSignal(this.sandbox.store.pipe(select(selector)));
   }

@@ -1,13 +1,12 @@
 import {
-  createAyActionGroup,
   IChannelItem,
   IFormatStream,
   IMyChannelInfo,
   IPopularYoutubeVideos,
   IVideoCategories,
 } from '@angular-youtube/shared-data-access';
-import { emptyProps, props } from '@ngrx/store';
-export const homePageActionGroup = createAyActionGroup({
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
+export const homePageActionGroup = createActionGroup({
   source: 'HomePage',
   events: {
     loadYoutubePopularVideos: props<{
