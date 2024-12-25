@@ -1,0 +1,8 @@
+:host {
+  @apply block h-full w-full;
+}
+
+.video-title {
+  @apply overflow-hidden text-ellipsis mt-3 mb-1 line-clamp-2;
+  font-weight: var(--font-weight);
+}

@@ -1,0 +1,35 @@
+@if (videoInfo()) {
+  <div class="video-details-info-container">
+    <div class="video-details-info-title">
+      <ay-video-title
+        [title]="videoInfo()!.title"
+        [fontWeight]="'700'"
+      ></ay-video-title>
+    </div>
+    <div class="video-details-info-details">
+      <div class="video-details-info-author">
+        <img
+          alt="thumbnail channel logo"
+          [ngSrc]="videoInfo()!.authorLogoUrl"
+          width="40"
+          height="40"
+          referrerpolicy="no-referrer"
+        />
+        <div class="video-details-info-author-info">
+          <div class="video-details-info-author-name">
+            {{ videoInfo()!.author }}
+          </div>
+          <div class="video-details-info-author-subscribers">
+            {{ videoInfo()!.subscriberCountText }} subscribers
+          </div>
+        </div>
+        <div class="video-details-info-author-channel-buttons"> </div>
+        <div class="video-details-info-author-personal-buttons"> </div>
+      </div>
+      <div
+        class="video-details-info-description"
+        [innerHTML]="descriptionHtml()"
+      ></div>
+    </div>
+  </div>
+}

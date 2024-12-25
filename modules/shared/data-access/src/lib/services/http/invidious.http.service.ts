@@ -9,7 +9,7 @@ import { IInvidiousVideoInfo } from '../../models/http-response/invidious-video-
 export class InvidiousHttpService {
   private httpClient = inject(HttpClient);
   //TODO should move to appconfig
-  private baseUrl = 'https://invidious.nerdvpn.de/api/v1/';
+  private baseUrl = 'http://localhost:3000/api/v1/';
 
   getVideoInfo(videoId: string) {
     const url = `${this.baseUrl}videos/${videoId}`;

@@ -2,6 +2,7 @@ import { Auth } from '@angular-youtube/shared-data-access';
 import {
   NativeYouTubePlayerComponent,
   SettingsButtonComponent,
+  VideoTitleComponent,
 } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
 import {
@@ -22,6 +23,7 @@ import {
     NgOptimizedImage,
     SettingsButtonComponent,
     NativeYouTubePlayerComponent,
+    VideoTitleComponent,
   ],
   templateUrl: './video-player-card.component.html',
   styleUrls: ['./video-player-card.component.scss'],

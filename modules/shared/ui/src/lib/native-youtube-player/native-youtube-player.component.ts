@@ -72,12 +72,17 @@ export class NativeYouTubePlayerComponent {
   showPlayButton = input(false);
 
   isVideoPlayed = signal(false);
+  autoPlay = input<boolean>(false);
 
   playerClick = output<HTMLMediaElement>();
   /** The element that will be replaced by the iframe. */
   constructor() {
     afterNextRender(() => {
-      this.videoPlayer().muted = true;
+      if (!this.autoPlay()) {
+        this.videoPlayer().muted = true;
+      } else {
+        this.playVideo();
+      }
       this.videoPlayer().addEventListener('click', () => {
         this.playerClick.emit(this.videoPlayer());
       });

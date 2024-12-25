@@ -36,6 +36,8 @@ import { RouterOutlet } from '@angular/router';
   styleUrls: ['./layout.component.scss'],
   host: {
     '[style.--sidenav-content-width]': 'sideNavContentWith()',
+    '[style.--sidebar-mini-width]': 'sidebarMiniWidth()',
+    '[style.--sidebar-width]': 'sidebarWidth()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -52,11 +54,22 @@ export class LayoutComponent
   showStartHeader = computed(
     () => !this.sidebarService.isOpened() || this.mode() === 'over',
   );
+  showMiniSidebar = computed(
+    () => this.showStartHeader() && this.sidebarService.showMiniSidebar(),
+  );
   sidebarWidth = signal('236px');
-  sidebarMiniWidth = signal('74px');
+
+  sidebarMiniDefaultWidth = signal('74px');
+  sidebarMiniWidth = computed(() =>
+    this.sidebarService.showMiniSidebar()
+      ? this.sidebarMiniDefaultWidth()
+      : 'unset',
+  );
   sideNavContentWith = computed(() => {
     return this.showStartHeader()
-      ? 'calc(100vw - var(--sidebar-mini-width))'
+      ? this.sidebarService.showMiniSidebar()
+        ? 'calc(100vw - var(--sidebar-mini-width))'
+        : '100vw'
       : 'calc(100vw - var(--sidebar-width))';
   });
   accessTokenInfo = this.selectSignal(selectAccessTokenInfo);

@@ -1,0 +1,29 @@
+:host {
+  @apply block w-full h-full;
+}
+
+.video-details-info-container {
+  @apply flex flex-col;
+  .video-details-info-title {
+    @apply text-[20px];
+  }
+
+  .video-details-info-details {
+    @apply flex flex-col;
+    .video-details-info-author {
+      @apply flex;
+      img {
+        @apply h-full rounded-[50%];
+      }
+      .video-details-info-author-info {
+        @apply flex-col;
+      }
+      .video-details-info-author-channel-buttons {
+        @apply flex;
+      }
+      .video-details-info-author-personal-buttons {
+        @apply flex;
+      }
+    }
+  }
+}

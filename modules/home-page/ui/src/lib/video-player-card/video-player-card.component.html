@@ -21,7 +21,6 @@
     <div class="thumbnail__channel-logo">
       <img
         alt="thumbnail channel logo"
-        class="yt-core-image yt-spec-avatar-shape__image yt-core-image--fill-parent-height yt-core-image--fill-parent-width yt-core-image--content-mode-scale-to-fill yt-core-image--loaded"
         [ngSrc]="channelLogoUrl()"
         width="36"
         height="36"
@@ -29,7 +28,9 @@
       />
     </div>
     <div class="thumbnail__video-info">
-      <div class="thumbnail__video-title">{{ title() }}</div>
+      <div class="thumbnail__video-title">
+        <ay-video-title [title]="title()"></ay-video-title>
+      </div>
       <div class="thumbnail__channel-name">{{ channelName() }}</div>
       <div class="thumbnail__video-statistic">
         <div class="thumbnail__video-view-count">{{ viewCountString() }}</div>

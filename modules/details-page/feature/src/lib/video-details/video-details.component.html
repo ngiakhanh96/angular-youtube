@@ -1,12 +1,24 @@
 @if (videoUrl()) {
   <div class="details_page_container">
-    <ay-native-youtube-player
-      [videoId]="videoId()"
-      [videoUrl]="videoUrl()!"
-      [showPlayButton]="false"
-      (playerClick)="onClickMainPlayer()"
-      #mainPlayer=""
-    >
-    </ay-native-youtube-player>
+    <div class="details_page_player_container">
+      <ay-native-youtube-player
+        [videoId]="videoId()"
+        [videoUrl]="videoUrl()!"
+        [showPlayButton]="false"
+        [autoPlay]="true"
+        [disablePlaceholder]="true"
+        (playerClick)="onClickMainPlayer()"
+        #mainPlayer
+      >
+      </ay-native-youtube-player>
+    </div>
+    <div class="details_page_info_container">
+      <div class="details_page_info_details">
+        <ay-video-details-info
+          [videoInfo]="videoDetailsInfo()"
+        ></ay-video-details-info>
+      </div>
+      <div class="details_page_info_others"></div>
+    </div>
   </div>
 }
