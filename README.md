@@ -35,3 +35,4 @@ npx nx show project angular-youtube
 ## Run invidious be
 
 [Installation](https://docs.invidious.io/installation/#docker-compose-method-production)
+Can use 8ZgJw6m0V4xFZ1m9D2n8 as hmac_key
