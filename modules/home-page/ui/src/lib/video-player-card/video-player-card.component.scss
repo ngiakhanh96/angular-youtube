@@ -28,6 +28,11 @@
 
 .thumbnail__video-info {
   @apply flex flex-col flex-grow basis-0 flex-shrink w-0;
+  .thumbnail__video-title {
+    ay-formatted-string {
+      @apply mt-[12px] mb-[4px];
+    }
+  }
 }
 
 .thumbnail__channel-name {

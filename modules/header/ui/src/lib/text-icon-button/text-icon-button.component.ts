@@ -18,11 +18,12 @@ import { MatIconModule } from '@angular/material/icon';
   },
 })
 export class TextIconButtonComponent {
-  displayText = input.required<string>();
-  svgIcon = input.required<string>();
+  displayText = input<string>();
+  svgIcon = input<string>();
   color = input<string>('black');
   marginRight = input<string>('0px');
   backgroundColor = input<string>('rgba(0, 0, 0, 0.05)');
   hoverBackgroundColor = input<string>('rgba(0, 0, 0, 0.1)');
   border = input<string>('none');
+  transform = input<string | undefined>(undefined);
 }

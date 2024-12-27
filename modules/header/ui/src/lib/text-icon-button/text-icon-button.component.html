@@ -1,4 +1,22 @@
-<button class="text-icon-button" mat-fab extended>
-  <mat-icon [svgIcon]="svgIcon()" [fill]="'currentcolor'"></mat-icon>
-  {{ displayText() }}
-</button>
+@if (svgIcon() && displayText()) {
+  <button class="text-icon-button" mat-fab extended>
+    <mat-icon
+      [svgIcon]="svgIcon()!"
+      [fill]="'currentcolor'"
+      [transform]="transform()"
+    ></mat-icon>
+    {{ displayText() }}
+  </button>
+} @else if (displayText()) {
+  <button class="text-icon-button" mat-fab extended>
+    {{ displayText() }}
+  </button>
+} @else {
+  <button class="text-icon-button" mat-fab extended>
+    <mat-icon
+      [svgIcon]="svgIcon()!"
+      [fill]="'currentcolor'"
+      [transform]="transform()"
+    ></mat-icon>
+  </button>
+}

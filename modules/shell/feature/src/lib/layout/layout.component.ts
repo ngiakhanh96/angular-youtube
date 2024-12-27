@@ -50,7 +50,11 @@ export class LayoutComponent
   authService = inject(Auth);
   mobileQuery = this.media.matchMedia('(max-width: 1312px)');
   mobileQueryMatches = signal(this.mobileQuery.matches);
-  mode = computed(() => (this.mobileQueryMatches() ? 'over' : 'side'));
+  mode = computed(() => {
+    const mobileQuery = this.mobileQueryMatches();
+    const showMiniSidebar = this.sidebarService.showMiniSidebar();
+    return !showMiniSidebar || mobileQuery ? 'over' : 'side';
+  });
   showStartHeader = computed(
     () => !this.sidebarService.isOpened() || this.mode() === 'over',
   );

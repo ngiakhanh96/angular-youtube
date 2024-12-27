@@ -1,30 +1,73 @@
 @if (videoInfo()) {
   <div class="video-details-info-container">
     <div class="video-details-info-title">
-      <ay-video-title
+      <ay-formatted-string
         [title]="videoInfo()!.title"
         [fontWeight]="'700'"
-      ></ay-video-title>
+      ></ay-formatted-string>
     </div>
     <div class="video-details-info-details">
-      <div class="video-details-info-author">
-        <img
-          alt="thumbnail channel logo"
-          [ngSrc]="videoInfo()!.authorLogoUrl"
-          width="40"
-          height="40"
-          referrerpolicy="no-referrer"
-        />
-        <div class="video-details-info-author-info">
-          <div class="video-details-info-author-name">
-            {{ videoInfo()!.author }}
+      <div class="video-details-info-author-container">
+        <div class="video-details-info-author">
+          <img
+            alt="thumbnail channel logo"
+            [ngSrc]="videoInfo()!.authorLogoUrl"
+            width="40"
+            height="40"
+            referrerpolicy="no-referrer"
+          />
+          <div class="video-details-info-author-info">
+            <div class="video-details-info-author-verified-name">
+              <div class="video-details-info-author-name">
+                <ay-formatted-string
+                  [title]="videoInfo()!.author"
+                  [fontWeight]="'500'"
+                  [lineClamp]="'1'"
+                ></ay-formatted-string>
+              </div>
+              <div class="video-details-info-author-verified">
+                <mat-icon
+                  [svgIcon]="'verified'"
+                  [viewBox]="'0 0 24 24'"
+                  [fill]="'currentColor'"
+                ></mat-icon>
+              </div>
+            </div>
+            <div class="video-details-info-author-subscribers">
+              <ay-formatted-string
+                [title]="videoInfo()!.subscriberCountText + ' subscribers'"
+                [fontWeight]="'400'"
+                [lineClamp]="'1'"
+              ></ay-formatted-string>
+            </div>
           </div>
-          <div class="video-details-info-author-subscribers">
-            {{ videoInfo()!.subscriberCountText }} subscribers
+          <div class="video-details-info-author-channel-buttons">
+            <ay-text-icon-button [displayText]="'Join'"></ay-text-icon-button>
+            <ay-text-icon-button
+              [displayText]="'Subscribe'"
+              [color]="'var(--white-color)'"
+              [backgroundColor]="'var(--black-color)'"
+            ></ay-text-icon-button>
           </div>
         </div>
-        <div class="video-details-info-author-channel-buttons"> </div>
-        <div class="video-details-info-author-personal-buttons"> </div>
+        <div class="video-details-info-action-buttons">
+          <ay-text-icon-button
+            [displayText]="'4.8K'"
+            [svgIcon]="'dislike'"
+            [transform]="'rotate(180deg)'"
+            [marginRight]="'6px'"
+          ></ay-text-icon-button>
+          <ay-text-icon-button
+            [displayText]="'0'"
+            [svgIcon]="'dislike'"
+            [marginRight]="'6px'"
+          ></ay-text-icon-button>
+          <ay-text-icon-button
+            [displayText]="'Share'"
+            [svgIcon]="'share'"
+            [marginRight]="'6px'"
+          ></ay-text-icon-button>
+        </div>
       </div>
       <div
         class="video-details-info-description"

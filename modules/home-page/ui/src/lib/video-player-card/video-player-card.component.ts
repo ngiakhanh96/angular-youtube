@@ -1,8 +1,8 @@
 import { Auth } from '@angular-youtube/shared-data-access';
 import {
+  FormattedStringComponent,
   NativeYouTubePlayerComponent,
   SettingsButtonComponent,
-  VideoTitleComponent,
 } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
 import {
@@ -23,7 +23,7 @@ import {
     NgOptimizedImage,
     SettingsButtonComponent,
     NativeYouTubePlayerComponent,
-    VideoTitleComponent,
+    FormattedStringComponent,
   ],
   templateUrl: './video-player-card.component.html',
   styleUrls: ['./video-player-card.component.scss'],
@@ -121,9 +121,11 @@ export class VideoPlayerCardComponent {
 
   private player = viewChild(NativeYouTubePlayerComponent);
   private authService = inject(Auth);
-  @HostListener('click')
-  onClick() {
-    this.select.emit(this.videoId());
+  @HostListener('click', ['$event'])
+  onClick(event: MouseEvent) {
+    if (!(event.target instanceof HTMLButtonElement)) {
+      this.select.emit(this.videoId());
+    }
   }
 
   onMouseEnter() {
