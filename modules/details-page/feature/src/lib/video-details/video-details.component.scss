@@ -3,7 +3,7 @@
 }
 
 .details_page_container {
-  @apply flex flex-col w-full h-full;
+  @apply flex flex-col w-full h-full mt-[var(--details-page-container-margin-top)];
   .details_page_player_container {
     @apply w-full max-h-[742px] pr-[17px];
   }
@@ -15,7 +15,7 @@
       }
     }
     .details_page_info_others {
-      @apply flex flex-col grow-0 shrink-0 w-[402px];
+      @apply flex flex-col basis-[402px] grow-0 shrink-0;
     }
   }
 }

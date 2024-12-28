@@ -1,6 +1,6 @@
 @if (videoUrl()) {
   <div class="details_page_container">
-    <div class="details_page_player_container">
+    <div class="details_page_player_container" #theaterModeContainer>
       <ay-native-youtube-player
         [videoId]="videoId()"
         [videoUrl]="videoUrl()!"
@@ -15,7 +15,7 @@
     <div class="details_page_info_container">
       <div class="details_page_info_details">
         <!-- Remove this line when finishing fixing layout for default and theater mode -->
-        <div class="details_page_info_video"></div>
+        <div class="details_page_info_video" #defaultModeContainer></div>
         <ay-text-icon-button
           [displayText]="'Mode'"
           [color]="'var(--white-color)'"

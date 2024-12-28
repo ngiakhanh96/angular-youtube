@@ -46,6 +46,9 @@ export enum ViewMode {
     VideosRecommendationInfoComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[style.--details-page-container-margin-top]': 'marginTop()',
+  },
 })
 //TODO handle responsive design when the screen is <= 1016px
 export class VideoDetailsComponent
@@ -71,6 +74,12 @@ export class VideoDetailsComponent
     NativeYouTubePlayerComponent,
     { read: ElementRef },
   );
+  theaterModeContainerElement = viewChild.required<ElementRef>(
+    'theaterModeContainer',
+  );
+  defaultModeContainerElement = viewChild.required<ElementRef>(
+    'defaultModeContainer',
+  );
   ViewMode = ViewMode;
   videoInfo: Signal<IInvidiousVideoInfo | undefined>;
   videoDetailsInfo = computed(() =>
@@ -90,7 +99,12 @@ export class VideoDetailsComponent
         }
       : undefined,
   );
-  mainPlayerBorderRadius = signal('0px');
+  mainPlayerBorderRadius = computed(() =>
+    this.mode() === ViewMode.Theater ? '0px' : '12px',
+  );
+  marginTop = computed(() =>
+    this.mode() === ViewMode.Theater ? '0px' : '24px',
+  );
   constructor() {
     super();
     this.dispatchActionFromSignal(this.getVideoInfo);
@@ -120,21 +134,15 @@ export class VideoDetailsComponent
 
   onClickMode() {
     const video = this.videoElement().nativeElement;
-    const theaterContainer = document.getElementsByClassName(
-      'details_page_player_container',
-    )[0];
-    const defaultContainer = document.getElementsByClassName(
-      'details_page_info_video',
-    )[0];
+    const theaterContainer = this.theaterModeContainerElement().nativeElement;
+    const defaultContainer = this.defaultModeContainerElement().nativeElement;
     if (this.mode() === ViewMode.Theater) {
       const adoptedVideo = document.adoptNode(video);
       defaultContainer?.appendChild(adoptedVideo);
-      this.mainPlayerBorderRadius.set('12px');
       this.mode.set(ViewMode.Default);
     } else {
       const adoptedVideo = document.adoptNode(video);
       theaterContainer?.appendChild(adoptedVideo);
-      this.mainPlayerBorderRadius.set('0px');
       this.mode.set(ViewMode.Theater);
     }
   }

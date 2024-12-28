@@ -15,7 +15,7 @@
   class="player"
   [style.display]="!isVideoPlayed() && !disablePlaceholder() ? 'none' : ''"
 >
-  <video class="bg-[var(--black-color)]" preload="auto" #videoContainer>
+  <video preload="auto" #videoContainer>
     <source [src]="videoUrl()" type="video/mp4" />
   </video>
 </div>
