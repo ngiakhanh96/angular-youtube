@@ -14,6 +14,7 @@ import {
 import {
   NativeYouTubePlayerComponent,
   SidebarService,
+  TextIconButtonComponent,
 } from '@angular-youtube/shared-ui';
 import {
   ChangeDetectionStrategy,
@@ -36,7 +37,11 @@ export enum ViewMode {
   selector: 'ay-video-details',
   templateUrl: './video-details.component.html',
   styleUrls: ['./video-details.component.scss'],
-  imports: [NativeYouTubePlayerComponent, VideoDetailsInfoComponent],
+  imports: [
+    NativeYouTubePlayerComponent,
+    VideoDetailsInfoComponent,
+    TextIconButtonComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoDetailsComponent
@@ -66,10 +71,12 @@ export class VideoDetailsComponent
           author: this.videoInfo()?.author,
           subscriberCountText: this.videoInfo()?.subCountText,
           likeCount: this.videoInfo()?.likeCount,
+          dislikeCount: this.videoInfo()?.dislikeCount,
           viewCount: this.videoInfo()?.viewCount,
           descriptionHtml: this.videoInfo()?.descriptionHtml,
           publishedDateEpoch: this.videoInfo()?.published,
           publishedDateText: this.videoInfo()?.publishedText,
+          authorVerified: this.videoInfo()?.authorVerified,
         }
       : undefined,
   );
@@ -98,5 +105,13 @@ export class VideoDetailsComponent
 
   onClickMainPlayer() {
     this.mainPlayer().toggleVideo();
+  }
+
+  onClickMode() {
+    if (this.mode() === ViewMode.Theater) {
+      this.mode.set(ViewMode.Default);
+    } else {
+      this.mode.set(ViewMode.Theater);
+    }
   }
 }

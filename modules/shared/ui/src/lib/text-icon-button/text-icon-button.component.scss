@@ -20,6 +20,6 @@
   @apply w-full h-full pl-[15px] pr-[15px] flex justify-between place-items-center;
 
   mat-icon {
-    @apply w-[24px] h-[24px] mr-[var(--margin-right)] ml-[-6px];
+    @apply w-[24px] h-[24px] mr-[var(--space-between)] ml-[-6px];
   }
 }

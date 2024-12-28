@@ -25,13 +25,15 @@
                   [lineClamp]="'1'"
                 ></ay-formatted-string>
               </div>
-              <div class="video-details-info-author-verified">
-                <mat-icon
-                  [svgIcon]="'verified'"
-                  [viewBox]="'0 0 24 24'"
-                  [fill]="'currentColor'"
-                ></mat-icon>
-              </div>
+              @if (videoInfo()!.authorVerified) {
+                <div class="video-details-info-author-verified">
+                  <mat-icon
+                    [svgIcon]="'verified'"
+                    [viewBox]="'0 0 24 24'"
+                    [fill]="'currentColor'"
+                  ></mat-icon>
+                </div>
+              }
             </div>
             <div class="video-details-info-author-subscribers">
               <ay-formatted-string
@@ -52,20 +54,17 @@
         </div>
         <div class="video-details-info-action-buttons">
           <ay-text-icon-button
-            [displayText]="'4.8K'"
+            [displayText]="likeCountString()"
             [svgIcon]="'dislike'"
             [transform]="'rotate(180deg)'"
-            [marginRight]="'6px'"
           ></ay-text-icon-button>
           <ay-text-icon-button
-            [displayText]="'0'"
+            [displayText]="dislikeCountString()"
             [svgIcon]="'dislike'"
-            [marginRight]="'6px'"
           ></ay-text-icon-button>
           <ay-text-icon-button
             [displayText]="'Share'"
             [svgIcon]="'share'"
-            [marginRight]="'6px'"
           ></ay-text-icon-button>
         </div>
       </div>

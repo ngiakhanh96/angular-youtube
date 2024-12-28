@@ -1,6 +1,6 @@
 import { Auth } from '@angular-youtube/shared-data-access';
+import { TextIconButtonComponent } from '@angular-youtube/shared-ui';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
 
 @Component({
   selector: 'ay-login-button',

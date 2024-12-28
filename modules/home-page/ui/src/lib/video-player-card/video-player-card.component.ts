@@ -3,6 +3,7 @@ import {
   FormattedStringComponent,
   NativeYouTubePlayerComponent,
   SettingsButtonComponent,
+  Utilities,
 } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
 import {
@@ -190,53 +191,7 @@ export class VideoPlayerCardComponent {
   }
 
   static computeViewCountString(viewCount: number) {
-    let viewCountString = '';
-    if (viewCount === 0) {
-      viewCountString += 'No';
-    } else if (viewCount <= 1000) {
-      viewCountString = `${viewCount}`;
-    } else if (viewCount <= 1000000) {
-      let roundedViewCountToOneDecimalPoint =
-        Math.floor((viewCount / 1000) * 10) / 10;
-      if (roundedViewCountToOneDecimalPoint >= 10) {
-        roundedViewCountToOneDecimalPoint = Math.floor(
-          roundedViewCountToOneDecimalPoint,
-        );
-      }
-      viewCountString = `${roundedViewCountToOneDecimalPoint}K`;
-    } else if (viewCount <= 1000000000) {
-      let roundedViewCountToOneDecimalPoint =
-        Math.floor((viewCount / 1000000) * 10) / 10;
-      if (roundedViewCountToOneDecimalPoint >= 10) {
-        roundedViewCountToOneDecimalPoint = Math.floor(
-          roundedViewCountToOneDecimalPoint,
-        );
-      }
-      viewCountString = `${roundedViewCountToOneDecimalPoint}M`;
-    } else if (viewCount <= 1000000000000) {
-      let roundedViewCountToOneDecimalPoint =
-        Math.floor((viewCount / 1000000000) * 10) / 10;
-      if (roundedViewCountToOneDecimalPoint >= 10) {
-        roundedViewCountToOneDecimalPoint = Math.floor(
-          roundedViewCountToOneDecimalPoint,
-        );
-      }
-      viewCountString = `${roundedViewCountToOneDecimalPoint}B`;
-    } else {
-      let roundedViewCountToOneDecimalPoint =
-        Math.floor((viewCount / 1000000000000) * 10) / 10;
-      if (roundedViewCountToOneDecimalPoint >= 10) {
-        roundedViewCountToOneDecimalPoint = Math.floor(
-          roundedViewCountToOneDecimalPoint,
-        );
-      }
-      viewCountString = `${roundedViewCountToOneDecimalPoint}T`;
-    }
-    viewCountString += ' view';
-    if (viewCount > 1) {
-      viewCountString += 's';
-    }
-    return viewCountString;
+    return Utilities.numberToString(viewCount, 'view', 'No');
   }
 
   static hoursInIntervals = [24 * 365, 24 * 7, 24, 1];

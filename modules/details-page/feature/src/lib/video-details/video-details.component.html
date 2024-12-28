@@ -14,6 +14,13 @@
     </div>
     <div class="details_page_info_container">
       <div class="details_page_info_details">
+        <!-- Remove this line when finishing fixing layout for default and theater mode -->
+        <ay-text-icon-button
+          [displayText]="'Mode'"
+          [color]="'var(--white-color)'"
+          [backgroundColor]="'var(--black-color)'"
+          (click)="onClickMode()"
+        ></ay-text-icon-button>
         <ay-video-details-info
           [videoInfo]="videoDetailsInfo()"
         ></ay-video-details-info>

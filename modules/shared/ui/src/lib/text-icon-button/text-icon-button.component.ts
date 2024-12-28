@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.--color]': 'color()',
-    '[style.--margin-right]': 'marginRight()',
+    '[style.--space-between]': 'spaceBetween()',
     '[style.--background-color]': 'backgroundColor()',
     '[style.--hover-background-color]': 'hoverBackgroundColor()',
     '[style.--border]': 'border()',
@@ -21,7 +21,7 @@ export class TextIconButtonComponent {
   displayText = input<string>();
   svgIcon = input<string>();
   color = input<string>('black');
-  marginRight = input<string>('0px');
+  spaceBetween = input<string>('6px');
   backgroundColor = input<string>('rgba(0, 0, 0, 0.05)');
   hoverBackgroundColor = input<string>('rgba(0, 0, 0, 0.1)');
   border = input<string>('none');

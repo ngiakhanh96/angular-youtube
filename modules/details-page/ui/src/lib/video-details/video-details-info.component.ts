@@ -1,7 +1,8 @@
-import { TextIconButtonComponent } from '@angular-youtube/header-ui';
 import {
   FormattedStringComponent,
   IconDirective,
+  TextIconButtonComponent,
+  Utilities,
 } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
 import {
@@ -18,8 +19,10 @@ export interface IVideoDetailsInfo {
   title: string;
   authorLogoUrl: string;
   author: string;
+  authorVerified: boolean;
   subscriberCountText: string;
   likeCount: number;
+  dislikeCount: number;
   viewCount: number;
   descriptionHtml: string;
   publishedDateEpoch: number;
@@ -42,6 +45,18 @@ export interface IVideoDetailsInfo {
 export class VideoDetailsInfoComponent {
   sanitizer = inject(DomSanitizer);
   videoInfo = input.required<IVideoDetailsInfo | undefined>();
+  likeCountString = computed(() => {
+    const videoInfo = this.videoInfo();
+    return Utilities.numberToString(videoInfo?.likeCount ?? 0);
+  });
+  viewCountString = computed(() => {
+    const videoInfo = this.videoInfo();
+    return Utilities.numberToString(videoInfo?.viewCount ?? 0);
+  });
+  dislikeCountString = computed(() => {
+    const videoInfo = this.videoInfo();
+    return Utilities.numberToString(videoInfo?.dislikeCount ?? 0);
+  });
   descriptionHtml = computed(() =>
     this.sanitizer.bypassSecurityTrustHtml(
       this.videoInfo()?.descriptionHtml ?? '',

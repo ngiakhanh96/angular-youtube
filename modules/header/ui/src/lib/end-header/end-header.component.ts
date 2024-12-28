@@ -5,6 +5,7 @@ import {
   SettingsButtonComponent,
   SvgButtonRendererComponent,
   SvgButtonTemplateDirective,
+  TextIconButtonComponent,
 } from '@angular-youtube/shared-ui';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { NgOptimizedImage } from '@angular/common';
@@ -17,7 +18,6 @@ import {
 } from '@angular/core';
 import { AccountMenuComponent } from '../account-menu/account-menu.component';
 import { LoginButtonComponent } from '../login-button/login-button.component';
-import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
 
 @Component({
   selector: 'ay-end-header',
