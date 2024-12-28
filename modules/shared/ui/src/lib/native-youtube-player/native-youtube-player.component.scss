@@ -1,6 +1,6 @@
 .player {
   @apply w-full h-full;
   video {
-    @apply w-full h-full;
+    @apply w-full h-full rounded-[var(--border-radius)];
   }
 }

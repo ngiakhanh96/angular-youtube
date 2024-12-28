@@ -5,15 +5,17 @@
 .details_page_container {
   @apply flex flex-col w-full h-full;
   .details_page_player_container {
-    @apply w-full max-h-[742px] aspect-video;
+    @apply w-full max-h-[742px] pr-[17px];
   }
   .details_page_info_container {
-    @apply flex;
+    @apply flex ml-[24px] mr-[24px];
     .details_page_info_details {
-      @apply flex flex-col ml-[24px] mr-[24px] basis-[640px] grow shrink-0 max-w-[1235.56px];
+      @apply flex flex-col mr-[24px] basis-[640px] grow;
+      .details_page_info_video {
+      }
     }
     .details_page_info_others {
-      @apply flex flex-col basis-[300px] grow shrink-0 max-w-[402px];
+      @apply flex flex-col grow-0 shrink-0 w-[402px];
     }
   }
 }

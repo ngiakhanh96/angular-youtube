@@ -7,14 +7,15 @@
         [showPlayButton]="false"
         [autoPlay]="true"
         [disablePlaceholder]="true"
+        [borderRadius]="mainPlayerBorderRadius()"
         (playerClick)="onClickMainPlayer()"
-        #mainPlayer
       >
       </ay-native-youtube-player>
     </div>
     <div class="details_page_info_container">
       <div class="details_page_info_details">
         <!-- Remove this line when finishing fixing layout for default and theater mode -->
+        <div class="details_page_info_video"></div>
         <ay-text-icon-button
           [displayText]="'Mode'"
           [color]="'var(--white-color)'"
@@ -25,7 +26,9 @@
           [videoInfo]="videoDetailsInfo()"
         ></ay-video-details-info>
       </div>
-      <div class="details_page_info_others"></div>
+      <div class="details_page_info_others">
+        <ay-videos-recommendation></ay-videos-recommendation>
+      </div>
     </div>
   </div>
 }
