@@ -45,6 +45,12 @@
 
       .video-details-info-action-buttons {
         @apply flex items-center gap-x-[8px] h-[36px];
+        .video-details-info-action-button {
+          @apply h-full;
+          ay-dropdown-button {
+            @apply w-[36px];
+          }
+        }
       }
     }
   }

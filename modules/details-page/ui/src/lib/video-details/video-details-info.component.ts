@@ -1,6 +1,8 @@
 import {
+  DropdownButtonComponent,
   FormattedStringComponent,
   IconDirective,
+  ISection,
   TextIconButtonComponent,
   Utilities,
 } from '@angular-youtube/shared-ui';
@@ -11,6 +13,7 @@ import {
   computed,
   inject,
   input,
+  signal,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -39,6 +42,7 @@ export interface IVideoDetailsInfo {
     MatIconModule,
     IconDirective,
     TextIconButtonComponent,
+    DropdownButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -61,5 +65,51 @@ export class VideoDetailsInfoComponent {
     this.sanitizer.bypassSecurityTrustHtml(
       this.videoInfo()?.descriptionHtml ?? '',
     ),
+  );
+
+  moreItems = signal<ISection[]>([
+    {
+      sectionItems: [
+        {
+          iconName: 'downloads-light',
+          displayText: 'Download',
+        },
+        {
+          iconName: 'thanks',
+          displayText: 'Thanks',
+        },
+        {
+          iconName: 'your-clips-light',
+          displayText: 'Clip',
+        },
+        {
+          iconName: 'save-to-playlist',
+          displayText: 'Save',
+        },
+        {
+          iconName: 'report-light',
+          displayText: 'Report',
+        },
+      ],
+    },
+  ]);
+
+  actionButtons = computed(
+    () =>
+      <{ displayText: string; svgIcon: string; transform?: string }[]>[
+        {
+          displayText: this.likeCountString(),
+          svgIcon: 'dislike',
+          transform: 'rotate(180deg)',
+        },
+        {
+          displayText: this.dislikeCountString(),
+          svgIcon: 'dislike',
+        },
+        {
+          displayText: 'Share',
+          svgIcon: 'share',
+        },
+      ],
   );
 }

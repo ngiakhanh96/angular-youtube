@@ -1,8 +1,8 @@
 import { Auth } from '@angular-youtube/shared-data-access';
 import {
+  DropdownButtonComponent,
   FormattedStringComponent,
   NativeYouTubePlayerComponent,
-  SettingsButtonComponent,
   Utilities,
 } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
@@ -22,7 +22,7 @@ import {
   selector: 'ay-video-player-card',
   imports: [
     NgOptimizedImage,
-    SettingsButtonComponent,
+    DropdownButtonComponent,
     NativeYouTubePlayerComponent,
     FormattedStringComponent,
   ],

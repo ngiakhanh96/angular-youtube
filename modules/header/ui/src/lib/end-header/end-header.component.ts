@@ -1,8 +1,8 @@
 import { IMyChannelInfo } from '@angular-youtube/shared-data-access';
 import {
+  DropdownButtonComponent,
   ISection,
   OverlayDirective,
-  SettingsButtonComponent,
   SvgButtonRendererComponent,
   SvgButtonTemplateDirective,
   TextIconButtonComponent,
@@ -27,7 +27,7 @@ import { LoginButtonComponent } from '../login-button/login-button.component';
     SvgButtonRendererComponent,
     SvgButtonTemplateDirective,
     NgOptimizedImage,
-    SettingsButtonComponent,
+    DropdownButtonComponent,
     LoginButtonComponent,
     OverlayModule,
     AccountMenuComponent,

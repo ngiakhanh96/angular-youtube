@@ -4,11 +4,11 @@
 
 .menu_section_container {
   .menu_section_item {
-    @apply cursor-pointer rounded-[10px];
+    @apply cursor-pointer rounded-[var(--border-radius)];
   }
 
   mat-list {
-    @apply mt-[4px] mb-[4px] mr-[8px];
+    @apply mt-[4px] mb-[4px] mr-[var(--margin-right)];
   }
 
   ::ng-deep {

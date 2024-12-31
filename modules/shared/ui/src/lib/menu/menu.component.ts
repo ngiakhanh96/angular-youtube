@@ -24,4 +24,6 @@ export interface ISection {
 export class MenuComponent {
   items = input.required<ISection[]>();
   selectedIconName = model.required<string>();
+  sectionItemMarginRight = input('8px');
+  sectionItemBorderRadius = input('10px');
 }

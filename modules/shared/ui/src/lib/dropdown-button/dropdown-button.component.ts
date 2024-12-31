@@ -1,19 +1,22 @@
-import { OverlayModule } from '@angular/cdk/overlay';
+import { CdkOverlayOrigin, OverlayModule } from '@angular/cdk/overlay';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
   input,
   signal,
+  viewChild,
 } from '@angular/core';
 import { OverlayDirective } from '../directives/overlay/overlay.directive';
 import { ISection, MenuComponent } from '../menu/menu.component';
 import { SvgButtonRendererComponent } from '../svg-button-renderer/svg-button-renderer.component';
 
+export type DropdownMode = 'horizontal' | 'vertical';
+
 @Component({
-  selector: 'ay-settings-button',
-  templateUrl: './settings-button.component.html',
-  styleUrls: ['./settings-button.component.scss'],
+  selector: 'ay-dropdown-button',
+  templateUrl: './dropdown-button.component.html',
+  styleUrls: ['./dropdown-button.component.scss'],
   imports: [
     SvgButtonRendererComponent,
     OverlayModule,
@@ -21,10 +24,14 @@ import { SvgButtonRendererComponent } from '../svg-button-renderer/svg-button-re
     OverlayDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[style.--background-color]': 'backgroundColor()',
+  },
 })
-export class SettingsButtonComponent {
+export class DropdownButtonComponent {
   items = input.required<ISection[]>();
   mini = input(false);
+  mode = input<DropdownMode>('horizontal');
   panelClass = computed(() =>
     this.mini()
       ? ['mdc-list-list-item-one-line-container-height-36px']
@@ -32,7 +39,12 @@ export class SettingsButtonComponent {
   );
   selectedIconName = signal('');
   isOpenedSettingsMenu = signal(false);
-
+  buttonRenderer = viewChild.required<
+    SvgButtonRendererComponent,
+    CdkOverlayOrigin
+  >(SvgButtonRendererComponent, { read: CdkOverlayOrigin });
+  backgroundColor = input('unset');
+  dropDownWidth = input('254px');
   onClickSettings() {
     this.isOpenedSettingsMenu.update((v) => !v);
   }

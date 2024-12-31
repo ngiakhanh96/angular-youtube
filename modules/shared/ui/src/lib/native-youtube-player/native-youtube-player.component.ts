@@ -90,8 +90,14 @@ export class NativeYouTubePlayerComponent {
   }
 
   playVideo() {
-    this.videoPlayer().play();
-    this.isVideoPlayed.set(true);
+    this.videoPlayer()
+      .play()
+      .then((_) => {
+        this.isVideoPlayed.set(true);
+      })
+      .catch((error) => {
+        this.isVideoPlayed.set(false);
+      });
   }
 
   pauseVideo() {

@@ -31,12 +31,18 @@ export interface ISectionItem {
     MenuSectionHeaderComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[style.--margin-right]': 'marginRight()',
+    '[style.--borderRadius]': 'borderRadius()',
+  },
 })
 export class MenuSectionComponent {
   sectionItems = input.required<ISection>();
   sectionItemsList = computed(() => this.sectionItems().sectionItems);
   sectionItemsHeader = computed(() => this.sectionItems().header);
   selectedIconName = model<string>();
+  marginRight = input('8px');
+  borderRadius = input('10px');
 
   onClick(iconName: string) {
     this.selectedIconName.set(iconName);

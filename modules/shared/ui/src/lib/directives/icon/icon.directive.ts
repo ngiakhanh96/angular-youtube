@@ -1,4 +1,4 @@
-import { Directive, inject, input, OnInit } from '@angular/core';
+import { afterNextRender, Directive, inject, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 
 //TODO convert all icon to use mat-icon
@@ -11,22 +11,26 @@ import { MatIcon } from '@angular/material/icon';
     '[style.fill]': 'fill()',
   },
 })
-export class IconDirective implements OnInit {
+export class IconDirective {
   host = inject(MatIcon);
   fontVariationSettings = input<string>("'FILL' 1");
   fill = input<string>('black');
   viewBox = input<string | undefined>(undefined);
   transform = input<string | undefined>(undefined);
 
-  ngOnInit() {
-    if (this.viewBox() != null) {
-      this.host._elementRef.nativeElement
-        .getElementsByTagName('svg')[0]
-        .setAttribute('viewBox', this.viewBox() as string);
-    }
-    if (this.transform() != null) {
-      this.host._elementRef.nativeElement.style.transform =
-        this.transform() as string;
-    }
+  constructor() {
+    afterNextRender({
+      write: () => {
+        if (this.viewBox() != null) {
+          this.host._elementRef.nativeElement
+            .getElementsByTagName('svg')[0]
+            .setAttribute('viewBox', this.viewBox() as string);
+        }
+        if (this.transform() != null) {
+          this.host._elementRef.nativeElement.style.transform =
+            this.transform() as string;
+        }
+      },
+    });
   }
 }

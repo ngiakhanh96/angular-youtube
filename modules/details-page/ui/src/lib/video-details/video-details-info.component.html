@@ -53,19 +53,24 @@
           </div>
         </div>
         <div class="video-details-info-action-buttons">
-          <ay-text-icon-button
-            [displayText]="likeCountString()"
-            [svgIcon]="'dislike'"
-            [transform]="'rotate(180deg)'"
-          ></ay-text-icon-button>
-          <ay-text-icon-button
-            [displayText]="dislikeCountString()"
-            [svgIcon]="'dislike'"
-          ></ay-text-icon-button>
-          <ay-text-icon-button
-            [displayText]="'Share'"
-            [svgIcon]="'share'"
-          ></ay-text-icon-button>
+          @for (button of actionButtons(); track button) {
+            <div class="video-details-info-action-button">
+              <ay-text-icon-button
+                [displayText]="button.displayText"
+                [svgIcon]="button.svgIcon"
+                [transform]="button.transform"
+              ></ay-text-icon-button>
+            </div>
+          }
+          <div class="video-details-info-action-button">
+            <ay-dropdown-button
+              [items]="moreItems()"
+              mode="vertical"
+              [mini]="true"
+              [backgroundColor]="'rgba(0, 0, 0, 0.05)'"
+              [dropDownWidth]="'154px'"
+            ></ay-dropdown-button>
+          </div>
         </div>
       </div>
       <div

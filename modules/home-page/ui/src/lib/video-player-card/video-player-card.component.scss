@@ -64,4 +64,7 @@
 
 .thumbnail__settings-button {
   @apply flex-[0_0_40px];
+  ay-dropdown-button {
+    @apply h-[40px];
+  }
 }

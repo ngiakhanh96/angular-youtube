@@ -12,19 +12,36 @@
   <ng-template [ngTemplateOutlet]="avgButtonTmp() ?? default"></ng-template>
 </button>
 <ng-template #default>
-  <svg
-    [attr.viewBox]="viewBox()"
-    preserveAspectRatio="xMidYMid meet"
-    focusable="false"
-    aria-hidden="true"
-    [style.opacity]="opacity()"
-  >
-    <g>
-      <path
-        fill="currentcolor"
-        [attr.d]="path()"
-        [attr.fill-rule]="fillRule()"
-      ></path>
-    </g>
-  </svg>
+  @if (viewBox()) {
+    <svg
+      [attr.viewBox]="viewBox()"
+      preserveAspectRatio="xMidYMid meet"
+      focusable="false"
+      aria-hidden="true"
+      [style.opacity]="opacity()"
+    >
+      <g>
+        <path
+          fill="currentcolor"
+          [attr.d]="path()"
+          [attr.fill-rule]="fillRule()"
+        ></path>
+      </g>
+    </svg>
+  } @else {
+    <svg
+      preserveAspectRatio="xMidYMid meet"
+      focusable="false"
+      aria-hidden="true"
+      [style.opacity]="opacity()"
+    >
+      <g>
+        <path
+          fill="currentcolor"
+          [attr.d]="path()"
+          [attr.fill-rule]="fillRule()"
+        ></path>
+      </g>
+    </svg>
+  }
 </ng-template>
