@@ -1,0 +1,7 @@
+:host {
+  @apply block h-full w-full;
+}
+
+.card-container {
+  @apply p-[var(--padding)] bg-[var(--backgroundColor)] rounded-[12px] text-[14px] leading-[20px];
+}

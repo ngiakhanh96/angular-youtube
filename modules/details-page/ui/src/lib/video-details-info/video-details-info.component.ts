@@ -13,12 +13,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  inject,
   input,
   signal,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
+import { VideoDetailsDescriptionComponent } from '../video-details-description/video-details-description.component';
 
 export interface IVideoDetailsInfo {
   title: string;
@@ -46,11 +45,11 @@ export interface IVideoDetailsInfo {
     TextIconButtonComponent,
     DropdownButtonComponent,
     CombinedTextIconButtonComponent,
+    VideoDetailsDescriptionComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoDetailsInfoComponent {
-  sanitizer = inject(DomSanitizer);
   videoInfo = input.required<IVideoDetailsInfo | undefined>();
   likeCountString = computed(() => {
     const videoInfo = this.videoInfo();
@@ -64,11 +63,6 @@ export class VideoDetailsInfoComponent {
     const videoInfo = this.videoInfo();
     return Utilities.numberToString(videoInfo?.dislikeCount ?? 0);
   });
-  descriptionHtml = computed(() =>
-    this.sanitizer.bypassSecurityTrustHtml(
-      this.videoInfo()?.descriptionHtml ?? '',
-    ),
-  );
 
   moreItems = signal<ISection[]>([
     {

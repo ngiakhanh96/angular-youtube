@@ -75,10 +75,11 @@
           </div>
         </div>
       </div>
-      <div
-        class="video-details-info-description"
-        [innerHTML]="descriptionHtml()"
-      ></div>
+      <div class="video-details-info-description">
+        <ay-video-details-description
+          [descriptionHtml]="this.videoInfo()?.descriptionHtml ?? ''"
+        ></ay-video-details-description>
+      </div>
     </div>
   </div>
 }

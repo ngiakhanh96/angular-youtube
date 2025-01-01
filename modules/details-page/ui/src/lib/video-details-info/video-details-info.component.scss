@@ -14,7 +14,7 @@
   .video-details-info-details {
     @apply flex flex-col mt-[4px];
     .video-details-info-author-container {
-      @apply flex h-[43px] justify-between items-center;
+      @apply flex h-[40px] justify-between items-center;
       .video-details-info-author {
         @apply flex items-center;
         img {
@@ -52,6 +52,10 @@
           }
         }
       }
+    }
+
+    .video-details-info-description {
+      @apply mt-[16px];
     }
   }
 }
