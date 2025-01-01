@@ -1,0 +1,49 @@
+<div class="combined-text-icon-button-container">
+  @if (firstTextIcon()) {
+    <div class="first-text-icons-container">
+      <ay-text-icon-button
+        [displayText]="firstTextIcon()!.displayText"
+        [svgIcon]="firstTextIcon()!.svgIcon"
+        [transform]="firstTextIcon()!.transform"
+        [color]="color()"
+        [backgroundColor]="backgroundColor()"
+        [spaceBetween]="spaceBetween()"
+        [hoverBackgroundColor]="hoverBackgroundColor()"
+        [border]="border()"
+        [borderRadiusForRight]="false"
+      ></ay-text-icon-button>
+    </div>
+  }
+  @if (middleTextIcons().length > 0) {
+    <div class="middle-text-icons-container">
+      @for (textIcon of middleTextIcons(); track textIcon.svgIcon) {
+        <ay-text-icon-button
+          [displayText]="textIcon.displayText"
+          [svgIcon]="textIcon.svgIcon"
+          [color]="color()"
+          [backgroundColor]="backgroundColor()"
+          [spaceBetween]="spaceBetween()"
+          [hoverBackgroundColor]="hoverBackgroundColor()"
+          [border]="border()"
+          [borderRadiusForLeft]="false"
+          [borderRadiusForRight]="false"
+        ></ay-text-icon-button>
+      }
+    </div>
+  }
+
+  @if (lastTextIcon()) {
+    <div class="last-text-icons-container">
+      <ay-text-icon-button
+        [displayText]="lastTextIcon()!.displayText"
+        [svgIcon]="lastTextIcon()!.svgIcon"
+        [color]="color()"
+        [backgroundColor]="backgroundColor()"
+        [spaceBetween]="spaceBetween()"
+        [hoverBackgroundColor]="hoverBackgroundColor()"
+        [border]="border()"
+        [borderRadiusForLeft]="false"
+      ></ay-text-icon-button>
+    </div>
+  }
+</div>

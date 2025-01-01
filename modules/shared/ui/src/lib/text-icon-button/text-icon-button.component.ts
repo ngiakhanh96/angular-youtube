@@ -1,7 +1,12 @@
-import { IconDirective } from '@angular-youtube/shared-ui';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { IconDirective } from '../directives/icon/icon.directive';
 
 @Component({
   selector: 'ay-text-icon-button',
@@ -15,6 +20,9 @@ import { MatIconModule } from '@angular/material/icon';
     '[style.--background-color]': 'backgroundColor()',
     '[style.--hover-background-color]': 'hoverBackgroundColor()',
     '[style.--border]': 'border()',
+    '[style.--border-radius]': 'borderRadius()',
+    '[style.--border-left-radius]': 'borderLeftRadius()',
+    '[style.--border-right-radius]': 'borderRightRadius()',
   },
 })
 export class TextIconButtonComponent {
@@ -25,5 +33,26 @@ export class TextIconButtonComponent {
   backgroundColor = input<string>('rgba(0, 0, 0, 0.05)');
   hoverBackgroundColor = input<string>('rgba(0, 0, 0, 0.1)');
   border = input<string>('none');
+  borderRadius = input<string>('24px');
+  borderRadiusForLeft = input<boolean>(true);
+  borderRadiusForRight = input<boolean>(true);
   transform = input<string | undefined>(undefined);
+
+  borderLeftRadius = computed(() => {
+    const borderRadiusForLeft = this.borderRadiusForLeft();
+    const borderRadius = this.borderRadius();
+    if (borderRadiusForLeft) {
+      return borderRadius;
+    }
+    return '0px';
+  });
+
+  borderRightRadius = computed(() => {
+    const borderRadiusForRight = this.borderRadiusForRight();
+    const borderRadius = this.borderRadius();
+    if (borderRadiusForRight) {
+      return borderRadius;
+    }
+    return '0px';
+  });
 }

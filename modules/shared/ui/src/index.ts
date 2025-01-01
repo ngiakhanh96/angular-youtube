@@ -1,4 +1,5 @@
 export * from './lib/button-renderer/button-renderer.component';
+export * from './lib/combined-text-icon-button/combined-text-icon-button.component';
 export * from './lib/directives/icon/icon.directive';
 export * from './lib/directives/overlay/overlay.directive';
 export * from './lib/directives/section-item/section-item.directive';

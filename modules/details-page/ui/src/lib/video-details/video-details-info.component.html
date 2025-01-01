@@ -53,15 +53,17 @@
           </div>
         </div>
         <div class="video-details-info-action-buttons">
-          @for (button of actionButtons(); track button) {
-            <div class="video-details-info-action-button">
-              <ay-text-icon-button
-                [displayText]="button.displayText"
-                [svgIcon]="button.svgIcon"
-                [transform]="button.transform"
-              ></ay-text-icon-button>
-            </div>
-          }
+          <div class="video-details-info-action-button">
+            <ay-combined-text-icon-button
+              [combinedTextIcons]="likeDislikeCombinedTextIcons()"
+            ></ay-combined-text-icon-button>
+          </div>
+          <div class="video-details-info-action-button">
+            <ay-text-icon-button
+              [displayText]="'Share'"
+              [svgIcon]="'share'"
+            ></ay-text-icon-button>
+          </div>
           <div class="video-details-info-action-button">
             <ay-dropdown-button
               [items]="moreItems()"

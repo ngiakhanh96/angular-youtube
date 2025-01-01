@@ -45,6 +45,7 @@ export class RippleOnHoverDirective {
   }
 }
 
+//TODO deprecated. Refactor to use TextIconButton component
 @Component({
   selector: 'ay-svg-button-renderer',
   templateUrl: './svg-button-renderer.component.html',

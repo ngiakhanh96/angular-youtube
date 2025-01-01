@@ -1,4 +1,6 @@
 import {
+  CombinedTextIcon,
+  CombinedTextIconButtonComponent,
   DropdownButtonComponent,
   FormattedStringComponent,
   IconDirective,
@@ -43,6 +45,7 @@ export interface IVideoDetailsInfo {
     IconDirective,
     TextIconButtonComponent,
     DropdownButtonComponent,
+    CombinedTextIconButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -94,9 +97,9 @@ export class VideoDetailsInfoComponent {
     },
   ]);
 
-  actionButtons = computed(
+  likeDislikeCombinedTextIcons = computed(
     () =>
-      <{ displayText: string; svgIcon: string; transform?: string }[]>[
+      <CombinedTextIcon[]>[
         {
           displayText: this.likeCountString(),
           svgIcon: 'dislike',
@@ -105,10 +108,6 @@ export class VideoDetailsInfoComponent {
         {
           displayText: this.dislikeCountString(),
           svgIcon: 'dislike',
-        },
-        {
-          displayText: 'Share',
-          svgIcon: 'share',
         },
       ],
   );

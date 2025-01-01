@@ -17,6 +17,7 @@ import {
   SidebarService,
   TextIconButtonComponent,
 } from '@angular-youtube/shared-ui';
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -105,6 +106,8 @@ export class VideoDetailsComponent
   marginTop = computed(() =>
     this.mode() === ViewMode.Theater ? '0px' : '24px',
   );
+  document = inject(DOCUMENT);
+
   constructor() {
     super();
     this.dispatchActionFromSignal(this.getVideoInfo);
@@ -137,11 +140,11 @@ export class VideoDetailsComponent
     const theaterContainer = this.theaterModeContainerElement().nativeElement;
     const defaultContainer = this.defaultModeContainerElement().nativeElement;
     if (this.mode() === ViewMode.Theater) {
-      const adoptedVideo = document.adoptNode(video);
+      const adoptedVideo = this.document.adoptNode(video);
       defaultContainer?.appendChild(adoptedVideo);
       this.mode.set(ViewMode.Default);
     } else {
-      const adoptedVideo = document.adoptNode(video);
+      const adoptedVideo = this.document.adoptNode(video);
       theaterContainer?.appendChild(adoptedVideo);
       this.mode.set(ViewMode.Theater);
     }
