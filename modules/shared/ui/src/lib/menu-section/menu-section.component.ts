@@ -33,6 +33,8 @@ export interface ISectionItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.--margin-right]': 'marginRight()',
+    '[style.--margin-left]': 'marginLeft()',
+    '[style.--padding-left]': 'paddingLeft()',
     '[style.--borderRadius]': 'borderRadius()',
   },
 })
@@ -42,6 +44,8 @@ export class MenuSectionComponent {
   sectionItemsHeader = computed(() => this.sectionItems().header);
   selectedIconName = model<string>();
   marginRight = input('8px');
+  marginLeft = input('0px');
+  paddingLeft = input('0px');
   borderRadius = input('10px');
 
   onClick(iconName: string) {
