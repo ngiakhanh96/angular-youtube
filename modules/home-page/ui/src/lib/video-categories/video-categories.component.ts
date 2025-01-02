@@ -31,7 +31,8 @@ export class VideoCategoriesComponent {
   private videoCategoryList?: Element;
   private static scrollingWidth = 400;
   constructor() {
-    const hostNativeElement = inject(ElementRef).nativeElement as Element;
+    const hostNativeElement =
+      inject<ElementRef<Element>>(ElementRef).nativeElement;
     afterNextRender({
       read: () => {
         this.videoCategoryList = hostNativeElement.getElementsByClassName(

@@ -6,6 +6,7 @@ export * from './lib/directives/overlay/overlay.directive';
 export * from './lib/directives/section-item/section-item.directive';
 export * from './lib/dropdown-button/dropdown-button.component';
 export * from './lib/hamburger-button/hamburger-button.component';
+export * from './lib/link/link.component';
 export * from './lib/logo-menu/logo-menu.component';
 export * from './lib/logo-renderer/logo-renderer.component';
 export * from './lib/menu-section-header/menu-section-header.component';

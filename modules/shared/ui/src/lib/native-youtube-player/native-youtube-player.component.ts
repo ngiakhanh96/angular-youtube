@@ -81,6 +81,8 @@ export class NativeYouTubePlayerComponent {
       if (!this.autoPlay()) {
         this.videoPlayer().muted = true;
       } else {
+        //TODO remove this when finish details page
+        this.videoPlayer().muted = true;
         this.playVideo();
       }
       this.videoPlayer().addEventListener('click', () => {
@@ -97,6 +99,7 @@ export class NativeYouTubePlayerComponent {
       })
       .catch((error) => {
         this.isVideoPlayed.set(false);
+        console.error('Error playing video:', error);
       });
   }
 

@@ -1,3 +1,9 @@
 <ay-card>
-  <div [innerHTML]="sanitizedDescriptionHtml()"></div>
+  <div class="video-details-description-first-line">
+    <pre>{{ firstLineText() }}</pre>
+  </div>
+  <div
+    class="video-details-description-second-line"
+    [innerHTML]="sanitizedDescriptionHtml()"
+  ></div>
 </ay-card>

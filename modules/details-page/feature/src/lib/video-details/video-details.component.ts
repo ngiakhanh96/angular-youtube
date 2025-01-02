@@ -71,14 +71,14 @@ export class VideoDetailsComponent
   mainPlayer = viewChild.required<NativeYouTubePlayerComponent>(
     NativeYouTubePlayerComponent,
   );
-  videoElement = viewChild.required<NativeYouTubePlayerComponent, ElementRef>(
+  videoElement = viewChild.required<
     NativeYouTubePlayerComponent,
-    { read: ElementRef },
-  );
-  theaterModeContainerElement = viewChild.required<ElementRef>(
+    ElementRef<HTMLElement>
+  >(NativeYouTubePlayerComponent, { read: ElementRef });
+  theaterModeContainerElement = viewChild.required<ElementRef<HTMLElement>>(
     'theaterModeContainer',
   );
-  defaultModeContainerElement = viewChild.required<ElementRef>(
+  defaultModeContainerElement = viewChild.required<ElementRef<HTMLElement>>(
     'defaultModeContainer',
   );
   ViewMode = ViewMode;

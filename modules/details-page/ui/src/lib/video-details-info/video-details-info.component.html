@@ -77,7 +77,10 @@
       </div>
       <div class="video-details-info-description">
         <ay-video-details-description
-          [descriptionHtml]="this.videoInfo()?.descriptionHtml ?? ''"
+          [descriptionHtml]="this.videoInfo()!.descriptionHtml"
+          [viewCount]="this.videoInfo()!.viewCount"
+          [publishedDateEpoch]="this.videoInfo()!.publishedDateEpoch"
+          [publishedDateText]="this.videoInfo()!.publishedDateText"
         ></ay-video-details-description>
       </div>
     </div>
