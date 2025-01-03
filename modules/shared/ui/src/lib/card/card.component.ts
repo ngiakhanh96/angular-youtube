@@ -1,17 +1,15 @@
 import {
   afterNextRender,
-  ApplicationRef,
   ChangeDetectionStrategy,
   Component,
-  ComponentFactoryResolver,
+  ComponentRef,
   ElementRef,
   inject,
-  Injector,
   input,
-  Renderer2,
+  OnDestroy,
   viewChild,
 } from '@angular/core';
-import { LinkComponent } from '../link/link.component';
+import { DynamicComponentService } from '../services/dynamic-component.service';
 
 @Component({
   selector: 'ay-card',
@@ -23,45 +21,36 @@ import { LinkComponent } from '../link/link.component';
     '[style.--padding]': 'padding()',
   },
 })
-export class CardComponent {
+export class CardComponent implements OnDestroy {
   backgroundColor = input('rgba(0, 0, 0, 0.05)');
   padding = input('12px');
   cardContainer = viewChild.required<ElementRef<HTMLElement>>('cardContainer');
-  renderer2 = inject(Renderer2);
-  injector = inject(Injector);
-  appRef = inject(ApplicationRef);
-  componentFactoryResolver = inject(ComponentFactoryResolver);
-  linkComponentFactory =
-    this.componentFactoryResolver.resolveComponentFactory(LinkComponent);
-  static supportedSocialMedias = new Set([
-    'www.twitch.com',
-    'www.facebook.com',
-    'www.twitter.com',
-    'www.tiktok.com',
-  ]);
+  linkComponentRefs: ComponentRef<unknown>[] = [];
+  dynamicComponentService = inject(DynamicComponentService);
+
   constructor() {
-    afterNextRender(() => {
+    afterNextRender(async () => {
       const cardContainerElement = this.cardContainer().nativeElement;
       const aTags = Array.from(cardContainerElement.getElementsByTagName('a'));
       for (const aTag of aTags) {
-        const href = aTag.getAttribute('href') ?? '';
-        if (href.startsWith('https')) {
-          aTag.textContent = 'https://' + aTag.textContent;
-        } else if (href.startsWith('http')) {
-          aTag.textContent = 'http://' + aTag.textContent;
-        }
-        const fullHrefUrl = new URL(aTag.href);
-
-        if (CardComponent.supportedSocialMedias.has(fullHrefUrl.host)) {
-          const linkComponentRef = this.linkComponentFactory.create(
-            this.injector,
+        const linkComponentRef =
+          await this.dynamicComponentService.createComponentLazily(
+            'LinkComponent',
+            {
+              href: aTag.href,
+              attributeHref: aTag.getAttribute('href') ?? '',
+              text: aTag.textContent,
+            },
           );
-          linkComponentRef.setInput('href', 'https://www.twitter.com');
-          this.appRef.attachView(linkComponentRef.hostView);
-          linkComponentRef.instance.cdr.detectChanges();
-          aTag.replaceChildren(linkComponentRef.location.nativeElement);
-        }
+        this.linkComponentRefs.push(linkComponentRef);
+        aTag.replaceWith(linkComponentRef.location.nativeElement);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    for (const linkComponentRef of this.linkComponentRefs) {
+      linkComponentRef.destroy();
+    }
   }
 }

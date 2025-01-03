@@ -1,12 +1,16 @@
-<a [href]="href()">
-  {{ prefix() }}
-  <span>
-    <img
-      src="https://www.gstatic.com/youtube/img/watch/social_media/tiktok_1x.png"
-      width="14"
-      height="14"
-      referrerpolicy="no-referrer"
-    />
-  </span>
-  {{ suffix() }}
+<a class="link" target="_blank" rel="noopener noreferrer" [href]="href()">
+  @if (isSupportedSocialMedia()) {
+    {{ prefix() }}
+    <span>
+      <img
+        [ngSrc]="imgSource()"
+        width="14"
+        height="14"
+        referrerpolicy="no-referrer"
+      />
+    </span>
+    {{ suffix() }}
+  } @else {
+    {{ formattedText() }}
+  }
 </a>
