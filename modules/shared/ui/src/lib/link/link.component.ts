@@ -7,14 +7,14 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ay-link',
   templateUrl: './link.component.html',
   styleUrls: ['./link.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgOptimizedImage, RouterLink],
+  imports: [NgOptimizedImage],
   host: {
     '[style.--color]': 'color()',
     '[style.--background-color]': 'backgroundColor()',
@@ -34,12 +34,6 @@ export class LinkComponent {
   href = input.required<string>();
   attributeHref = input.required<string>();
   text = input<string>();
-  routerLink = computed(() => {
-    if (this.attributeHref().startsWith('/')) {
-      return this.attributeHref();
-    }
-    return this.href();
-  });
   isSupportedSocialMedia = computed(() => {
     const url = new URL(this.href());
     return LinkComponent.supportedSocialMedias.get(url.host);
