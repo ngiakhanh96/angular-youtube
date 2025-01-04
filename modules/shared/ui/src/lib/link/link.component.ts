@@ -75,7 +75,6 @@ export class LinkComponent {
         ? this.convertQueryStringToParams(queryString)
         : {};
 
-      // Navigate to the path with the query parameters
       this.router.navigate([path], { queryParams });
       return;
     }
