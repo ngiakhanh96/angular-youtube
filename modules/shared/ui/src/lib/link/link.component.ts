@@ -1,18 +1,20 @@
-import { NgOptimizedImage } from '@angular/common';
+import { DOCUMENT, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   signal,
 } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'ay-link',
   templateUrl: './link.component.html',
   styleUrls: ['./link.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgOptimizedImage],
+  imports: [NgOptimizedImage, RouterLink],
   host: {
     '[style.--color]': 'color()',
     '[style.--background-color]': 'backgroundColor()',
@@ -27,9 +29,17 @@ export class LinkComponent {
     ['www.discord.com', 'discord'],
     ['www.spotify.com', 'spotify'],
   ]);
+  document = inject(DOCUMENT);
+  router = inject(Router);
   href = input.required<string>();
   attributeHref = input.required<string>();
   text = input<string>();
+  routerLink = computed(() => {
+    if (this.attributeHref().startsWith('/')) {
+      return this.attributeHref();
+    }
+    return this.href();
+  });
   isSupportedSocialMedia = computed(() => {
     const url = new URL(this.href());
     return LinkComponent.supportedSocialMedias.get(url.host);
@@ -62,4 +72,40 @@ export class LinkComponent {
   backgroundColor = computed(() => {
     return this.isSupportedSocialMedia() ? 'rgba(0,0,0,0.051)' : 'transparent';
   });
+
+  onClick(event: Event) {
+    event.preventDefault();
+    if (this.attributeHref().startsWith('/')) {
+      const [path, queryString] = this.attributeHref().split('?');
+      const queryParams = queryString
+        ? this.convertQueryStringToParams(queryString)
+        : {};
+
+      // Navigate to the path with the query parameters
+      this.router.navigate([path], { queryParams });
+      return;
+    }
+    (<any>this.document.defaultView?.open(this.href(), '_blank'))?.focus();
+  }
+
+  target = computed(() => {
+    const url = this.href().split('?')[0];
+    if (url === <any>this.document.defaultView!.location.href.split('?')[0]) {
+      return '_self';
+    }
+    return '_blank';
+  });
+
+  private convertQueryStringToParams(queryString: string): {
+    [key: string]: string;
+  } {
+    return queryString.split('&').reduce(
+      (params, param) => {
+        const [key, value] = param.split('=');
+        params[key] = value;
+        return params;
+      },
+      {} as { [key: string]: string },
+    );
+  }
 }

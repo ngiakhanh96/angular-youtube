@@ -1,4 +1,9 @@
-<a class="link" target="_blank" rel="noopener noreferrer" [href]="href()">
+<a
+  class="link"
+  [target]="target()"
+  rel="noopener noreferrer"
+  (click)="onClick($event)"
+>
   @if (isSupportedSocialMedia()) {
     {{ prefix() }}
     <span>
