@@ -4,9 +4,4 @@
 
 .card-container {
   @apply p-[var(--padding)] bg-[var(--backgroundColor)] rounded-[12px] text-[14px] leading-[20px];
-  ::ng-deep {
-    a {
-      @apply text-[rgb(6,95,212)];
-    }
-  }
 }

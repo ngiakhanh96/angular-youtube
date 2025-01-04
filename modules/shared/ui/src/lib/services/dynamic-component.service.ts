@@ -32,6 +32,7 @@ export class DynamicComponentService {
   }
 
   async createComponentLazily(
+    component: () => Promise<any>,
     componentName: string,
     inputs?: Record<string, any>,
     injector?: Injector,
@@ -40,10 +41,7 @@ export class DynamicComponentService {
     const componentFactory =
       this.componentFactories.get(componentName) ??
       this.componentFactoryResolver.resolveComponentFactory(
-        // eslint-disable-next-line @nx/enforce-module-boundaries
-        await import('@angular-youtube/shared-ui').then(
-          (m: any) => m[componentName] as Type<any>,
-        ),
+        await component().then((m) => m[componentName] as Type<any>),
       );
     this.componentFactories.set(componentName, componentFactory);
     return this.createComponentFromFactory(componentFactory, inputs, injector);

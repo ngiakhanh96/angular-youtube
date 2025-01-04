@@ -35,6 +35,7 @@ export class CardComponent implements OnDestroy {
       for (const aTag of aTags) {
         const linkComponentRef =
           await this.dynamicComponentService.createComponentLazily(
+            () => import('../link/link.component'),
             'LinkComponent',
             {
               href: aTag.href,
@@ -50,7 +51,7 @@ export class CardComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     for (const linkComponentRef of this.linkComponentRefs) {
-      linkComponentRef.destroy();
+      this.dynamicComponentService.destroyComponent(linkComponentRef);
     }
   }
 }
