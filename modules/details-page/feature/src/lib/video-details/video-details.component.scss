@@ -8,9 +8,9 @@
     @apply w-full max-h-[742px] pr-[17px];
   }
   .details_page_info_container {
-    @apply flex ml-[24px] mr-[24px];
+    @apply flex ml-[24px] mr-[24px] justify-center;
     .details_page_info_details {
-      @apply flex flex-col mr-[24px] basis-[642px] grow shrink-0;
+      @apply flex flex-col mr-[24px] basis-[642px] grow shrink-0 max-w-[1235px];
       .details_page_info_video {
       }
     }

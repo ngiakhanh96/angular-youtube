@@ -50,9 +50,10 @@ export class LinkComponent {
   });
   formattedText = computed(() => {
     const attributeHref = this.attributeHref();
-    if (attributeHref.startsWith('https')) {
+    const text = this.text();
+    if (attributeHref.startsWith('https') && !text?.startsWith('https')) {
       return 'https://' + this.text();
-    } else if (attributeHref.startsWith('http')) {
+    } else if (attributeHref.startsWith('http') && !text?.startsWith('http')) {
       return 'http://' + this.text();
     }
     return this.text();

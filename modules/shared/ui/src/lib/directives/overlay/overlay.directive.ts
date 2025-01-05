@@ -47,6 +47,12 @@ export class OverlayDirective {
         overlayX: 'end',
         overlayY: 'top',
       },
+      {
+        originX: 'start',
+        originY: 'top',
+        overlayX: 'start',
+        overlayY: 'bottom',
+      },
     ];
   }
 }
