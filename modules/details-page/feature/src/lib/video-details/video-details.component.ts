@@ -22,6 +22,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   ElementRef,
   inject,
   OnDestroy,
@@ -30,6 +31,7 @@ import {
   Signal,
   viewChild,
 } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 export enum ViewMode {
   Default,
@@ -56,6 +58,7 @@ export class VideoDetailsComponent
   extends BaseWithSandBoxComponent
   implements OnInit, OnDestroy
 {
+  titleService = inject(Title);
   sidebarService = inject(SidebarService);
   videoId = signal('');
   getVideoInfo = computed(() => {
@@ -117,6 +120,9 @@ export class VideoDetailsComponent
         return this.videoInfo()?.formatStreams[0].url;
       }
       return undefined;
+    });
+    effect(() => {
+      this.titleService.setTitle(this.videoInfo()?.title ?? 'Angular Youtube');
     });
   }
 
