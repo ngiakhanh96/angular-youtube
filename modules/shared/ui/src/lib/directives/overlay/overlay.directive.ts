@@ -36,6 +36,12 @@ export class OverlayDirective {
     this.cdkConnectedOverlay.scrollStrategy = this.scrollStrategy();
     this.cdkConnectedOverlay.positions = [
       {
+        originX: 'start',
+        originY: 'bottom',
+        overlayX: 'start',
+        overlayY: 'top',
+      },
+      {
         originX: 'end',
         originY: 'bottom',
         overlayX: 'end',
@@ -48,6 +54,12 @@ export class OverlayDirective {
         overlayY: 'top',
       },
       {
+        originX: 'end',
+        originY: 'top',
+        overlayX: 'start',
+        overlayY: 'top',
+      },
+      {
         originX: 'start',
         originY: 'top',
         overlayX: 'start',
@@ -56,8 +68,8 @@ export class OverlayDirective {
       {
         originX: 'end',
         originY: 'top',
-        overlayX: 'start',
-        overlayY: 'top',
+        overlayX: 'end',
+        overlayY: 'bottom',
       },
     ];
   }
