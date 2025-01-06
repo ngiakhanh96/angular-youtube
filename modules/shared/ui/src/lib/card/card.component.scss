@@ -5,3 +5,31 @@
 .card-container {
   @apply p-[var(--padding)] bg-[var(--backgroundColor)] rounded-[12px] text-[14px] leading-[20px];
 }
+
+.cursor {
+  @apply cursor-pointer;
+}
+
+.card-content {
+  @apply overflow-hidden max-h-[80px] relative transition-[max-height] duration-300 ease-out;
+}
+
+.mask {
+  @apply [mask-image:linear-gradient(to_top,transparent_0%,transparent_16px,rgb(0,0,0)_14px,rgb(0,0,0)_100%),linear-gradient(to_right,rgb(0,0,0)_0%,rgb(0,0,0)_107px,transparent_131px,transparent_100%)];
+}
+
+.expanded {
+  @apply max-h-none transition-[max-height] duration-300 ease-in;
+}
+
+.card-show {
+  @apply font-medium cursor-pointer inline-block rounded-[2px] select-none;
+}
+
+.card-show__more {
+  @apply absolute left-[166px] bottom-[12px];
+}
+
+.card-show__less {
+  @apply mt-[20px] mb-[-6px];
+}

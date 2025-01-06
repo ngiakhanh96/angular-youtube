@@ -70,6 +70,7 @@ export class LinkComponent {
 
   onClick(event: Event) {
     event.preventDefault();
+    event.stopPropagation();
     if (this.attributeHref().startsWith('/')) {
       const [path, queryString] = this.attributeHref().split('?');
       const queryParams = queryString

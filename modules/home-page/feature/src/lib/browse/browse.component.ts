@@ -24,6 +24,7 @@ import {
   inject,
   Signal,
 } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
@@ -57,8 +58,10 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
   protected videosCategories: Signal<IVideoCategories | undefined>;
   protected videosCategoriesViewModel: Signal<IVideoCategoryViewModel[]>;
   private router = inject(Router);
+  private titleService = inject(Title);
   constructor() {
     super();
+    this.titleService.setTitle('Angular Youtube');
     this.dispatchAction(
       homePageActionGroup.loadYoutubePopularVideos({
         nextPage: false,

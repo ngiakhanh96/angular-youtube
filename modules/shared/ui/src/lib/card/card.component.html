@@ -1,3 +1,26 @@
-<div class="card-container" #cardContainer>
-  <ng-content></ng-content>
+<div
+  class="card-container"
+  [class.cursor]="!expanded()"
+  (click)="onClickCardContainer($event)"
+  (mousedown)="onMouseDown()"
+  (mouseup)="onMouseUp()"
+  (mouseleave)="onMouseUp()"
+  #cardContainer
+>
+  <div
+    class="card-content"
+    [class.expanded]="expanded()"
+    [class.mask]="!expanded()"
+  >
+    <ng-content></ng-content>
+  </div>
+  <div
+    class="card-show"
+    [class]="expanded() ? 'card-show__less' : 'card-show__more'"
+    (click)="onClickCardShowButton($event)"
+    matRipple
+    matRippleColor="rgba(0, 0, 0, 0.3)"
+  >
+    {{ expanded() ? 'Show less' : '...more' }}
+  </div>
 </div>

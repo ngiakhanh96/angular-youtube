@@ -3,12 +3,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   ComponentRef,
+  computed,
   ElementRef,
   inject,
   input,
   OnDestroy,
+  signal,
   viewChild,
 } from '@angular/core';
+import { MatRippleModule } from '@angular/material/core';
 import { DynamicComponentService } from '../services/dynamic-component.service';
 
 @Component({
@@ -16,9 +19,12 @@ import { DynamicComponentService } from '../services/dynamic-component.service';
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatRippleModule],
   host: {
-    '[style.--backgroundColor]': 'backgroundColor()',
+    '[style.--backgroundColor]': 'clickedBackgroundColor()',
     '[style.--padding]': 'padding()',
+    '(mousedown)': 'onMouseDown()',
+    '(mouseup)': 'onMouseUp()',
   },
 })
 export class CardComponent implements OnDestroy {
@@ -27,6 +33,12 @@ export class CardComponent implements OnDestroy {
   cardContainer = viewChild.required<ElementRef<HTMLElement>>('cardContainer');
   linkComponentRefs: ComponentRef<unknown>[] = [];
   dynamicComponentService = inject(DynamicComponentService);
+  expanded = signal(false);
+  isPressed = signal(false);
+
+  clickedBackgroundColor = computed(() =>
+    this.isPressed() ? 'rgba(0, 0, 0, 0.2)' : this.backgroundColor(),
+  );
 
   constructor() {
     afterNextRender(async () => {
@@ -47,6 +59,42 @@ export class CardComponent implements OnDestroy {
         aTag.replaceWith(linkComponentRef.location.nativeElement);
       }
     });
+  }
+
+  toggleExpanded() {
+    this.expanded.update((v) => !v);
+  }
+
+  onClickCardShowButton(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    // Store current scroll position
+    const scrollPosition = window.scrollY;
+
+    this.toggleExpanded();
+
+    // Restore scroll position after DOM update
+    requestAnimationFrame(() => {
+      window.scrollTo({
+        top: scrollPosition,
+        behavior: 'instant',
+      });
+    });
+  }
+
+  onClickCardContainer(event: Event) {
+    if (!this.expanded()) {
+      this.onClickCardShowButton(event);
+    }
+  }
+
+  onMouseDown() {
+    this.isPressed.set(true);
+  }
+
+  onMouseUp() {
+    this.isPressed.set(false);
   }
 
   ngOnDestroy(): void {
