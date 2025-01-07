@@ -5,6 +5,7 @@ import {
   ElementRef,
   ViewEncapsulation,
   afterNextRender,
+  afterRenderEffect,
   booleanAttribute,
   computed,
   input,
@@ -77,17 +78,26 @@ export class NativeYouTubePlayerComponent {
   playerClick = output<HTMLMediaElement>();
   /** The element that will be replaced by the iframe. */
   constructor() {
-    afterNextRender(() => {
-      if (!this.autoPlay()) {
-        this.videoPlayer().muted = true;
-      } else {
-        //TODO remove this when finish details page
-        this.videoPlayer().muted = true;
-        this.playVideo();
-      }
-      this.videoPlayer().addEventListener('click', () => {
-        this.playerClick.emit(this.videoPlayer());
-      });
+    afterNextRender({
+      read: () => {
+        this.videoPlayer().addEventListener('click', () => {
+          this.playerClick.emit(this.videoPlayer());
+        });
+      },
+    });
+
+    afterRenderEffect({
+      read: () => {
+        const videoUrl = this.videoUrl();
+        this.videoPlayer()?.load();
+        if (!this.autoPlay()) {
+          this.videoPlayer().muted = true;
+        } else {
+          //TODO remove this when finish details page
+          this.videoPlayer().muted = true;
+          this.playVideo();
+        }
+      },
     });
   }
 

@@ -22,31 +22,54 @@ import { Router } from '@angular/router';
 })
 export class LinkComponent {
   static supportedSocialMedias = new Map([
-    ['www.twitch.com', 'twitch'],
-    ['www.facebook.com', 'facebook'],
-    ['www.twitter.com', 'twitter'],
-    ['www.tiktok.com', 'tiktok'],
-    ['www.discord.com', 'discord'],
-    ['www.spotify.com', 'spotify'],
+    ['www.twitch.com', 'social_media/twitch_1x.png'],
+    ['www.facebook.com', 'social_media/facebook_1x.png'],
+    ['www.twitter.com', 'social_media/twitter_1x.png'],
+    ['www.tiktok.com', 'social_media/tiktok_1x.png'],
+    ['www.discord.com', 'social_media/discord_1x.png'],
+    ['www.spotify.com', 'social_media/spotify_1x.png'],
+    ['localhost', 'yt_favicon_ringo2.png'],
   ]);
   document = inject(DOCUMENT);
   router = inject(Router);
   href = input.required<string>();
   attributeHref = input.required<string>();
   text = input<string>();
+  currentVideoId = input<string | undefined>();
   isSupportedSocialMedia = computed(() => {
     const url = new URL(this.href());
-    return LinkComponent.supportedSocialMedias.get(url.host);
+    return LinkComponent.supportedSocialMedias.get(url.hostname);
   });
   prefix = signal('\u00a0');
-  suffix = computed(
-    () =>
-      `\u00a0/\u00a0${this.href()
-        .substring(this.href().lastIndexOf('/') + 1)
-        .replace('@', '')}\u00a0\u00a0`,
-  );
+  isCurrentYoutubeVideo = computed(() => {
+    const url = new URL(this.href());
+    const currentVideoId = this.currentVideoId();
+    return (
+      url.hostname === 'localhost' &&
+      url.pathname.startsWith('/watch') &&
+      url.searchParams.get('v') === currentVideoId
+    );
+  });
+  isYoutubeHashTagLink = computed(() => {
+    const url = new URL(this.href());
+    return url.hostname === 'localhost' && url.pathname.startsWith('/hashtag');
+  });
+  isYoutubeChannelLink = computed(() => {
+    const url = new URL(this.href());
+    return url.hostname === 'localhost' && url.pathname.startsWith('/channel');
+  });
+  suffix = computed(() => {
+    const isCurrentYoutubeVideo = this.isCurrentYoutubeVideo();
+    const isYoutubeChannelLink = this.isYoutubeChannelLink();
+    const text = this.text()?.trimStart() ?? '';
+    return isCurrentYoutubeVideo || isYoutubeChannelLink
+      ? `\u00a0${text}\u00a0\u00a0`
+      : `\u00a0/\u00a0${this.href()
+          .substring(this.href().lastIndexOf('/') + 1)
+          .replace('@', '')}\u00a0\u00a0`;
+  });
   imgSource = computed(() => {
-    return `https://www.gstatic.com/youtube/img/watch/social_media/${this.isSupportedSocialMedia()}_1x.png`;
+    return `https://www.gstatic.com/youtube/img/watch/${this.isSupportedSocialMedia()}`;
   });
   formattedText = computed(() => {
     const attributeHref = this.attributeHref();
@@ -59,13 +82,19 @@ export class LinkComponent {
     return this.text();
   });
   color = computed(() => {
-    return this.isSupportedSocialMedia()
+    return this.isSupportedSocialMedia() &&
+      !this.isCurrentYoutubeVideo() &&
+      !this.isYoutubeHashTagLink()
       ? 'var(--black-color)'
       : 'rgb(6,95,212)';
   });
 
   backgroundColor = computed(() => {
-    return this.isSupportedSocialMedia() ? 'rgba(0,0,0,0.051)' : 'transparent';
+    return this.isSupportedSocialMedia() &&
+      !this.isCurrentYoutubeVideo() &&
+      !this.isYoutubeHashTagLink()
+      ? 'rgba(0,0,0,0.051)'
+      : 'transparent';
   });
 
   onClick(event: Event) {

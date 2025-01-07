@@ -3,7 +3,7 @@
 }
 
 .card-container {
-  @apply p-[var(--padding)] bg-[var(--backgroundColor)] rounded-[12px] text-[14px] leading-[20px];
+  @apply relative p-[var(--padding)] bg-[var(--background-color)] rounded-[12px] text-[14px] leading-[20px];
 }
 
 .cursor {
@@ -11,11 +11,11 @@
 }
 
 .card-content {
-  @apply overflow-hidden max-h-[80px] relative transition-[max-height] duration-300 ease-out;
+  @apply overflow-hidden max-h-[80px] transition-[max-height] duration-300 ease-out;
 }
 
 .mask {
-  @apply [mask-image:linear-gradient(to_top,transparent_0%,transparent_16px,rgb(0,0,0)_14px,rgb(0,0,0)_100%),linear-gradient(to_right,rgb(0,0,0)_0%,rgb(0,0,0)_107px,transparent_131px,transparent_100%)];
+  @apply [mask-image:linear-gradient(to_top,transparent_0%,transparent_20px,rgb(0,0,0)_14px,rgb(0,0,0)_100%),linear-gradient(to_right,rgb(0,0,0)_0%,rgb(0,0,0)_160px,transparent_200px,transparent_100%)];
 }
 
 .expanded {
@@ -27,7 +27,7 @@
 }
 
 .card-show__more {
-  @apply absolute left-[166px] bottom-[12px];
+  @apply absolute left-[200px] bottom-[12px];
 }
 
 .card-show__less {

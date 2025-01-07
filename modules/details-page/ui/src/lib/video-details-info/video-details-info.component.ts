@@ -20,6 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { VideoDetailsDescriptionComponent } from '../video-details-description/video-details-description.component';
 
 export interface IVideoDetailsInfo {
+  id: string;
   title: string;
   authorLogoUrl: string;
   author: string;

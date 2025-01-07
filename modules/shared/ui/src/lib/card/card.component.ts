@@ -1,5 +1,5 @@
 import {
-  afterNextRender,
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   ComponentRef,
@@ -21,7 +21,7 @@ import { DynamicComponentService } from '../services/dynamic-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatRippleModule],
   host: {
-    '[style.--backgroundColor]': 'clickedBackgroundColor()',
+    '[style.--background-color]': 'clickedBackgroundColor()',
     '[style.--padding]': 'padding()',
     '(mousedown)': 'onMouseDown()',
     '(mouseup)': 'onMouseUp()',
@@ -30,6 +30,7 @@ import { DynamicComponentService } from '../services/dynamic-component.service';
 export class CardComponent implements OnDestroy {
   backgroundColor = input('rgba(0, 0, 0, 0.05)');
   padding = input('12px');
+  currentVideoId = input<string | undefined>();
   cardContainer = viewChild.required<ElementRef<HTMLElement>>('cardContainer');
   linkComponentRefs: ComponentRef<unknown>[] = [];
   dynamicComponentService = inject(DynamicComponentService);
@@ -41,7 +42,7 @@ export class CardComponent implements OnDestroy {
   );
 
   constructor() {
-    afterNextRender(async () => {
+    afterRenderEffect(async () => {
       const cardContainerElement = this.cardContainer().nativeElement;
       const aTags = Array.from(cardContainerElement.getElementsByTagName('a'));
       for (const aTag of aTags) {
@@ -53,6 +54,7 @@ export class CardComponent implements OnDestroy {
               href: aTag.href,
               attributeHref: aTag.getAttribute('href') ?? '',
               text: aTag.textContent,
+              currentVideoId: this.currentVideoId(),
             },
           );
         this.linkComponentRefs.push(linkComponentRef);

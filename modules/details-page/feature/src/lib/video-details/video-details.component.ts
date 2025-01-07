@@ -89,6 +89,7 @@ export class VideoDetailsComponent
   videoDetailsInfo = computed(() =>
     this.videoInfo()
       ? <IVideoDetailsInfo>{
+          id: this.videoInfo()?.videoId,
           title: this.videoInfo()?.title,
           authorLogoUrl: this.videoInfo()?.authorThumbnails[1].url,
           author: this.videoInfo()?.author,

@@ -22,6 +22,7 @@ export enum DisplayMode {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoDetailsDescriptionComponent {
+  currentVideoId = input.required<string>();
   viewCount = input.required<number>();
   publishedDateEpoch = input.required<number>();
   publishedDateText = input.required<string>();
