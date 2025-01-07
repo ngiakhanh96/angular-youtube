@@ -50,6 +50,15 @@ export class LinkComponent {
       url.searchParams.get('v') === currentVideoId
     );
   });
+  isOtherYoutubeVideo = computed(() => {
+    const url = new URL(this.href());
+    const currentVideoId = this.currentVideoId();
+    return (
+      url.hostname === 'localhost' &&
+      url.pathname.startsWith('/watch') &&
+      url.searchParams.get('v') !== currentVideoId
+    );
+  });
   isYoutubeHashTagLink = computed(() => {
     const url = new URL(this.href());
     return url.hostname === 'localhost' && url.pathname.startsWith('/hashtag');
@@ -60,13 +69,18 @@ export class LinkComponent {
   });
   suffix = computed(() => {
     const isCurrentYoutubeVideo = this.isCurrentYoutubeVideo();
+    const isOtherYoutubeVideo = this.isOtherYoutubeVideo();
+    const isSupportedSocialMedia = this.isSupportedSocialMedia();
     const isYoutubeChannelLink = this.isYoutubeChannelLink();
     const text = this.text()?.trimStart() ?? '';
-    return isCurrentYoutubeVideo || isYoutubeChannelLink
-      ? `\u00a0${text}\u00a0\u00a0`
-      : `\u00a0/\u00a0${this.href()
+    return isSupportedSocialMedia &&
+      !isCurrentYoutubeVideo &&
+      !isYoutubeChannelLink &&
+      !isOtherYoutubeVideo
+      ? `\u00a0/\u00a0${this.href()
           .substring(this.href().lastIndexOf('/') + 1)
-          .replace('@', '')}\u00a0\u00a0`;
+          .replace('@', '')}\u00a0\u00a0`
+      : `\u00a0${text}\u00a0\u00a0`;
   });
   imgSource = computed(() => {
     return `https://www.gstatic.com/youtube/img/watch/${this.isSupportedSocialMedia()}`;

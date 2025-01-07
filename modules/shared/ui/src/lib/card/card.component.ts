@@ -7,6 +7,7 @@ import {
   ElementRef,
   inject,
   input,
+  linkedSignal,
   OnDestroy,
   signal,
   viewChild,
@@ -34,7 +35,7 @@ export class CardComponent implements OnDestroy {
   cardContainer = viewChild.required<ElementRef<HTMLElement>>('cardContainer');
   linkComponentRefs: ComponentRef<unknown>[] = [];
   dynamicComponentService = inject(DynamicComponentService);
-  expanded = signal(false);
+  expanded = linkedSignal(() => !this.currentVideoId());
   isPressed = signal(false);
 
   clickedBackgroundColor = computed(() =>
@@ -42,24 +43,29 @@ export class CardComponent implements OnDestroy {
   );
 
   constructor() {
-    afterRenderEffect(async () => {
-      const cardContainerElement = this.cardContainer().nativeElement;
-      const aTags = Array.from(cardContainerElement.getElementsByTagName('a'));
-      for (const aTag of aTags) {
-        const linkComponentRef =
-          await this.dynamicComponentService.createComponentLazily(
-            () => import('../link/link.component'),
-            'LinkComponent',
-            {
-              href: aTag.href,
-              attributeHref: aTag.getAttribute('href') ?? '',
-              text: aTag.textContent,
-              currentVideoId: this.currentVideoId(),
-            },
-          );
-        this.linkComponentRefs.push(linkComponentRef);
-        aTag.replaceWith(linkComponentRef.location.nativeElement);
-      }
+    afterRenderEffect({
+      write: async () => {
+        const cardContainerElement = this.cardContainer().nativeElement;
+        const currentVideoId = this.currentVideoId();
+        const aTags = Array.from(
+          cardContainerElement.getElementsByTagName('a'),
+        );
+        for (const aTag of aTags) {
+          const linkComponentRef =
+            await this.dynamicComponentService.createComponentLazily(
+              () => import('../link/link.component'),
+              'LinkComponent',
+              {
+                href: aTag.href,
+                attributeHref: aTag.getAttribute('href') ?? '',
+                text: aTag.textContent,
+                currentVideoId: currentVideoId,
+              },
+            );
+          this.linkComponentRefs.push(linkComponentRef);
+          aTag.replaceWith(linkComponentRef.location.nativeElement);
+        }
+      },
     });
   }
 
