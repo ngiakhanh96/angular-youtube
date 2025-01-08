@@ -8,6 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { ExternalNavigationService } from '../services/external-navigation.service';
 
 @Component({
   selector: 'ay-link',
@@ -21,69 +22,71 @@ import { Router } from '@angular/router';
   },
 })
 export class LinkComponent {
-  static supportedSocialMedias = new Map([
+  document = inject(DOCUMENT);
+  externalNavigationService = inject(ExternalNavigationService);
+  currentHostName = this.document.defaultView?.location.hostname;
+  supportedSocialMedias = new Map([
     ['www.twitch.com', 'social_media/twitch_1x.png'],
     ['www.facebook.com', 'social_media/facebook_1x.png'],
     ['www.twitter.com', 'social_media/twitter_1x.png'],
     ['www.tiktok.com', 'social_media/tiktok_1x.png'],
     ['www.discord.com', 'social_media/discord_1x.png'],
     ['www.spotify.com', 'social_media/spotify_1x.png'],
-    ['localhost', 'yt_favicon_ringo2.png'],
+    [this.currentHostName, 'yt_favicon_ringo2.png'],
   ]);
-  document = inject(DOCUMENT);
   router = inject(Router);
   href = input.required<string>();
   attributeHref = input.required<string>();
   text = input<string>();
   currentVideoId = input<string | undefined>();
-  isSupportedSocialMedia = computed(() => {
+  isFromYoutube = computed(() => {
     const url = new URL(this.href());
-    return LinkComponent.supportedSocialMedias.get(url.hostname);
+    return url.hostname === this.currentHostName;
   });
-  prefix = signal('\u00a0');
-  isCurrentYoutubeVideo = computed(() => {
+  isNonYoutubeSupportedSocialMedia = computed(() => {
     const url = new URL(this.href());
-    const currentVideoId = this.currentVideoId();
-    return (
-      url.hostname === 'localhost' &&
-      url.pathname.startsWith('/watch') &&
-      url.searchParams.get('v') === currentVideoId
-    );
+    const isFromYoutube = this.isFromYoutube();
+    return this.supportedSocialMedias.has(url.hostname) && !isFromYoutube;
   });
   isOtherYoutubeVideo = computed(() => {
     const url = new URL(this.href());
     const currentVideoId = this.currentVideoId();
+    const isFromYoutube = this.isFromYoutube();
     return (
-      url.hostname === 'localhost' &&
+      isFromYoutube &&
       url.pathname.startsWith('/watch') &&
       url.searchParams.get('v') !== currentVideoId
     );
   });
-  isYoutubeHashTagLink = computed(() => {
-    const url = new URL(this.href());
-    return url.hostname === 'localhost' && url.pathname.startsWith('/hashtag');
-  });
   isYoutubeChannelLink = computed(() => {
     const url = new URL(this.href());
-    return url.hostname === 'localhost' && url.pathname.startsWith('/channel');
+    const isFromYoutube = this.isFromYoutube();
+    return isFromYoutube && url.pathname.startsWith('/channel');
   });
-  suffix = computed(() => {
-    const isCurrentYoutubeVideo = this.isCurrentYoutubeVideo();
-    const isOtherYoutubeVideo = this.isOtherYoutubeVideo();
-    const isSupportedSocialMedia = this.isSupportedSocialMedia();
+  shouldShowIcon = computed(() => {
+    const isNonYoutubeSupportedSocialMedia =
+      this.isNonYoutubeSupportedSocialMedia();
     const isYoutubeChannelLink = this.isYoutubeChannelLink();
+    const isOtherYoutubeVideo = this.isOtherYoutubeVideo();
+    return (
+      isNonYoutubeSupportedSocialMedia ||
+      isYoutubeChannelLink ||
+      isOtherYoutubeVideo
+    );
+  });
+  prefix = signal('\u00a0');
+  suffix = computed(() => {
+    const isNonYoutubeSupportedSocialMedia =
+      this.isNonYoutubeSupportedSocialMedia();
     const text = this.text()?.trimStart() ?? '';
-    return isSupportedSocialMedia &&
-      !isCurrentYoutubeVideo &&
-      !isYoutubeChannelLink &&
-      !isOtherYoutubeVideo
+    return isNonYoutubeSupportedSocialMedia
       ? `\u00a0/\u00a0${this.href()
           .substring(this.href().lastIndexOf('/') + 1)
           .replace('@', '')}\u00a0\u00a0`
       : `\u00a0${text}\u00a0\u00a0`;
   });
   imgSource = computed(() => {
-    return `https://www.gstatic.com/youtube/img/watch/${this.isSupportedSocialMedia()}`;
+    return `https://www.gstatic.com/youtube/img/watch/${this.supportedSocialMedias.get(new URL(this.href()).hostname)}`;
   });
   formattedText = computed(() => {
     const attributeHref = this.attributeHref();
@@ -96,19 +99,11 @@ export class LinkComponent {
     return this.text();
   });
   color = computed(() => {
-    return this.isSupportedSocialMedia() &&
-      !this.isCurrentYoutubeVideo() &&
-      !this.isYoutubeHashTagLink()
-      ? 'var(--black-color)'
-      : 'rgb(6,95,212)';
+    return this.shouldShowIcon() ? 'var(--black-color)' : 'rgb(6,95,212)';
   });
 
   backgroundColor = computed(() => {
-    return this.isSupportedSocialMedia() &&
-      !this.isCurrentYoutubeVideo() &&
-      !this.isYoutubeHashTagLink()
-      ? 'rgba(0,0,0,0.051)'
-      : 'transparent';
+    return this.shouldShowIcon() ? 'rgba(0,0,0,0.051)' : 'transparent';
   });
 
   onClick(event: Event) {
@@ -123,27 +118,27 @@ export class LinkComponent {
       this.router.navigate([path], { queryParams });
       return;
     }
-    (<any>this.document.defaultView?.open(this.href(), '_blank'))?.focus();
+    this.externalNavigationService.navigateByOpeningNewWindow(this.href());
   }
 
   target = computed(() => {
     const url = this.href().split('?')[0];
-    if (url === <any>this.document.defaultView!.location.href.split('?')[0]) {
+    if (url === this.document.defaultView?.location.href.split('?')[0]) {
       return '_self';
     }
     return '_blank';
   });
 
-  private convertQueryStringToParams(queryString: string): {
-    [key: string]: string;
-  } {
+  private convertQueryStringToParams(
+    queryString: string,
+  ): Record<string, string> {
     return queryString.split('&').reduce(
       (params, param) => {
         const [key, value] = param.split('=');
         params[key] = value;
         return params;
       },
-      {} as { [key: string]: string },
+      {} as Record<string, string>,
     );
   }
 }

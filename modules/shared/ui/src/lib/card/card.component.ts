@@ -24,8 +24,6 @@ import { DynamicComponentService } from '../services/dynamic-component.service';
   host: {
     '[style.--background-color]': 'clickedBackgroundColor()',
     '[style.--padding]': 'padding()',
-    '(mousedown)': 'onMouseDown()',
-    '(mouseup)': 'onMouseUp()',
   },
 })
 export class CardComponent implements OnDestroy {
@@ -97,11 +95,16 @@ export class CardComponent implements OnDestroy {
     }
   }
 
-  onMouseDown() {
-    this.isPressed.set(true);
+  onMouseDown(event: Event) {
+    if (
+      event.target instanceof HTMLElement &&
+      event.target.tagName.toLowerCase() !== 'a'
+    ) {
+      this.isPressed.set(true);
+    }
   }
 
-  onMouseUp() {
+  onMouseUp(event: Event) {
     this.isPressed.set(false);
   }
 

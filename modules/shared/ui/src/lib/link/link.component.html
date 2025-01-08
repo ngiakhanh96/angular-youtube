@@ -4,11 +4,7 @@
   rel="noopener noreferrer"
   (click)="onClick($event)"
 >
-  @if (
-    isSupportedSocialMedia() &&
-    !isCurrentYoutubeVideo() &&
-    !isYoutubeHashTagLink()
-  ) {
+  @if (shouldShowIcon()) {
     {{ prefix() }}
     <span>
       <img

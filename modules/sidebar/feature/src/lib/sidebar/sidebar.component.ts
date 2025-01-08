@@ -1,6 +1,7 @@
 import { selectMyChannelInfo } from '@angular-youtube/home-page-data-access';
 import { BaseWithSandBoxComponent } from '@angular-youtube/shared-data-access';
 import {
+  ExternalNavigationService,
   ISection,
   LogoMenuComponent,
   MenuComponent,
@@ -26,7 +27,7 @@ import { Router } from '@angular/router';
 export class SidebarComponent extends BaseWithSandBoxComponent {
   user = this.selectSignal(selectMyChannelInfo);
   isLoggedIn = computed(() => this.user() != null);
-
+  externalNavigationService = inject(ExternalNavigationService);
   anonymousMenuItems = signal<ISection[]>([
     {
       sectionItems: [
@@ -275,21 +276,27 @@ export class SidebarComponent extends BaseWithSandBoxComponent {
     const prevIconName = this.selectedIconName();
     this.selectedIconName.set(selectedIconName);
     if (selectedIconName === 'youtube-music') {
-      window.open('https://music.youtube.com/');
+      this.externalNavigationService.navigateByOpeningNewWindow(
+        'https://music.youtube.com/',
+      );
       setTimeout(() => {
         this.selectedIconName.set(prevIconName);
       });
       return;
     }
     if (selectedIconName === 'youtube-kids') {
-      window.open('https://www.youtubekids.com/');
+      this.externalNavigationService.navigateByOpeningNewWindow(
+        'https://www.youtubekids.com/',
+      );
       setTimeout(() => {
         this.selectedIconName.set(prevIconName);
       });
       return;
     }
     if (selectedIconName === 'youtube-studio') {
-      window.open('https://studio.youtube.com/');
+      this.externalNavigationService.navigateByOpeningNewWindow(
+        'https://studio.youtube.com/',
+      );
       setTimeout(() => {
         this.selectedIconName.set(prevIconName);
       });

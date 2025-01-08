@@ -38,8 +38,10 @@ export class VideoCategoriesComponent {
         this.videoCategoryList = hostNativeElement.getElementsByClassName(
           'mdc-evolution-chip-set__chips',
         )[0];
-        (<any>this.videoCategoryList).onscrollend = (event: Event) =>
-          this.onScrollEnd(event);
+        if (this.videoCategoryList instanceof HTMLElement) {
+          this.videoCategoryList.onscrollend = (event: Event) =>
+            this.onScrollEnd(event);
+        }
       },
     });
   }
@@ -49,11 +51,12 @@ export class VideoCategoriesComponent {
   }
 
   onScrollEnd(event: Event) {
-    if ((<Element>event.target).scrollLeft === 0) {
+    if (event.target instanceof Element && event.target.scrollLeft === 0) {
       this.shouldShowScrollLeftButton.set(false);
     } else if (
       this.videoCategoryList &&
-      (<Element>event.target).scrollLeft ===
+      event.target instanceof Element &&
+      event.target.scrollLeft ===
         this.videoCategoryList.scrollWidth - this.videoCategoryList.clientWidth
     ) {
       this.shouldShowScrollRightButton.set(false);

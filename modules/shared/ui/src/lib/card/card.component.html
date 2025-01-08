@@ -2,9 +2,9 @@
   class="card-container"
   [class.cursor]="!expanded()"
   (click)="onClickCardContainer($event)"
-  (mousedown)="onMouseDown()"
-  (mouseup)="onMouseUp()"
-  (mouseleave)="onMouseUp()"
+  (mousedown)="onMouseDown($event)"
+  (mouseup)="onMouseUp($event)"
+  (mouseleave)="onMouseUp($event)"
   #cardContainer
 >
   <div

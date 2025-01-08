@@ -3,7 +3,10 @@ import {
   sharedReducer,
   sharedStateName,
 } from '@angular-youtube/shared-data-access';
-import { SpinnerService } from '@angular-youtube/shared-ui';
+import {
+  ExternalNavigationService,
+  SpinnerService,
+} from '@angular-youtube/shared-ui';
 import { inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -22,10 +25,11 @@ const canNavigateToExternalPage: CanActivateFn = (
 ) => {
   const router = inject(Router);
   const spinner = inject(SpinnerService);
+  const externalNavigationService = inject(ExternalNavigationService);
   spinner.loadingOn();
   const externalUrl =
     router.getCurrentNavigation()?.extras.state?.['externalUrl'];
-  window.open(externalUrl, '_self');
+  externalNavigationService.navigateByCurrentWindow(externalUrl);
   return false;
 };
 export const mainRoutes: Route[] = [

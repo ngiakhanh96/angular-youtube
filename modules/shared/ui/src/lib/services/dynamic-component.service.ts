@@ -8,7 +8,6 @@ import {
   Injector,
   Type,
 } from '@angular/core';
-import { LinkComponent } from '../link/link.component';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +36,6 @@ export class DynamicComponentService {
     inputs?: Record<string, any>,
     injector?: Injector,
   ): Promise<ComponentRef<any>> {
-    LinkComponent;
     const componentFactory =
       this.componentFactories.get(componentName) ??
       this.componentFactoryResolver.resolveComponentFactory(
