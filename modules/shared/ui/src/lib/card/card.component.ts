@@ -9,6 +9,7 @@ import {
   input,
   linkedSignal,
   OnDestroy,
+  output,
   signal,
   viewChild,
 } from '@angular/core';
@@ -33,7 +34,13 @@ export class CardComponent implements OnDestroy {
   cardContainer = viewChild.required<ElementRef<HTMLElement>>('cardContainer');
   linkComponentRefs: ComponentRef<unknown>[] = [];
   dynamicComponentService = inject(DynamicComponentService);
-  expanded = linkedSignal(() => !this.currentVideoId());
+  expand = output<boolean>();
+  expanded = linkedSignal(() => {
+    const expanded = !this.currentVideoId();
+    this.expand.emit(expanded);
+    return expanded;
+  });
+
   isPressed = signal(false);
 
   clickedBackgroundColor = computed(() =>
@@ -69,6 +76,7 @@ export class CardComponent implements OnDestroy {
 
   toggleExpanded() {
     this.expanded.update((v) => !v);
+    this.expand.emit(this.expanded());
   }
 
   onClickCardShowButton(event: Event) {
