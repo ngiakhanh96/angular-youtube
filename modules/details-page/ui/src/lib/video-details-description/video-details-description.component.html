@@ -1,4 +1,4 @@
-<ay-card [currentVideoId]="currentVideoId()">
+<ay-card [currentVideoId]="currentVideoId()" (expand)="onExpand($event)">
   <div class="video-details-description-first-line">
     <pre>{{ firstLineText() }}</pre>
   </div>

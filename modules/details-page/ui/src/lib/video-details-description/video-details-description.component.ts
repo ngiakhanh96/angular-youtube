@@ -41,6 +41,14 @@ export class VideoDetailsDescriptionComponent {
     if (mode === DisplayMode.Less) {
       return `${Utilities.numberToString(viewCount, 'view')}  ${publishedDateText}`;
     }
-    return `${viewCount} views  ${publishedDateEpoch}`;
+    return `${Utilities.numberToStringWithCommas(viewCount)} views  ${Utilities.dateToString(Utilities.epochToDate(publishedDateEpoch))}`;
   });
+
+  onExpand(expanded: boolean) {
+    if (expanded) {
+      this.mode.set(DisplayMode.More);
+    } else {
+      this.mode.set(DisplayMode.Less);
+    }
+  }
 }
