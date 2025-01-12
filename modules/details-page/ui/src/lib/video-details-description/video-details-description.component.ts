@@ -25,9 +25,14 @@ export class VideoDetailsDescriptionComponent {
   currentVideoId = input.required<string>();
   viewCount = input.required<number>();
   publishedDateEpoch = input.required<number>();
-  publishedDateText = input.required<string>();
   descriptionHtml = input<string>();
   sanitizer = inject(DomSanitizer);
+  publishedDate = computed(() =>
+    Utilities.epochToDate(this.publishedDateEpoch()),
+  );
+  publishedDateString = computed(() =>
+    Utilities.publishedDateToString(this.publishedDate()),
+  );
   sanitizedDescriptionHtml = computed(() =>
     this.sanitizer.bypassSecurityTrustHtml(this.descriptionHtml() ?? ''),
   );
@@ -36,12 +41,10 @@ export class VideoDetailsDescriptionComponent {
   firstLineText = computed(() => {
     const mode = this.mode();
     const viewCount = this.viewCount();
-    const publishedDateText = this.publishedDateText();
-    const publishedDateEpoch = this.publishedDateEpoch();
     if (mode === DisplayMode.Less) {
-      return `${Utilities.numberToString(viewCount, 'view')}  ${publishedDateText}`;
+      return `${Utilities.numberToString(viewCount, 'view', 'No')}  ${this.publishedDateString()}`;
     }
-    return `${Utilities.numberToStringWithCommas(viewCount)} views  ${Utilities.dateToString(Utilities.epochToDate(publishedDateEpoch))}`;
+    return `${Utilities.numberToStringWithCommas(viewCount)} views  ${Utilities.dateToString(this.publishedDate())}`;
   });
 
   onExpand(expanded: boolean) {

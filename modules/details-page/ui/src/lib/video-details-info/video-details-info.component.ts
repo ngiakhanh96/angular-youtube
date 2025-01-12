@@ -31,7 +31,6 @@ export interface IVideoDetailsInfo {
   viewCount: number;
   descriptionHtml: string;
   publishedDateEpoch: number;
-  publishedDateText: string;
 }
 
 @Component({

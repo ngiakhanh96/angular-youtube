@@ -72,26 +72,23 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
     this.videosWithMetaData = this.selectSignal(selectHomePageVideos);
     this.channelsInfo = this.selectSignal(selectChannelsInfo);
     this.videosInfo = this.selectSignal(selectVideosInfo);
-    this.videos = computed(() => {
+    this.videos = computed<IThumbnailDetails[]>(() => {
       const videosWithMetaData = this.videosWithMetaData();
       const channelsInfo = this.channelsInfo() ?? {};
       const videosInfo = this.videosInfo() ?? {};
       return (
-        videosWithMetaData?.items.map(
-          (p) =>
-            <IThumbnailDetails>{
-              videoId: p.id,
-              title: p.snippet.title,
-              channelName: p.snippet.channelTitle,
-              viewCount: +p.statistics.viewCount,
-              publishedDate: new Date(p.snippet.publishedAt),
-              duration: p.contentDetails.duration,
-              channelLogoUrl:
-                channelsInfo[p.snippet.channelId]?.snippet.thumbnails.default
-                  .url ?? '',
-              videoUrl: videosInfo[p.id]?.url ?? '',
-            },
-        ) ?? []
+        videosWithMetaData?.items.map((p) => ({
+          videoId: p.id,
+          title: p.snippet.title,
+          channelName: p.snippet.channelTitle,
+          viewCount: +p.statistics.viewCount,
+          publishedDate: new Date(p.snippet.publishedAt),
+          duration: p.contentDetails.duration,
+          channelLogoUrl:
+            channelsInfo[p.snippet.channelId]?.snippet.thumbnails.default.url ??
+            '',
+          videoUrl: videosInfo[p.id]?.url ?? '',
+        })) ?? []
       );
     });
     this.videosCategories = this.selectSignal(selectVideoCategories);

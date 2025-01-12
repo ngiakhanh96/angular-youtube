@@ -5,12 +5,13 @@ export class Utilities {
   static secondsInOneMonth = Utilities.secondsInOneDay * 30;
   static secondsInOneYear = Utilities.secondsInOneMonth * 12;
   static timeIntervals = [
-    { unit: 'second', value: Utilities.secondsInOneMinute },
-    { unit: 'minute', value: Utilities.secondsInOneHour },
-    { unit: 'hour', value: Utilities.secondsInOneDay },
-    { unit: 'day', value: Utilities.secondsInOneMonth },
-    { unit: 'month', value: Utilities.secondsInOneYear },
-    { unit: 'year', value: Infinity },
+    { unit: 'second', value: 1 },
+    { unit: 'minute', value: Utilities.secondsInOneMinute },
+    { unit: 'hour', value: Utilities.secondsInOneHour },
+    { unit: 'day', value: Utilities.secondsInOneDay },
+    { unit: 'month', value: Utilities.secondsInOneMonth },
+    { unit: 'year', value: Utilities.secondsInOneYear },
+    { unit: 'more than year', value: Infinity },
   ];
   static numberUnits = ['K', 'M', 'B', 'T'];
   static months = [
@@ -37,7 +38,7 @@ export class Utilities {
     let resultString = '';
     if (number === 0 && zeroPresentation) {
       resultString += `${zeroPresentation}`;
-    } else if (number <= 1000) {
+    } else if (number < 1000) {
       resultString = `${number}`;
     } else {
       let unitIndex = -1;
@@ -93,11 +94,11 @@ export class Utilities {
     let dateDiffNumber = 0;
 
     for (let i = 0; i < Utilities.timeIntervals.length; i++) {
-      if (dateDiffInSeconds <= Utilities.timeIntervals[i].value) {
+      if (dateDiffInSeconds < Utilities.timeIntervals[i].value) {
         const dateDiff = Math.floor(
-          dateDiffInSeconds / (Utilities.timeIntervals[i - 1]?.value ?? 1),
+          dateDiffInSeconds / Utilities.timeIntervals[i - 1].value,
         );
-        publishDateString += `${dateDiff} ${Utilities.timeIntervals[i - 1]?.unit ?? Utilities.timeIntervals[0].unit}`;
+        publishDateString += `${dateDiff} ${Utilities.timeIntervals[i - 1].unit}`;
         dateDiffNumber = dateDiff;
         break;
       }

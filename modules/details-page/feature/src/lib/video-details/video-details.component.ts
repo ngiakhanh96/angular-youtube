@@ -86,24 +86,25 @@ export class VideoDetailsComponent
   );
   ViewMode = ViewMode;
   videoInfo: Signal<IInvidiousVideoInfo | undefined>;
-  videoDetailsInfo = computed(() =>
-    this.videoInfo()
-      ? <IVideoDetailsInfo>{
-          id: this.videoInfo()?.videoId,
-          title: this.videoInfo()?.title,
-          authorLogoUrl: this.videoInfo()?.authorThumbnails[1].url,
-          author: this.videoInfo()?.author,
-          subscriberCountText: this.videoInfo()?.subCountText,
-          likeCount: this.videoInfo()?.likeCount,
-          dislikeCount: this.videoInfo()?.dislikeCount,
-          viewCount: this.videoInfo()?.viewCount,
-          descriptionHtml: this.videoInfo()?.descriptionHtml,
-          publishedDateEpoch: this.videoInfo()?.published,
-          publishedDateText: this.videoInfo()?.publishedText,
-          authorVerified: this.videoInfo()?.authorVerified,
-        }
-      : undefined,
-  );
+  videoDetailsInfo = computed<IVideoDetailsInfo | undefined>(() => {
+    const videoInfo = this.videoInfo();
+    if (videoInfo) {
+      return {
+        id: videoInfo.videoId,
+        title: videoInfo.title,
+        authorLogoUrl: videoInfo.authorThumbnails[1]?.url ?? '',
+        author: videoInfo.author,
+        subscriberCountText: videoInfo.subCountText,
+        likeCount: videoInfo.likeCount,
+        dislikeCount: videoInfo.dislikeCount,
+        viewCount: videoInfo.viewCount,
+        descriptionHtml: videoInfo.descriptionHtml,
+        publishedDateEpoch: videoInfo.published,
+        authorVerified: videoInfo.authorVerified,
+      };
+    }
+    return undefined;
+  });
   mainPlayerBorderRadius = computed(() =>
     this.mode() === ViewMode.Theater ? '0px' : '12px',
   );
