@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
-  selector: 'ay-formatted-string',
+  selector: 'ay-video-title',
   templateUrl: './video-title.component.html',
   styleUrls: ['./video-title.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -10,8 +10,9 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     '[style.--line-clamp]': 'lineClamp()',
   },
 })
-export class FormattedStringComponent {
+export class VideoTitleComponent {
   title = input.required<string>();
   fontWeight = input<string>('500');
   lineClamp = input<string>('2');
+  overview = input(true);
 }

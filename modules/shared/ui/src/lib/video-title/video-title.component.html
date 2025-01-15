@@ -1,1 +1,5 @@
-<div class="video-title">{{ title() }}</div>
+<div
+  class="video-title"
+  [class]="overview() ? 'video-title-overview' : 'video-title-details'"
+  >{{ title() }}</div
+>

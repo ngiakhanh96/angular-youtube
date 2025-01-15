@@ -1,9 +1,9 @@
 import { Auth } from '@angular-youtube/shared-data-access';
 import {
   DropdownButtonComponent,
-  FormattedStringComponent,
   NativeYouTubePlayerComponent,
   Utilities,
+  VideoTitleComponent,
 } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
 import {
@@ -24,7 +24,7 @@ import {
     NgOptimizedImage,
     DropdownButtonComponent,
     NativeYouTubePlayerComponent,
-    FormattedStringComponent,
+    VideoTitleComponent,
   ],
   templateUrl: './video-player-card.component.html',
   styleUrls: ['./video-player-card.component.scss'],

@@ -2,11 +2,11 @@ import {
   CombinedTextIcon,
   CombinedTextIconButtonComponent,
   DropdownButtonComponent,
-  FormattedStringComponent,
   IconDirective,
   ISection,
   TextIconButtonComponent,
   Utilities,
+  VideoTitleComponent,
 } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
 import {
@@ -39,7 +39,7 @@ export interface IVideoDetailsInfo {
   styleUrls: ['./video-details-info.component.scss'],
   imports: [
     NgOptimizedImage,
-    FormattedStringComponent,
+    VideoTitleComponent,
     MatIconModule,
     IconDirective,
     TextIconButtonComponent,
