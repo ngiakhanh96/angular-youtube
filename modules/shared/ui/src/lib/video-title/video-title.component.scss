@@ -3,8 +3,7 @@
 }
 
 .video-title {
-  @apply overflow-hidden text-ellipsis;
-  display: -webkit-box;
+  @apply overflow-hidden text-ellipsis leading-[28px] h-full flex items-center;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: var(--line-clamp);
   line-clamp: var(--line-clamp);
