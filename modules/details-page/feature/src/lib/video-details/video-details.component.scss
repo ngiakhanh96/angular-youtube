@@ -15,7 +15,7 @@
       }
     }
     .details_page_info_others {
-      @apply flex flex-col w-[402px] grow-0 shrink-0 pt-[24px] pr-[24px];
+      @apply flex flex-col w-[402px] grow-0 shrink-0 mt-[var(--video-recommendations-margin-top)];
     }
   }
 }

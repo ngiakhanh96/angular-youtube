@@ -51,6 +51,8 @@ export enum ViewMode {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.--details-page-container-margin-top]': 'marginTop()',
+    '[style.--video-recommendations-margin-top]':
+      'videoRecommendationMarginTop()',
   },
 })
 //TODO handle responsive design when the screen is <= 1016px
@@ -61,6 +63,7 @@ export class VideoDetailsComponent
   titleService = inject(Title);
   sidebarService = inject(SidebarService);
   videoId = signal('');
+  videoRecommendationMarginTop = signal('24px');
   getVideoInfo = computed(() => {
     if (this.videoId() !== '') {
       return detailsPageActionGroup.loadYoutubeVideo({
@@ -151,10 +154,12 @@ export class VideoDetailsComponent
       const adoptedVideo = this.document.adoptNode(video);
       defaultContainer?.appendChild(adoptedVideo);
       this.mode.set(ViewMode.Default);
+      this.videoRecommendationMarginTop.set('8px');
     } else {
       const adoptedVideo = this.document.adoptNode(video);
       theaterContainer?.appendChild(adoptedVideo);
       this.mode.set(ViewMode.Theater);
+      this.videoRecommendationMarginTop.set('24px');
     }
   }
 }
