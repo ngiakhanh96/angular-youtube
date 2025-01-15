@@ -1,11 +1,11 @@
 @if (videoInfo()) {
   <div class="video-details-info-container">
     <div class="video-details-info-title">
-      <ay-video-title
+      <ay-video-main-info
         [title]="videoInfo()!.title"
         [fontWeight]="'700'"
         [overview]="false"
-      ></ay-video-title>
+      ></ay-video-main-info>
     </div>
     <div class="video-details-info-details">
       <div class="video-details-info-author-container">
@@ -20,12 +20,12 @@
           <div class="video-details-info-author-info">
             <div class="video-details-info-author-verified-name">
               <div class="video-details-info-author-name">
-                <ay-video-title
+                <ay-video-main-info
                   [title]="videoInfo()!.author"
                   [fontWeight]="'500'"
                   [lineClamp]="'1'"
                   [overview]="false"
-                ></ay-video-title>
+                ></ay-video-main-info>
               </div>
               @if (videoInfo()!.authorVerified) {
                 <div class="video-details-info-author-verified">
@@ -38,12 +38,12 @@
               }
             </div>
             <div class="video-details-info-author-subscribers">
-              <ay-video-title
+              <ay-video-main-info
                 [title]="videoInfo()!.subscriberCountText + ' subscribers'"
                 [fontWeight]="'400'"
                 [lineClamp]="'1'"
                 [overview]="false"
-              ></ay-video-title>
+              ></ay-video-main-info>
             </div>
           </div>
           <div class="video-details-info-author-channel-buttons">

@@ -6,7 +6,7 @@ import {
   ISection,
   TextIconButtonComponent,
   Utilities,
-  VideoTitleComponent,
+  VideoMainInfoComponent,
 } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
 import {
@@ -39,7 +39,7 @@ export interface IVideoDetailsInfo {
   styleUrls: ['./video-details-info.component.scss'],
   imports: [
     NgOptimizedImage,
-    VideoTitleComponent,
+    VideoMainInfoComponent,
     MatIconModule,
     IconDirective,
     TextIconButtonComponent,
