@@ -27,9 +27,9 @@ export class VideoCategoriesComponent {
   videoCategories = input.required<IVideoCategoryViewModel[]>();
   shouldShowScrollLeftButton = signal(false);
   shouldShowScrollRightButton = signal(true);
+  scrollingWidth = input.required<number>();
   selectedVideoCategory = linkedSignal(() => this.videoCategories()[0]);
   private videoCategoryList?: Element;
-  private static scrollingWidth = 400;
   constructor() {
     const hostNativeElement =
       inject<ElementRef<Element>>(ElementRef).nativeElement;
@@ -66,16 +66,14 @@ export class VideoCategoriesComponent {
   onScrollLeft() {
     if (this.videoCategoryList) {
       this.shouldShowScrollRightButton.set(true);
-      this.videoCategoryList.scrollLeft -=
-        VideoCategoriesComponent.scrollingWidth;
+      this.videoCategoryList.scrollLeft -= this.scrollingWidth();
     }
   }
 
   onScrollRight() {
     if (this.videoCategoryList) {
       this.shouldShowScrollLeftButton.set(true);
-      this.videoCategoryList.scrollLeft +=
-        VideoCategoriesComponent.scrollingWidth;
+      this.videoCategoryList.scrollLeft += this.scrollingWidth();
     }
   }
 }

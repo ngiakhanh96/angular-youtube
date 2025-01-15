@@ -15,7 +15,7 @@
       }
     }
     .details_page_info_others {
-      @apply flex flex-col basis-[402px] grow-0 shrink-0;
+      @apply flex flex-col w-[402px] grow-0 shrink-0 pt-[24px] pr-[24px];
     }
   }
 }
