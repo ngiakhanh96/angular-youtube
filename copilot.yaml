@@ -1,0 +1,13 @@
+languages:
+  - typescript
+  - html
+  - scss
+indexing:
+  include:
+    - src/**/*.ts
+    - src/**/*.html
+    - src/**/*.scss
+  exclude:
+    - node_modules/**
+    - dist/**
+    - coverage/**
