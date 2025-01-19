@@ -102,20 +102,28 @@ export class NativeYouTubePlayerComponent {
   }
 
   playVideo() {
-    this.videoPlayer()
-      .play()
-      .then((_) => {
-        this.isVideoPlayed.set(true);
-      })
-      .catch((error) => {
-        this.isVideoPlayed.set(false);
-        console.error('Error playing video:', error);
-      });
+    // Ensure the video is loaded
+    if (
+      !this.isVideoPlayed() &&
+      this.videoPlayer().readyState >= HTMLMediaElement.HAVE_CURRENT_DATA
+    ) {
+      this.videoPlayer()
+        .play()
+        .then((_) => {
+          this.isVideoPlayed.set(true);
+        })
+        .catch((error) => {
+          this.isVideoPlayed.set(false);
+          console.error('Error playing video:', error);
+        });
+    }
   }
 
   pauseVideo() {
-    this.videoPlayer().pause();
-    this.isVideoPlayed.set(false);
+    if (this.isVideoPlayed()) {
+      this.videoPlayer().pause();
+      this.isVideoPlayed.set(false);
+    }
   }
 
   toggleVideo() {
