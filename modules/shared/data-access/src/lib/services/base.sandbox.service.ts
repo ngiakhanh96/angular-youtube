@@ -1,4 +1,3 @@
-import { SpinnerService } from '@angular-youtube/shared-ui';
 import { inject, Injectable, Injector, OnDestroy } from '@angular/core';
 import {
   Action,
@@ -21,6 +20,7 @@ import {
   getResponse,
   getResponseDetails,
 } from '../store/base/selectors/base.selector';
+import { SpinnerService } from './spinner.service';
 
 @Injectable({
   providedIn: 'root',

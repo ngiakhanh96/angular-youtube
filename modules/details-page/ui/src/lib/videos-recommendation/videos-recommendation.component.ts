@@ -1,66 +1,36 @@
 import {
-  IVideoCategoryViewModel,
+  IVideoCategory,
   VideoCategoriesComponent,
 } from '@angular-youtube/home-page-ui';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import {
+  IVideoPlayerCardInfo,
+  VideoPlayerCardComponent,
+} from '@angular-youtube/shared-ui';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+} from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ay-videos-recommendation',
   templateUrl: './videos-recommendation.component.html',
   styleUrls: ['./videos-recommendation.component.scss'],
-  imports: [VideoCategoriesComponent],
+  imports: [VideoCategoriesComponent, VideoPlayerCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideosRecommendationInfoComponent {
-  //TODO Need to find an api to get this
-  videosCategoriesViewModel = signal<IVideoCategoryViewModel[]>([
-    {
-      id: 'all',
-      title: 'All',
-    },
-    {
-      id: 'films',
-      title: 'Films',
-    },
-    {
-      id: 'animation',
-      title: 'Animation',
-    },
-    {
-      id: 'music',
-      title: 'Music',
-    },
-    {
-      id: 'lofi',
-      title: 'Lofi',
-    },
-    {
-      id: 'sports',
-      title: 'Sports',
-    },
-    {
-      id: 'LOL',
-      title: 'LOL',
-    },
-    {
-      id: 'travel',
-      title: 'Travel',
-    },
-    {
-      id: 'events',
-      title: 'Events',
-    },
-    {
-      id: 'gaming',
-      title: 'Gaming',
-    },
-    {
-      id: 'people',
-      title: 'People',
-    },
-    {
-      id: 'shopping',
-      title: 'Shopping',
-    },
-  ]);
+  videoCategories = input.required<IVideoCategory[]>();
+  videos = input.required<IVideoPlayerCardInfo[]>();
+  private router = inject(Router);
+
+  onSelect(videoId: string) {
+    this.router.navigate(['watch'], {
+      queryParams: {
+        v: videoId,
+      },
+    });
+  }
 }

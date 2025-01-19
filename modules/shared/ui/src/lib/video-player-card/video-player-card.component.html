@@ -18,26 +18,26 @@
   </div>
 
   <div class="thumbnail__meta">
-    <div class="thumbnail__channel-logo">
-      <img
-        alt="thumbnail channel logo"
-        [ngSrc]="channelLogoUrl()"
-        width="36"
-        height="36"
-        referrerpolicy="no-referrer"
-      />
-    </div>
+    @if (channelLogoUrl()) {
+      <div class="thumbnail__channel-logo">
+        <img
+          alt="thumbnail channel logo"
+          [ngSrc]="channelLogoUrl()"
+          width="36"
+          height="36"
+          priority
+          referrerpolicy="no-referrer"
+        />
+      </div>
+    }
     <div class="thumbnail__video-info">
-      <div class="thumbnail__video-title">
-        <ay-video-main-info [title]="title()"></ay-video-main-info>
-      </div>
-      <div class="thumbnail__channel-name">{{ channelName() }}</div>
-      <div class="thumbnail__video-statistic">
-        <div class="thumbnail__video-view-count">{{ viewCountString() }}</div>
-        <div class="thumbnail__video-publish-date">
-          • {{ publishDateString() }}</div
-        >
-      </div>
+      <ay-overview-video-info
+        [title]="title()"
+        [channelName]="channelName()"
+        [viewCount]="viewCount()"
+        [publishedDate]="publishedDate()"
+        [isVerified]="isVerified()"
+      ></ay-overview-video-info>
     </div>
     <div class="thumbnail__settings">
       <div class="thumbnail__settings-button">

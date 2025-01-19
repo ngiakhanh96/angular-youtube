@@ -2,11 +2,9 @@ import {
   SharedEffects,
   sharedReducer,
   sharedStateName,
-} from '@angular-youtube/shared-data-access';
-import {
-  ExternalNavigationService,
   SpinnerService,
-} from '@angular-youtube/shared-ui';
+} from '@angular-youtube/shared-data-access';
+import { ExternalNavigationService } from '@angular-youtube/shared-ui';
 import { inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,

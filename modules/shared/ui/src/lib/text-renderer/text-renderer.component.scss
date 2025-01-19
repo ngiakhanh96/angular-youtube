@@ -3,7 +3,7 @@
 }
 
 .video-title {
-  @apply overflow-hidden text-ellipsis leading-[28px];
+  @apply overflow-hidden text-ellipsis;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: var(--line-clamp);
   line-clamp: var(--line-clamp);
@@ -12,8 +12,9 @@
 
 .video-title-overview {
   display: -webkit-box;
+  @apply leading-[22px];
 }
 
 .video-title-details {
-  @apply flex items-center h-full;
+  @apply flex items-center h-full leading-[28px];
 }

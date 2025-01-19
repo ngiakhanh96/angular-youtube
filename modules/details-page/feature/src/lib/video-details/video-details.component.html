@@ -14,20 +14,25 @@
     </div>
     <div class="details_page_info_container">
       <div class="details_page_info_details">
-        <!-- Remove this line when finishing fixing layout for default and theater mode -->
         <div class="details_page_info_video" #defaultModeContainer></div>
-        <ay-text-icon-button
-          [displayText]="'Mode'"
-          [color]="'var(--white-color)'"
-          [backgroundColor]="'var(--black-color)'"
-          (click)="onClickMode()"
-        ></ay-text-icon-button>
+        <!-- TODO Remove this line when finishing video player control -->
+        <div>
+          <ay-text-icon-button
+            [displayText]="'Mode'"
+            [color]="'var(--white-color)'"
+            [backgroundColor]="'var(--black-color)'"
+            (click)="onClickMode()"
+          ></ay-text-icon-button>
+        </div>
         <ay-video-details-info
           [videoInfo]="videoDetailsInfo()"
         ></ay-video-details-info>
       </div>
       <div class="details_page_info_others">
-        <ay-videos-recommendation></ay-videos-recommendation>
+        <ay-videos-recommendation
+          [videoCategories]="videoCategories()"
+          [videos]="recommendedVideos()"
+        ></ay-videos-recommendation>
       </div>
     </div>
   </div>

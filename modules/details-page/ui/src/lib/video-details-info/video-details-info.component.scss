@@ -6,7 +6,7 @@
   @apply flex flex-col;
   .video-details-info-title {
     @apply text-[20px];
-    ay-video-main-info {
+    ay-text-renderer {
       @apply mt-[12px] mb-[4px];
     }
   }
@@ -22,18 +22,6 @@
         }
         .video-details-info-author-info {
           @apply flex flex-col min-w-[76px] mr-[30px];
-          .video-details-info-author-verified-name {
-            @apply flex h-[22px];
-            .video-details-info-author-name {
-            }
-
-            .video-details-info-author-verified {
-              @apply w-[18px] flex-grow-0 flex-shrink-0 flex items-center text-[rgb(96,96,96)];
-              mat-icon {
-                @apply w-[14px] h-[14px] ml-[4px];
-              }
-            }
-          }
           .video-details-info-author-subscribers {
             @apply h-[18px] text-[12px] text-[rgb(96,96,96)];
           }

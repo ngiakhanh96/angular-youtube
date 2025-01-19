@@ -96,9 +96,10 @@ export class Utilities {
     for (let i = 0; i < Utilities.timeIntervals.length; i++) {
       if (dateDiffInSeconds < Utilities.timeIntervals[i].value) {
         const dateDiff = Math.floor(
-          dateDiffInSeconds / Utilities.timeIntervals[i - 1].value,
+          dateDiffInSeconds /
+            Utilities.timeIntervals[i >= 1 ? i - 1 : 0]?.value,
         );
-        publishDateString += `${dateDiff} ${Utilities.timeIntervals[i - 1].unit}`;
+        publishDateString += `${dateDiff} ${Utilities.timeIntervals[i >= 1 ? i - 1 : 0].unit}`;
         dateDiffNumber = dateDiff;
         break;
       }

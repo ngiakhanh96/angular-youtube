@@ -1,12 +1,12 @@
 import {
+  ChannelNameComponent,
   CombinedTextIcon,
   CombinedTextIconButtonComponent,
   DropdownButtonComponent,
-  IconDirective,
   ISection,
   TextIconButtonComponent,
+  TextRenderComponent,
   Utilities,
-  VideoMainInfoComponent,
 } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
 import {
@@ -16,7 +16,6 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { VideoDetailsDescriptionComponent } from '../video-details-description/video-details-description.component';
 
 export interface IVideoDetailsInfo {
@@ -39,13 +38,12 @@ export interface IVideoDetailsInfo {
   styleUrls: ['./video-details-info.component.scss'],
   imports: [
     NgOptimizedImage,
-    VideoMainInfoComponent,
-    MatIconModule,
-    IconDirective,
+    TextRenderComponent,
     TextIconButtonComponent,
     DropdownButtonComponent,
     CombinedTextIconButtonComponent,
     VideoDetailsDescriptionComponent,
+    ChannelNameComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

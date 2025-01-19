@@ -1,0 +1,54 @@
+:host {
+  @apply min-h-full flex-row w-full relative block pr-[10px] cursor-pointer;
+}
+
+.thumbnail__container {
+  @apply w-full h-full flex flex-col;
+
+  .thumbnail__player-container {
+    @apply w-full h-[64%] flex flex-row relative aspect-video;
+
+    .thumbnail__player {
+      @apply w-full h-full flex flex-row;
+    }
+
+    .thumbnail__duration {
+      @apply absolute bg-[rgba(0,0,0,0.6)] right-2 bottom-1 text-white flex-row items-center;
+      border-radius: 2px;
+      padding-left: 4px;
+      padding-right: 4px;
+      font-size: 0.8rem;
+      line-height: 20px;
+      font-weight: 500;
+      border-radius: 4px;
+      height: 20px;
+    }
+  }
+
+  .thumbnail__meta {
+    @apply flex flex-row;
+
+    .thumbnail__channel-logo {
+      @apply mt-3 mr-3 h-9 flex-shrink-0;
+
+      img {
+        @apply h-full rounded-[50%];
+      }
+    }
+
+    .thumbnail__video-info {
+      @apply flex flex-col flex-grow basis-0 flex-shrink w-0;
+    }
+
+    .thumbnail__settings {
+      @apply flex w-[30px] mt-[6px];
+
+      .thumbnail__settings-button {
+        @apply flex-[0_0_40px];
+        ay-dropdown-button {
+          @apply h-[40px];
+        }
+      }
+    }
+  }
+}

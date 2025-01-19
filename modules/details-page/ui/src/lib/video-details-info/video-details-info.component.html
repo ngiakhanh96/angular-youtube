@@ -1,11 +1,11 @@
 @if (videoInfo()) {
   <div class="video-details-info-container">
     <div class="video-details-info-title">
-      <ay-video-main-info
+      <ay-text-renderer
         [title]="videoInfo()!.title"
         [fontWeight]="'700'"
         [overview]="false"
-      ></ay-video-main-info>
+      ></ay-text-renderer>
     </div>
     <div class="video-details-info-details">
       <div class="video-details-info-author-container">
@@ -15,35 +15,22 @@
             [ngSrc]="videoInfo()!.authorLogoUrl"
             width="40"
             height="40"
+            priority
             referrerpolicy="no-referrer"
           />
           <div class="video-details-info-author-info">
-            <div class="video-details-info-author-verified-name">
-              <div class="video-details-info-author-name">
-                <ay-video-main-info
-                  [title]="videoInfo()!.author"
-                  [fontWeight]="'500'"
-                  [lineClamp]="'1'"
-                  [overview]="false"
-                ></ay-video-main-info>
-              </div>
-              @if (videoInfo()!.authorVerified) {
-                <div class="video-details-info-author-verified">
-                  <mat-icon
-                    [svgIcon]="'verified'"
-                    [viewBox]="'0 0 24 24'"
-                    [fill]="'currentColor'"
-                  ></mat-icon>
-                </div>
-              }
-            </div>
+            <ay-channel-name
+              [channelName]="videoInfo()!.author"
+              [isVerified]="videoInfo()!.authorVerified"
+              [fontWeight]="'500'"
+            ></ay-channel-name>
             <div class="video-details-info-author-subscribers">
-              <ay-video-main-info
+              <ay-text-renderer
                 [title]="videoInfo()!.subscriberCountText + ' subscribers'"
                 [fontWeight]="'400'"
                 [lineClamp]="'1'"
                 [overview]="false"
-              ></ay-video-main-info>
+              ></ay-text-renderer>
             </div>
           </div>
           <div class="video-details-info-author-channel-buttons">

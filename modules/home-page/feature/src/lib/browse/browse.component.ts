@@ -6,9 +6,8 @@ import {
   selectVideosInfo,
 } from '@angular-youtube/home-page-data-access';
 import {
-  IVideoCategoryViewModel,
+  IVideoCategory,
   VideoCategoriesComponent,
-  VideoPlayerCardComponent,
 } from '@angular-youtube/home-page-ui';
 import {
   BaseWithSandBoxComponent,
@@ -17,6 +16,10 @@ import {
   IPopularYoutubeVideos,
   IVideoCategories,
 } from '@angular-youtube/shared-data-access';
+import {
+  IVideoPlayerCardInfo,
+  VideoPlayerCardComponent,
+} from '@angular-youtube/shared-ui';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -27,17 +30,6 @@ import {
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
-
-export interface IThumbnailDetails {
-  videoId: string;
-  videoUrl: string;
-  title: string;
-  channelName: string;
-  viewCount: number;
-  publishedDate: Date;
-  duration: string;
-  channelLogoUrl: string;
-}
 
 @Component({
   selector: 'ay-browse',
@@ -52,11 +44,11 @@ export interface IThumbnailDetails {
 })
 export class BrowseComponent extends BaseWithSandBoxComponent {
   protected videosWithMetaData: Signal<IPopularYoutubeVideos | undefined>;
-  protected videos: Signal<IThumbnailDetails[]>;
+  protected videos: Signal<IVideoPlayerCardInfo[]>;
   protected channelsInfo: Signal<Record<string, IChannelItem> | undefined>;
   protected videosInfo: Signal<Record<string, IFormatStream> | undefined>;
   protected videosCategories: Signal<IVideoCategories | undefined>;
-  protected videosCategoriesViewModel: Signal<IVideoCategoryViewModel[]>;
+  protected videosCategoriesViewModel: Signal<IVideoCategory[]>;
   private router = inject(Router);
   private titleService = inject(Title);
   constructor() {
@@ -72,7 +64,7 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
     this.videosWithMetaData = this.selectSignal(selectHomePageVideos);
     this.channelsInfo = this.selectSignal(selectChannelsInfo);
     this.videosInfo = this.selectSignal(selectVideosInfo);
-    this.videos = computed<IThumbnailDetails[]>(() => {
+    this.videos = computed<IVideoPlayerCardInfo[]>(() => {
       const videosWithMetaData = this.videosWithMetaData();
       const channelsInfo = this.channelsInfo() ?? {};
       const videosInfo = this.videosInfo() ?? {};
@@ -88,6 +80,7 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
             channelsInfo[p.snippet.channelId]?.snippet.thumbnails.default.url ??
             '',
           videoUrl: videosInfo[p.id]?.url ?? '',
+          isVerified: false,
         })) ?? []
       );
     });

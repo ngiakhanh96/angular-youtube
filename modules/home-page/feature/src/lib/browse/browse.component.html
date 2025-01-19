@@ -17,14 +17,7 @@
       @defer (hydrate on viewport; prefetch on idle) {
         <div class="browse_video_player">
           <ay-video-player-card
-            [videoId]="video.videoId"
-            [videoUrl]="video.videoUrl"
-            [title]="video.title"
-            [channelName]="video.channelName"
-            [viewCount]="video.viewCount"
-            [publishedDate]="video.publishedDate"
-            [duration]="video.duration"
-            [channelLogoUrl]="video.channelLogoUrl"
+            [videoPlayerCardInfo]="video"
             (select)="onSelect($event)"
           />
         </div>

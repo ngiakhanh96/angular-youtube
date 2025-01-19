@@ -1,0 +1,19 @@
+<div class="channel-name-container">
+  <div class="channel-name">
+    <ay-text-renderer
+      [title]="channelName()"
+      [fontWeight]="fontWeight()"
+      [lineClamp]="'1'"
+      [overview]="false"
+    ></ay-text-renderer>
+  </div>
+  @if (isVerified()) {
+    <div class="channel-name-verified">
+      <mat-icon
+        [svgIcon]="'verified'"
+        [viewBox]="'0 0 24 24'"
+        [fill]="'currentColor'"
+      ></mat-icon>
+    </div>
+  }
+</div>

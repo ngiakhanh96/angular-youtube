@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 
-export interface IVideoCategoryViewModel {
+export interface IVideoCategory {
   title: string;
   id: string;
 }
@@ -24,7 +24,7 @@ export interface IVideoCategoryViewModel {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoCategoriesComponent {
-  videoCategories = input.required<IVideoCategoryViewModel[]>();
+  videoCategories = input.required<IVideoCategory[]>();
   shouldShowScrollLeftButton = signal(false);
   shouldShowScrollRightButton = signal(true);
   scrollingWidth = input.required<number>();
@@ -46,7 +46,7 @@ export class VideoCategoriesComponent {
     });
   }
 
-  selectVideoCategory(videoCategory: IVideoCategoryViewModel) {
+  selectVideoCategory(videoCategory: IVideoCategory) {
     this.selectedVideoCategory.set(videoCategory);
   }
 

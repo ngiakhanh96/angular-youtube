@@ -1,10 +1,4 @@
 import { Auth } from '@angular-youtube/shared-data-access';
-import {
-  DropdownButtonComponent,
-  NativeYouTubePlayerComponent,
-  Utilities,
-  VideoMainInfoComponent,
-} from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -17,6 +11,22 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { DropdownButtonComponent } from '../dropdown-button/dropdown-button.component';
+import { NativeYouTubePlayerComponent } from '../native-youtube-player/native-youtube-player.component';
+import { OverviewVideoInfoComponent } from '../overview-video-info/overview-video-info.component';
+import { Utilities } from '../utilities/utilities';
+
+export interface IVideoPlayerCardInfo {
+  videoId: string;
+  videoUrl: string;
+  title: string;
+  channelName: string;
+  viewCount: number;
+  publishedDate: Date;
+  duration: string;
+  channelLogoUrl: string;
+  isVerified: boolean;
+}
 
 @Component({
   selector: 'ay-video-player-card',
@@ -24,13 +34,14 @@ import {
     NgOptimizedImage,
     DropdownButtonComponent,
     NativeYouTubePlayerComponent,
-    VideoMainInfoComponent,
+    OverviewVideoInfoComponent,
   ],
   templateUrl: './video-player-card.component.html',
   styleUrls: ['./video-player-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoPlayerCardComponent {
+  videoPlayerCardInfo = input.required<IVideoPlayerCardInfo>();
   settingItems = computed(() =>
     this.authService.accessToken()
       ? [
@@ -94,27 +105,28 @@ export class VideoPlayerCardComponent {
           },
         ],
   );
-  videoId = input.required<string>();
-  videoUrl = input.required<string>();
-  title = input.required<string>();
-  channelName = input.required<string>();
-  viewCount = input.required<number>();
+  videoId = computed(() => this.videoPlayerCardInfo()?.videoId);
+  videoUrl = computed(() => this.videoPlayerCardInfo()?.videoUrl);
+  title = computed(() => this.videoPlayerCardInfo()?.title);
+  channelName = computed(() => this.videoPlayerCardInfo()?.channelName);
+  viewCount = computed(() => this.videoPlayerCardInfo()?.viewCount);
   viewCountString = computed(() =>
-    VideoPlayerCardComponent.computeViewCountString(this.viewCount()),
+    Utilities.numberToString(this.viewCount(), 'view', 'No'),
   );
-  publishedDate = input.required<Date>();
-  publishDateString = computed(() =>
+  publishedDate = computed(() => this.videoPlayerCardInfo()?.publishedDate);
+  publishedDateString = computed(() =>
     Utilities.publishedDateToString(this.publishedDate()),
   );
-  duration = input.required<string>();
+  duration = computed(() => this.videoPlayerCardInfo()?.duration);
   durationString = computed(() => Utilities.durationToString(this.duration()));
-  channelLogoUrl = input.required<string>();
-
+  channelLogoUrl = computed(() => this.videoPlayerCardInfo()?.channelLogoUrl);
+  isVerified = computed(() => this.videoPlayerCardInfo()?.isVerified);
   thumbnailDurationDisplay = signal('flex');
   select = output<string>();
 
   private player = viewChild(NativeYouTubePlayerComponent);
   private authService = inject(Auth);
+
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent) {
     if (!(event.target instanceof HTMLButtonElement)) {
@@ -130,9 +142,5 @@ export class VideoPlayerCardComponent {
   onMouseLeave() {
     this.player()?.pauseVideo();
     this.thumbnailDurationDisplay.set('flex');
-  }
-
-  static computeViewCountString(viewCount: number) {
-    return Utilities.numberToString(viewCount, 'view', 'No');
   }
 }

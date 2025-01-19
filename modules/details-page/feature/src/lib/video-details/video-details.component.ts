@@ -7,12 +7,14 @@ import {
   VideoDetailsInfoComponent,
   VideosRecommendationInfoComponent,
 } from '@angular-youtube/details-page-ui';
+import { IVideoCategory } from '@angular-youtube/home-page-ui';
 import {
   BaseWithSandBoxComponent,
   IInvidiousVideoInfo,
   sharedActionGroup,
 } from '@angular-youtube/shared-data-access';
 import {
+  IVideoPlayerCardInfo,
   NativeYouTubePlayerComponent,
   SidebarService,
   TextIconButtonComponent,
@@ -72,7 +74,13 @@ export class VideoDetailsComponent
     }
     return sharedActionGroup.empty();
   });
-  videoUrl: Signal<string | undefined>;
+  videoUrl = computed(() => {
+    if (this.videoInfo()?.formatStreams) {
+      return this.videoInfo()?.formatStreams[0].url;
+    }
+    return undefined;
+  });
+
   mode = signal(ViewMode.Theater);
   mainPlayer = viewChild.required<NativeYouTubePlayerComponent>(
     NativeYouTubePlayerComponent,
@@ -108,6 +116,23 @@ export class VideoDetailsComponent
     }
     return undefined;
   });
+  //TODO call api to get channel info/video url same as browse component
+  recommendedVideos = computed<IVideoPlayerCardInfo[]>(() => {
+    const videoInfo = this.videoInfo();
+    return (
+      videoInfo?.recommendedVideos.map((p) => ({
+        videoId: p.videoId ?? '',
+        title: p.title ?? '',
+        channelName: p.author ?? '',
+        viewCount: +(p.viewCount ?? 0),
+        publishedDate: new Date(),
+        duration: p.lengthSeconds?.toString() ?? '',
+        channelLogoUrl: p.authorUrl ?? '',
+        videoUrl: '',
+        isVerified: p.authorVerified ?? false,
+      })) ?? []
+    );
+  });
   mainPlayerBorderRadius = computed(() =>
     this.mode() === ViewMode.Theater ? '0px' : '12px',
   );
@@ -115,17 +140,61 @@ export class VideoDetailsComponent
     this.mode() === ViewMode.Theater ? '0px' : '24px',
   );
   document = inject(DOCUMENT);
-
+  //TODO Need to find an api to get this
+  videoCategories = signal<IVideoCategory[]>([
+    {
+      id: 'all',
+      title: 'All',
+    },
+    {
+      id: 'films',
+      title: 'Films',
+    },
+    {
+      id: 'animation',
+      title: 'Animation',
+    },
+    {
+      id: 'music',
+      title: 'Music',
+    },
+    {
+      id: 'lofi',
+      title: 'Lofi',
+    },
+    {
+      id: 'sports',
+      title: 'Sports',
+    },
+    {
+      id: 'LOL',
+      title: 'LOL',
+    },
+    {
+      id: 'travel',
+      title: 'Travel',
+    },
+    {
+      id: 'events',
+      title: 'Events',
+    },
+    {
+      id: 'gaming',
+      title: 'Gaming',
+    },
+    {
+      id: 'people',
+      title: 'People',
+    },
+    {
+      id: 'shopping',
+      title: 'Shopping',
+    },
+  ]);
   constructor() {
     super();
     this.dispatchActionFromSignal(this.getVideoInfo);
     this.videoInfo = this.selectSignal(selectDetailsPageVideoInfo);
-    this.videoUrl = computed(() => {
-      if (this.videoInfo()?.formatStreams) {
-        return this.videoInfo()?.formatStreams[0].url;
-      }
-      return undefined;
-    });
     effect(() => {
       this.titleService.setTitle(this.videoInfo()?.title ?? 'Angular Youtube');
     });

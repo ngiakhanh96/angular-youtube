@@ -42,6 +42,7 @@ export class HomePageEffects extends BaseEffects {
             ...videosWithMetaData.items.map((p) =>
               this.invidiousService.getVideoInfo(p.id).pipe(
                 catchError((error: HttpErrorResponse) => {
+                  console.error(error);
                   return of(<IInvidiousVideoInfo>(<unknown>{
                     videoId: p.id,
                     formatStreams: [],

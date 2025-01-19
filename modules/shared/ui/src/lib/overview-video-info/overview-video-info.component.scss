@@ -1,0 +1,22 @@
+:host {
+  @apply block h-full w-full;
+}
+
+.overview-video-info__video-info {
+  .overview-video-info__video-title {
+    ay-text-renderer {
+      @apply mt-[12px] mb-[4px];
+    }
+  }
+
+  .overview-video-info__channel-name {
+    @apply overflow-hidden text-ellipsis text-[#606060] whitespace-pre text-[14px] line-clamp-1;
+  }
+
+  .overview-video-info__video-statistic {
+    @apply flex flex-row text-[14px];
+    * {
+      @apply overflow-hidden text-ellipsis text-[#606060] whitespace-pre;
+    }
+  }
+}

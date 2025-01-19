@@ -1,0 +1,20 @@
+<div class="overview-video-info__video-info">
+  <div class="overview-video-info__video-title">
+    <ay-text-renderer [title]="title()"></ay-text-renderer>
+  </div>
+  <div class="overview-video-info__channel-name">
+    <ay-channel-name
+      [channelName]="channelName()"
+      [isVerified]="isVerified()"
+      [fontWeight]="'400'"
+    ></ay-channel-name
+  ></div>
+  <div class="overview-video-info__video-statistic">
+    <div class="overview-video-info__video-view-count">{{
+      viewCountString()
+    }}</div>
+    <div class="overview-video-info__video-publish-date">
+      • {{ publishedDateString() }}</div
+    >
+  </div>
+</div>

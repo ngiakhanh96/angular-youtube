@@ -19,6 +19,7 @@ export * from './lib/services/http/youtube.http.service';
 export * from './lib/services/http/yt-dlp.http.service';
 export * from './lib/services/local-storage.service';
 export * from './lib/services/session-storage.service';
+export * from './lib/services/spinner.service';
 export * from './lib/store/base/actions/base.action-group';
 export * from './lib/store/base/actions/shared.action-group';
 export * from './lib/store/base/effects/base.effect';

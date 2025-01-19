@@ -1,8 +1,20 @@
 <div class="videos-recommendation-container">
   <div class="video-recommendation-categories">
     <ay-video-categories
-      [videoCategories]="videosCategoriesViewModel()"
+      [videoCategories]="videoCategories()"
       [scrollingWidth]="150"
     ></ay-video-categories>
+  </div>
+  <div class="video-recommendation-list">
+    @for (video of videos(); track video.videoId) {
+      @defer (hydrate on viewport; prefetch on idle) {
+        <div class="video-recommendation">
+          <ay-video-player-card
+            [videoPlayerCardInfo]="video"
+            (select)="onSelect($event)"
+          />
+        </div>
+      }
+    }
   </div>
 </div>
