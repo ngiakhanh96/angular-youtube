@@ -87,11 +87,8 @@ export class NativeYouTubePlayerComponent {
     });
 
     afterRenderEffect({
-      write: () => {
+      read: () => {
         const videoUrl = this.videoUrl();
-        if (videoUrl === '') {
-          return;
-        }
         this.videoPlayer()?.load();
         if (!this.autoPlay()) {
           this.videoPlayer().muted = true;
