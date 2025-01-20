@@ -87,8 +87,11 @@ export class NativeYouTubePlayerComponent {
     });
 
     afterRenderEffect({
-      read: () => {
+      write: () => {
         const videoUrl = this.videoUrl();
+        if (videoUrl === '') {
+          return;
+        }
         this.videoPlayer()?.load();
         if (!this.autoPlay()) {
           this.videoPlayer().muted = true;
@@ -103,20 +106,15 @@ export class NativeYouTubePlayerComponent {
 
   playVideo() {
     // Ensure the video is loaded
-    if (
-      !this.isVideoPlayed() &&
-      this.videoPlayer().readyState >= HTMLMediaElement.HAVE_CURRENT_DATA
-    ) {
-      this.videoPlayer()
-        .play()
-        .then((_) => {
-          this.isVideoPlayed.set(true);
-        })
-        .catch((error) => {
-          this.isVideoPlayed.set(false);
-          console.error('Error playing video:', error);
-        });
-    }
+    this.videoPlayer()
+      .play()
+      .then((_) => {
+        this.isVideoPlayed.set(true);
+      })
+      .catch((error) => {
+        this.isVideoPlayed.set(false);
+        console.error('Error playing video:', error);
+      });
   }
 
   pauseVideo() {
