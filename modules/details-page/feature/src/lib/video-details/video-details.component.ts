@@ -223,7 +223,7 @@ export class VideoDetailsComponent
       const adoptedVideo = this.document.adoptNode(video);
       defaultContainer?.appendChild(adoptedVideo);
       this.mode.set(ViewMode.Default);
-      this.videoRecommendationMarginTop.set('8px');
+      this.videoRecommendationMarginTop.set('0px');
     } else {
       const adoptedVideo = this.document.adoptNode(video);
       theaterContainer?.appendChild(adoptedVideo);
