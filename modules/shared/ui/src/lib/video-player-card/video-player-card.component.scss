@@ -3,10 +3,25 @@
 }
 
 .thumbnail__container {
-  @apply w-full h-full flex flex-col;
+  @apply w-full h-full flex;
+  &--horizontal {
+    @apply flex-row;
+  }
+
+  &--vertical {
+    @apply flex-col;
+  }
 
   .thumbnail__player-container {
-    @apply w-full h-[64%] flex flex-row relative aspect-video;
+    @apply flex flex-row relative aspect-video;
+
+    &--horizontal {
+      @apply w-[168px] flex-shrink-0 flex-grow-0 mr-[8px];
+    }
+
+    &--vertical {
+      @apply w-full h-[64%];
+    }
 
     .thumbnail__player {
       @apply w-full h-full flex flex-row;
@@ -37,7 +52,14 @@
     }
 
     .thumbnail__video-info {
-      @apply flex flex-col flex-grow basis-0 flex-shrink w-0;
+      @apply flex flex-col flex-grow basis-0 flex-shrink mt-[12px];
+      &--horizontal {
+        @apply mt-0;
+      }
+
+      &--vertical {
+        @apply mt-[12px];
+      }
     }
 
     .thumbnail__settings {

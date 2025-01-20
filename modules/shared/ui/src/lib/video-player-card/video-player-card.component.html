@@ -1,6 +1,7 @@
-<div class="thumbnail__container">
+<div class="thumbnail__container" [class]="thumbnailContainerClass()">
   <div
     class="thumbnail__player-container"
+    [class]="thumbnailPlayerContainerClass()"
     (mouseover)="onMouseEnter()"
     (mouseleave)="onMouseLeave()"
   >
@@ -9,6 +10,7 @@
       [showPlayButton]="false"
       [videoId]="videoId()"
       [videoUrl]="videoUrl()"
+      [borderRadius]="playerBorderRadius()"
     />
     <div
       class="thumbnail__duration"
@@ -22,7 +24,7 @@
       <div class="thumbnail__channel-logo">
         <img
           alt="thumbnail channel logo"
-          [ngSrc]="channelLogoUrl()"
+          [ngSrc]="channelLogoUrl()!"
           width="36"
           height="36"
           priority
@@ -30,13 +32,15 @@
         />
       </div>
     }
-    <div class="thumbnail__video-info">
+    <div class="thumbnail__video-info" [class]="thumbnailVideoInfoClass()">
       <ay-overview-video-info
         [title]="title()"
         [channelName]="channelName()"
         [viewCount]="viewCount()"
         [publishedDate]="publishedDate()"
         [isVerified]="isVerified()"
+        [titleFontSize]="titleFontSize()"
+        [titleMarginBottom]="titleMarginBottom()"
       ></ay-overview-video-info>
     </div>
     <div class="thumbnail__settings">

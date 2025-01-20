@@ -4,6 +4,7 @@ import {
 } from '@angular-youtube/home-page-ui';
 import {
   IVideoPlayerCardInfo,
+  PlayerPosition,
   VideoPlayerCardComponent,
 } from '@angular-youtube/shared-ui';
 import {
@@ -24,6 +25,7 @@ import { Router } from '@angular/router';
 export class VideosRecommendationInfoComponent {
   videoCategories = input.required<IVideoCategory[]>();
   videos = input.required<IVideoPlayerCardInfo[]>();
+  PlayerPosition: typeof PlayerPosition = PlayerPosition;
   private router = inject(Router);
 
   onSelect(videoId: string) {

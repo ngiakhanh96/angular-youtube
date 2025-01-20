@@ -127,7 +127,7 @@ export class VideoDetailsComponent
         viewCount: +(p.viewCount ?? 0),
         publishedDate: new Date(),
         duration: p.lengthSeconds?.toString() ?? '',
-        channelLogoUrl: p.authorUrl ?? '',
+        channelLogoUrl: undefined,
         videoUrl: '',
         isVerified: p.authorVerified ?? false,
       })) ?? []

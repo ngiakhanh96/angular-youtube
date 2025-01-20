@@ -13,6 +13,10 @@ import { Utilities } from '../utilities/utilities';
   imports: [TextRenderComponent, ChannelNameComponent],
   templateUrl: './overview-video-info.component.html',
   styleUrls: ['./overview-video-info.component.scss'],
+  host: {
+    '[style.--title-font-size]': 'titleFontSize()',
+    '[style.--title-margin-bottom]': 'titleMarginBottom()',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverviewVideoInfoComponent {
@@ -24,6 +28,8 @@ export class OverviewVideoInfoComponent {
   );
   publishedDate = input.required<Date>();
   isVerified = input(false);
+  titleFontSize = input('16px');
+  titleMarginBottom = input('4px');
   publishedDateString = computed(() =>
     Utilities.publishedDateToString(this.publishedDate()),
   );

@@ -5,8 +5,13 @@
 .videos-recommendation-container {
   @apply flex flex-col;
   .video-recommendation-categories {
+    @apply mt-[8px] mb-[12px] pr-[8px];
   }
 
   .video-recommendation-list {
+    @apply flex flex-col;
+    .video-recommendation {
+      @apply mt-[8px];
+    }
   }
 }

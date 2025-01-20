@@ -24,8 +24,13 @@ export interface IVideoPlayerCardInfo {
   viewCount: number;
   publishedDate: Date;
   duration: string;
-  channelLogoUrl: string;
+  channelLogoUrl?: string;
   isVerified: boolean;
+}
+
+export enum PlayerPosition {
+  Vertical = 'column',
+  Horizontal = 'row',
 }
 
 @Component({
@@ -42,6 +47,28 @@ export interface IVideoPlayerCardInfo {
 })
 export class VideoPlayerCardComponent {
   videoPlayerCardInfo = input.required<IVideoPlayerCardInfo>();
+  playerPosition = input(PlayerPosition.Vertical);
+  titleFontSize = input('16px');
+  titleMarginBottom = input('4px');
+  playerBorderRadius = input('12px');
+  thumbnailContainerFlexDirection = computed(() =>
+    this.playerPosition().toString(),
+  );
+  thumbnailPlayerContainerClass = computed(() => {
+    return this.playerPosition() === PlayerPosition.Vertical
+      ? 'thumbnail__player-container--vertical'
+      : 'thumbnail__player-container--horizontal';
+  });
+  thumbnailContainerClass = computed(() => {
+    return this.playerPosition() === PlayerPosition.Vertical
+      ? 'thumbnail__container--vertical'
+      : 'thumbnail__container--horizontal';
+  });
+  thumbnailVideoInfoClass = computed(() => {
+    return this.playerPosition() === PlayerPosition.Vertical
+      ? 'thumbnail__video-info--vertical'
+      : 'thumbnail__video-info--horizontal';
+  });
   settingItems = computed(() =>
     this.authService.accessToken()
       ? [

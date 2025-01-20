@@ -11,6 +11,10 @@
         <div class="video-recommendation">
           <ay-video-player-card
             [videoPlayerCardInfo]="video"
+            [playerPosition]="PlayerPosition.Horizontal"
+            [titleFontSize]="'14px'"
+            [titleMarginBottom]="'0px'"
+            [playerBorderRadius]="'8px'"
             (select)="onSelect($event)"
           />
         </div>

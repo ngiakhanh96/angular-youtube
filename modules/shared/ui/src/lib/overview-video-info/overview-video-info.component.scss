@@ -3,20 +3,22 @@
 }
 
 .overview-video-info__video-info {
+  @apply flex flex-col;
   .overview-video-info__video-title {
-    ay-text-renderer {
-      @apply mt-[12px] mb-[4px];
-    }
+    font-size: var(--title-font-size);
+    @apply mb-[var(--title-margin-bottom)];
   }
 
   .overview-video-info__channel-name {
-    @apply overflow-hidden text-ellipsis text-[#606060] whitespace-pre text-[14px] line-clamp-1;
+    @apply overflow-hidden text-ellipsis text-[rgb(96,96,96)] whitespace-pre line-clamp-1;
+    font-size: calc(var(--title-font-size) - 2px);
   }
 
   .overview-video-info__video-statistic {
-    @apply flex flex-row text-[14px];
+    @apply flex flex-row;
+    font-size: calc(var(--title-font-size) - 2px);
     * {
-      @apply overflow-hidden text-ellipsis text-[#606060] whitespace-pre;
+      @apply overflow-hidden text-ellipsis text-[rgb(96,96,96)] whitespace-pre;
     }
   }
 }
