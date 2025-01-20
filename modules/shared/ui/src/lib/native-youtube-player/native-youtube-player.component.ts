@@ -18,11 +18,6 @@ import {
   YouTubePlayerPlaceholderComponent,
 } from '../youtube-player-placeholder/youtube-player-placeholder.component';
 
-/**
- * Angular component that renders a YouTube player via the YouTube player
- * iframe API.
- * @see https://developers.google.com/youtube/iframe_api_reference
- */
 //TODO support feature unhover pause and display placeholders
 @Component({
   selector: 'ay-native-youtube-player',
