@@ -1,6 +1,9 @@
 @if (videoUrl()) {
   <div class="details_page_container">
-    <div class="details_page_player_container" #theaterModeContainer>
+    <div
+      class="details_page_player_container--horizontal"
+      #theaterModeContainer
+    >
       <ay-native-youtube-player
         [videoId]="videoId()"
         [videoUrl]="videoUrl()!"
@@ -14,7 +17,10 @@
     </div>
     <div class="details_page_info_container">
       <div class="details_page_info_details">
-        <div class="details_page_info_video" #defaultModeContainer></div>
+        <div
+          class="details_page_player_container--vertical"
+          #defaultModeContainer
+        ></div>
         <!-- TODO Remove this line when finishing video player control -->
         <div>
           <ay-text-icon-button
