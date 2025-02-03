@@ -79,9 +79,13 @@ export class LinkComponent {
     const isNonYoutubeSupportedSocialMedia =
       this.isNonYoutubeSupportedSocialMedia();
     const text = this.text()?.trimStart() ?? '';
+    const href =
+      this.href()[this.href().length - 1] === '/'
+        ? this.href().substring(0, this.href().length - 1)
+        : this.href();
     return isNonYoutubeSupportedSocialMedia
-      ? `\u00a0/\u00a0${this.href()
-          .substring(this.href().lastIndexOf('/') + 1)
+      ? `\u00a0/\u00a0${href
+          .substring(href.lastIndexOf('/') + 1)
           .replace('@', '')}\u00a0\u00a0`
       : `\u00a0${text}\u00a0\u00a0`;
   });

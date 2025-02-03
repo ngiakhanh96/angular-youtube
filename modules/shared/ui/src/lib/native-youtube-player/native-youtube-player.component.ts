@@ -66,7 +66,7 @@ export class NativeYouTubePlayerComponent {
   videoPlayer = computed(() => this.videoContainer().nativeElement);
 
   showPlayButton = input(false);
-
+  boxShadow = input<string>('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
   isVideoPlayed = signal(false);
   autoPlay = input<boolean>(false);
 

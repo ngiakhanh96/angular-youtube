@@ -51,6 +51,7 @@ export class VideoPlayerCardComponent {
   titleFontSize = input('16px');
   titleMarginBottom = input('4px');
   playerBorderRadius = input('12px');
+  boxShadow = input('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
   thumbnailContainerFlexDirection = computed(() =>
     this.playerPosition().toString(),
   );
