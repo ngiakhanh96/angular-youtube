@@ -8,6 +8,7 @@ export const detailsPageActionGroup = createActionGroup({
     }>(),
     loadYoutubeVideoSuccess: props<{
       videoInfo: IInvidiousVideoInfo;
+      recommendedVideosInfo: IInvidiousVideoInfo[];
     }>(),
   },
 });

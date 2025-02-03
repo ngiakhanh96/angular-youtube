@@ -28,7 +28,7 @@
     }
 
     .thumbnail__duration {
-      @apply absolute bg-[rgba(0,0,0,0.6)] right-2 bottom-1 text-white flex-row items-center;
+      @apply absolute bg-[rgba(0,0,0,0.6)] right-[var(--thumbnail-duration-right)] bottom-[4px] text-white flex-row items-center;
       border-radius: 2px;
       padding-left: 4px;
       padding-right: 4px;
@@ -63,7 +63,7 @@
     }
 
     .thumbnail__settings {
-      @apply flex w-[30px] mt-[6px];
+      @apply flex w-[30px] mt-[var(--thumbnail-settings-button-margin-top)];
 
       .thumbnail__settings-button {
         @apply flex-[0_0_40px];

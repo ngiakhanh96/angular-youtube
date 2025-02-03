@@ -113,7 +113,7 @@ export class Utilities {
     return publishDateString;
   }
 
-  static durationToString(duration: string) {
+  static iso8601DurationToString(duration: string) {
     let durationString = '';
     const matches = duration.match(
       /P(\d+Y)?(\d+W)?(\d+D)?T(\d+H)?(\d+M)?(\d+S)?/,
@@ -146,5 +146,18 @@ export class Utilities {
       });
 
     return durationString;
+  }
+
+  static secondsToIso8601Duration(seconds: number) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+
+    let duration = 'PT';
+    if (hours > 0) duration += `${hours}H`;
+    if (minutes > 0) duration += `${minutes}M`;
+    if (remainingSeconds > 0) duration += `${remainingSeconds}S`;
+
+    return duration;
   }
 }

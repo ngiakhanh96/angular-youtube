@@ -1,4 +1,4 @@
-import { inject, Injector } from '@angular/core';
+import { inject, Injector, Signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { Action, MemoizedSelector, select } from '@ngrx/store';
@@ -15,7 +15,7 @@ export abstract class BaseWithSandBoxComponent {
     return toSignal(this.activatedRoute.queryParams);
   }
   protected selectSignal<T>(selector: MemoizedSelector<object, T>) {
-    return toSignal(this.sandbox.store.pipe(select(selector)));
+    return toSignal(this.sandbox.store.pipe(select(selector))) as Signal<T>;
   }
   protected dispatchAction(action: Action, successfulCallBack?: () => void) {
     setTimeout(() => {

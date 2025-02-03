@@ -23,7 +23,8 @@ export interface IVideoPlayerCardInfo {
   channelName: string;
   viewCount: number;
   publishedDate: Date;
-  duration: string;
+  duration?: string;
+  lengthSeconds?: number;
   channelLogoUrl?: string;
   isVerified: boolean;
 }
@@ -43,6 +44,11 @@ export enum PlayerPosition {
   ],
   templateUrl: './video-player-card.component.html',
   styleUrls: ['./video-player-card.component.scss'],
+  host: {
+    '[style.--thumbnail-settings-button-margin-top]':
+      'thumbnailSettingsButtonMarginTop()',
+    '[style.--thumbnail-duration-right]': 'thumbnailDurationRight()',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoPlayerCardComponent {
@@ -52,6 +58,8 @@ export class VideoPlayerCardComponent {
   titleMarginBottom = input('4px');
   playerBorderRadius = input('12px');
   boxShadow = input('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
+  thumbnailSettingsButtonMarginTop = input('6px');
+  thumbnailDurationRight = input('8px');
   thumbnailContainerFlexDirection = computed(() =>
     this.playerPosition().toString(),
   );
@@ -146,7 +154,16 @@ export class VideoPlayerCardComponent {
     Utilities.publishedDateToString(this.publishedDate()),
   );
   duration = computed(() => this.videoPlayerCardInfo()?.duration);
-  durationString = computed(() => Utilities.durationToString(this.duration()));
+  lengthSeconds = computed(() => this.videoPlayerCardInfo()?.lengthSeconds);
+  durationString = computed(() => {
+    const duration = this.duration();
+    const lengthSeconds = this.lengthSeconds();
+    return duration
+      ? Utilities.iso8601DurationToString(duration)
+      : Utilities.iso8601DurationToString(
+          Utilities.secondsToIso8601Duration(lengthSeconds ?? 0),
+        );
+  });
   channelLogoUrl = computed(() => this.videoPlayerCardInfo()?.channelLogoUrl);
   isVerified = computed(() => this.videoPlayerCardInfo()?.isVerified);
   thumbnailDurationDisplay = signal('flex');

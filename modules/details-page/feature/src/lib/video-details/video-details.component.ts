@@ -1,5 +1,6 @@
 import {
   detailsPageActionGroup,
+  selectDetailsPageRecommendedVideosInfo,
   selectDetailsPageVideoInfo,
 } from '@angular-youtube/details-page-data-access';
 import {
@@ -18,6 +19,7 @@ import {
   NativeYouTubePlayerComponent,
   SidebarService,
   TextIconButtonComponent,
+  Utilities,
 } from '@angular-youtube/shared-ui';
 import { DOCUMENT } from '@angular/common';
 import {
@@ -116,22 +118,22 @@ export class VideoDetailsComponent
     }
     return undefined;
   });
+  recommendedVideosInfo: Signal<IInvidiousVideoInfo[]>;
   //TODO call api to get channel info/video url same as browse component
   recommendedVideos = computed<IVideoPlayerCardInfo[]>(() => {
-    const videoInfo = this.videoInfo();
-    return (
-      videoInfo?.recommendedVideos.map((p) => ({
-        videoId: p.videoId ?? '',
-        title: p.title ?? '',
-        channelName: p.author ?? '',
-        viewCount: +(p.viewCount ?? 0),
-        publishedDate: new Date(),
-        duration: p.lengthSeconds?.toString() ?? '',
-        channelLogoUrl: undefined,
-        videoUrl: '',
-        isVerified: p.authorVerified ?? false,
-      })) ?? []
-    );
+    const videosInfo = this.recommendedVideosInfo();
+    return videosInfo.map((p) => ({
+      videoId: p.videoId ?? '',
+      title: p.title ?? '',
+      channelName: p.author ?? '',
+      viewCount: +(p.viewCount ?? 0),
+      publishedDate: Utilities.epochToDate(p.published),
+      //TODO dont understand why youtube keep duration in seconds - 1 when playing the video in details page but keep it in seconds when showing in recommendation section
+      lengthSeconds: p.lengthSeconds,
+      channelLogoUrl: undefined,
+      videoUrl: p.formatStreams[0]?.url ?? '',
+      isVerified: p.authorVerified ?? false,
+    }));
   });
   mainPlayerBorderRadius = computed(() =>
     this.mode() === ViewMode.Theater ? '0px' : '12px',
@@ -195,6 +197,9 @@ export class VideoDetailsComponent
     super();
     this.dispatchActionFromSignal(this.getVideoInfo);
     this.videoInfo = this.selectSignal(selectDetailsPageVideoInfo);
+    this.recommendedVideosInfo = this.selectSignal(
+      selectDetailsPageRecommendedVideosInfo,
+    );
     effect(() => {
       this.titleService.setTitle(this.videoInfo()?.title ?? 'Angular Youtube');
     });

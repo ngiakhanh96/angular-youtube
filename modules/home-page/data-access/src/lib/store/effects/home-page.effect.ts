@@ -33,8 +33,8 @@ export class HomePageEffects extends BaseEffects {
               action.nextPage ? homePageState.videos?.nextPageToken : undefined,
             )
       ).pipe(
-        switchMap((videosWithMetaData) => {
-          return combineLatest([
+        switchMap((videosWithMetaData) =>
+          combineLatest([
             this.youtubeService.getChannelsInfo(
               videosWithMetaData.items.map((p) => p.snippet.channelId),
               action.itemPerPage,
@@ -55,8 +55,8 @@ export class HomePageEffects extends BaseEffects {
               const [channelsInfo, ...videosInfo] = channelsAndVideosInfo;
               return [videosWithMetaData, channelsInfo, ...videosInfo] as const;
             }),
-          );
-        }),
+          ),
+        ),
         map(([videosWithMetaData, channelsInfo, ...videosInfo]) => {
           const channelsInfoMap: Record<string, IChannelItem> = {};
           channelsInfo.items.forEach((p) => (channelsInfoMap[p.id] = p));
