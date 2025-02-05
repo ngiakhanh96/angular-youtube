@@ -6,8 +6,8 @@
   @apply max-h-[calc(100vh-170px)];
 }
 
-@mixin calculate-details_page_player_container-height($margin-top: 0px) {
-  @apply max-h-[calc(100vh-170px-#{$margin-top})];
+@mixin calculate-details_page_player_container-height() {
+  @apply max-h-[calc(100vh-170px-var(--details-page-container-margin-top))];
 }
 
 .details_page_container {
@@ -17,9 +17,7 @@
     @apply w-full pr-[18px];
   }
   .details_page_player_container--vertical {
-    @include calculate-details_page_player_container-height(
-      var(--details-page-container-margin-top)
-    );
+    @include calculate-details_page_player_container-height();
   }
   .details_page_info_container {
     @apply flex ml-[24px] mr-[42px] justify-center;

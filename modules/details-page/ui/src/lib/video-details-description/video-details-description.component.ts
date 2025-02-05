@@ -34,7 +34,11 @@ export class VideoDetailsDescriptionComponent {
     Utilities.publishedDateToString(this.publishedDate()),
   );
   sanitizedDescriptionHtml = computed(() =>
-    this.sanitizer.bypassSecurityTrustHtml(this.descriptionHtml() ?? ''),
+    this.sanitizer.bypassSecurityTrustHtml(
+      (this.descriptionHtml() ?? '') === ''
+        ? '<p class="text-gray-600 italic">No description has been added to this video. \n\n</p>'
+        : this.descriptionHtml()!,
+    ),
   );
   DisplayMode = DisplayMode;
   mode = signal(DisplayMode.Less);
