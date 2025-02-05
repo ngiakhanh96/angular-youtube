@@ -13,6 +13,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { SvgButtonRendererComponent } from '../svg-button-renderer/svg-button-renderer.component';
 import {
   PlaceholderImageQuality,
   YouTubePlayerPlaceholderComponent,
@@ -22,7 +23,7 @@ import {
 @Component({
   selector: 'ay-native-youtube-player',
   encapsulation: ViewEncapsulation.None,
-  imports: [YouTubePlayerPlaceholderComponent],
+  imports: [YouTubePlayerPlaceholderComponent, SvgButtonRendererComponent],
   templateUrl: './native-youtube-player.component.html',
   styleUrls: ['./native-youtube-player.component.scss'],
   host: {
@@ -97,7 +98,6 @@ export class NativeYouTubePlayerComponent {
   }
 
   playVideo() {
-    // Ensure the video is loaded
     this.videoPlayer()
       .play()
       .then((_) => {

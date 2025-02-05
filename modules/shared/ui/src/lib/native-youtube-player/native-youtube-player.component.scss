@@ -1,6 +1,30 @@
 .player {
-  @apply w-full h-full;
+  @apply w-full h-full relative;
   video {
     @apply w-full h-full rounded-[var(--border-radius)] bg-[var(--black-color)];
+  }
+
+  .player_bottom {
+    @apply absolute w-full flex flex-col bottom-[0px];
+    .player_bottom_progress-bar-container {
+      @apply ml-[12px] mr-[12px] h-[5px] bg-[rgba(255,255,255,.2)];
+    }
+    .player_bottom_buttons-container {
+      @apply pl-[12px] pr-[12px] h-[48px] flex justify-between bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.6)];
+      .player_bottom_buttons-left {
+        @apply flex;
+      }
+
+      .player_bottom_buttons-right {
+        @apply flex;
+      }
+
+      .player_bottom_button {
+        @apply w-[48px] flex items-center justify-center;
+        ay-svg-button-renderer {
+          @apply h-[42px];
+        }
+      }
+    }
   }
 }

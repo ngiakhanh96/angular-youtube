@@ -65,4 +65,5 @@ export class SvgButtonRendererComponent {
   public radius = input<number>(20);
   public opacity = input<number>(1);
   public fillRule = input<string>('nonZero');
+  public fill = input('currentColor');
 }
