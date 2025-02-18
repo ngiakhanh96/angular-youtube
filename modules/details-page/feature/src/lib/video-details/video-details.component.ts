@@ -18,8 +18,8 @@ import {
   IVideoPlayerCardInfo,
   NativeYouTubePlayerComponent,
   SidebarService,
-  TextIconButtonComponent,
   Utilities,
+  ViewMode,
 } from '@angular-youtube/shared-ui';
 import { DOCUMENT } from '@angular/common';
 import {
@@ -37,11 +37,6 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
-export enum ViewMode {
-  Default,
-  Theater,
-}
-
 @Component({
   selector: 'ay-video-details',
   templateUrl: './video-details.component.html',
@@ -49,7 +44,6 @@ export enum ViewMode {
   imports: [
     NativeYouTubePlayerComponent,
     VideoDetailsInfoComponent,
-    TextIconButtonComponent,
     VideosRecommendationInfoComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -83,7 +77,7 @@ export class VideoDetailsComponent
     return undefined;
   });
 
-  mode = signal(ViewMode.Theater);
+  viewMode = signal(ViewMode.Theater);
   mainPlayer = viewChild.required<NativeYouTubePlayerComponent>(
     NativeYouTubePlayerComponent,
   );
@@ -136,10 +130,10 @@ export class VideoDetailsComponent
     }));
   });
   mainPlayerBorderRadius = computed(() =>
-    this.mode() === ViewMode.Theater ? '0px' : '12px',
+    this.viewMode() === ViewMode.Theater ? '0px' : '12px',
   );
   marginTop = computed(() =>
-    this.mode() === ViewMode.Theater ? '0px' : '24px',
+    this.viewMode() === ViewMode.Theater ? '0px' : '24px',
   );
   document = inject(DOCUMENT);
   //TODO Need to find an api to get this
@@ -220,20 +214,19 @@ export class VideoDetailsComponent
     this.mainPlayer().toggleVideo();
   }
 
-  onClickMode() {
+  onViewModeChange(viewMode: ViewMode) {
     const video = this.videoElement().nativeElement;
     const theaterContainer = this.theaterModeContainerElement().nativeElement;
     const defaultContainer = this.defaultModeContainerElement().nativeElement;
-    if (this.mode() === ViewMode.Theater) {
+    if (viewMode === ViewMode.Default) {
       const adoptedVideo = this.document.adoptNode(video);
       defaultContainer?.appendChild(adoptedVideo);
-      this.mode.set(ViewMode.Default);
       this.videoRecommendationMarginTop.set('0px');
     } else {
       const adoptedVideo = this.document.adoptNode(video);
       theaterContainer?.appendChild(adoptedVideo);
-      this.mode.set(ViewMode.Theater);
       this.videoRecommendationMarginTop.set('24px');
     }
+    this.viewMode.set(viewMode);
   }
 }

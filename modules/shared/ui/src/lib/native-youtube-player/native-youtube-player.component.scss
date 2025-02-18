@@ -7,7 +7,7 @@
   .player_bottom {
     @apply absolute w-full flex flex-col bottom-[0px];
     .player_bottom_progress-bar-container {
-      @apply ml-[12px] mr-[12px] h-[5px] bg-[rgba(255,255,255,.2)];
+      @apply ml-[12px] mr-[12px] h-[3px] bg-[rgba(255,255,255,.2)];
     }
     .player_bottom_buttons-container {
       @apply pl-[12px] pr-[12px] h-[48px] flex justify-between bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.6)];

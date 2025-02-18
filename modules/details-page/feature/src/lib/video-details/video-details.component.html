@@ -11,6 +11,8 @@
         [autoPlay]="true"
         [disablePlaceholder]="true"
         [borderRadius]="mainPlayerBorderRadius()"
+        [viewMode]="viewMode()"
+        (viewModeChange)="onViewModeChange($event)"
         (playerClick)="onClickMainPlayer()"
       >
       </ay-native-youtube-player>
@@ -21,15 +23,6 @@
           class="details_page_player_container--vertical"
           #defaultModeContainer
         ></div>
-        <!-- TODO Remove this line when finishing video player control -->
-        <div>
-          <ay-text-icon-button
-            [displayText]="'Mode'"
-            [color]="'var(--white-color)'"
-            [backgroundColor]="'var(--black-color)'"
-            (click)="onClickMode()"
-          ></ay-text-icon-button>
-        </div>
         <ay-video-details-info
           [videoInfo]="videoDetailsInfo()"
         ></ay-video-details-info>

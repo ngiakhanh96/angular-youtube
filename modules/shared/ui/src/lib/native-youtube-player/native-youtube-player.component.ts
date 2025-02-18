@@ -9,21 +9,34 @@ import {
   booleanAttribute,
   computed,
   input,
+  model,
   output,
   signal,
   viewChild,
 } from '@angular/core';
-import { SvgButtonRendererComponent } from '../svg-button-renderer/svg-button-renderer.component';
+import {
+  SvgButtonRendererComponent,
+  SvgButtonTemplateDirective,
+} from '../svg-button-renderer/svg-button-renderer.component';
 import {
   PlaceholderImageQuality,
   YouTubePlayerPlaceholderComponent,
 } from '../youtube-player-placeholder/youtube-player-placeholder.component';
 
+export enum ViewMode {
+  Default,
+  Theater,
+}
+
 //TODO support feature unhover pause and display placeholders
 @Component({
   selector: 'ay-native-youtube-player',
   encapsulation: ViewEncapsulation.None,
-  imports: [YouTubePlayerPlaceholderComponent, SvgButtonRendererComponent],
+  imports: [
+    YouTubePlayerPlaceholderComponent,
+    SvgButtonRendererComponent,
+    SvgButtonTemplateDirective,
+  ],
   templateUrl: './native-youtube-player.component.html',
   styleUrls: ['./native-youtube-player.component.scss'],
   host: {
@@ -70,6 +83,8 @@ export class NativeYouTubePlayerComponent {
   boxShadow = input<string>('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
   isVideoPlayed = signal(false);
   autoPlay = input<boolean>(false);
+  viewMode = model<ViewMode>(ViewMode.Theater);
+  ViewMode = ViewMode;
 
   playerClick = output<HTMLMediaElement>();
   /** The element that will be replaced by the iframe. */
