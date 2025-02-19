@@ -15,8 +15,9 @@
 <div
   class="player"
   [style.display]="!isVideoPlayed() && !disablePlaceholder() ? 'none' : ''"
+  #videoPlayerContainer
 >
-  <video preload="auto" #videoContainer>
+  <video preload="auto" #videoPlayer>
     <source [src]="videoUrl()" type="video/mp4" />
   </video>
   <div class="player_bottom">
@@ -52,6 +53,7 @@
             viewBox="0 0 36 36"
             path="M 12,24 20.5,18 12,12 V 24 z M 22,12 v 12 h 2 V 12 h -2 z"
             fill="var(--white-color)"
+            (click)="nextVideo.emit(true)"
           >
           </ay-svg-button-renderer>
         </div>
@@ -103,69 +105,111 @@
           >
           </ay-svg-button-renderer>
         </div>
-        @if (viewMode() === ViewMode.Theater) {
+        @if (screenMode() === ScreenMode.Default) {
+          @if (viewMode() === ViewMode.Theater) {
+            <div class="player_bottom_button">
+              <ay-svg-button-renderer
+                ariaLabel="DefaultViewMode"
+                viewBox="0 0 36 36"
+                path="m 26,13 0,10 -16,0 0,-10 z m -14,2 12,0 0,6 -12,0 0,-6 z"
+                fill="white"
+                fillRule="evenodd"
+                (click)="viewMode.set(ViewMode.Default)"
+              >
+              </ay-svg-button-renderer>
+            </div>
+          } @else {
+            <div class="player_bottom_button">
+              <ay-svg-button-renderer
+                ariaLabel="TheaterViewMode"
+                viewBox="0 0 36 36"
+                path="m 28,11 0,14 -20,0 0,-14 z m -18,2 16,0 0,10 -16,0 0,-10 z"
+                fill="white"
+                fillRule="evenodd"
+                (click)="viewMode.set(ViewMode.Theater)"
+              >
+              </ay-svg-button-renderer>
+            </div>
+          }
+        }
+
+        @if (screenMode() === ScreenMode.Default) {
           <div class="player_bottom_button">
-            <ay-svg-button-renderer
-              ariaLabel="DefaultViewMode"
-              viewBox="0 0 36 36"
-              path="m 26,13 0,10 -16,0 0,-10 z m -14,2 12,0 0,6 -12,0 0,-6 z"
-              fill="white"
-              fillRule="evenodd"
-              (click)="viewMode.set(ViewMode.Default)"
-            >
+            <ay-svg-button-renderer (click)="toggleFullScreen()">
+              <ng-template aySvgButtonTmp>
+                <svg
+                  viewBox="0 0 36 36"
+                  preserveAspectRatio="xMidYMid meet"
+                  focusable="false"
+                  class="pointer-events-none block w-[42px]"
+                >
+                  <g class="ytp-fullscreen-button-corner-0">
+                    <path
+                      d="m 10,16 2,0 0,-4 4,0 0,-2 L 10,10 l 0,6 0,0 z"
+                      [style.fill]="'white'"
+                    ></path>
+                  </g>
+                  <g class="ytp-fullscreen-button-corner-1">
+                    <path
+                      d="m 20,10 0,2 4,0 0,4 2,0 L 26,10 l -6,0 0,0 z"
+                      [style.fill]="'white'"
+                    ></path>
+                  </g>
+                  <g class="ytp-fullscreen-button-corner-2">
+                    <path
+                      d="m 24,24 -4,0 0,2 L 26,26 l 0,-6 -2,0 0,4 0,0 z"
+                      [style.fill]="'white'"
+                    ></path>
+                  </g>
+                  <g class="ytp-fullscreen-button-corner-3">
+                    <path
+                      d="M 12,20 10,20 10,26 l 6,0 0,-2 -4,0 0,-4 0,0 z"
+                      [style.fill]="'white'"
+                    ></path>
+                  </g>
+                </svg>
+              </ng-template>
             </ay-svg-button-renderer>
           </div>
         } @else {
           <div class="player_bottom_button">
-            <ay-svg-button-renderer
-              ariaLabel="TheaterViewMode"
-              viewBox="0 0 36 36"
-              path="m 28,11 0,14 -20,0 0,-14 z m -18,2 16,0 0,10 -16,0 0,-10 z"
-              fill="white"
-              fillRule="evenodd"
-              (click)="viewMode.set(ViewMode.Theater)"
-            >
+            <ay-svg-button-renderer (click)="toggleFullScreen()">
+              <ng-template aySvgButtonTmp>
+                <svg
+                  viewBox="0 0 36 36"
+                  preserveAspectRatio="xMidYMid meet"
+                  focusable="false"
+                  class="pointer-events-none block w-[42px]"
+                >
+                  <g class="ytp-fullscreen-button-corner-0">
+                    <path
+                      d="m 14,14 -4,0 0,2 6,0 0,-6 -2,0 0,4 0,0 z"
+                      [style.fill]="'white'"
+                    ></path>
+                  </g>
+                  <g class="ytp-fullscreen-button-corner-1">
+                    <path
+                      d="m 22,14 0,-4 -2,0 0,6 6,0 0,-2 -4,0 0,0 z"
+                      [style.fill]="'white'"
+                    ></path>
+                  </g>
+                  <g class="ytp-fullscreen-button-corner-2">
+                    <path
+                      d="m 20,26 2,0 0,-4 4,0 0,-2 -6,0 0,6 0,0 z"
+                      [style.fill]="'white'"
+                    ></path>
+                  </g>
+                  <g class="ytp-fullscreen-button-corner-3">
+                    <path
+                      d="m 10,22 4,0 0,4 2,0 0,-6 -6,0 0,2 0,0 z"
+                      [style.fill]="'white'"
+                    ></path>
+                  </g>
+                </svg>
+              </ng-template>
             </ay-svg-button-renderer>
           </div>
         }
-        <!-- TODO Update this to display screen mode button correctly -->
-        <div class="player_bottom_button">
-          <ay-svg-button-renderer>
-            <ng-template aySvgButtonTmp>
-              <svg
-                viewBox="0 0 36 36"
-                preserveAspectRatio="xMidYMid meet"
-                focusable="false"
-                class="pointer-events-none block w-[42px]"
-              >
-                <g class="ytp-fullscreen-button-corner-0">
-                  <path
-                    d="m 10,16 2,0 0,-4 4,0 0,-2 L 10,10 l 0,6 0,0 z"
-                    [style.fill]="'white'"
-                  ></path>
-                </g>
-                <g class="ytp-fullscreen-button-corner-1">
-                  <path
-                    d="m 20,10 0,2 4,0 0,4 2,0 L 26,10 l -6,0 0,0 z"
-                    [style.fill]="'white'"
-                  ></path>
-                </g>
-                <g class="ytp-fullscreen-button-corner-2">
-                  <path
-                    d="m 24,24 -4,0 0,2 L 26,26 l 0,-6 -2,0 0,4 0,0 z"
-                    [style.fill]="'white'"
-                  ></path>
-                </g>
-                <g class="ytp-fullscreen-button-corner-3">
-                  <path
-                    d="M 12,20 10,20 10,26 l 6,0 0,-2 -4,0 0,-4 0,0 z"
-                    [style.fill]="'white'"
-                  ></path>
-                </g>
-              </svg>
-            </ng-template>
-          </ay-svg-button-renderer>
-        </div>
       </div>
     </div>
   </div>

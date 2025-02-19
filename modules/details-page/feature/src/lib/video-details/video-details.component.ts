@@ -36,6 +36,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ay-video-details',
@@ -59,6 +60,7 @@ export class VideoDetailsComponent
   implements OnInit, OnDestroy
 {
   titleService = inject(Title);
+  router = inject(Router);
   sidebarService = inject(SidebarService);
   videoId = signal('');
   videoRecommendationMarginTop = signal('24px');
@@ -228,5 +230,15 @@ export class VideoDetailsComponent
       this.videoRecommendationMarginTop.set('24px');
     }
     this.viewMode.set(viewMode);
+  }
+
+  onNextVideo() {
+    if (this.recommendedVideos()[0]?.videoId) {
+      this.router.navigate(['watch'], {
+        queryParams: {
+          v: this.recommendedVideos()[0].videoId,
+        },
+      });
+    }
   }
 }

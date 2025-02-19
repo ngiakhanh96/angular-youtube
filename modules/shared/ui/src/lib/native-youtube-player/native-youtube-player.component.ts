@@ -1,4 +1,5 @@
 /// <reference types="youtube" />
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,6 +9,7 @@ import {
   afterRenderEffect,
   booleanAttribute,
   computed,
+  inject,
   input,
   model,
   output,
@@ -26,6 +28,11 @@ import {
 export enum ViewMode {
   Default,
   Theater,
+}
+
+export enum ScreenMode {
+  Default,
+  Full,
 }
 
 //TODO support feature unhover pause and display placeholders
@@ -74,10 +81,14 @@ export class NativeYouTubePlayerComponent {
    */
   placeholderImageQuality = input<PlaceholderImageQuality>('standard');
 
-  videoContainer =
-    viewChild.required<ElementRef<HTMLMediaElement>>('videoContainer');
+  videoPlayerRef =
+    viewChild.required<ElementRef<HTMLMediaElement>>('videoPlayer');
 
-  videoPlayer = computed(() => this.videoContainer().nativeElement);
+  videoPlayerContainerRef = viewChild.required<ElementRef<HTMLDivElement>>(
+    'videoPlayerContainer',
+  );
+
+  videoPlayer = computed(() => this.videoPlayerRef().nativeElement);
 
   showPlayButton = input(false);
   boxShadow = input<string>('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
@@ -85,9 +96,13 @@ export class NativeYouTubePlayerComponent {
   autoPlay = input<boolean>(false);
   viewMode = model<ViewMode>(ViewMode.Theater);
   ViewMode = ViewMode;
-
+  screenMode = signal<ScreenMode>(ScreenMode.Default);
+  ScreenMode = ScreenMode;
   playerClick = output<HTMLMediaElement>();
+  nextVideo = output<boolean>();
   /** The element that will be replaced by the iframe. */
+  private readonly document = inject(DOCUMENT);
+
   constructor() {
     afterNextRender({
       read: () => {
@@ -136,6 +151,19 @@ export class NativeYouTubePlayerComponent {
       this.pauseVideo();
     } else {
       this.playVideo();
+    }
+  }
+
+  toggleFullScreen() {
+    if (this.document.fullscreenElement) {
+      this.document.exitFullscreen().then(() => {
+        this.screenMode.set(ScreenMode.Default);
+      });
+    } else {
+      const element = this.videoPlayerContainerRef().nativeElement;
+      element.requestFullscreen().then(() => {
+        this.screenMode.set(ScreenMode.Full);
+      });
     }
   }
 }
