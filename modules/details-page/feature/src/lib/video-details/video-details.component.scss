@@ -2,10 +2,6 @@
   @apply block w-full h-full;
 }
 
-@mixin replace-text() {
-  @apply max-h-[calc(100vh-170px)];
-}
-
 @mixin calculate-details_page_player_container-height() {
   @apply max-h-[calc(100vh-170px-var(--details-page-container-margin-top))];
 }

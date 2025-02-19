@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  HostListener,
   ViewEncapsulation,
   afterNextRender,
   afterRenderEffect,
@@ -98,10 +99,24 @@ export class NativeYouTubePlayerComponent {
   ViewMode = ViewMode;
   screenMode = signal<ScreenMode>(ScreenMode.Default);
   ScreenMode = ScreenMode;
+  autoNext = signal(true);
+
   playerClick = output<HTMLMediaElement>();
   nextVideo = output<boolean>();
   /** The element that will be replaced by the iframe. */
   private readonly document = inject(DOCUMENT);
+
+  @HostListener('document:fullscreenchange')
+  @HostListener('document:webkitfullscreenchange')
+  @HostListener('document:mozfullscreenchange')
+  @HostListener('document:MSFullscreenChange')
+  onFullScreenChange() {
+    if (!this.document.fullscreenElement) {
+      this.screenMode.set(ScreenMode.Default);
+    } else {
+      this.screenMode.set(ScreenMode.Full);
+    }
+  }
 
   constructor() {
     afterNextRender({
@@ -156,14 +171,14 @@ export class NativeYouTubePlayerComponent {
 
   toggleFullScreen() {
     if (this.document.fullscreenElement) {
-      this.document.exitFullscreen().then(() => {
-        this.screenMode.set(ScreenMode.Default);
-      });
+      this.document.exitFullscreen();
     } else {
       const element = this.videoPlayerContainerRef().nativeElement;
-      element.requestFullscreen().then(() => {
-        this.screenMode.set(ScreenMode.Full);
-      });
+      element.requestFullscreen();
     }
+  }
+
+  toggleAutoNext() {
+    this.autoNext.update((v) => !v);
   }
 }
