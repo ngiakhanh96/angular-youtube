@@ -206,6 +206,7 @@ export class VideoDetailsComponent
       this.videoId.set(params['v']);
     });
     this.sidebarService.setMiniSidebarState(false);
+    this.sidebarService.setState(false);
   }
 
   ngOnDestroy(): void {
