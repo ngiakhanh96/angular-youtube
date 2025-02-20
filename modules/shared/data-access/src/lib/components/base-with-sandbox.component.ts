@@ -13,7 +13,9 @@ export abstract class BaseWithSandBoxComponent {
   protected untilDestroyed = takeUntilDestroyed();
   protected injector = inject(Injector);
   protected get queryParamsSignal() {
-    return toSignal(this.activatedRoute.queryParams);
+    return toSignal(this.activatedRoute.queryParams, {
+      injector: this.injector,
+    });
   }
   protected selectSignal<T>(selector: MemoizedSelector<object, T>) {
     return toSignal(this.sandbox.store.pipe(select(selector)), {
