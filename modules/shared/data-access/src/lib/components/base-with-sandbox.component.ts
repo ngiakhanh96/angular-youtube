@@ -11,11 +11,14 @@ export abstract class BaseWithSandBoxComponent {
   private sandbox = inject(SandboxService);
   protected activatedRoute = inject(ActivatedRoute);
   protected untilDestroyed = takeUntilDestroyed();
+  protected injector = inject(Injector);
   protected get queryParamsSignal() {
     return toSignal(this.activatedRoute.queryParams);
   }
   protected selectSignal<T>(selector: MemoizedSelector<object, T>) {
-    return toSignal(this.sandbox.store.pipe(select(selector))) as Signal<T>;
+    return toSignal(this.sandbox.store.pipe(select(selector)), {
+      injector: this.injector,
+    }) as Signal<T>;
   }
   protected dispatchAction(action: Action, successfulCallBack?: () => void) {
     setTimeout(() => {

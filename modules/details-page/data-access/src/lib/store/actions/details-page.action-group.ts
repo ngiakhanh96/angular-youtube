@@ -1,5 +1,5 @@
 import { IInvidiousVideoInfo } from '@angular-youtube/shared-data-access';
-import { createActionGroup, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 export const detailsPageActionGroup = createActionGroup({
   source: 'HomePage',
   events: {
@@ -10,5 +10,6 @@ export const detailsPageActionGroup = createActionGroup({
       videoInfo: IInvidiousVideoInfo;
       recommendedVideosInfo: IInvidiousVideoInfo[];
     }>(),
+    reset: emptyProps(),
   },
 });

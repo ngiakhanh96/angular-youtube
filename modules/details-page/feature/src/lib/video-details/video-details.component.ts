@@ -210,6 +210,7 @@ export class VideoDetailsComponent
 
   ngOnDestroy(): void {
     this.sidebarService.setMiniSidebarState(true);
+    this.dispatchAction(detailsPageActionGroup.reset());
   }
 
   onClickMainPlayer() {

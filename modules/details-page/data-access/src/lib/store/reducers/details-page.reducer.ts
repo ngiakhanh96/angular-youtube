@@ -23,6 +23,7 @@ const reducer = createReducer(
       recommendedVideosInfo: recommendedVideosInfo,
     }),
   ),
+  on(detailsPageActionGroup.reset, () => initialDetailsPageState),
 );
 
 export const {
