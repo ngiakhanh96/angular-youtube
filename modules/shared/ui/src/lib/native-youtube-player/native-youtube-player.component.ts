@@ -95,6 +95,7 @@ export class NativeYouTubePlayerComponent {
   boxShadow = input<string>('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
   isVideoPlayed = signal(false);
   autoPlay = input<boolean>(false);
+  mini = input<boolean>(true);
   viewMode = model<ViewMode>(ViewMode.Theater);
   ViewMode = ViewMode;
   screenMode = signal<ScreenMode>(ScreenMode.Default);
