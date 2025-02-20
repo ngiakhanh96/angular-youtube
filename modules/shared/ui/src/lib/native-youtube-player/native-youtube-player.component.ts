@@ -1,4 +1,3 @@
-/// <reference types="youtube" />
 import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -15,6 +14,7 @@ import {
   model,
   output,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import {
@@ -100,6 +100,7 @@ export class NativeYouTubePlayerComponent {
   screenMode = signal<ScreenMode>(ScreenMode.Default);
   ScreenMode = ScreenMode;
   autoNext = signal(true);
+  isMuted = model(false);
 
   playerClick = output<HTMLMediaElement>();
   nextVideo = output<boolean>();
@@ -131,12 +132,12 @@ export class NativeYouTubePlayerComponent {
       read: () => {
         const videoUrl = this.videoUrl();
         this.videoPlayer()?.load();
-        if (!this.autoPlay()) {
-          this.videoPlayer().muted = true;
-        } else {
-          //TODO remove this when finish details page
-          this.videoPlayer().muted = true;
+        if (this.autoPlay()) {
           this.playVideo();
+          this.videoPlayer().muted = untracked(() => this.isMuted());
+        } else {
+          this.videoPlayer().muted = true;
+          this.isMuted.set(true);
         }
       },
     });
@@ -169,7 +170,7 @@ export class NativeYouTubePlayerComponent {
     }
   }
 
-  toggleFullScreen() {
+  toggleScreenMode() {
     if (this.document.fullscreenElement) {
       this.document.exitFullscreen();
     } else {
@@ -180,5 +181,16 @@ export class NativeYouTubePlayerComponent {
 
   toggleAutoNext() {
     this.autoNext.update((v) => !v);
+  }
+
+  toggleMute() {
+    this.isMuted.update((v) => !v);
+    this.videoPlayer().muted = this.isMuted();
+  }
+
+  toggleViewMode() {
+    this.viewMode.update((v) =>
+      v === ViewMode.Default ? ViewMode.Theater : ViewMode.Default,
+    );
   }
 }
