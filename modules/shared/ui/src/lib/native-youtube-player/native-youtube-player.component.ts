@@ -102,6 +102,12 @@ export class NativeYouTubePlayerComponent {
   ScreenMode = ScreenMode;
   autoNext = signal(true);
   isMuted = model(false);
+  isHovered = signal(false);
+  playerButtonsVisibility = computed(() =>
+    !this.mini() && (this.isHovered() || !this.isVideoPlayed())
+      ? 'visible'
+      : 'hidden',
+  );
 
   playerClick = output<HTMLMediaElement>();
   nextVideo = output<boolean>();
