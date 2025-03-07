@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action, ActionCreator, Creator, Store } from '@ngrx/store';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, OperatorFunction, switchMap } from 'rxjs';
 import { HttpResponseStatus } from '../../../models/http-response/http-response.model';
 import { IBaseState } from '../../../models/state.model';
 import { ActionForSuccessfulResponse } from '../actions/base.action-group';
@@ -87,6 +87,17 @@ export abstract class BaseEffects {
           ];
         }),
       ),
+    );
+  }
+
+  protected createEffect<
+    TActionCreator extends ActionCreator<string, Creator<any[], Action>>,
+  >(
+    requestActionCreator: TActionCreator,
+    operator: OperatorFunction<ReturnType<TActionCreator>, Action>,
+  ) {
+    return createEffect(() =>
+      this.actions$.pipe(ofType(requestActionCreator), operator),
     );
   }
 }

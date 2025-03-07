@@ -9,7 +9,6 @@ import {
 } from '@angular-youtube/shared-data-access';
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { createEffect, ofType } from '@ngrx/effects';
 import { select } from '@ngrx/store';
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 import { homePageActionGroup } from '../actions/home-page.action-group';
@@ -94,13 +93,11 @@ export class HomePageEffects extends BaseEffects {
     },
   );
 
-  updateAccessTokenSuccess$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(sharedActionGroup.updateAccessTokenSuccess),
-      map((_) => {
-        return homePageActionGroup.loadMyChannelInfo();
-      }),
-    ),
+  updateAccessTokenSuccess$ = this.createEffect(
+    sharedActionGroup.updateAccessTokenSuccess,
+    map(() => {
+      return homePageActionGroup.loadMyChannelInfo();
+    }),
   );
 
   loadMyChannelInfo$ = this.createHttpEffectAndUpdateResponse(
