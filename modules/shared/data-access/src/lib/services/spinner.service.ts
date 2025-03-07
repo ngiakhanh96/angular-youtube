@@ -5,18 +5,18 @@ import { computed, Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class SpinnerService {
-  private internalLoading = signal(false);
-  loading = computed(() => this.internalLoading());
+  private internalIsLoading = signal(false);
+  isLoading = computed(() => this.internalIsLoading());
 
   loadingOn() {
-    this.internalLoading.set(true);
+    this.internalIsLoading.set(true);
   }
 
   loadingOff() {
-    this.internalLoading.set(false);
+    this.internalIsLoading.set(false);
   }
 
   toggle() {
-    this.internalLoading.update((v) => !v);
+    this.internalIsLoading.update((v) => !v);
   }
 }
