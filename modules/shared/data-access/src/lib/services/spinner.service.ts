@@ -1,20 +1,22 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { computed, Injectable, signal } from '@angular/core';
 
 // TODO bring this to store
 @Injectable({
   providedIn: 'root',
 })
 export class SpinnerService {
-  private loadingSubject = new BehaviorSubject<boolean>(false);
-
-  loading$ = this.loadingSubject.asObservable();
+  private internalLoading = signal(false);
+  loading = computed(() => this.internalLoading());
 
   loadingOn() {
-    this.loadingSubject.next(true);
+    this.internalLoading.set(true);
   }
 
   loadingOff() {
-    this.loadingSubject.next(false);
+    this.internalLoading.set(false);
+  }
+
+  toggle() {
+    this.internalLoading.update((v) => !v);
   }
 }

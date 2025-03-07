@@ -1,5 +1,4 @@
 import { SpinnerService } from '@angular-youtube/shared-data-access';
-import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,14 +19,13 @@ import { tap } from 'rxjs';
   selector: 'ay-spinner',
   templateUrl: './spinner.component.html',
   styleUrls: ['./spinner.component.scss'],
-  imports: [MatProgressSpinnerModule, AsyncPipe, RouterModule],
+  imports: [MatProgressSpinnerModule, RouterModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpinnerComponent implements OnInit {
   detectRouteTransitions = input(false);
   spinnerService = inject(SpinnerService);
   router = inject(Router);
-  loading$ = this.spinnerService.loading$;
 
   ngOnInit() {
     if (this.detectRouteTransitions()) {
