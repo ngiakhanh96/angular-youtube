@@ -9,8 +9,8 @@ import {
 } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
-  RouteConfigLoadEnd,
-  RouteConfigLoadStart,
+  NavigationEnd,
+  NavigationStart,
   Router,
   RouterModule,
 } from '@angular/router';
@@ -34,9 +34,9 @@ export class SpinnerComponent implements OnInit {
       this.router.events
         .pipe(
           tap((event) => {
-            if (event instanceof RouteConfigLoadStart) {
+            if (event instanceof NavigationStart) {
               this.spinnerService.loadingOn();
-            } else if (event instanceof RouteConfigLoadEnd) {
+            } else if (event instanceof NavigationEnd) {
               this.spinnerService.loadingOff();
             }
           }),

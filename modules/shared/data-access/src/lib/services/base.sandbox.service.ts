@@ -46,7 +46,7 @@ export class SandboxService implements OnDestroy {
           this.spinnerService.loadingOff();
         }
       }),
-    );
+  );
   }
 
   getResponseDetailsSelector(action: Action) {
