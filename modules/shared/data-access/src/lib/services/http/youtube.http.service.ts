@@ -7,6 +7,7 @@ import { IYoutubeChannelsInfo } from '../../models/http-response/channels-info.m
 import { IMyChannelInfo } from '../../models/http-response/my-channel-info.model';
 import { IPopularYoutubeVideos } from '../../models/http-response/popular-youtube-videos.model';
 import { IVideoCategories } from '../../models/http-response/video-categories-model';
+import { AppSettingsService } from '../app-settings.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +15,11 @@ import { IVideoCategories } from '../../models/http-response/video-categories-mo
 export class YoutubeHttpService {
   private apiKey = inject(YoutubeApiKey);
   private httpClient = inject(HttpClient);
-  //TODO should move to appconfig
-  private youtubeBaseUrl = 'https://youtube.googleapis.com/youtube/v3/';
+  private appSettingsService = inject(AppSettingsService);
+  private baseUrl = this.appSettingsService.appConfig()?.youtubeApiBaseUrl;
 
   getVideoCategories() {
-    const url = `${this.youtubeBaseUrl}videoCategories`;
+    const url = `${this.baseUrl}videoCategories`;
     const params = new HttpParams({
       fromObject: {
         part: ['snippet'],
@@ -38,7 +39,7 @@ export class YoutubeHttpService {
     videoCategoryId?: number,
     pageToken?: string,
   ): Observable<IPopularYoutubeVideos> {
-    const url = `${this.youtubeBaseUrl}videos`;
+    const url = `${this.baseUrl}videos`;
     let params = new HttpParams({
       fromObject: {
         part: ['snippet,contentDetails,statistics'],
@@ -62,7 +63,7 @@ export class YoutubeHttpService {
   }
 
   getChannelsInfo(channelIds: string[], maxResults = 20, pageToken?: string) {
-    const url = `${this.youtubeBaseUrl}channels`;
+    const url = `${this.baseUrl}channels`;
     let params = new HttpParams({
       fromObject: {
         part: ['snippet,contentDetails,statistics'],
@@ -81,7 +82,7 @@ export class YoutubeHttpService {
   }
 
   getMyChannelInfo() {
-    const url = `${this.youtubeBaseUrl}channels`;
+    const url = `${this.baseUrl}channels`;
     const params = new HttpParams({
       fromObject: {
         part: ['snippet,contentDetails,statistics'],

@@ -2,17 +2,18 @@ import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AUTHORIZED } from '../../http-context-tokens/authorized.http-context-token';
 import { IAccessTokenInfo } from '../../models/http-response/auth.model';
+import { AppSettingsService } from '../app-settings.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthHttpService {
   private httpClient = inject(HttpClient);
-  //TODO should move to appconfig
-  private authBaseUrl = 'https://www.googleapis.com/oauth2/v1/';
+  private appSettingsService = inject(AppSettingsService);
+  private baseUrl = this.appSettingsService.appConfig()?.googleAuthApiBaseUrl;
 
   getAccessTokenInfo(accessToken: string) {
-    const url = `${this.authBaseUrl}tokeninfo`;
+    const url = `${this.baseUrl}tokeninfo`;
     const params = new HttpParams({
       fromObject: {
         access_token: accessToken,

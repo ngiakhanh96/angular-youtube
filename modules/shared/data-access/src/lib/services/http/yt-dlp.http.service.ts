@@ -3,14 +3,15 @@ import { inject, Injectable } from '@angular/core';
 import { AUTHORIZED } from '../../http-context-tokens/authorized.http-context-token';
 import { IYtDlpVideosRequest } from '../../models/http-request/yt-dlp-videos.request.model';
 import { IYtDlpVideosResponse } from '../../models/http-response/yt-dlp-videos.response.model';
+import { AppSettingsService } from '../app-settings.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class YtDlpHttpService {
   private httpClient = inject(HttpClient);
-  //TODO should move to appconfig
-  private baseUrl = 'https://localhost:7575/api/v1/';
+  private appSettingsService = inject(AppSettingsService);
+  private baseUrl = this.appSettingsService.appConfig()?.ytDlpApiBaseUrl;
 
   getVideosInfo(request: IYtDlpVideosRequest) {
     const url = `${this.baseUrl}videos`;

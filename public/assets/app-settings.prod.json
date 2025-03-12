@@ -1,0 +1,6 @@
+{
+  "googleAuthApiBaseUrl": "https://www.googleapis.com/oauth2/v1/",
+  "invidiousApiBaseUrl": "https://inv.nadeko.net/api/v1/",
+  "youtubeApiBaseUrl": "https://youtube.googleapis.com/youtube/v3/",
+  "ytDlpApiBaseUrl": "https://localhost:7575/api/v1/"
+}

@@ -2,14 +2,15 @@ import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AUTHORIZED } from '../../http-context-tokens/authorized.http-context-token';
 import { IInvidiousVideoInfo } from '../../models/http-response/invidious-video-info.model';
+import { AppSettingsService } from '../app-settings.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InvidiousHttpService {
   private httpClient = inject(HttpClient);
-  //TODO should move to appconfig
-  private baseUrl = 'http://localhost:3000/api/v1/';
+  private appSettingsService = inject(AppSettingsService);
+  private baseUrl = this.appSettingsService.appConfig()?.invidiousApiBaseUrl;
 
   getVideoInfo(videoId: string) {
     const url = `${this.baseUrl}videos/${videoId}`;

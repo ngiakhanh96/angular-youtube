@@ -30,6 +30,7 @@ import {
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { AppSettingsService } from './../../modules/shared/data-access/src/lib/services/app-settings.service';
 import { mainRoutes } from './routes';
 
 export const appConfig: ApplicationConfig = {
@@ -82,20 +83,19 @@ export const appConfig: ApplicationConfig = {
       provide: YoutubeApiKey,
       useValue: 'AIzaSyCn5erIAtKzaNiuh-5IJgnorW7yOEH5gyE',
     },
-    provideAppInitializer(() => {
-      const initializerFn = (
-        (iconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) => () => {
-          const defaultFontSetClasses = iconRegistry.getDefaultFontSetClass();
-          const outlinedFontSetClasses = defaultFontSetClasses
-            .filter((fontSetClass) => fontSetClass !== 'material-icons')
-            .concat(['material-symbols-outlined']);
-          iconRegistry.setDefaultFontSetClass(...outlinedFontSetClasses);
-          iconRegistry.addSvgIconSet(
-            domSanitizer.bypassSecurityTrustResourceUrl('assets/icons.svg'),
-          );
-        }
-      )(inject(MatIconRegistry), inject(DomSanitizer));
-      return initializerFn();
+    provideAppInitializer(async () => {
+      const iconRegistry = inject(MatIconRegistry);
+      const domSanitizer = inject(DomSanitizer);
+      const appSettingsService = inject(AppSettingsService);
+      const defaultFontSetClasses = iconRegistry.getDefaultFontSetClass();
+      const outlinedFontSetClasses = defaultFontSetClasses
+        .filter((fontSetClass) => fontSetClass !== 'material-icons')
+        .concat(['material-symbols-outlined']);
+      iconRegistry.setDefaultFontSetClass(...outlinedFontSetClasses);
+      iconRegistry.addSvgIconSet(
+        domSanitizer.bypassSecurityTrustResourceUrl('assets/icons.svg'),
+      );
+      return await appSettingsService.getAppConfig();
     }),
   ],
 };

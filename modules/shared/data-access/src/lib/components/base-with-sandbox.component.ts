@@ -5,7 +5,7 @@ import { Action, MemoizedSelector, select } from '@ngrx/store';
 import { CreatorsNotAllowedCheck } from '@ngrx/store/src/models';
 import { first } from 'rxjs';
 import { HttpResponseStatus } from '../models/http-response/http-response.model';
-import { SandboxService } from '../services/base.sandbox.service';
+import { SandboxService } from '../services/sandbox.service';
 
 export abstract class BaseWithSandBoxComponent {
   private sandbox = inject(SandboxService);
