@@ -20,7 +20,7 @@
       @apply ml-[12px] mr-[12px] h-[3px] bg-[rgba(255,255,255,.2)];
     }
     .player_bottom_buttons-container {
-      @apply pl-[12px] pr-[12px] h-[48px] flex justify-between bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.6)];
+      @apply pl-[12px] pr-[12px] h-[48px] flex justify-between bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.6)] rounded-[var(--border-radius)];
       .player_bottom_buttons-left {
         @apply flex;
       }
