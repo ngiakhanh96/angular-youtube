@@ -18,6 +18,7 @@
         aria-autocomplete="list"
         dir="ltr"
         formControlName="searchQuery"
+        (keydown.enter)="onSearch($event)"
       />
       @if (this.form.valid) {
         <ay-svg-button-renderer

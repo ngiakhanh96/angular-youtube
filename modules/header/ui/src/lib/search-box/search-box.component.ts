@@ -62,7 +62,7 @@ export class SearchBoxComponent implements OnInit {
       });
   }
 
-  onSearch(event: MouseEvent) {
+  onSearch(event: Event) {
     event.preventDefault();
     if (this.form.valid) {
       this.router.navigate(['results'], {
@@ -81,7 +81,7 @@ export class SearchBoxComponent implements OnInit {
     this.searchIconLegacyBackgroundColor.set('rgb(248, 248, 248)');
   }
 
-  onClear(event: MouseEvent) {
+  onClear(event: Event) {
     event.preventDefault();
     this.form.reset();
     this.inputElement().nativeElement.focus();
