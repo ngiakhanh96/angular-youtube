@@ -3,7 +3,10 @@ import {
   SocialAuthServiceConfig,
   SocialLoginModule,
 } from '@abacritt/angularx-social-login';
-import { YoutubeApiKey } from '@angular-youtube/shared-data-access';
+import {
+  AppSettingsService,
+  YoutubeApiKey,
+} from '@angular-youtube/shared-data-access';
 import { authInterceptor } from '@angular-youtube/shell-data-access';
 import {
   provideHttpClient,
@@ -30,7 +33,6 @@ import {
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { AppSettingsService } from './../../modules/shared/data-access/src/lib/services/app-settings.service';
 import { mainRoutes } from './routes';
 
 export const appConfig: ApplicationConfig = {

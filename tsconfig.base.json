@@ -35,14 +35,14 @@
         "modules/home-page/feature/src/index.ts"
       ],
       "@angular-youtube/home-page-ui": ["modules/home-page/ui/src/index.ts"],
-      "@angular-youtube/search-feature": [
-        "modules/search/feature/src/index.ts"
+      "@angular-youtube/search-page-feature": [
+        "modules/search-page/feature/src/index.ts"
       ],
-      "@angular-youtube/search-data-access": [
-        "modules/search/data-access/src/index.ts"
+      "@angular-youtube/search-page-data-access": [
+        "modules/search-page/data-access/src/index.ts"
       ],
-      "@angular-youtube/search-ui": [
-        "modules/search/ui/src/index.ts"
+      "@angular-youtube/search-page-ui": [
+        "modules/search-page/ui/src/index.ts"
       ],
       "@angular-youtube/shared-data-access": [
         "modules/shared/data-access/src/index.ts"

@@ -1,8 +1,8 @@
 export default {
-  displayName: 'search-data-access',
+  displayName: 'search-page-data-access',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../coverage/modules/search/data-access',
+  coverageDirectory: '../../../coverage/modules/search-page/data-access',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

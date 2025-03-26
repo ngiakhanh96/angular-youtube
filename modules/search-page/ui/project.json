@@ -1,7 +1,7 @@
 {
-  "name": "search-data-access",
+  "name": "search-page-ui",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "modules/search/data-access/src",
+  "sourceRoot": "modules/search-page/ui/src",
   "prefix": "ay",
   "projectType": "library",
   "tags": [],
@@ -10,7 +10,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "modules/search/data-access/jest.config.ts"
+        "jestConfig": "modules/search-page/ui/jest.config.ts"
       }
     },
     "lint": {

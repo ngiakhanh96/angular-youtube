@@ -1,8 +1,8 @@
 export default {
-  displayName: 'search-ui',
+  displayName: 'search-page-ui',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../coverage/modules/search/ui',
+  coverageDirectory: '../../../coverage/modules/search-page/ui',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

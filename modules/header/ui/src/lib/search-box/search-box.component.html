@@ -1,5 +1,5 @@
 <form class="search-form">
-  <div class="search-box-container">
+  <div class="search-box-container" [formGroup]="form">
     <div class="search-box" slot="search-box">
       <input
         class="search-input"
@@ -16,6 +16,7 @@
         role="combobox"
         aria-autocomplete="list"
         dir="ltr"
+        formControlName="searchQuery"
       />
     </div>
   </div>
@@ -23,6 +24,7 @@
     class="search-button-container"
     (mouseenter)="mouseEnter($event)"
     (mouseleave)="mouseLeave($event)"
+    (click)="onClickSearch()"
   >
     <ay-svg-button-renderer
       class="search-icon-legacy"

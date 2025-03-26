@@ -21,6 +21,13 @@ export const SHELL_ROUTES: Routes = [
             (m) => m.DETAILS_PAGE_ROUTES,
           ),
       },
+      {
+        path: 'results',
+        loadChildren: () =>
+          import('@angular-youtube/search-page-feature').then(
+            (m) => m.SEARCH_PAGE_ROUTES,
+          ),
+      },
     ],
   },
 ];

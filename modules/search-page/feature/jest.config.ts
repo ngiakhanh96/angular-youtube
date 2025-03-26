@@ -1,8 +1,8 @@
 export default {
-  displayName: 'search-feature',
+  displayName: 'search-page-feature',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../coverage/modules/search/feature',
+  coverageDirectory: '../../../coverage/modules/search-page/feature',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
