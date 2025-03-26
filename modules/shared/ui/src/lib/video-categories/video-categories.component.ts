@@ -1,4 +1,3 @@
-import { SvgButtonRendererComponent } from '@angular-youtube/shared-ui';
 import {
   afterNextRender,
   ChangeDetectionStrategy,
@@ -10,6 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
+import { SvgButtonRendererComponent } from '../svg-button-renderer/svg-button-renderer.component';
 
 export interface IVideoCategory {
   title: string;

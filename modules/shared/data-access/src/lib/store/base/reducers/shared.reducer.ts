@@ -1,5 +1,6 @@
 import { createFeature, on } from '@ngrx/store';
 import { IAccessTokenInfo } from '../../../models/http-response/auth.model';
+import { IVideoCategories } from '../../../models/http-response/video-categories-model';
 import { IBaseState } from '../../../models/state.model';
 import { sharedActionGroup } from '../../base/actions/shared.action-group';
 import {
@@ -15,11 +16,13 @@ export interface IAccessTokenInfoState extends IAccessTokenInfo {
 
 export interface ISharedState extends IBaseState {
   accessTokenInfo: IAccessTokenInfoState | undefined;
+  videoCategories: IVideoCategories | undefined;
 }
 
 export const initialSharedState: ISharedState = {
   ...initialBaseState,
   accessTokenInfo: undefined,
+  videoCategories: undefined,
 };
 
 const reducer = createAyReducer(
@@ -32,12 +35,20 @@ const reducer = createAyReducer(
       accessTokenInfo: accessTokenInfo,
     }),
   ),
+  on(
+    sharedActionGroup.loadYoutubeVideoCategoriesSuccess,
+    (state, { videoCategories }) => ({
+      ...state,
+      videoCategories: videoCategories,
+    }),
+  ),
 );
 
 export const {
   reducer: sharedReducer,
   selectSharedState,
   selectAccessTokenInfo,
+  selectVideoCategories,
   selectHttpResponse: selectSharedHttpResponse,
 } = createFeature<string, ISharedState>({
   name: sharedStateName,

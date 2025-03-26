@@ -80,19 +80,6 @@ export class HomePageEffects extends BaseEffects {
     },
   );
 
-  loadYoutubeVideoCategories$ = this.createHttpEffectAndUpdateResponse(
-    homePageActionGroup.loadYoutubeVideoCategories,
-    () => {
-      return this.youtubeService.getVideoCategories().pipe(
-        map((videoCategories) => {
-          return homePageActionGroup.loadYoutubeVideoCategoriesSuccess({
-            videoCategories: videoCategories,
-          });
-        }),
-      );
-    },
-  );
-
   updateAccessTokenSuccess$ = this.createEffect(
     sharedActionGroup.updateAccessTokenSuccess,
     map(() => {

@@ -2,11 +2,20 @@ import { SvgButtonRendererComponent } from '@angular-youtube/shared-ui';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   inject,
+  OnInit,
   signal,
+  viewChild,
 } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'ay-search-box',
@@ -19,36 +28,62 @@ import { Router } from '@angular/router';
       'searchIconLegacyBackgroundColor()',
   },
 })
-export class SearchBoxComponent {
+export class SearchBoxComponent implements OnInit {
   searchIconLegacyBackgroundColor = signal('rgb(248, 248, 248)');
+  inputElement = viewChild.required<ElementRef>('input');
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
   form = this.formBuilder.group({
-    searchQuery: new FormControl(''),
+    searchQuery: new FormControl('', Validators.required),
   });
+
+  ngOnInit(): void {
+    this.router.events
+      .pipe(
+        filter(
+          (event) =>
+            event instanceof NavigationEnd ||
+            (<any>event).routerEvent instanceof NavigationEnd,
+        ),
+        map((event) =>
+          event instanceof NavigationEnd ? event : (<any>event).routerEvent,
+        ),
+      )
+      .subscribe((event: NavigationEnd) => {
+        const baseUrl = window.location.origin;
+        const url = new URL(event.url, baseUrl);
+        if (!url.pathname.includes('results')) {
+          this.form.reset();
+        } else {
+          this.form.controls.searchQuery.setValue(
+            url.searchParams.get('search_query'),
+          );
+        }
+      });
+  }
 
   onSearch(event: MouseEvent) {
     event.preventDefault();
-  }
-
-  mouseEnter(event: Event) {
-    this.searchIconLegacyBackgroundColor.set('rgb(240, 240, 240)');
-  }
-
-  mouseLeave(event: Event) {
-    this.searchIconLegacyBackgroundColor.set('rgb(248, 248, 248)');
-  }
-
-  onClickSearch() {
-    if (
-      this.form.value.searchQuery &&
-      this.form.value.searchQuery.trim() != ''
-    ) {
+    if (this.form.valid) {
       this.router.navigate(['results'], {
         queryParams: {
           search_query: this.form.value.searchQuery,
         },
       });
     }
+  }
+
+  mouseEnter() {
+    this.searchIconLegacyBackgroundColor.set('rgb(240, 240, 240)');
+  }
+
+  mouseLeave() {
+    this.searchIconLegacyBackgroundColor.set('rgb(248, 248, 248)');
+  }
+
+  onClear(event: MouseEvent) {
+    event.preventDefault();
+    this.form.reset();
+    this.inputElement().nativeElement.focus();
   }
 }

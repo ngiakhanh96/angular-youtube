@@ -23,6 +23,7 @@ export * from './lib/svg-button-renderer/svg-button-renderer.component';
 export * from './lib/text-icon-button/text-icon-button.component';
 export * from './lib/text-renderer/text-renderer.component';
 export * from './lib/utilities/utilities';
+export * from './lib/video-categories/video-categories.component';
 export * from './lib/video-player-card/video-player-card.component';
 export * from './lib/youtube-player-placeholder/youtube-player-placeholder.component';
 export * from './lib/youtube-player/youtube-player.component';

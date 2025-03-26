@@ -3,7 +3,6 @@ import {
   IFormatStream,
   IMyChannelInfo,
   IPopularYoutubeVideos,
-  IVideoCategories,
 } from '@angular-youtube/shared-data-access';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 export const homePageActionGroup = createActionGroup({
@@ -19,10 +18,6 @@ export const homePageActionGroup = createActionGroup({
       videos: IPopularYoutubeVideos;
       channelsInfo: Record<string, IChannelItem>;
       videosInfo: Record<string, IFormatStream>;
-    }>(),
-    loadYoutubeVideoCategories: emptyProps(),
-    loadYoutubeVideoCategoriesSuccess: props<{
-      videoCategories: IVideoCategories;
     }>(),
     loadMyChannelInfo: emptyProps(),
     loadMyChannelInfoSuccess: props<{ myChannelInfo: IMyChannelInfo }>(),

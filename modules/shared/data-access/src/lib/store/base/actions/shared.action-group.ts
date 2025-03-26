@@ -1,4 +1,5 @@
 import { emptyProps, props } from '@ngrx/store';
+import { IVideoCategories } from '../../../models/http-response/video-categories-model';
 import { createAyActionGroup } from '../../base/actions/base.action-group';
 import { IAccessTokenInfoState } from '../reducers/shared.reducer';
 
@@ -14,6 +15,10 @@ export const sharedActionGroup = createAyActionGroup({
     }>(),
     signOut: emptyProps(),
     refreshAccessToken: emptyProps(),
+    loadYoutubeVideoCategories: emptyProps(),
+    loadYoutubeVideoCategoriesSuccess: props<{
+      videoCategories: IVideoCategories;
+    }>(),
     empty: emptyProps(),
   },
 });

@@ -1,10 +1,8 @@
 import {
   IVideoCategory,
-  VideoCategoriesComponent,
-} from '@angular-youtube/home-page-ui';
-import {
   IVideoPlayerCardInfo,
   PlayerPosition,
+  VideoCategoriesComponent,
   VideoPlayerCardComponent,
 } from '@angular-youtube/shared-ui';
 import {

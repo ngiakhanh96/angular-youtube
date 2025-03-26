@@ -15,6 +15,7 @@ import {
 import { HttpResponseStatus } from '../../../models/http-response/http-response.model';
 import { IBaseState } from '../../../models/state.model';
 import { AuthHttpService } from '../../../services/http/auth.http.service';
+import { YoutubeHttpService } from '../../../services/http/youtube.http.service';
 import { SessionStorage } from '../../../services/session-storage.service';
 import { ActionForSuccessfulResponse } from '../actions/base.action-group';
 import { sharedActionGroup } from '../actions/shared.action-group';
@@ -23,6 +24,7 @@ import { BaseEffects } from './base.effect';
 export class SharedEffects extends BaseEffects {
   private sessionStorageService = inject(SessionStorage);
   private authHttpService = inject(AuthHttpService);
+  private youtubeService = inject(YoutubeHttpService);
   readonly sendingRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(sharedActionGroup.sendingRequest),
@@ -176,6 +178,19 @@ export class SharedEffects extends BaseEffects {
         catchError((err) => {
           this.sessionStorageService.removeItem('Authorization');
           return throwError(() => err);
+        }),
+      );
+    },
+  );
+
+  loadYoutubeVideoCategories$ = this.createHttpEffectAndUpdateResponse(
+    sharedActionGroup.loadYoutubeVideoCategories,
+    () => {
+      return this.youtubeService.getVideoCategories().pipe(
+        map((videoCategories) => {
+          return sharedActionGroup.loadYoutubeVideoCategoriesSuccess({
+            videoCategories: videoCategories,
+          });
         }),
       );
     },

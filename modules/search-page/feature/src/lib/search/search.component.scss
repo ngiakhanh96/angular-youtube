@@ -1,3 +1,16 @@
 :host {
-  @apply block w-full h-full;
+  @apply flex-row relative block;
+}
+
+.search_container {
+  @apply flex flex-col pl-[24px];
+  .search_video_categories {
+    @apply h-[32px] pr-[14px] mt-[12px] mb-[12px];
+  }
+  .search_video_player_grid {
+    @apply flex flex-row flex-wrap h-[calc(100vh-112px)] overflow-scroll pt-[24px] gap-x-[6px] gap-y-[34px] overflow-x-hidden;
+    .search_video_player {
+      @apply flex-grow basis-[320px];
+    }
+  }
 }

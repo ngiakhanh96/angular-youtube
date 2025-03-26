@@ -2,22 +2,22 @@ import {
   homePageActionGroup,
   selectChannelsInfo,
   selectHomePageVideos,
-  selectVideoCategories,
   selectVideosInfo,
 } from '@angular-youtube/home-page-data-access';
-import {
-  IVideoCategory,
-  VideoCategoriesComponent,
-} from '@angular-youtube/home-page-ui';
+
 import {
   BaseWithSandBoxComponent,
   IChannelItem,
   IFormatStream,
   IPopularYoutubeVideos,
   IVideoCategories,
+  selectVideoCategories,
+  sharedActionGroup,
 } from '@angular-youtube/shared-data-access';
 import {
+  IVideoCategory,
   IVideoPlayerCardInfo,
+  VideoCategoriesComponent,
   VideoPlayerCardComponent,
 } from '@angular-youtube/shared-ui';
 import {
@@ -60,7 +60,7 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
         itemPerPage: 20,
       }),
     );
-    this.dispatchAction(homePageActionGroup.loadYoutubeVideoCategories());
+    this.dispatchAction(sharedActionGroup.loadYoutubeVideoCategories());
     this.videosWithMetaData = this.selectSignal(selectHomePageVideos);
     this.channelsInfo = this.selectSignal(selectChannelsInfo);
     this.videosInfo = this.selectSignal(selectVideosInfo);

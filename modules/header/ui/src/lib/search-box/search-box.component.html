@@ -2,6 +2,7 @@
   <div class="search-box-container" [formGroup]="form">
     <div class="search-box" slot="search-box">
       <input
+        #input
         class="search-input"
         autocapitalize="none"
         autocomplete="off"
@@ -18,13 +19,23 @@
         dir="ltr"
         formControlName="searchQuery"
       />
+      @if (this.form.valid) {
+        <ay-svg-button-renderer
+          class="clear-icon"
+          viewBox="0 -4 24 32"
+          ariaLabel="Clear"
+          rippleColor="rgb(0, 0, 0, 0.1)"
+          path="m12.71 12 8.15 8.15-.71.71L12 12.71l-8.15 8.15-.71-.71L11.29 12 3.15 3.85l.71-.71L12 11.29l8.15-8.15.71.71L12.71 12z"
+          (click)="onClear($event)"
+        >
+        </ay-svg-button-renderer>
+      }
     </div>
   </div>
   <div
     class="search-button-container"
-    (mouseenter)="mouseEnter($event)"
-    (mouseleave)="mouseLeave($event)"
-    (click)="onClickSearch()"
+    (mouseenter)="mouseEnter()"
+    (mouseleave)="mouseLeave()"
   >
     <ay-svg-button-renderer
       class="search-icon-legacy"

@@ -8,13 +8,13 @@ import {
   VideoDetailsInfoComponent,
   VideosRecommendationInfoComponent,
 } from '@angular-youtube/details-page-ui';
-import { IVideoCategory } from '@angular-youtube/home-page-ui';
 import {
   BaseWithSandBoxComponent,
   IInvidiousVideoInfo,
   sharedActionGroup,
 } from '@angular-youtube/shared-data-access';
 import {
+  IVideoCategory,
   IVideoPlayerCardInfo,
   NativeYouTubePlayerComponent,
   SidebarService,

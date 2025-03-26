@@ -57,7 +57,7 @@ export class SvgButtonRendererComponent {
   public avgButtonTmp = contentChild(SvgButtonTemplateDirective, {
     read: TemplateRef,
   });
-
+  public rippleColor = input('rgb(0, 0, 0, 0.2)');
   public ariaLabel = input('');
   public viewBox = input<string | undefined>(undefined);
   public path = input('');
