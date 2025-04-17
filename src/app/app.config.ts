@@ -15,6 +15,7 @@ import {
 } from '@angular/common/http';
 import {
   ApplicationConfig,
+  ErrorHandler,
   importProvidersFrom,
   inject,
   provideAppInitializer,
@@ -33,6 +34,7 @@ import {
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { GlobalErrorHandler } from './global-error-handler';
 import { mainRoutes } from './routes';
 
 export const appConfig: ApplicationConfig = {
@@ -41,6 +43,7 @@ export const appConfig: ApplicationConfig = {
     provideEffects(),
     provideAnimations(),
     provideExperimentalZonelessChangeDetection(),
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
     {
       provide: MAT_RIPPLE_GLOBAL_OPTIONS,
       useValue: {

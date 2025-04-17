@@ -1,5 +1,5 @@
 export interface IInvidiousVideoInfo {
-  type: string;
+  type: 'video' | 'scheduled' | 'livestream';
   title: string;
   videoId: string;
   videoThumbnails: IVideoThumbnail[];

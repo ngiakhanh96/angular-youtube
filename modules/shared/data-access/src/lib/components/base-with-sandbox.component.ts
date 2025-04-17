@@ -1,47 +1,57 @@
-import { inject, Injector, Signal } from '@angular/core';
+import { DestroyRef, inject, Injector, Signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { Action, MemoizedSelector, select } from '@ngrx/store';
 import { CreatorsNotAllowedCheck } from '@ngrx/store/src/models';
-import { first } from 'rxjs';
+import { first, map } from 'rxjs';
 import { HttpResponseStatus } from '../models/http-response/http-response.model';
 import { SandboxService } from '../services/sandbox.service';
 
 export abstract class BaseWithSandBoxComponent {
   private sandbox = inject(SandboxService);
   protected activatedRoute = inject(ActivatedRoute);
-  protected untilDestroyed = takeUntilDestroyed();
   protected injector = inject(Injector);
+  protected destroyRef = inject(DestroyRef);
+
+  protected takeUntilDestroyed<T>() {
+    return takeUntilDestroyed<T>(this.destroyRef);
+  }
+
   protected get queryParamsSignal() {
     return toSignal(this.activatedRoute.queryParams, {
       injector: this.injector,
     });
   }
-  protected selectSignal<T>(selector: MemoizedSelector<object, T>) {
-    return toSignal(this.sandbox.store.pipe(select(selector)), {
-      injector: this.injector,
-    }) as Signal<T>;
+  protected selectSignal<TInput, TReturn = TInput>(
+    selector: MemoizedSelector<object, TInput>,
+    mapFn?: (value: TInput) => TReturn,
+  ) {
+    return toSignal(
+      this.sandbox.store.pipe(
+        select(selector),
+        map((value) => (mapFn ? mapFn(value) : value)),
+      ),
+      {
+        injector: this.injector,
+      },
+    ) as Signal<TReturn>;
   }
   protected dispatchAction(action: Action, successfulCallBack?: () => void) {
+    this.sandbox.dispatchAction(action);
     setTimeout(() => {
-      this.sandbox.dispatchAction(action);
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      successfulCallBack ??= () => {};
-      setTimeout(() => {
-        this.sandbox
-          .getResponseDetails(action)
-          .pipe(
-            first(
-              (details) =>
-                !details || details.status !== HttpResponseStatus.Pending,
-            ),
-          )
-          .subscribe((details) => {
-            if (!details || details.status === HttpResponseStatus.Success) {
-              successfulCallBack!();
-            }
-          });
-      });
+      this.sandbox
+        .getResponseDetails(action)
+        .pipe(
+          first(
+            (details) =>
+              !details || details.status !== HttpResponseStatus.Pending,
+          ),
+        )
+        .subscribe((details) => {
+          if (!details || details.status === HttpResponseStatus.Success) {
+            successfulCallBack?.();
+          }
+        });
     });
   }
 
@@ -52,25 +62,21 @@ export abstract class BaseWithSandBoxComponent {
       injector: Injector;
     },
   ) {
+    this.sandbox.dispatchActionFromSignal(action, config);
     setTimeout(() => {
-      this.sandbox.dispatchActionFromSignal(action, config);
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      successfulCallBack ??= () => {};
-      setTimeout(() => {
-        this.sandbox
-          .getResponseDetails(action())
-          .pipe(
-            first(
-              (details) =>
-                !details || details.status !== HttpResponseStatus.Pending,
-            ),
-          )
-          .subscribe((details) => {
-            if (!details || details.status === HttpResponseStatus.Success) {
-              successfulCallBack!();
-            }
-          });
-      });
+      this.sandbox
+        .getResponseDetails(action())
+        .pipe(
+          first(
+            (details) =>
+              !details || details.status !== HttpResponseStatus.Pending,
+          ),
+        )
+        .subscribe((details) => {
+          if (!details || details.status === HttpResponseStatus.Success) {
+            successfulCallBack?.();
+          }
+        });
     });
   }
 }

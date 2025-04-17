@@ -74,7 +74,7 @@ export class VideoDetailsComponent
   });
   videoUrl = computed(() => {
     if (this.videoInfo()?.formatStreams) {
-      return this.videoInfo()?.formatStreams[0].url;
+      return this.videoInfo()?.formatStreams[0]?.url;
     }
     return undefined;
   });
@@ -118,18 +118,20 @@ export class VideoDetailsComponent
   //TODO call api to get channel info/video url same as browse component
   recommendedVideos = computed<IVideoPlayerCardInfo[]>(() => {
     const videosInfo = this.recommendedVideosInfo();
-    return videosInfo.map((p) => ({
-      videoId: p.videoId ?? '',
-      title: p.title ?? '',
-      channelName: p.author ?? '',
-      viewCount: +(p.viewCount ?? 0),
-      publishedDate: Utilities.epochToDate(p.published),
-      //TODO dont understand why youtube keep duration in seconds - 1 when playing the video in details page but keep it in seconds when showing in recommendation section
-      lengthSeconds: p.lengthSeconds,
-      channelLogoUrl: undefined,
-      videoUrl: p.formatStreams[0]?.url ?? '',
-      isVerified: p.authorVerified ?? false,
-    }));
+    return videosInfo
+      .filter((p) => p.type === 'video')
+      .map((p) => ({
+        videoId: p.videoId ?? '',
+        title: p.title ?? '',
+        channelName: p.author ?? '',
+        viewCount: +(p.viewCount ?? 0),
+        publishedDate: Utilities.epochToDate(p.published),
+        //TODO dont understand why youtube keep duration in seconds - 1 when playing the video in details page but keep it in seconds when showing in recommendation section
+        lengthSeconds: p.lengthSeconds,
+        channelLogoUrl: undefined,
+        videoUrl: p.formatStreams[0]?.url ?? '',
+        isVerified: p.authorVerified ?? false,
+      }));
   });
   mainPlayerBorderRadius = computed(() =>
     this.viewMode() === ViewMode.Theater ? '0px' : '12px',
@@ -202,9 +204,11 @@ export class VideoDetailsComponent
   }
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe((params) => {
-      this.videoId.set(params['v']);
-    });
+    this.activatedRoute.queryParams
+      .pipe(this.takeUntilDestroyed())
+      .subscribe((params) => {
+        this.videoId.set(params['v']);
+      });
     this.sidebarService.setMiniSidebarState(false);
     this.sidebarService.setState(false);
   }

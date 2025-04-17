@@ -69,19 +69,21 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
       const channelsInfo = this.channelsInfo() ?? {};
       const videosInfo = this.videosInfo() ?? {};
       return (
-        videosWithMetaData?.items.map((p) => ({
-          videoId: p.id,
-          title: p.snippet.title,
-          channelName: p.snippet.channelTitle,
-          viewCount: +p.statistics.viewCount,
-          publishedDate: new Date(p.snippet.publishedAt),
-          duration: p.contentDetails.duration,
-          channelLogoUrl:
-            channelsInfo[p.snippet.channelId]?.snippet.thumbnails.default.url ??
-            '',
-          videoUrl: videosInfo[p.id]?.url ?? '',
-          isVerified: false,
-        })) ?? []
+        videosWithMetaData?.items
+          .filter((p) => p.kind === 'youtube#video')
+          .map((p) => ({
+            videoId: p.id,
+            title: p.snippet.title,
+            channelName: p.snippet.channelTitle,
+            viewCount: +p.statistics.viewCount,
+            publishedDate: new Date(p.snippet.publishedAt),
+            duration: p.contentDetails.duration,
+            channelLogoUrl:
+              channelsInfo[p.snippet.channelId]?.snippet.thumbnails.default
+                .url ?? '',
+            videoUrl: videosInfo[p.id]?.url ?? '',
+            isVerified: false,
+          })) ?? []
       );
     });
     this.videosCategories = this.selectSignal(selectVideoCategories);

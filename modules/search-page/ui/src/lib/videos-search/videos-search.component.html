@@ -1,23 +1,25 @@
-<div class="videos-recommendation-container">
-  <div class="video-recommendation-categories">
+<div class="videos_search_container">
+  <div class="videos_search_categories">
     <ay-video-categories
       [videoCategories]="videoCategories()"
-      [scrollingWidth]="150"
+      [scrollingWidth]="400"
     ></ay-video-categories>
   </div>
-  <div class="video-recommendation-list">
+  <div class="videos_search_player_grid">
     @for (video of videos(); track video.videoId) {
       @defer (hydrate on viewport; prefetch on idle) {
-        <div class="video-recommendation">
+        <div class="video-search">
           <ay-video-player-card
             [videoPlayerCardInfo]="video"
             [playerPosition]="PlayerPosition.Horizontal"
-            [titleFontSize]="'14px'"
+            [titleFontSize]="'18px'"
             [titleMarginBottom]="'0px'"
             [playerBorderRadius]="'8px'"
             [boxShadow]="'unset'"
             [thumbnailSettingsButtonMarginTop]="'0px'"
             [thumbnailDurationRight]="'4px'"
+            [horizontalMaxWidth]="'500px'"
+            [horizontalMinWidth]="'240px'"
             (selected)="onSelect($event)"
           />
         </div>

@@ -16,7 +16,7 @@
     @apply flex flex-row relative aspect-video;
 
     &--horizontal {
-      @apply w-[168px] flex-shrink-0 flex-grow-0 mr-[8px];
+      @apply max-w-[var(--horizontal-max-width)] min-w-[var(--horizontal-min-width)] flex-shrink flex-grow mr-[8px];
     }
 
     &--vertical {
@@ -42,6 +42,10 @@
 
   .thumbnail__meta {
     @apply flex flex-row;
+
+    &--horizontal {
+      @apply flex-shrink flex-grow w-0;
+    }
 
     .thumbnail__channel-logo {
       @apply mt-3 mr-3 h-9 flex-shrink-0;

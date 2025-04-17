@@ -1,0 +1,16 @@
+:host {
+  @apply flex-row relative block;
+}
+
+.videos_search_container {
+  @apply flex flex-col pl-[24px];
+  .videos_search_categories {
+    @apply h-[32px] pr-[14px] mt-[12px] mb-[12px];
+  }
+  .videos_search_player_grid {
+    @apply flex flex-col items-center h-[calc(100vh-112px)] overflow-scroll pt-[24px] gap-x-[6px] gap-y-[16px] overflow-x-hidden;
+    .video-search {
+      @apply max-w-[1280px] w-full;
+    }
+  }
+}

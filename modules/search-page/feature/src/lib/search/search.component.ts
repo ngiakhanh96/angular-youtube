@@ -1,4 +1,9 @@
 import {
+  searchPageActionGroup,
+  selectSearchedVideosInfo,
+} from '@angular-youtube/search-page-data-access';
+import { VideosSearchComponent } from '@angular-youtube/search-page-ui';
+import {
   BaseWithSandBoxComponent,
   IVideoCategories,
   selectVideoCategories,
@@ -6,7 +11,9 @@ import {
 } from '@angular-youtube/shared-data-access';
 import {
   IVideoCategory,
-  VideoCategoriesComponent,
+  IVideoPlayerCardInfo,
+  PlayerPosition,
+  Utilities,
 } from '@angular-youtube/shared-ui';
 import {
   ChangeDetectionStrategy,
@@ -19,13 +26,12 @@ import {
   signal,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
-
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'ay-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  imports: [VideoCategoriesComponent],
+  imports: [VideosSearchComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent
@@ -34,8 +40,16 @@ export class SearchComponent
 {
   protected videosCategories: Signal<IVideoCategories | undefined>;
   protected videosCategoriesViewModel: Signal<IVideoCategory[]>;
+  protected PlayerPosition: typeof PlayerPosition = PlayerPosition;
+  protected searchedVideosInfo: Signal<IVideoPlayerCardInfo[]>;
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private searchQuery = signal<string | null>(null);
+  private searchYoutubeVideosInfo = computed(() =>
+    searchPageActionGroup.searchYoutubeVideos({
+      searchTerm: this.searchQuery() ?? '',
+    }),
+  );
   private titleService = inject(Title);
   constructor() {
     super();
@@ -50,17 +64,42 @@ export class SearchComponent
         })) ?? []
       );
     });
-
+    this.searchedVideosInfo = this.selectSignal(
+      selectSearchedVideosInfo,
+      (searchedVideos) =>
+        searchedVideos
+          .filter((p) => p.type === 'video')
+          .map((p) => ({
+            videoId: p.videoId ?? '',
+            title: p.title ?? '',
+            channelName: p.author ?? '',
+            viewCount: +(p.viewCount ?? 0),
+            publishedDate: Utilities.epochToDate(p.published),
+            //TODO dont understand why youtube keep duration in seconds - 1 when playing the video in details page but keep it in seconds when showing in search section
+            lengthSeconds: p.lengthSeconds,
+            channelLogoUrl: undefined,
+            videoUrl: p.formatStreams[0]?.url ?? '',
+            isVerified: p.authorVerified ?? false,
+          })) ?? [],
+    );
+    this.dispatchActionFromSignal(this.searchYoutubeVideosInfo);
     effect(() => {
       this.titleService.setTitle(
         `${this.searchQuery() ?? ''} - Angular Youtube`,
+      );
+      this.dispatchAction(
+        searchPageActionGroup.searchYoutubeVideos({
+          searchTerm: this.searchQuery() ?? '',
+        }),
       );
     });
   }
 
   ngOnInit(): void {
-    this.route.queryParamMap.subscribe((params) => {
-      this.searchQuery.set(params.get('search_query'));
-    });
+    this.route.queryParamMap
+      .pipe(this.takeUntilDestroyed())
+      .subscribe((params) => {
+        this.searchQuery.set(params.get('search_query'));
+      });
   }
 }

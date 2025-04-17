@@ -48,12 +48,21 @@ export enum PlayerPosition {
     '[style.--thumbnail-settings-button-margin-top]':
       'thumbnailSettingsButtonMarginTop()',
     '[style.--thumbnail-duration-right]': 'thumbnailDurationRight()',
+    '[style.--horizontal-max-width]': 'horizontalMaxWidth()',
+    '[style.--horizontal-min-width]': 'horizontalMinWidth()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoPlayerCardComponent {
   videoPlayerCardInfo = input.required<IVideoPlayerCardInfo>();
   playerPosition = input(PlayerPosition.Vertical);
+  horizontalMaxWidth = input('168px');
+  horizontalMinWidth = input('168px');
+  thumbnailMetaClass = computed(() => {
+    return this.playerPosition() === PlayerPosition.Vertical
+      ? 'thumbnail__meta--vertical'
+      : 'thumbnail__meta--horizontal';
+  });
   titleFontSize = input('16px');
   titleMarginBottom = input('4px');
   playerBorderRadius = input('12px');
@@ -167,7 +176,7 @@ export class VideoPlayerCardComponent {
   channelLogoUrl = computed(() => this.videoPlayerCardInfo()?.channelLogoUrl);
   isVerified = computed(() => this.videoPlayerCardInfo()?.isVerified);
   thumbnailDurationDisplay = signal('flex');
-  select = output<string>();
+  selected = output<string>();
 
   private player = viewChild(NativeYouTubePlayerComponent);
   private authService = inject(Auth);
@@ -175,7 +184,7 @@ export class VideoPlayerCardComponent {
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent) {
     if (!(event.target instanceof HTMLButtonElement)) {
-      this.select.emit(this.videoId());
+      this.selected.emit(this.videoId());
     }
   }
 

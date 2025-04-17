@@ -5,6 +5,7 @@ export * from './lib/models/http-request/yt-dlp-videos.request.model';
 export * from './lib/models/http-response/channels-info.model';
 export * from './lib/models/http-response/common.model';
 export * from './lib/models/http-response/http-response.model';
+export * from './lib/models/http-response/invidious-searched-video-info.model';
 export * from './lib/models/http-response/invidious-video-info.model';
 export * from './lib/models/http-response/my-channel-info.model';
 export * from './lib/models/http-response/popular-youtube-videos.model';
