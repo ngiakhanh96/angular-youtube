@@ -7,13 +7,14 @@
   @apply content-[''] absolute h-[20.4px] w-[20.4px] rounded-[20.4px] -top-[2px];
   background-image: $bgImage;
 }
-
 .player-container {
-  @apply w-full h-full;
+  @apply w-full h-full relative;
+
   .player {
-    @apply w-full h-full relative;
+    @apply w-full h-full absolute top-0 left-0;
+
     video {
-      @apply w-full h-full rounded-[var(--border-radius)] bg-[var(--black-color)];
+      @apply w-full h-full rounded-[var(--border-radius)] bg-[var(--black-color)] object-cover;
     }
 
     .player_bottom {

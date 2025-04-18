@@ -49,6 +49,10 @@ export enum ScreenMode {
   styleUrls: ['./native-youtube-player.component.scss'],
   host: {
     '[style.--border-radius]': 'borderRadius()',
+    '[style.display]': "'block'",
+    '[style.height]': "'100%'",
+    '[style.width]': "'100%'",
+    '[style.aspectRatio]': "'16/9'",
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

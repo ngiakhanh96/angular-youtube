@@ -10,7 +10,7 @@
   @apply flex flex-col w-full h-full mt-[var(--details-page-container-margin-top)];
   .details_page_player_container--horizontal {
     @include calculate-details_page_player_container-height();
-    @apply w-full pr-[18px];
+    @apply w-full pr-[16px];
   }
   .details_page_player_container--vertical {
     @include calculate-details_page_player_container-height();
