@@ -1,20 +1,58 @@
 <div class="overview-video-info__video-info">
   <div class="overview-video-info__video-title">
-    <ay-text-renderer [title]="title()"></ay-text-renderer>
+    <ay-text-renderer
+      [title]="title()"
+      [fontWeight]="titleFontWeight()"
+    ></ay-text-renderer>
   </div>
-  <div class="overview-video-info__channel-name">
-    <ay-channel-name
-      [channelName]="channelName()"
-      [isVerified]="isVerified()"
-      [fontWeight]="'400'"
-    ></ay-channel-name
-  ></div>
-  <div class="overview-video-info__video-statistic">
-    <div class="overview-video-info__video-view-count">{{
-      viewCountString()
-    }}</div>
-    <div class="overview-video-info__video-publish-date">
-      • {{ publishedDateString() }}</div
-    >
-  </div>
+  @if (channelLogoUrl()) {
+    <div class="h-[1px]"></div>
+    <div class="overview-video-info__video-statistic">
+      <div class="overview-video-info__video-view-count">{{
+        viewCountString()
+      }}</div>
+      <div class="overview-video-info__video-publish-date">
+        • {{ publishedDateString() }}</div
+      >
+    </div>
+    <div class="overview-video-info__channel">
+      @if (channelLogoUrl()) {
+        <div class="overview-video-info__channel-logo">
+          <img
+            alt="thumbnail channel logo"
+            [ngSrc]="channelLogoUrl()!"
+            width="24"
+            height="24"
+            priority
+            referrerpolicy="no-referrer"
+          />
+        </div>
+      }
+      <div class="overview-video-info__channel-name">
+        <ay-channel-name
+          [channelName]="channelName()"
+          [isVerified]="isVerified()"
+          [fontWeight]="'400'"
+        ></ay-channel-name>
+      </div>
+    </div>
+  } @else {
+    <div class="overview-video-info__channel">
+      <div class="overview-video-info__channel-name">
+        <ay-channel-name
+          [channelName]="channelName()"
+          [isVerified]="isVerified()"
+          [fontWeight]="'400'"
+        ></ay-channel-name>
+      </div>
+    </div>
+    <div class="overview-video-info__video-statistic">
+      <div class="overview-video-info__video-view-count">{{
+        viewCountString()
+      }}</div>
+      <div class="overview-video-info__video-publish-date">
+        • {{ publishedDateString() }}</div
+      >
+    </div>
+  }
 </div>

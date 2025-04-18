@@ -21,7 +21,7 @@
   </div>
 
   <div class="thumbnail__meta" [class]="thumbnailMetaClass()">
-    @if (channelLogoUrl()) {
+    @if (isVerticalPlayerPosition() && channelLogoUrl()) {
       <div class="thumbnail__channel-logo">
         <img
           alt="thumbnail channel logo"
@@ -36,11 +36,18 @@
     <div class="thumbnail__video-info" [class]="thumbnailVideoInfoClass()">
       <ay-overview-video-info
         [title]="title()"
+        [channelMarginTop]="channelMarginTop()"
+        [channelLogoUrl]="
+          isVerticalPlayerPosition() ? undefined : channelLogoUrl()
+        "
+        [titleFontWeight]="titleFontWeight()"
         [channelName]="channelName()"
         [viewCount]="viewCount()"
         [publishedDate]="publishedDate()"
         [isVerified]="isVerified()"
         [titleFontSize]="titleFontSize()"
+        [channelNameFontSize]="channelNameFontSize()"
+        [videoStatisticFontSize]="videoStatisticFontSize()"
         [titleMarginBottom]="titleMarginBottom()"
       ></ay-overview-video-info>
     </div>

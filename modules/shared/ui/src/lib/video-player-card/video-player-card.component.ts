@@ -50,20 +50,30 @@ export enum PlayerPosition {
     '[style.--thumbnail-duration-right]': 'thumbnailDurationRight()',
     '[style.--horizontal-max-width]': 'horizontalMaxWidth()',
     '[style.--horizontal-min-width]': 'horizontalMinWidth()',
+    '[style.--horizontal-thumbnail-margin-right]':
+      'horizontalThumbnailPlayerContainerMarginRight()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoPlayerCardComponent {
   videoPlayerCardInfo = input.required<IVideoPlayerCardInfo>();
   playerPosition = input(PlayerPosition.Vertical);
+  isVerticalPlayerPosition = computed(
+    () => this.playerPosition() === PlayerPosition.Vertical,
+  );
   horizontalMaxWidth = input('168px');
   horizontalMinWidth = input('168px');
+  horizontalThumbnailPlayerContainerMarginRight = input('8px');
   thumbnailMetaClass = computed(() => {
-    return this.playerPosition() === PlayerPosition.Vertical
+    return this.isVerticalPlayerPosition()
       ? 'thumbnail__meta--vertical'
       : 'thumbnail__meta--horizontal';
   });
+  titleFontWeight = input('500');
   titleFontSize = input('16px');
+  channelNameFontSize = input('14px');
+  channelMarginTop = input('0px');
+  videoStatisticFontSize = input('14px');
   titleMarginBottom = input('4px');
   playerBorderRadius = input('12px');
   boxShadow = input('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
@@ -78,12 +88,12 @@ export class VideoPlayerCardComponent {
       : 'thumbnail__player-container--horizontal';
   });
   thumbnailContainerClass = computed(() => {
-    return this.playerPosition() === PlayerPosition.Vertical
+    return this.isVerticalPlayerPosition()
       ? 'thumbnail__container--vertical'
       : 'thumbnail__container--horizontal';
   });
   thumbnailVideoInfoClass = computed(() => {
-    return this.playerPosition() === PlayerPosition.Vertical
+    return this.isVerticalPlayerPosition()
       ? 'thumbnail__video-info--vertical'
       : 'thumbnail__video-info--horizontal';
   });

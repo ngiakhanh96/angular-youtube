@@ -16,7 +16,7 @@
     @apply flex flex-row relative aspect-video;
 
     &--horizontal {
-      @apply max-w-[var(--horizontal-max-width)] min-w-[var(--horizontal-min-width)] flex-shrink flex-grow mr-[8px];
+      @apply max-w-[var(--horizontal-max-width)] min-w-[var(--horizontal-min-width)] flex-shrink flex-grow mr-[var(--horizontal-thumbnail-margin-right)];
     }
 
     &--vertical {

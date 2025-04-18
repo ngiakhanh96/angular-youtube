@@ -77,7 +77,7 @@ export class SearchComponent
             publishedDate: Utilities.epochToDate(p.published),
             //TODO dont understand why youtube keep duration in seconds - 1 when playing the video in details page but keep it in seconds when showing in search section
             lengthSeconds: p.lengthSeconds,
-            channelLogoUrl: undefined,
+            channelLogoUrl: p.authorThumbnails[0]?.url ?? '',
             videoUrl: p.formatStreams[0]?.url ?? '',
             isVerified: p.authorVerified ?? false,
           })) ?? [],
