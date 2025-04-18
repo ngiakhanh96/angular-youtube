@@ -20,8 +20,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./videos-search.component.scss'],
   imports: [VideoCategoriesComponent, VideoPlayerCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[style.--max-width]': 'maxWidth()',
+  },
 })
 export class VideosSearchComponent extends BaseWithSandBoxComponent {
+  maxWidth = input('1280px');
   videoCategories = input.required<IVideoCategory[]>();
   videos = input.required<IVideoPlayerCardInfo[]>();
   PlayerPosition: typeof PlayerPosition = PlayerPosition;
