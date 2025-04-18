@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  OnDestroy,
   ViewEncapsulation,
   afterNextRender,
   afterRenderEffect,
@@ -36,7 +37,6 @@ export enum ScreenMode {
   Full,
 }
 
-//TODO support feature unhover pause and display placeholders
 @Component({
   selector: 'ay-native-youtube-player',
   encapsulation: ViewEncapsulation.None,
@@ -56,7 +56,7 @@ export enum ScreenMode {
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NativeYouTubePlayerComponent {
+export class NativeYouTubePlayerComponent implements OnDestroy {
   /** YouTube Video ID to view */
   videoId = input.required<string>();
 
@@ -118,6 +118,9 @@ export class NativeYouTubePlayerComponent {
   /** The element that will be replaced by the iframe. */
   private readonly document = inject(DOCUMENT);
 
+  private hoverTimer: ReturnType<typeof setTimeout> | null = null;
+  private static hoverAndRestTimeoutMs = 5000;
+
   @HostListener('document:fullscreenchange')
   @HostListener('document:webkitfullscreenchange')
   @HostListener('document:mozfullscreenchange')
@@ -128,6 +131,11 @@ export class NativeYouTubePlayerComponent {
     } else {
       this.screenMode.set(ScreenMode.Full);
     }
+  }
+
+  @HostListener('mousemove')
+  onMouseMove() {
+    this.onMouseEnter();
   }
 
   constructor() {
@@ -141,7 +149,6 @@ export class NativeYouTubePlayerComponent {
 
     afterRenderEffect({
       read: () => {
-        const videoUrl = this.videoUrl();
         this.videoPlayer()?.load();
         if (this.autoPlay()) {
           this.playVideo();
@@ -154,10 +161,28 @@ export class NativeYouTubePlayerComponent {
     });
   }
 
+  ngOnDestroy() {
+    this.clearHoverTimer();
+  }
+
+  onMouseEnter() {
+    this.isHovered.set(true);
+    this.clearHoverTimer();
+    this.hoverTimer = setTimeout(() => {
+      this.isHovered.set(false);
+      this.document.body.style.cursor = 'none';
+    }, NativeYouTubePlayerComponent.hoverAndRestTimeoutMs);
+  }
+
+  onMouseLeave() {
+    this.isHovered.set(false);
+    this.clearHoverTimer();
+  }
+
   playVideo() {
     this.videoPlayer()
       .play()
-      .then((_) => {
+      .then(() => {
         this.isVideoPlayed.set(true);
       })
       .catch((error) => {
@@ -203,5 +228,13 @@ export class NativeYouTubePlayerComponent {
     this.viewMode.update((v) =>
       v === ViewMode.Default ? ViewMode.Theater : ViewMode.Default,
     );
+  }
+
+  private clearHoverTimer() {
+    if (this.hoverTimer) {
+      clearTimeout(this.hoverTimer);
+      this.hoverTimer = null;
+    }
+    this.document.body.style.cursor = 'default';
   }
 }

@@ -17,8 +17,8 @@
     class="player"
     [style.display]="!isVideoPlayed() && !disablePlaceholder() ? 'none' : ''"
     #videoPlayerContainer
-    (mouseover)="isHovered.set(true)"
-    (mouseout)="isHovered.set(false)"
+    (mouseover)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
   >
     <video preload="auto" #videoPlayer>
       <source [src]="videoUrl()" type="video/mp4" />
