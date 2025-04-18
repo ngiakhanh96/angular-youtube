@@ -211,6 +211,7 @@ export class VideoDetailsComponent
       });
     this.sidebarService.setMiniSidebarState(false);
     this.sidebarService.setState(false);
+    this.sidebarService.setSelectedIconName(null);
   }
 
   ngOnDestroy(): void {

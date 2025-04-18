@@ -13,6 +13,7 @@ import {
   IVideoCategory,
   IVideoPlayerCardInfo,
   PlayerPosition,
+  SidebarService,
   Utilities,
 } from '@angular-youtube/shared-ui';
 import {
@@ -26,7 +27,7 @@ import {
   signal,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'ay-search',
   templateUrl: './search.component.html',
@@ -43,7 +44,6 @@ export class SearchComponent
   protected PlayerPosition: typeof PlayerPosition = PlayerPosition;
   protected searchedVideosInfo: Signal<IVideoPlayerCardInfo[]>;
   private route = inject(ActivatedRoute);
-  private router = inject(Router);
   private searchQuery = signal<string | null>(null);
   private searchYoutubeVideosInfo = computed(() =>
     searchPageActionGroup.searchYoutubeVideos({
@@ -51,6 +51,8 @@ export class SearchComponent
     }),
   );
   private titleService = inject(Title);
+  private sidebarService = inject(SidebarService);
+
   constructor() {
     super();
     this.dispatchAction(sharedActionGroup.loadYoutubeVideoCategories());
@@ -101,5 +103,6 @@ export class SearchComponent
       .subscribe((params) => {
         this.searchQuery.set(params.get('search_query'));
       });
+    this.sidebarService.setSelectedIconName(null);
   }
 }

@@ -42,7 +42,7 @@ export class MenuSectionComponent {
   sectionItems = input.required<ISection>();
   sectionItemsList = computed(() => this.sectionItems().sectionItems);
   sectionItemsHeader = computed(() => this.sectionItems().header);
-  selectedIconName = model<string>();
+  selectedIconName = model<string | null>();
   marginRight = input('8px');
   marginLeft = input('0px');
   paddingLeft = input('0px');

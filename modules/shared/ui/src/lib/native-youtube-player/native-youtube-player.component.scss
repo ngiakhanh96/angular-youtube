@@ -14,7 +14,7 @@
     @apply w-full h-full absolute top-0 left-0;
 
     video {
-      @apply w-full h-full rounded-[var(--border-radius)] bg-[var(--black-color)] object-cover;
+      @apply w-full h-full rounded-[var(--border-radius)] bg-[var(--black-color)];
     }
 
     .player_bottom {

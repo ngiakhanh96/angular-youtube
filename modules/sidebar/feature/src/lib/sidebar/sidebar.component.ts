@@ -1,7 +1,5 @@
 import { selectMyChannelInfo } from '@angular-youtube/home-page-data-access';
-import { BaseWithSandBoxComponent } from '@angular-youtube/shared-data-access';
 import {
-  ExternalNavigationService,
   ISection,
   LogoMenuComponent,
   MenuComponent,
@@ -10,12 +8,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  inject,
   signal,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { Router } from '@angular/router';
+import { BaseSidebarComponent } from '../base-sidebar.component';
 
 @Component({
   selector: 'ay-sidebar',
@@ -24,10 +21,9 @@ import { Router } from '@angular/router';
   styleUrl: './sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent extends BaseWithSandBoxComponent {
+export class SidebarComponent extends BaseSidebarComponent {
   user = this.selectSignal(selectMyChannelInfo);
   isLoggedIn = computed(() => this.user() != null);
-  externalNavigationService = inject(ExternalNavigationService);
   anonymousMenuItems = signal<ISection[]>([
     {
       sectionItems: [
@@ -269,45 +265,4 @@ export class SidebarComponent extends BaseWithSandBoxComponent {
       ? this.loggedInMenuItems()
       : this.anonymousMenuItems();
   });
-  selectedIconName = signal('home');
-  router = inject(Router);
-
-  selectedIconNameChange(selectedIconName: string) {
-    const prevIconName = this.selectedIconName();
-    this.selectedIconName.set(selectedIconName);
-    if (selectedIconName === 'youtube-music') {
-      this.externalNavigationService.navigateByOpeningNewWindow(
-        'https://music.youtube.com/',
-      );
-      setTimeout(() => {
-        this.selectedIconName.set(prevIconName);
-      });
-      return;
-    }
-    if (selectedIconName === 'youtube-kids') {
-      this.externalNavigationService.navigateByOpeningNewWindow(
-        'https://www.youtubekids.com/',
-      );
-      setTimeout(() => {
-        this.selectedIconName.set(prevIconName);
-      });
-      return;
-    }
-    if (selectedIconName === 'youtube-studio') {
-      this.externalNavigationService.navigateByOpeningNewWindow(
-        'https://studio.youtube.com/',
-      );
-      setTimeout(() => {
-        this.selectedIconName.set(prevIconName);
-      });
-      return;
-    }
-    if (this.selectedIconName() === 'youtube-music-light') {
-      this.router.navigate(['/externalRedirect'], {
-        state: { externalUrl: 'https://music.youtube.com/' },
-        skipLocationChange: true,
-      });
-      return;
-    }
-  }
 }

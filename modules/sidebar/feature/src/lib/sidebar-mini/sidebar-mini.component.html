@@ -5,7 +5,7 @@
         <mat-list-item
           [aySectionItem]="sidebarMenuItem.iconName === selectedIconName()"
           class="sidebar_mini_item"
-          (click)="onClick(sidebarMenuItem.iconName)"
+          (click)="selectedIconNameChange(sidebarMenuItem.iconName)"
         >
           <div matListItemTitle>
             <mat-icon [svgIcon]="sidebarMenuItem.iconName"></mat-icon>
