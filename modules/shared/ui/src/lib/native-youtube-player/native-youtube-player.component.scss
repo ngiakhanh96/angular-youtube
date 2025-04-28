@@ -23,39 +23,43 @@
   }
 
   .player_bottom_progress-bar-container {
-    @apply mx-3 cursor-pointer;
+    @apply mx-[12px] cursor-pointer;
 
     .progress-bar {
-      @apply relative h-[3px] bg-[rgba(255,255,255,.2)] transform-gpu my-[1.5px];
-
-      .progress-bar-played {
-        @apply absolute left-0 h-[3px] bg-[#ff0000] top-0;
-      }
+      @apply relative h-[3px] bg-[rgba(255,255,255,0.2)] my-[1px];
 
       .progress-bar-loaded {
-        @apply absolute left-0 h-[3px] bg-[rgba(255,255,255,.4)] top-0;
+        @apply absolute left-0 top-0 h-[3px] bg-[rgba(255,255,255,0.4)];
+      }
+
+      .progress-bar-played {
+        @apply absolute left-0 top-0 h-[3px] bg-[#ff0000];
       }
 
       .progress-bar-handle {
-        @apply absolute w-[13px] h-[13px] rounded-full bg-[#ff0000] cursor-pointer top-[49%] -translate-x-1/2 -translate-y-1/2;
+        @apply absolute w-[13px] h-[13px] rounded-full bg-[#ff0000] cursor-pointer translate-x-[-50%] translate-y-[calc(-50%+3px/2)];
       }
 
       &:hover {
         @apply h-[5px] my-0;
 
+        .progress-bar-loaded {
+          @apply h-[5px];
+        }
+
         .progress-bar-played {
           @apply h-[5px];
         }
 
-        .progress-bar-loaded {
-          @apply h-[5px];
+        .progress-bar-handle {
+          @apply translate-x-[-50%] translate-y-[calc(-50%+5px/2)];
         }
       }
     }
   }
 
   .player_bottom_buttons-container {
-    @apply px-3 h-12 flex justify-between bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.6)] rounded-[var(--border-radius)];
+    @apply px-[12px] h-[48px] flex justify-between bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.6)] rounded-[var(--border-radius)];
 
     .player_bottom_buttons-left,
     .player_bottom_buttons-right {
@@ -63,7 +67,7 @@
     }
 
     .player_bottom_button {
-      @apply w-12 flex items-center justify-center;
+      @apply w-[48px] flex items-center justify-center;
 
       > * {
         @apply h-[42px];
