@@ -93,11 +93,16 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     'videoPlayerContainer',
   );
 
+  progressBar = viewChild.required<ElementRef<HTMLElement>>('progressBar');
+  loadedProgress = signal(0);
+  playedProgress = signal(0);
+
   videoPlayer = computed(() => this.videoPlayerRef().nativeElement);
 
   showPlayButton = input(false);
   boxShadow = input<string>('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
   isVideoPlayed = signal(false);
+  isVideoPlayedLastTime = signal(false);
   autoPlay = input<boolean>(false);
   mini = input<boolean>(true);
   viewMode = model<ViewMode>(ViewMode.Theater);
@@ -115,7 +120,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   playerClick = output<HTMLMediaElement>();
   nextVideo = output<boolean>();
-  /** The element that will be replaced by the iframe. */
+  private progressUpdateInterval: ReturnType<typeof setInterval> | null = null;
+  private readonly isDragging = signal(false);
   private readonly document = inject(DOCUMENT);
 
   private hoverTimer: ReturnType<typeof setTimeout> | null = null;
@@ -138,17 +144,39 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.onMouseEnter();
   }
 
+  @HostListener('document:mouseup')
+  onMouseUp() {
+    if (this.isDragging()) {
+      this.isDragging.set(false);
+      if (this.isVideoPlayedLastTime() && !this.videoPlayer().ended) {
+        this.playVideo();
+      }
+    }
+  }
+
+  @HostListener('document:mousemove', ['$event'])
+  onDocumentMouseMove(event: MouseEvent) {
+    if (this.isDragging()) {
+      this.seekToPosition(event);
+    }
+  }
+
   constructor() {
     afterNextRender({
       read: () => {
         this.videoPlayer().addEventListener('click', () => {
           this.playerClick.emit(this.videoPlayer());
         });
+
+        this.videoPlayer().addEventListener('ended', () => {
+          this.isVideoPlayed.set(false);
+        });
       },
     });
 
     afterRenderEffect({
       read: () => {
+        this.videoUrl();
         this.videoPlayer()?.load();
         if (this.autoPlay()) {
           this.playVideo();
@@ -157,12 +185,14 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
           this.videoPlayer().muted = true;
           this.isMuted.set(true);
         }
+        this.startProgressTracking();
       },
     });
   }
 
   ngOnDestroy() {
     this.clearHoverTimer();
+    this.stopProgressTracking();
   }
 
   onMouseEnter() {
@@ -228,6 +258,49 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.viewMode.update((v) =>
       v === ViewMode.Default ? ViewMode.Theater : ViewMode.Default,
     );
+  }
+
+  onProgressBarMouseDown(event: MouseEvent) {
+    this.isDragging.set(true);
+    this.isVideoPlayedLastTime.set(this.isVideoPlayed());
+    this.pauseVideo();
+    this.seekToPosition(event);
+  }
+
+  private startProgressTracking() {
+    this.stopProgressTracking();
+    this.progressUpdateInterval = setInterval(() => {
+      const video = this.videoPlayer();
+      // Update loaded progress
+      if (video.buffered.length > 0) {
+        const loadedFraction =
+          (video.buffered.end(video.buffered.length - 1) / video.duration) *
+          100;
+        this.loadedProgress.set(loadedFraction);
+      }
+
+      // Update played progress
+      const playedFraction = (video.currentTime / video.duration) * 100;
+      this.playedProgress.set(playedFraction);
+    });
+  }
+
+  private stopProgressTracking() {
+    if (this.progressUpdateInterval) {
+      clearInterval(this.progressUpdateInterval);
+      this.progressUpdateInterval = null;
+    }
+  }
+
+  private seekToPosition(event: MouseEvent) {
+    const progressBar = this.progressBar().nativeElement;
+    const rect = progressBar.getBoundingClientRect();
+    const position = Math.max(
+      0,
+      Math.min(1, (event.clientX - rect.left) / rect.width),
+    );
+    const video = this.videoPlayer();
+    video.currentTime = position * video.duration;
   }
 
   private clearHoverTimer() {

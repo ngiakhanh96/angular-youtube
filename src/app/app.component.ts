@@ -1,5 +1,9 @@
 import { SpinnerComponent } from '@angular-youtube/shared-ui';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -11,4 +15,34 @@ import { RouterModule } from '@angular/router';
 })
 export class AppComponent {
   title = 'angular-youtube';
+
+  @HostListener('dragover', ['$event'])
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+  }
+
+  @HostListener('dragenter', ['$event'])
+  onDragEnter(event: DragEvent): void {
+    event.preventDefault();
+  }
+
+  @HostListener('dragleave', ['$event'])
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+  }
+
+  @HostListener('drag', ['$event'])
+  onDrag(event: DragEvent) {
+    event.preventDefault();
+  }
+
+  @HostListener('dragstart', ['$event'])
+  onDragStart(event: DragEvent) {
+    event.preventDefault();
+  }
+
+  @HostListener('dragend', ['$event'])
+  onDragEnd(event: DragEvent) {
+    event.preventDefault();
+  }
 }
