@@ -1,0 +1,98 @@
+.video-comments-container {
+  @apply flex flex-col gap-6;
+
+  .video-comments-header {
+    @apply flex items-center gap-8;
+    .video-comments-total {
+      @apply text-[20px] font-bold;
+    }
+  }
+
+  .video-comments-input {
+    @apply flex gap-4;
+
+    .video-comments-input-avatar {
+      img {
+        @apply rounded-full;
+      }
+    }
+
+    .video-comments-input-field {
+      @apply flex-1 flex flex-col gap-2;
+
+      input {
+        @apply w-full border-b border-[rgba(0,0,0,0.1)] py-1 outline-none focus:border-black;
+      }
+
+      .video-comments-input-actions {
+        @apply flex justify-end gap-2;
+
+        button {
+          @apply px-4 py-2 rounded-full text-sm font-medium;
+
+          &.cancel-button {
+            @apply hover:bg-[rgba(0,0,0,0.1)];
+          }
+
+          &.comment-button {
+            @apply bg-[rgba(0,0,0,0.05)] text-[rgba(0,0,0,0.5)];
+
+            &:not(:disabled) {
+              @apply bg-[#065fd4] text-white;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .video-comments-list {
+    @apply flex flex-col gap-4;
+
+    .video-comment {
+      @apply flex gap-4;
+
+      .video-comment-avatar {
+        img {
+          @apply rounded-full;
+        }
+      }
+
+      .video-comment-content {
+        @apply flex flex-col gap-1;
+
+        .video-comment-header {
+          @apply flex items-center gap-1;
+
+          .video-comment-channel-name {
+            @apply text-[13px] font-medium;
+          }
+
+          .video-comment-time {
+            @apply text-[12px] text-[rgb(96,96,96)] h-full flex items-center;
+          }
+        }
+
+        .video-comment-text {
+          @apply text-[14px] text-[var(--black-color)] whitespace-pre-wrap;
+        }
+
+        .video-comment-actions {
+          @apply flex items-center mt-[4px];
+
+          .video-comment-like-action {
+            @apply ml-[-10px];
+          }
+
+          .video-comment-dislike-action {
+            @apply ml-[-10px];
+          }
+        }
+
+        .video-comment-replies {
+          @apply h-[36px] ml-[-10px] mt-[4px] flex text-[14px];
+        }
+      }
+    }
+  }
+}

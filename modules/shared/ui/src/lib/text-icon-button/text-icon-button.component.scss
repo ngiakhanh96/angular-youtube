@@ -14,10 +14,12 @@
     --mat-fab-focus-state-layer-opacity: 1;
     --mat-fab-pressed-state-layer-opacity: 1;
     --mdc-extended-fab-container-shape: var(--border-radius);
+    --mat-sys-label-large-weight: var(--font-weight);
+    --mat-sys-label-large-size: var(--font-size);
     color: var(--color);
     border: var(--border);
   }
-  @apply w-full h-full pl-[15px] pr-[15px] flex justify-between place-items-center rounded-l-[var(--border-left-radius)] rounded-r-[var(--border-right-radius)];
+  @apply w-full h-full pl-[var(--icon-padding-left)] pr-[var(--icon-padding-right)] flex justify-between place-items-center rounded-l-[var(--border-left-radius)] rounded-r-[var(--border-right-radius)];
 
   mat-icon {
     @apply w-[24px] h-[24px] mr-[var(--space-between)] ml-[-6px];

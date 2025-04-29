@@ -11,7 +11,7 @@
 
   .overview-video-info__channel {
     @apply mt-[var(--channel-margin-top)] flex overflow-hidden text-ellipsis text-[rgb(96,96,96)] whitespace-pre line-clamp-1;
-    font-size: calc(var(--channel-name-font-size));
+    font-size: var(--channel-name-font-size);
     .overview-video-info__channel-logo {
       @apply mr-[8px] flex-shrink-0;
 

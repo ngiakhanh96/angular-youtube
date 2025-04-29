@@ -1,6 +1,7 @@
 import {
   detailsPageActionGroup,
   selectDetailsPageRecommendedVideosInfo,
+  selectDetailsPageVideoCommentsInfo,
   selectDetailsPageVideoInfo,
 } from '@angular-youtube/details-page-data-access';
 import {
@@ -10,6 +11,7 @@ import {
 } from '@angular-youtube/details-page-ui';
 import {
   BaseWithSandBoxComponent,
+  IInvidiousVideoCommentsInfo,
   IInvidiousVideoInfo,
   sharedActionGroup,
 } from '@angular-youtube/shared-data-access';
@@ -72,6 +74,14 @@ export class VideoDetailsComponent
     }
     return sharedActionGroup.empty();
   });
+  getVideoCommentsInfo = computed(() => {
+    if (this.videoId() !== '') {
+      return detailsPageActionGroup.loadYoutubeVideoComments({
+        videoId: this.videoId(),
+      });
+    }
+    return sharedActionGroup.empty();
+  });
   videoUrl = computed(() => {
     if (this.videoInfo()?.formatStreams) {
       return this.videoInfo()?.formatStreams[0]?.url;
@@ -95,6 +105,7 @@ export class VideoDetailsComponent
   );
   ViewMode = ViewMode;
   videoInfo: Signal<IInvidiousVideoInfo | undefined>;
+  videoCommentsInfo: Signal<IInvidiousVideoCommentsInfo | undefined>;
   videoDetailsInfo = computed<IVideoDetailsInfo | undefined>(() => {
     const videoInfo = this.videoInfo();
     if (videoInfo) {
@@ -194,7 +205,11 @@ export class VideoDetailsComponent
   constructor() {
     super();
     this.dispatchActionFromSignal(this.getVideoInfo);
+    this.dispatchActionFromSignal(this.getVideoCommentsInfo);
     this.videoInfo = this.selectSignal(selectDetailsPageVideoInfo);
+    this.videoCommentsInfo = this.selectSignal(
+      selectDetailsPageVideoCommentsInfo,
+    );
     this.recommendedVideosInfo = this.selectSignal(
       selectDetailsPageRecommendedVideosInfo,
     );
@@ -228,11 +243,11 @@ export class VideoDetailsComponent
     const theaterContainer = this.theaterModeContainerElement().nativeElement;
     const defaultContainer = this.defaultModeContainerElement().nativeElement;
     if (viewMode === ViewMode.Default) {
-      const adoptedVideo = this.document.adoptNode(video);
+      const adoptedVideo = this.document.removeChild(video);
       defaultContainer?.appendChild(adoptedVideo);
       this.videoRecommendationMarginTop.set('0px');
     } else {
-      const adoptedVideo = this.document.adoptNode(video);
+      const adoptedVideo = this.document.removeChild(video);
       theaterContainer?.appendChild(adoptedVideo);
       this.videoRecommendationMarginTop.set('24px');
     }

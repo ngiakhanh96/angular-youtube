@@ -18,7 +18,6 @@ export class DetailsPageEffects extends BaseEffects {
         switchMap((videoInfo) =>
           combineLatest([
             ...videoInfo.recommendedVideos.map((p) =>
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               this.invidiousService.getVideoInfo(p.videoId!).pipe(
                 catchError((error: HttpErrorResponse) => {
                   console.error(error);
@@ -42,6 +41,25 @@ export class DetailsPageEffects extends BaseEffects {
           });
         }),
       );
+    },
+  );
+
+  loadYoutubeVideoCommentsInfo$ = this.createHttpEffectAndUpdateResponse(
+    detailsPageActionGroup.loadYoutubeVideoComments,
+    (action) => {
+      return this.invidiousService
+        .getVideoCommentsInfo(
+          action.videoId,
+          action.sortBy,
+          action.continuation,
+        )
+        .pipe(
+          map((commentsInfo) => {
+            return detailsPageActionGroup.loadYoutubeVideoCommentsSuccess({
+              commentsInfo: commentsInfo,
+            });
+          }),
+        );
     },
   );
 }

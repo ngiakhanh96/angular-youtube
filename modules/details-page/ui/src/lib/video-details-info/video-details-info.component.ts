@@ -1,3 +1,4 @@
+import { IInvidiousVideoCommentsInfo } from '@angular-youtube/shared-data-access';
 import {
   ChannelNameComponent,
   CombinedTextIcon,
@@ -16,6 +17,7 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { VideoCommentsComponent } from '../video-comments/video-comments.component';
 import { VideoDetailsDescriptionComponent } from '../video-details-description/video-details-description.component';
 
 export interface IVideoDetailsInfo {
@@ -44,11 +46,13 @@ export interface IVideoDetailsInfo {
     CombinedTextIconButtonComponent,
     VideoDetailsDescriptionComponent,
     ChannelNameComponent,
+    VideoCommentsComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoDetailsInfoComponent {
   videoInfo = input.required<IVideoDetailsInfo | undefined>();
+  commentsInfo = input.required<IInvidiousVideoCommentsInfo | undefined>();
   likeCountString = computed(() => {
     const videoInfo = this.videoInfo();
     return Utilities.numberToString(videoInfo?.likeCount ?? 0);

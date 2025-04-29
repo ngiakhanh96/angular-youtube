@@ -24,6 +24,10 @@ export class Auth {
     this._accessToken.set(undefined);
   }
 
+  public isLoggedIn = computed(() => {
+    return this.accessToken() != null;
+  });
+
   private _accessToken = signal(
     this.sessionStorageService.getItem('Authorization') != null
       ? this.sessionStorageService.getItem('Authorization')!

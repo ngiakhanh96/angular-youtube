@@ -1,5 +1,6 @@
 import { IInvidiousVideoInfo } from '@angular-youtube/shared-data-access';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { IInvidiousVideoCommentsInfo } from 'modules/shared/data-access/src/lib/models/http-response/invidious-video-comments.model';
 export const detailsPageActionGroup = createActionGroup({
   source: 'HomePage',
   events: {
@@ -9,6 +10,14 @@ export const detailsPageActionGroup = createActionGroup({
     loadYoutubeVideoSuccess: props<{
       videoInfo: IInvidiousVideoInfo;
       recommendedVideosInfo: IInvidiousVideoInfo[];
+    }>(),
+    loadYoutubeVideoComments: props<{
+      videoId: string;
+      sortBy?: string;
+      continuation?: string;
+    }>(),
+    loadYoutubeVideoCommentsSuccess: props<{
+      commentsInfo: IInvidiousVideoCommentsInfo;
     }>(),
     reset: emptyProps(),
   },

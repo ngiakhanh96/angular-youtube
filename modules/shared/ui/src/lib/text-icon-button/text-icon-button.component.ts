@@ -23,6 +23,10 @@ import { IconDirective } from '../directives/icon/icon.directive';
     '[style.--border-radius]': 'borderRadius()',
     '[style.--border-left-radius]': 'borderLeftRadius()',
     '[style.--border-right-radius]': 'borderRightRadius()',
+    '[style.--icon-padding-left]': 'iconPaddingLeft()',
+    '[style.--icon-padding-right]': 'iconPaddingRight()',
+    '[style.--font-weight]': 'fontWeight()',
+    '[style.--font-size]': 'fontSize()',
   },
 })
 export class TextIconButtonComponent {
@@ -36,7 +40,11 @@ export class TextIconButtonComponent {
   borderRadius = input<string>('24px');
   borderRadiusForLeft = input<boolean>(true);
   borderRadiusForRight = input<boolean>(true);
+  iconPaddingLeft = input<string>('15px');
+  iconPaddingRight = input<string>('15px');
   transform = input<string | undefined>(undefined);
+  fontWeight = input<string>('500');
+  fontSize = input<string>('14px');
 
   borderLeftRadius = computed(() => {
     const borderRadiusForLeft = this.borderRadiusForLeft();
