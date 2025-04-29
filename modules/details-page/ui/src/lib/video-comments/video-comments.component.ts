@@ -88,7 +88,7 @@ export class VideoCommentsComponent {
   }
 
   getRepliesCountString(comment: IVideoComment) {
-    const repliesCount = comment.replies?.replyCount ?? 0;
+    const repliesCount = this.getRepliesCount(comment);
     return repliesCount + ' ' + (repliesCount > 1 ? 'replies' : 'reply');
   }
 }
