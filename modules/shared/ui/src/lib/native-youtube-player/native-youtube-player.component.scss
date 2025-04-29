@@ -63,7 +63,11 @@
 
     .player_bottom_buttons-left,
     .player_bottom_buttons-right {
-      @apply flex;
+      @apply flex items-center;
+    }
+
+    .time-display {
+      @apply select-none text-[rgb(221,221,221)] ml-2 text-[13px];
     }
 
     .player_bottom_button {

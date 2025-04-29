@@ -120,6 +120,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   playerClick = output<HTMLMediaElement>();
   nextVideo = output<boolean>();
+  currentTime = signal('0:00');
+  duration = signal('0:00');
   private progressUpdateInterval: ReturnType<typeof setInterval> | null = null;
   private readonly isDragging = signal(false);
   private readonly document = inject(DOCUMENT);
@@ -173,6 +175,10 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
           if (this.autoNext()) {
             this.nextVideo.emit(true);
           }
+        });
+
+        this.videoPlayer().addEventListener('loadedmetadata', () => {
+          this.duration.set(this.formatTime(this.videoPlayer().duration));
         });
       },
     });
@@ -270,21 +276,28 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.seekToPosition(event);
   }
 
+  private formatTime(timeInSeconds: number): string {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  }
+
   private startProgressTracking() {
     this.stopProgressTracking();
     this.progressUpdateInterval = setInterval(() => {
       const video = this.videoPlayer();
       // Update loaded progress
-      if (video.buffered.length > 0) {
+      if (video.buffered.length > 0 && video.duration > 0) {
         const loadedFraction =
           (video.buffered.end(video.buffered.length - 1) / video.duration) *
           100;
         this.loadedProgress.set(loadedFraction);
       }
 
-      // Update played progress
+      // Update played progress and current time
       const playedFraction = (video.currentTime / video.duration) * 100;
       this.playedProgress.set(playedFraction);
+      this.currentTime.set(this.formatTime(video.currentTime));
     });
   }
 
