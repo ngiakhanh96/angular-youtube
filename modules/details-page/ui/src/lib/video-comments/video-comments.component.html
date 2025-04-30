@@ -44,7 +44,10 @@
 
   <div class="video-comments-list">
     @for (comment of comments(); track comment.commentId) {
-      <ay-video-comment [comment]="comment"></ay-video-comment>
+      <ay-video-comment
+        [comment]="comment"
+        [videoId]="commentsInfo()!.videoId"
+      ></ay-video-comment>
     }
   </div>
 </div>

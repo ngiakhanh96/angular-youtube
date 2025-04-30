@@ -3,10 +3,7 @@ import {
   IInvidiousVideoCommentsInfo,
   IVideoComment,
 } from '@angular-youtube/shared-data-access';
-import {
-  ChannelNameComponent,
-  TextIconButtonComponent,
-} from '@angular-youtube/shared-ui';
+import { TextIconButtonComponent } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -35,7 +32,6 @@ export enum CommentSortOption {
     NgOptimizedImage,
     ReactiveFormsModule,
     TextIconButtonComponent,
-    ChannelNameComponent,
     VideoCommentComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

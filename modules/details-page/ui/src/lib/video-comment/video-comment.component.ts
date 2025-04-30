@@ -28,6 +28,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class VideoCommentComponent implements OnDestroy {
   comment = input.required<IVideoComment>();
+  videoId = input.required<string>();
   sanitizer = inject(DomSanitizer);
   dynamicComponentService = inject(DynamicComponentService);
   commentTextElement =
@@ -48,6 +49,7 @@ export class VideoCommentComponent implements OnDestroy {
                 href: aTag.href,
                 attributeHref: aTag.getAttribute('href') ?? '',
                 text: aTag.textContent,
+                currentVideoId: this.videoId(),
               },
             );
           this.linkComponentRefs.push(linkComponentRef);

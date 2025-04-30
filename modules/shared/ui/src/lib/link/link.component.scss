@@ -3,5 +3,5 @@
 }
 
 a.link {
-  @apply inline-flex items-center bg-[var(--background-color)] rounded-[8px] mb-[2px] text-[var(--color)];
+  @apply inline-flex items-center bg-[var(--background-color)] rounded-[8px] mb-[2px] text-[var(--color)] whitespace-normal;
 }
