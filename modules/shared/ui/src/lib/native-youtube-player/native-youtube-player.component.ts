@@ -106,11 +106,13 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   autoPlay = input<boolean>(false);
   mini = input<boolean>(true);
   viewMode = model<ViewMode>(ViewMode.Theater);
+  isMuted = model(false);
+
   ViewMode = ViewMode;
   screenMode = signal<ScreenMode>(ScreenMode.Default);
   ScreenMode = ScreenMode;
   autoNext = signal(true);
-  isMuted = model(false);
+
   isHovered = signal(false);
   playerButtonsVisibility = computed(() =>
     !this.mini() && (this.isHovered() || !this.isVideoPlayed())
@@ -120,8 +122,14 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   playerClick = output<HTMLMediaElement>();
   nextVideo = output<boolean>();
-  currentTime = signal('0:00');
-  duration = signal('0:00');
+  currentTime = signal<number>(0);
+  currentTimeString = computed(() => this.formatTime(this.currentTime()));
+  duration = signal(0);
+  durationString = computed(() => {
+    const duration = this.duration();
+    return this.formatTime(duration);
+  });
+
   private progressUpdateInterval: ReturnType<typeof setInterval> | null = null;
   private readonly isDragging = signal(false);
   private readonly document = inject(DOCUMENT);
@@ -178,7 +186,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         });
 
         this.videoPlayer().addEventListener('loadedmetadata', () => {
-          this.duration.set(this.formatTime(this.videoPlayer().duration));
+          this.duration.set(this.videoPlayer().duration);
         });
       },
     });
@@ -276,10 +284,22 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.seekToPosition(event);
   }
 
+  seekTo(currentTime: number) {
+    this.videoPlayer().currentTime = currentTime;
+  }
+
   private formatTime(timeInSeconds: number): string {
-    const minutes = Math.floor(timeInSeconds / 60);
+    const hours = Math.floor(timeInSeconds / 3600);
+    const minutes = Math.floor((timeInSeconds % 3600) / 60);
     const seconds = Math.floor(timeInSeconds % 60);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+    const paddedSeconds = seconds.toString().padStart(2, '0');
+    const paddedMinutes =
+      hours > 0 ? minutes.toString().padStart(2, '0') : minutes.toString();
+
+    return hours > 0
+      ? `${hours}:${paddedMinutes}:${paddedSeconds}`
+      : `${paddedMinutes}:${paddedSeconds}`;
   }
 
   private startProgressTracking() {
@@ -287,17 +307,19 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.progressUpdateInterval = setInterval(() => {
       const video = this.videoPlayer();
       // Update loaded progress
-      if (video.buffered.length > 0 && video.duration > 0) {
+      if (video.buffered.length > 0 && this.duration() > 0) {
         const loadedFraction =
-          (video.buffered.end(video.buffered.length - 1) / video.duration) *
+          (video.buffered.end(video.buffered.length - 1) / this.duration()) *
           100;
         this.loadedProgress.set(loadedFraction);
       }
 
       // Update played progress and current time
-      const playedFraction = (video.currentTime / video.duration) * 100;
-      this.playedProgress.set(playedFraction);
-      this.currentTime.set(this.formatTime(video.currentTime));
+      if (this.duration() > 0) {
+        const playedFraction = (video.currentTime / this.duration()) * 100;
+        this.playedProgress.set(playedFraction);
+        this.currentTime.set(video.currentTime);
+      }
     });
   }
 
@@ -315,8 +337,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       0,
       Math.min(1, (event.clientX - rect.left) / rect.width),
     );
-    const video = this.videoPlayer();
-    video.currentTime = position * video.duration;
+    this.seekTo(position * this.duration());
   }
 
   private clearHoverTimer() {

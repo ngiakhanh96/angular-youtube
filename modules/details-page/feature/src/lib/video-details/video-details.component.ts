@@ -25,6 +25,7 @@ import {
 } from '@angular-youtube/shared-ui';
 import { DOCUMENT } from '@angular/common';
 import {
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -103,6 +104,7 @@ export class VideoDetailsComponent
   defaultModeContainerElement = viewChild.required<ElementRef<HTMLElement>>(
     'defaultModeContainer',
   );
+  player = viewChild.required<NativeYouTubePlayerComponent>('youtubePlayer');
   ViewMode = ViewMode;
   videoInfo: Signal<IInvidiousVideoInfo | undefined>;
   videoCommentsInfo: Signal<IInvidiousVideoCommentsInfo | undefined>;
@@ -126,6 +128,7 @@ export class VideoDetailsComponent
     return undefined;
   });
   recommendedVideosInfo: Signal<IInvidiousVideoInfo[]>;
+  currentTime = signal(0);
   //TODO call api to get channel info/video url same as browse component
   recommendedVideos = computed<IVideoPlayerCardInfo[]>(() => {
     const videosInfo = this.recommendedVideosInfo();
@@ -216,6 +219,9 @@ export class VideoDetailsComponent
     effect(() => {
       this.titleService.setTitle(this.videoInfo()?.title ?? 'Angular Youtube');
     });
+    afterRenderEffect(() => {
+      this.player().seekTo(this.currentTime());
+    });
   }
 
   ngOnInit() {
@@ -223,6 +229,7 @@ export class VideoDetailsComponent
       .pipe(this.takeUntilDestroyed())
       .subscribe((params) => {
         this.videoId.set(params['v']);
+        this.currentTime.set(params['t'] ?? 0);
       });
     this.sidebarService.setMiniSidebarState(false);
     this.sidebarService.setState(false);

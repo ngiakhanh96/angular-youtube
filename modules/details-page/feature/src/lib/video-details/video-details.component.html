@@ -1,41 +1,37 @@
-@if (videoUrl()) {
-  <div class="details_page_container">
-    <div
-      class="details_page_player_container--horizontal"
-      #theaterModeContainer
+<div class="details_page_container">
+  <div class="details_page_player_container--horizontal" #theaterModeContainer>
+    <ay-native-youtube-player
+      #youtubePlayer
+      [videoId]="videoId()"
+      [videoUrl]="videoUrl()!"
+      [showPlayButton]="false"
+      [mini]="false"
+      [autoPlay]="true"
+      [disablePlaceholder]="true"
+      [borderRadius]="mainPlayerBorderRadius()"
+      [viewMode]="viewMode()"
+      (viewModeChange)="onViewModeChange($event)"
+      (playerClick)="onClickMainPlayer()"
+      (nextVideo)="onNextVideo()"
     >
-      <ay-native-youtube-player
-        [videoId]="videoId()"
-        [videoUrl]="videoUrl()!"
-        [showPlayButton]="false"
-        [mini]="false"
-        [autoPlay]="true"
-        [disablePlaceholder]="true"
-        [borderRadius]="mainPlayerBorderRadius()"
-        [viewMode]="viewMode()"
-        (viewModeChange)="onViewModeChange($event)"
-        (playerClick)="onClickMainPlayer()"
-        (nextVideo)="onNextVideo()"
-      >
-      </ay-native-youtube-player>
+    </ay-native-youtube-player>
+  </div>
+  <div class="details_page_info_container">
+    <div class="details_page_info_details">
+      <div
+        class="details_page_player_container--vertical"
+        #defaultModeContainer
+      ></div>
+      <ay-video-details-info
+        [videoInfo]="videoDetailsInfo()"
+        [commentsInfo]="videoCommentsInfo()"
+      ></ay-video-details-info>
     </div>
-    <div class="details_page_info_container">
-      <div class="details_page_info_details">
-        <div
-          class="details_page_player_container--vertical"
-          #defaultModeContainer
-        ></div>
-        <ay-video-details-info
-          [videoInfo]="videoDetailsInfo()"
-          [commentsInfo]="videoCommentsInfo()"
-        ></ay-video-details-info>
-      </div>
-      <div class="details_page_info_others">
-        <ay-videos-recommendation
-          [videoCategories]="videoCategories()"
-          [videos]="recommendedVideos()"
-        ></ay-videos-recommendation>
-      </div>
+    <div class="details_page_info_others">
+      <ay-videos-recommendation
+        [videoCategories]="videoCategories()"
+        [videos]="recommendedVideos()"
+      ></ay-videos-recommendation>
     </div>
   </div>
-}
+</div>
