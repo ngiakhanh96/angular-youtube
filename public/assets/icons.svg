@@ -209,7 +209,7 @@
     <symbol id="sort-by">
         <path d="M21 6H3V5h18v1zm-6 5H3v1h12v-1zm-6 6H3v1h6v-1z"></path>
     </symbol>
-    <symbol id="collapsed">
+    <symbol id="chevron-down">
         <path d="m18 9.28-6.35 6.35-6.37-6.35.72-.71 5.64 5.65 5.65-5.65z"></path>
     </symbol>
 </svg>

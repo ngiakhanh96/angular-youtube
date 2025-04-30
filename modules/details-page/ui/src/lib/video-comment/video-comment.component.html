@@ -1,68 +1,22 @@
 <div class="video-comment">
-  <div class="video-comment-avatar">
-    <img
-      [ngSrc]="comment().authorThumbnails[0].url"
-      width="40"
-      height="40"
-      alt="Comment author avatar"
-      priority
-      referrerpolicy="no-referrer"
-    />
-  </div>
-  <div class="video-comment-content">
-    <div class="video-comment-header">
-      <div class="video-comment-channel-name">
-        <ay-channel-name
-          [channelName]="comment().author"
-          [isVerified]="comment().verified"
-          [fontWeight]="'500'"
-        ></ay-channel-name
-      ></div>
-      <div class="video-comment-time">{{ comment().publishedText }}</div>
-    </div>
-    <div
-      class="video-comment-text"
-      [innerHTML]="sanitizer.bypassSecurityTrustHtml(comment().contentHtml)"
-      #commentText
-    >
-    </div>
-    <div class="video-comment-actions">
-      <div class="video-comment-like-action">
+  <ay-video-comment-content [comment]="comment()" [videoId]="videoId()">
+  </ay-video-comment-content>
+  @if (getRepliesCount(comment()) > 0) {
+    <div class="video-comment-replies">
+      <div>
         <ay-text-icon-button
-          [displayText]="comment().likeCount.toString()"
-          [svgIcon]="'dislike'"
-          [transform]="'rotate(180deg)'"
+          [displayText]="getRepliesCountString(comment())"
+          [svgIcon]="'chevron-down'"
+          color="rgb(6,95,212)"
           backgroundColor="transparent"
-          hoverBackgroundColor="transparent"
-          color="rgb(96,96,96)"
-          [fontWeight]="'400'"
-          [fontSize]="'12px'"
-        >
-        </ay-text-icon-button>
-      </div>
-      <div class="video-comment-dislike-action">
-        <ay-text-icon-button
-          [svgIcon]="'dislike'"
-          backgroundColor="transparent"
-          hoverBackgroundColor="transparent"
-          color="rgb(96,96,96)"
+          hoverBackgroundColor="rgb(222,241,255)"
+          [transform]="
+            this.repliesCollapsed() ? 'rotate(0deg)' : 'rotate(180deg)'
+          "
+          (click)="onClickReplies()"
         >
         </ay-text-icon-button>
       </div>
     </div>
-    @if (getRepliesCount(comment()) > 0) {
-      <div class="video-comment-replies">
-        <div>
-          <ay-text-icon-button
-            [displayText]="getRepliesCountString(comment())"
-            [svgIcon]="'collapsed'"
-            color="rgb(6,95,212)"
-            backgroundColor="transparent"
-            hoverBackgroundColor="rgb(222,241,255)"
-          >
-          </ay-text-icon-button>
-        </div>
-      </div>
-    }
-  </div>
+  }
 </div>

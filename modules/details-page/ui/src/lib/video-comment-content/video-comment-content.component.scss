@@ -1,0 +1,45 @@
+:host {
+  @apply block w-full h-full;
+}
+
+.video-comment-content-container {
+  @apply flex gap-4;
+
+  .video-comment-avatar {
+    img {
+      @apply rounded-full max-w-none;
+    }
+  }
+
+  .video-comment-content {
+    @apply flex flex-col gap-1;
+
+    .video-comment-header {
+      @apply flex items-center gap-1;
+
+      .video-comment-channel-name {
+        @apply text-[13px] font-medium;
+      }
+
+      .video-comment-time {
+        @apply text-[12px] text-[rgb(96,96,96)] h-full flex items-center;
+      }
+    }
+
+    .video-comment-text {
+      @apply text-[14px] text-[var(--black-color)] whitespace-pre-wrap;
+    }
+
+    .video-comment-actions {
+      @apply flex items-center mt-[4px];
+
+      .video-comment-like-action {
+        @apply ml-[-10px];
+      }
+
+      .video-comment-dislike-action {
+        @apply ml-[-10px];
+      }
+    }
+  }
+}

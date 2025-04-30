@@ -1,4 +1,4 @@
-import { afterNextRender, Directive, inject, input } from '@angular/core';
+import { afterRender, Directive, inject, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 
 //TODO convert all icon to use mat-icon
@@ -19,7 +19,7 @@ export class IconDirective {
   transform = input<string | undefined>(undefined);
 
   constructor() {
-    afterNextRender({
+    afterRender({
       write: () => {
         if (this.viewBox() != null) {
           this.host._elementRef.nativeElement

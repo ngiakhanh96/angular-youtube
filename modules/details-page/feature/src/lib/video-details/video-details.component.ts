@@ -65,7 +65,7 @@ export class VideoDetailsComponent
   router = inject(Router);
   sidebarService = inject(SidebarService);
   videoId = signal('');
-  videoRecommendationMarginTop = signal('24px');
+  videoRecommendationMarginTop = signal('44px');
   getVideoInfo = computed(() => {
     if (this.videoId() !== '') {
       return detailsPageActionGroup.loadYoutubeVideo({
@@ -249,12 +249,12 @@ export class VideoDetailsComponent
     const defaultContainer = this.defaultModeContainerElement().nativeElement;
     if (viewMode === ViewMode.Default) {
       const adoptedVideo = theaterContainer.removeChild(video);
-      defaultContainer?.appendChild(adoptedVideo);
+      defaultContainer.appendChild(adoptedVideo);
       this.videoRecommendationMarginTop.set('0px');
     } else {
       const adoptedVideo = defaultContainer.removeChild(video);
-      theaterContainer?.appendChild(adoptedVideo);
-      this.videoRecommendationMarginTop.set('24px');
+      theaterContainer.appendChild(adoptedVideo);
+      this.videoRecommendationMarginTop.set('44px');
     }
     this.viewMode.set(viewMode);
   }
