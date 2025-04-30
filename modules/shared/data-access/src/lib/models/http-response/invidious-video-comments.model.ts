@@ -4,7 +4,7 @@ export interface IInvidiousVideoCommentsInfo {
   commentCount: number;
   videoId: string;
   comments: IVideoComment[];
-  continuation: string;
+  continuation?: string;
 }
 
 export interface IVideoComment {

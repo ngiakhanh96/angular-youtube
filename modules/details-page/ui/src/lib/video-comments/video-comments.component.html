@@ -29,18 +29,11 @@
           type="text"
           placeholder="Add a comment..."
           [formControl]="commentInput"
-          (focus)="onCommentFocus()"
         />
         @if (isCommentFocused()) {
           <div class="video-comments-input-actions">
-            <button class="cancel-button" (click)="onCommentCancel()"
-              >Cancel</button
-            >
-            <button
-              class="comment-button"
-              [disabled]="!commentInput.value"
-              (click)="onCommentSubmit()"
-            >
+            <button class="cancel-button">Cancel</button>
+            <button class="comment-button" [disabled]="!commentInput.value">
               Comment
             </button>
           </div>
@@ -51,73 +44,7 @@
 
   <div class="video-comments-list">
     @for (comment of comments(); track comment.commentId) {
-      <div class="video-comment">
-        <div class="video-comment-avatar">
-          <img
-            [ngSrc]="comment.authorThumbnails[0].url"
-            width="40"
-            height="40"
-            alt="Comment author avatar"
-            priority
-            referrerpolicy="no-referrer"
-          />
-        </div>
-        <div class="video-comment-content">
-          <div class="video-comment-header">
-            <div class="video-comment-channel-name">
-              <ay-channel-name
-                [channelName]="comment.author"
-                [isVerified]="comment.verified"
-                [fontWeight]="'500'"
-              ></ay-channel-name
-            ></div>
-            <div class="video-comment-time">{{ comment.publishedText }}</div>
-          </div>
-          <div
-            class="video-comment-text"
-            [innerHTML]="sanitizer.bypassSecurityTrustHtml(comment.contentHtml)"
-          >
-          </div>
-          <div class="video-comment-actions">
-            <div class="video-comment-like-action">
-              <ay-text-icon-button
-                [displayText]="comment.likeCount.toString()"
-                [svgIcon]="'dislike'"
-                [transform]="'rotate(180deg)'"
-                backgroundColor="transparent"
-                hoverBackgroundColor="transparent"
-                color="rgb(96,96,96)"
-                [fontWeight]="'400'"
-                [fontSize]="'12px'"
-              >
-              </ay-text-icon-button>
-            </div>
-            <div class="video-comment-dislike-action">
-              <ay-text-icon-button
-                [svgIcon]="'dislike'"
-                backgroundColor="transparent"
-                hoverBackgroundColor="transparent"
-                color="rgb(96,96,96)"
-              >
-              </ay-text-icon-button>
-            </div>
-          </div>
-          @if (getRepliesCount(comment) > 0) {
-            <div class="video-comment-replies">
-              <div>
-                <ay-text-icon-button
-                  [displayText]="getRepliesCountString(comment)"
-                  [svgIcon]="'collapsed'"
-                  color="rgb(6,95,212)"
-                  backgroundColor="transparent"
-                  hoverBackgroundColor="rgb(222,241,255)"
-                >
-                </ay-text-icon-button>
-              </div>
-            </div>
-          }
-        </div>
-      </div>
+      <ay-video-comment [comment]="comment"></ay-video-comment>
     }
   </div>
 </div>

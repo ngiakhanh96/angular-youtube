@@ -140,7 +140,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   @HostListener('document:fullscreenchange')
   @HostListener('document:webkitfullscreenchange')
   @HostListener('document:mozfullscreenchange')
-  @HostListener('document:MSFullscreenChange')
+  @HostListener('document:msfullscreenchange')
   onFullScreenChange() {
     if (!this.document.fullscreenElement) {
       this.screenMode.set(ScreenMode.Default);

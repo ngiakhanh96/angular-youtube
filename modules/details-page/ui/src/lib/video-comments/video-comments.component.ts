@@ -19,6 +19,7 @@ import {
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import { VideoCommentComponent } from '../video-comment/video-comment.component';
 
 export enum CommentSortOption {
   TopComments = 'Top comments',
@@ -35,6 +36,7 @@ export enum CommentSortOption {
     ReactiveFormsModule,
     TextIconButtonComponent,
     ChannelNameComponent,
+    VideoCommentComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -54,33 +56,6 @@ export class VideoCommentsComponent {
 
   // TODO: Replace with actual user avatar from auth service
   userAvatar = signal('https://yt3.ggpht.com/ytc/default_avatar');
-
-  onCommentFocus() {
-    this.isCommentFocused.set(true);
-  }
-
-  onCommentCancel() {
-    this.isCommentFocused.set(false);
-    this.commentInput.reset();
-  }
-
-  onCommentSubmit() {
-    if (this.commentInput.value) {
-      // TODO: Implement comment submission
-      console.log('Submitting comment:', this.commentInput.value);
-      this.onCommentCancel();
-    }
-  }
-
-  toggleSortDropdown() {
-    this.isSortOpen.update((v) => !v);
-  }
-
-  selectSort(sort: CommentSortOption) {
-    this.selectedSort.set(sort);
-    this.isSortOpen.set(false);
-    this.sortChanged.emit(sort);
-  }
 
   getRepliesCount(comment: IVideoComment) {
     const repliesCount = comment.replies?.replyCount ?? 0;

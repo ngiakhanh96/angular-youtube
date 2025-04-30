@@ -59,6 +59,19 @@ export class DetailsPageEffects extends BaseEffects {
               commentsInfo: commentsInfo,
             });
           }),
+          catchError((error: HttpErrorResponse) => {
+            console.error(error);
+            return of(
+              detailsPageActionGroup.loadYoutubeVideoCommentsSuccess({
+                commentsInfo: {
+                  commentCount: 0,
+                  videoId: action.videoId,
+                  comments: [],
+                  continuation: undefined,
+                },
+              }),
+            );
+          }),
         );
     },
   );

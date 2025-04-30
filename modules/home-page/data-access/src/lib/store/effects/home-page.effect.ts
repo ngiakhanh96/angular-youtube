@@ -52,7 +52,11 @@ export class HomePageEffects extends BaseEffects {
           ]).pipe(
             map((channelsAndVideosInfo) => {
               const [channelsInfo, ...videosInfo] = channelsAndVideosInfo;
-              return [videosWithMetaData, channelsInfo, ...videosInfo] as const;
+              return [
+                videosWithMetaData,
+                channelsInfo,
+                ...videosInfo.filter((p) => p != null),
+              ] as const;
             }),
           ),
         ),
