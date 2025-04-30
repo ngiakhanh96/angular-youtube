@@ -23,7 +23,6 @@ import {
   Utilities,
   ViewMode,
 } from '@angular-youtube/shared-ui';
-import { DOCUMENT } from '@angular/common';
 import {
   afterRenderEffect,
   ChangeDetectionStrategy,
@@ -153,7 +152,6 @@ export class VideoDetailsComponent
   marginTop = computed(() =>
     this.viewMode() === ViewMode.Theater ? '0px' : '24px',
   );
-  document = inject(DOCUMENT);
   //TODO Need to find an api to get this
   videoCategories = signal<IVideoCategory[]>([
     {
@@ -250,11 +248,11 @@ export class VideoDetailsComponent
     const theaterContainer = this.theaterModeContainerElement().nativeElement;
     const defaultContainer = this.defaultModeContainerElement().nativeElement;
     if (viewMode === ViewMode.Default) {
-      const adoptedVideo = this.document.removeChild(video);
+      const adoptedVideo = theaterContainer.removeChild(video);
       defaultContainer?.appendChild(adoptedVideo);
       this.videoRecommendationMarginTop.set('0px');
     } else {
-      const adoptedVideo = this.document.removeChild(video);
+      const adoptedVideo = defaultContainer.removeChild(video);
       theaterContainer?.appendChild(adoptedVideo);
       this.videoRecommendationMarginTop.set('24px');
     }
