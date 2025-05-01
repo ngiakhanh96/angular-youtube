@@ -192,7 +192,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     });
 
     afterRenderEffect({
-      read: () => {
+      write: () => {
         this.videoUrl();
         this.videoPlayer()?.load();
         if (this.autoPlay()) {

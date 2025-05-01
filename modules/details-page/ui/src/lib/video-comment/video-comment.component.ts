@@ -12,7 +12,6 @@ import {
   Component,
   ComponentRef,
   computed,
-  DestroyRef,
   ElementRef,
   inject,
   input,
@@ -20,9 +19,9 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Observable, of, tap } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 
 export interface IVideoCommentViewModel {
   comment: IVideoComment;
@@ -49,7 +48,6 @@ export class VideoCommentComponent implements OnDestroy {
   linkComponentRefs: ComponentRef<unknown>[] = [];
   repliesCollapsed = signal(true);
   cachedNestedComments?: IVideoCommentViewModel[];
-  destroyRef = inject(DestroyRef);
   nestedCommentsResource = rxResource({
     request: this.repliesCollapsed,
     loader: ({ request: repliesCollapsed }) => {
@@ -66,7 +64,7 @@ export class VideoCommentComponent implements OnDestroy {
                 (nestedComments) =>
                   (this.cachedNestedComments = nestedComments),
               ),
-              takeUntilDestroyed(this.destroyRef),
+              map((nestedComments) => nestedComments ?? []),
             );
       }
       this.cachedNestedComments = [];

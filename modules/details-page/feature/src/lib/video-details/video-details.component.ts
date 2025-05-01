@@ -218,8 +218,10 @@ export class VideoDetailsComponent
     effect(() => {
       this.titleService.setTitle(this.videoInfo()?.title ?? 'Angular Youtube');
     });
-    afterRenderEffect(() => {
-      this.player().seekTo(this.currentTime());
+    afterRenderEffect({
+      write: () => {
+        this.player().seekTo(this.currentTime());
+      },
     });
   }
 
