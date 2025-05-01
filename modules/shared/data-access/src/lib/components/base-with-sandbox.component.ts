@@ -8,10 +8,10 @@ import { HttpResponseStatus } from '../models/http-response/http-response.model'
 import { SandboxService } from '../services/sandbox.service';
 
 export abstract class BaseWithSandBoxComponent {
-  protected sandbox = inject(SandboxService);
   protected activatedRoute = inject(ActivatedRoute);
   protected injector = inject(Injector);
   protected destroyRef = inject(DestroyRef);
+  private sandbox = inject(SandboxService);
 
   protected takeUntilDestroyed<T>() {
     return takeUntilDestroyed<T>(this.destroyRef);
@@ -22,6 +22,11 @@ export abstract class BaseWithSandBoxComponent {
       injector: this.injector,
     });
   }
+
+  protected select<T, K>(mapFn: (state: T) => K) {
+    return this.sandbox.store.select(mapFn);
+  }
+
   protected selectSignal<TInput, TReturn = TInput>(
     selector: MemoizedSelector<object, TInput>,
     mapFn?: (value: TInput) => TReturn,

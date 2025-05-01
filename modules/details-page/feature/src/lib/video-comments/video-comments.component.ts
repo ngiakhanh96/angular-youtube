@@ -26,7 +26,6 @@ import {
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { select } from '@ngrx/store';
 import { map, of } from 'rxjs';
 
 export enum CommentSortOption {
@@ -51,15 +50,7 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
   commentsInfo = input.required<IInvidiousVideoCommentsInfo | undefined>();
   videoId = computed(() => this.commentsInfo()?.videoId ?? '');
   comments = computed(() => this.commentsInfo()?.comments ?? []);
-  getNestedCommentInfo = (commentId: string) =>
-    this.selectSignal(selectNestedVideoCommentsInfoByCommentId(commentId));
-  repliesFn = (
-    comment: IVideoComment,
-    cachedNestedComments?: IVideoCommentViewModel[],
-  ) => {
-    if (cachedNestedComments) {
-      return of(cachedNestedComments);
-    }
+  repliesFn = (comment: IVideoComment) => {
     if (comment.replies) {
       this.dispatchAction(
         detailsPageActionGroup.loadYoutubeVideoComments({
@@ -68,8 +59,9 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
           commentId: comment.commentId,
         }),
       );
-      return this.sandbox.store.pipe(
-        select(selectNestedVideoCommentsInfoByCommentId(comment.commentId)),
+      return this.select(
+        selectNestedVideoCommentsInfoByCommentId(comment.commentId),
+      ).pipe(
         map((nestedCommentsInfo) => {
           return nestedCommentsInfo?.comments.map((comment) => {
             return {

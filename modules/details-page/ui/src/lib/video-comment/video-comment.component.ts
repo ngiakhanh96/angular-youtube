@@ -12,6 +12,7 @@ import {
   Component,
   ComponentRef,
   computed,
+  DestroyRef,
   ElementRef,
   inject,
   input,
@@ -19,17 +20,14 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { rxResource } from '@angular/core/rxjs-interop';
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, of, tap } from 'rxjs';
 
 export interface IVideoCommentViewModel {
   comment: IVideoComment;
   videoId: string;
-  repliesFn?: (
-    comment: IVideoComment,
-    cachedNestedComments?: IVideoCommentViewModel[],
-  ) => Observable<IVideoCommentViewModel[]>;
+  repliesFn?: (comment: IVideoComment) => Observable<IVideoCommentViewModel[]>;
 }
 
 @Component({
@@ -51,6 +49,7 @@ export class VideoCommentComponent implements OnDestroy {
   linkComponentRefs: ComponentRef<unknown>[] = [];
   repliesCollapsed = signal(true);
   cachedNestedComments?: IVideoCommentViewModel[];
+  destroyRef = inject(DestroyRef);
   nestedCommentsResource = rxResource({
     request: this.repliesCollapsed,
     loader: ({ request: repliesCollapsed }) => {
@@ -60,13 +59,15 @@ export class VideoCommentComponent implements OnDestroy {
 
       const commentViewModel = this.commentViewModel();
       if (commentViewModel.repliesFn) {
-        return commentViewModel
-          .repliesFn(commentViewModel.comment, this.cachedNestedComments)
-          .pipe(
-            tap(
-              (nestedComments) => (this.cachedNestedComments = nestedComments),
-            ),
-          );
+        return this.cachedNestedComments
+          ? of(this.cachedNestedComments)
+          : commentViewModel.repliesFn(commentViewModel.comment).pipe(
+              tap(
+                (nestedComments) =>
+                  (this.cachedNestedComments = nestedComments),
+              ),
+              takeUntilDestroyed(this.destroyRef),
+            );
       }
       this.cachedNestedComments = [];
       return of([]);
