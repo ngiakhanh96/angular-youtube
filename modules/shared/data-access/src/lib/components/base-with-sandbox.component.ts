@@ -8,7 +8,7 @@ import { HttpResponseStatus } from '../models/http-response/http-response.model'
 import { SandboxService } from '../services/sandbox.service';
 
 export abstract class BaseWithSandBoxComponent {
-  private sandbox = inject(SandboxService);
+  protected sandbox = inject(SandboxService);
   protected activatedRoute = inject(ActivatedRoute);
   protected injector = inject(Injector);
   protected destroyRef = inject(DestroyRef);

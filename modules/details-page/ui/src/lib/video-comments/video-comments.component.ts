@@ -1,8 +1,14 @@
 import {
+  detailsPageActionGroup,
+  selectNestedVideoCommentsInfoByCommentId,
+} from '@angular-youtube/details-page-data-access';
+import {
   Auth,
+  BaseWithSandBoxComponent,
   IInvidiousVideoCommentsInfo,
   IVideoComment,
 } from '@angular-youtube/shared-data-access';
+
 import { TextIconButtonComponent } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
 import {
@@ -16,6 +22,12 @@ import {
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import { select } from '@ngrx/store';
+import { map, of } from 'rxjs';
+import {
+  IVideoCommentViewModel,
+  VideoCommentContentComponent,
+} from '../video-comment-content/video-comment-content.component';
 import { VideoCommentComponent } from '../video-comment/video-comment.component';
 
 export enum CommentSortOption {
@@ -33,12 +45,55 @@ export enum CommentSortOption {
     ReactiveFormsModule,
     TextIconButtonComponent,
     VideoCommentComponent,
+    VideoCommentContentComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VideoCommentsComponent {
+export class VideoCommentsComponent extends BaseWithSandBoxComponent {
   commentsInfo = input.required<IInvidiousVideoCommentsInfo | undefined>();
+  videoId = computed(() => this.commentsInfo()?.videoId ?? '');
   comments = computed(() => this.commentsInfo()?.comments ?? []);
+  getNestedCommentInfo = (commentId: string) =>
+    this.selectSignal(selectNestedVideoCommentsInfoByCommentId(commentId));
+  repliesFn = (
+    comment: IVideoComment,
+    cachedNestedComments?: IVideoCommentViewModel[],
+  ) => {
+    if (cachedNestedComments) {
+      return of(cachedNestedComments);
+    }
+    if (comment.replies) {
+      this.dispatchAction(
+        detailsPageActionGroup.loadYoutubeVideoComments({
+          videoId: this.videoId(),
+          continuation: comment.replies?.continuation,
+          commentId: comment.commentId,
+        }),
+      );
+      return this.sandbox.store.pipe(
+        select(selectNestedVideoCommentsInfoByCommentId(comment.commentId)),
+        map((nestedCommentsInfo) => {
+          return nestedCommentsInfo?.comments.map((comment) => {
+            return {
+              comment,
+              videoId: this.videoId(),
+              repliesFn: this.repliesFn,
+            };
+          });
+        }),
+      );
+    }
+    return of([]);
+  };
+  commentViewModels = computed<IVideoCommentViewModel[]>(() => {
+    return this.comments().map((comment) => {
+      return {
+        comment,
+        videoId: this.videoId(),
+        repliesFn: this.repliesFn,
+      };
+    });
+  });
   totalComments = computed(() => this.commentsInfo()?.commentCount ?? 0);
   commentInput = new FormControl('');
   isCommentFocused = signal(false);

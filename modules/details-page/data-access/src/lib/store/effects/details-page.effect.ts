@@ -56,6 +56,7 @@ export class DetailsPageEffects extends BaseEffects {
         .pipe(
           map((commentsInfo) => {
             return detailsPageActionGroup.loadYoutubeVideoCommentsSuccess({
+              commentId: action.commentId,
               commentsInfo: commentsInfo,
             });
           }),
@@ -63,6 +64,7 @@ export class DetailsPageEffects extends BaseEffects {
             console.error(error);
             return of(
               detailsPageActionGroup.loadYoutubeVideoCommentsSuccess({
+                commentId: action.commentId,
                 commentsInfo: {
                   commentCount: 0,
                   videoId: action.videoId,

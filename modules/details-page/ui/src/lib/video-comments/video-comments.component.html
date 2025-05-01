@@ -43,11 +43,13 @@
   }
 
   <div class="video-comments-list">
-    @for (comment of comments(); track comment.commentId) {
-      <ay-video-comment
-        [comment]="comment"
-        [videoId]="commentsInfo()!.videoId"
-      ></ay-video-comment>
+    @for (
+      commentViewModel of commentViewModels();
+      track commentViewModel.comment.commentId
+    ) {
+      <ay-video-comment-content
+        [commentViewModel]="commentViewModel"
+      ></ay-video-comment-content>
     }
   </div>
 </div>

@@ -12,11 +12,13 @@ export const detailsPageActionGroup = createActionGroup({
       recommendedVideosInfo: IInvidiousVideoInfo[];
     }>(),
     loadYoutubeVideoComments: props<{
+      commentId?: string;
       videoId: string;
       sortBy?: string;
       continuation?: string;
     }>(),
     loadYoutubeVideoCommentsSuccess: props<{
+      commentId?: string;
       commentsInfo: IInvidiousVideoCommentsInfo;
     }>(),
     reset: emptyProps(),

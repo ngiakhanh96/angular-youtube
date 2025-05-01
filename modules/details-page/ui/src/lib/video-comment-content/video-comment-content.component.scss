@@ -41,5 +41,17 @@
         @apply ml-[-10px];
       }
     }
+
+    .video-comment-replies {
+      @apply ml-[-8px] flex flex-col items-start text-[14px];
+
+      .video-comment-replies-count {
+        @apply h-[36px];
+      }
+
+      .video-comment-replies-list {
+        @apply flex flex-col gap-[4px] ml-[10px];
+      }
+    }
   }
 }

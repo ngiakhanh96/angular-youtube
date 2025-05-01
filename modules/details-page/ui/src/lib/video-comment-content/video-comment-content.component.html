@@ -50,5 +50,35 @@
         </ay-text-icon-button>
       </div>
     </div>
+    @if (repliesCount() > 0) {
+      <div class="video-comment-replies">
+        <div class="video-comment-replies-count">
+          <ay-text-icon-button
+            [displayText]="repliesCountString()"
+            [svgIcon]="'chevron-down'"
+            color="rgb(6,95,212)"
+            backgroundColor="transparent"
+            hoverBackgroundColor="rgb(222,241,255)"
+            [transform]="
+              this.repliesCollapsed() ? 'rotate(0deg)' : 'rotate(180deg)'
+            "
+            (click)="onClickReplies()"
+          >
+          </ay-text-icon-button>
+        </div>
+        @if (!repliesCollapsed()) {
+          <div class="video-comment-replies-list">
+            @for (
+              nestedComment of nestedCommentsResource.value();
+              track nestedComment.comment.commentId
+            ) {
+              <ay-video-comment-content
+                [commentViewModel]="nestedComment"
+              ></ay-video-comment-content>
+            }
+          </div>
+        }
+      </div>
+    }
   </div>
 </div>
