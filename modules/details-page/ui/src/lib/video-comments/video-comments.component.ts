@@ -26,9 +26,8 @@ import { select } from '@ngrx/store';
 import { map, of } from 'rxjs';
 import {
   IVideoCommentViewModel,
-  VideoCommentContentComponent,
-} from '../video-comment-content/video-comment-content.component';
-import { VideoCommentComponent } from '../video-comment/video-comment.component';
+  VideoCommentComponent,
+} from '../video-comment/video-comment.component';
 
 export enum CommentSortOption {
   TopComments = 'Top comments',
@@ -45,7 +44,6 @@ export enum CommentSortOption {
     ReactiveFormsModule,
     TextIconButtonComponent,
     VideoCommentComponent,
-    VideoCommentContentComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

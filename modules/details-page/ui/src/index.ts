@@ -1,4 +1,3 @@
-export * from './lib/video-comment-content/video-comment-content.component';
 export * from './lib/video-comment/video-comment.component';
 export * from './lib/video-comments/video-comments.component';
 export * from './lib/video-details-description/video-details-description.component';
