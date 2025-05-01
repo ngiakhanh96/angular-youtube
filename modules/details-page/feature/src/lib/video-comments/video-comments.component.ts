@@ -3,6 +3,10 @@ import {
   selectNestedVideoCommentsInfoByCommentId,
 } from '@angular-youtube/details-page-data-access';
 import {
+  IVideoCommentViewModel,
+  VideoCommentComponent,
+} from '@angular-youtube/details-page-ui';
+import {
   Auth,
   BaseWithSandBoxComponent,
   IInvidiousVideoCommentsInfo,
@@ -24,10 +28,6 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { select } from '@ngrx/store';
 import { map, of } from 'rxjs';
-import {
-  IVideoCommentViewModel,
-  VideoCommentComponent,
-} from '../video-comment/video-comment.component';
 
 export enum CommentSortOption {
   TopComments = 'Top comments',

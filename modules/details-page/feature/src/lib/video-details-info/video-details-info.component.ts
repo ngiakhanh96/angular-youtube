@@ -1,3 +1,4 @@
+import { VideoDetailsDescriptionComponent } from '@angular-youtube/details-page-ui';
 import { IInvidiousVideoCommentsInfo } from '@angular-youtube/shared-data-access';
 import {
   ChannelNameComponent,
@@ -18,7 +19,6 @@ import {
   signal,
 } from '@angular/core';
 import { VideoCommentsComponent } from '../video-comments/video-comments.component';
-import { VideoDetailsDescriptionComponent } from '../video-details-description/video-details-description.component';
 
 export interface IVideoDetailsInfo {
   id: string;

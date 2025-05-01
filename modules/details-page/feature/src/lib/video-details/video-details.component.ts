@@ -4,11 +4,8 @@ import {
   selectDetailsPageVideoCommentsInfo,
   selectDetailsPageVideoInfo,
 } from '@angular-youtube/details-page-data-access';
-import {
-  IVideoDetailsInfo,
-  VideoDetailsInfoComponent,
-  VideosRecommendationInfoComponent,
-} from '@angular-youtube/details-page-ui';
+
+import { VideosRecommendationInfoComponent } from '@angular-youtube/details-page-ui';
 import {
   BaseWithSandBoxComponent,
   IInvidiousVideoCommentsInfo,
@@ -39,6 +36,10 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import {
+  IVideoDetailsInfo,
+  VideoDetailsInfoComponent,
+} from '../video-details-info/video-details-info.component';
 
 @Component({
   selector: 'ay-video-details',
