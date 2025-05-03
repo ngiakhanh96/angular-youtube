@@ -29,7 +29,7 @@
     <div class="video-comment-actions">
       <div class="video-comment-like-action">
         <ay-text-icon-button
-          [displayText]="comment().likeCount.toString()"
+          [displayText]="likeCountString()"
           [svgIcon]="'dislike'"
           [transform]="'rotate(180deg)'"
           backgroundColor="transparent"
@@ -69,7 +69,7 @@
         @if (!repliesCollapsed()) {
           <div class="video-comment-replies-list">
             @for (
-              nestedComment of nestedCommentsResource.value();
+              nestedComment of nestedCommentsResource.value()?.comments ?? [];
               track nestedComment.comment.commentId
             ) {
               <ay-video-comment
@@ -78,6 +78,19 @@
               ></ay-video-comment>
             }
           </div>
+          @if (hasMoreReplies()) {
+            <div class="video-comment-replies-more">
+              <ay-text-icon-button
+                [displayText]="'Show more replies'"
+                [svgIcon]="'enter'"
+                color="rgb(6,95,212)"
+                backgroundColor="transparent"
+                hoverBackgroundColor="rgb(222,241,255)"
+                (click)="onClickMoreReplies()"
+              >
+              </ay-text-icon-button>
+            </div>
+          }
         }
       </div>
     }

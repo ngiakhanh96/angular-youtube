@@ -26,7 +26,7 @@ import {
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { map, of } from 'rxjs';
+import { map } from 'rxjs';
 
 export enum CommentSortOption {
   TopComments = 'Top comments',
@@ -50,30 +50,30 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
   commentsInfo = input.required<IInvidiousVideoCommentsInfo | undefined>();
   videoId = computed(() => this.commentsInfo()?.videoId ?? '');
   comments = computed(() => this.commentsInfo()?.comments ?? []);
-  repliesFn = (comment: IVideoComment) => {
-    if (comment.replies) {
-      this.dispatchAction(
-        detailsPageActionGroup.loadYoutubeVideoComments({
-          videoId: this.videoId(),
-          continuation: comment.replies?.continuation,
-          commentId: comment.commentId,
-        }),
-      );
-      return this.select(
-        selectNestedVideoCommentsInfoByCommentId(comment.commentId),
-      ).pipe(
-        map((nestedCommentsInfo) => {
-          return nestedCommentsInfo?.comments.map((comment) => {
+  repliesFn = (comment: IVideoComment, continuation?: string) => {
+    this.dispatchAction(
+      detailsPageActionGroup.loadYoutubeVideoComments({
+        videoId: this.videoId(),
+        continuation: continuation ?? comment.replies?.continuation,
+        commentId: comment.commentId,
+      }),
+    );
+    return this.select(
+      selectNestedVideoCommentsInfoByCommentId(comment.commentId),
+    ).pipe(
+      map((nestedCommentsInfo) => {
+        return {
+          comments: nestedCommentsInfo?.comments.map((comment) => {
             return {
               comment,
               videoId: this.videoId(),
               repliesFn: this.repliesFn,
             };
-          });
-        }),
-      );
-    }
-    return of([]);
+          }),
+          continuation: nestedCommentsInfo?.continuation,
+        };
+      }),
+    );
   };
   commentViewModels = computed<IVideoCommentViewModel[]>(() => {
     return this.comments().map((comment) => {

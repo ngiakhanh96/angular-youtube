@@ -4,6 +4,7 @@ import {
   DynamicComponentService,
   LinkComponent,
   TextIconButtonComponent,
+  Utilities,
 } from '@angular-youtube/shared-ui';
 import { NgOptimizedImage } from '@angular/common';
 import {
@@ -23,10 +24,17 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map, Observable, of, tap } from 'rxjs';
 
+export interface IVideoCommentViewModelsWithContinuation {
+  comments: IVideoCommentViewModel[];
+  continuation?: string;
+}
 export interface IVideoCommentViewModel {
   comment: IVideoComment;
   videoId: string;
-  repliesFn?: (comment: IVideoComment) => Observable<IVideoCommentViewModel[]>;
+  repliesFn: (
+    comment: IVideoComment,
+    continuation?: string,
+  ) => Observable<IVideoCommentViewModelsWithContinuation>;
 }
 
 @Component({
@@ -48,28 +56,96 @@ export class VideoCommentComponent implements OnDestroy {
   linkComponentRefs: ComponentRef<unknown>[] = [];
   repliesCollapsed = signal(true);
   cachedNestedComments?: IVideoCommentViewModel[];
+  cachedContinuation?: string;
+  shouldUpdateCachedNestedComments = false;
   nestedCommentsResource = rxResource({
     request: this.repliesCollapsed,
     loader: ({ request: repliesCollapsed }) => {
       if (repliesCollapsed) {
-        return of([]);
+        return of(<IVideoCommentViewModelsWithContinuation>{
+          comments: [],
+          continuation: '',
+        });
       }
 
       const commentViewModel = this.commentViewModel();
-      if (commentViewModel.repliesFn) {
-        return this.cachedNestedComments
-          ? of(this.cachedNestedComments)
-          : commentViewModel.repliesFn(commentViewModel.comment).pipe(
-              tap(
-                (nestedComments) =>
-                  (this.cachedNestedComments = nestedComments),
-              ),
-              map((nestedComments) => nestedComments ?? []),
-            );
+      if (commentViewModel.comment.replies) {
+        if (this.cachedNestedComments) {
+          if (this.shouldUpdateCachedNestedComments) {
+            this.shouldUpdateCachedNestedComments = false;
+            return commentViewModel
+              .repliesFn(commentViewModel.comment, this.cachedContinuation)
+              .pipe(
+                tap((nestedComments) => {
+                  this.cachedNestedComments = [
+                    ...(this.cachedNestedComments ?? []),
+                    ...(nestedComments.comments ?? []),
+                  ];
+                  this.cachedContinuation = nestedComments?.continuation;
+                }),
+                map(
+                  (nestedComments) =>
+                    <IVideoCommentViewModelsWithContinuation>{
+                      comments: nestedComments.comments ?? [],
+                      continuation: nestedComments.continuation,
+                    },
+                ),
+              );
+          } else {
+            return of(<IVideoCommentViewModelsWithContinuation>{
+              comments: this.cachedNestedComments,
+              continuation: this.cachedContinuation,
+            });
+          }
+        } else {
+          return commentViewModel.repliesFn(commentViewModel.comment).pipe(
+            tap((nestedComments) => {
+              this.cachedNestedComments = nestedComments?.comments;
+              this.cachedContinuation = nestedComments?.continuation;
+            }),
+            map(
+              (nestedComments) =>
+                <IVideoCommentViewModelsWithContinuation>{
+                  comments: nestedComments.comments ?? [],
+                  continuation: nestedComments.continuation,
+                },
+            ),
+          );
+        }
       }
       this.cachedNestedComments = [];
-      return of([]);
+      return of(<IVideoCommentViewModelsWithContinuation>{
+        comments: [],
+        continuation: '',
+      });
     },
+  });
+
+  repliesCount = computed(() => {
+    const repliesCount =
+      this.commentViewModel().comment.replies?.replyCount ?? 0;
+    return repliesCount;
+  });
+
+  repliesCountString = computed(() => {
+    const repliesCount = this.repliesCount();
+    return (
+      Utilities.numberToString(repliesCount) +
+      ' ' +
+      (repliesCount > 1 ? 'replies' : 'reply')
+    );
+  });
+
+  likeCountString = computed(() => {
+    const likeCount = this.comment().likeCount;
+    return Utilities.numberToString(likeCount ?? 0);
+  });
+
+  hasMoreReplies = computed(() => {
+    return (
+      this.nestedCommentsResource.value()?.continuation !== '' &&
+      this.nestedCommentsResource.value()?.continuation !== undefined
+    );
   });
 
   constructor() {
@@ -94,19 +170,13 @@ export class VideoCommentComponent implements OnDestroy {
     });
   }
 
-  repliesCount = computed(() => {
-    const repliesCount =
-      this.commentViewModel().comment.replies?.replyCount ?? 0;
-    return repliesCount;
-  });
-
-  repliesCountString = computed(() => {
-    const repliesCount = this.repliesCount();
-    return repliesCount + ' ' + (repliesCount > 1 ? 'replies' : 'reply');
-  });
-
   onClickReplies() {
     this.repliesCollapsed.update((v) => !v);
+  }
+
+  onClickMoreReplies() {
+    this.shouldUpdateCachedNestedComments = true;
+    this.nestedCommentsResource.reload();
   }
 
   ngOnDestroy(): void {

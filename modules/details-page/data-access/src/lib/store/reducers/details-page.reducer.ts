@@ -49,7 +49,17 @@ const reducer = createReducer(
       nestedVideoCommentsInfo: commentId
         ? {
             ...state.nestedVideoCommentsInfo,
-            [commentId]: commentsInfo,
+            [commentId]: state.nestedVideoCommentsInfo[commentId]
+              ? {
+                  ...state.nestedVideoCommentsInfo[commentId],
+                  comments: [
+                    ...(state.nestedVideoCommentsInfo[commentId].comments ??
+                      []),
+                    ...commentsInfo.comments,
+                  ],
+                  continuation: commentsInfo.continuation,
+                }
+              : commentsInfo,
           }
         : state.nestedVideoCommentsInfo,
     }),

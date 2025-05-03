@@ -212,4 +212,7 @@
     <symbol id="chevron-down">
         <path d="m18 9.28-6.35 6.35-6.37-6.35.72-.71 5.64 5.65 5.65-5.65z"></path>
     </symbol>
+    <symbol id="enter">
+        <path d="M19 15l-6 6-1.42-1.42L15.17 16H4V4h2v10h9.17l-3.59-3.58L13 9l6 6z"></path>
+    </symbol>
 </svg>

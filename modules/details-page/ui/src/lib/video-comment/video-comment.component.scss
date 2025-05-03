@@ -52,6 +52,10 @@
       .video-comment-replies-list {
         @apply flex flex-col gap-[4px] ml-[10px] mb-[10px];
       }
+
+      .video-comment-replies-more {
+        @apply h-[36px] ml-[12px];
+      }
     }
   }
 }
