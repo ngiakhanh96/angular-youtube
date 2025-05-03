@@ -55,13 +55,23 @@
               >
               </ay-svg-button-renderer>
             } @else {
-              <ay-svg-button-renderer
-                ariaLabel="Play video"
-                viewBox="0 0 36 36"
-                path="M 12,26 18.5,22 18.5,14 12,10 z M 18.5,22 25,18 25,18 18.5,14 z"
-                fill="var(--white-color)"
-              >
-              </ay-svg-button-renderer>
+              @if (isVideoEnded()) {
+                <ay-svg-button-renderer
+                  ariaLabel="Replay video"
+                  viewBox="0 0 36 36"
+                  path="M 18,11 V 7 l -5,5 5,5 v -4 c 3.3,0 6,2.7 6,6 0,3.3 -2.7,6 -6,6 -3.3,0 -6,-2.7 -6,-6 h -2 c 0,4.4 3.6,8 8,8 4.4,0 8,-3.6 8,-8 0,-4.4 -3.6,-8 -8,-8 z"
+                  fill="var(--white-color)"
+                >
+                </ay-svg-button-renderer>
+              } @else {
+                <ay-svg-button-renderer
+                  ariaLabel="Play video"
+                  viewBox="0 0 36 36"
+                  path="M 12,26 18.5,22 18.5,14 12,10 z M 18.5,22 25,18 25,18 18.5,14 z"
+                  fill="var(--white-color)"
+                >
+                </ay-svg-button-renderer>
+              }
             }
           </div>
 

@@ -104,6 +104,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   boxShadow = input<string>('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
   isVideoPlayed = signal(false);
   isVideoPlayedLastTime = signal(false);
+  isVideoEnded = signal(false);
   autoPlay = input<boolean>(false);
   mini = input<boolean>(true);
   viewMode = model<ViewMode>(ViewMode.Theater);
@@ -159,10 +160,18 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   onMouseUp() {
     if (this.isDragging()) {
       this.isDragging.set(false);
-      if (this.isVideoPlayedLastTime() && !this.videoPlayer().ended) {
+      const justEnded = this.isVideoEnded();
+      const isVideoEnded = this.videoPlayer().currentTime === this.duration();
+      this.isVideoEnded.set(isVideoEnded);
+      if (
+        (justEnded && !isVideoEnded) ||
+        (this.isVideoPlayedLastTime() && !isVideoEnded)
+      ) {
         this.playVideo();
       }
+      return;
     }
+    this.isVideoEnded.set(false);
   }
 
   @HostListener('document:mousemove', ['$event'])
@@ -181,6 +190,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
         this.videoPlayer().addEventListener('ended', () => {
           this.isVideoPlayed.set(false);
+          this.isVideoEnded.set(true);
           if (this.autoNext()) {
             this.nextVideo.emit(true);
           }
@@ -230,6 +240,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   playVideo() {
+    this.isVideoEnded.set(false);
     this.videoPlayer()
       .play()
       .then(() => {
