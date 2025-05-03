@@ -20,6 +20,7 @@ export const detailsPageActionGroup = createActionGroup({
     loadYoutubeVideoCommentsSuccess: props<{
       commentId?: string;
       commentsInfo: IInvidiousVideoCommentsInfo;
+      continuation?: string;
     }>(),
     reset: emptyProps(),
   },

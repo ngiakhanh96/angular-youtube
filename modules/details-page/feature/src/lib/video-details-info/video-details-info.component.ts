@@ -1,5 +1,9 @@
+import { detailsPageActionGroup } from '@angular-youtube/details-page-data-access';
 import { VideoDetailsDescriptionComponent } from '@angular-youtube/details-page-ui';
-import { IInvidiousVideoCommentsInfo } from '@angular-youtube/shared-data-access';
+import {
+  BaseWithSandBoxComponent,
+  IInvidiousVideoCommentsInfo,
+} from '@angular-youtube/shared-data-access';
 import {
   ChannelNameComponent,
   CombinedTextIcon,
@@ -18,6 +22,7 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { VideoCommentsComponent } from '../video-comments/video-comments.component';
 
 export interface IVideoDetailsInfo {
@@ -47,10 +52,11 @@ export interface IVideoDetailsInfo {
     VideoDetailsDescriptionComponent,
     ChannelNameComponent,
     VideoCommentsComponent,
+    InfiniteScrollDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VideoDetailsInfoComponent {
+export class VideoDetailsInfoComponent extends BaseWithSandBoxComponent {
   videoInfo = input.required<IVideoDetailsInfo | undefined>();
   commentsInfo = input.required<IInvidiousVideoCommentsInfo | undefined>();
   likeCountString = computed(() => {
@@ -107,4 +113,15 @@ export class VideoDetailsInfoComponent {
         },
       ],
   );
+
+  onScrollDown() {
+    if (this.commentsInfo()?.continuation) {
+      this.dispatchAction(
+        detailsPageActionGroup.loadYoutubeVideoComments({
+          videoId: this.videoInfo()?.id ?? '',
+          continuation: this.commentsInfo()?.continuation,
+        }),
+      );
+    }
+  }
 }

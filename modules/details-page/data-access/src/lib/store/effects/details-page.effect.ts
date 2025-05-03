@@ -58,6 +58,7 @@ export class DetailsPageEffects extends BaseEffects {
             return detailsPageActionGroup.loadYoutubeVideoCommentsSuccess({
               commentId: action.commentId,
               commentsInfo: commentsInfo,
+              continuation: action.continuation,
             });
           }),
           catchError((error: HttpErrorResponse) => {

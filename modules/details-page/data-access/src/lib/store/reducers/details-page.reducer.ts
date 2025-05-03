@@ -32,9 +32,20 @@ const reducer = createReducer(
   ),
   on(
     detailsPageActionGroup.loadYoutubeVideoCommentsSuccess,
-    (state, { commentsInfo, commentId }) => ({
+    (state, { commentsInfo, commentId, continuation }) => ({
       ...state,
-      videoCommentsInfo: commentId ? state.videoCommentsInfo : commentsInfo,
+      videoCommentsInfo: commentId
+        ? state.videoCommentsInfo
+        : continuation
+          ? {
+              ...(state.videoCommentsInfo ?? commentsInfo),
+              comments: [
+                ...(state.videoCommentsInfo?.comments ?? []),
+                ...commentsInfo.comments,
+              ],
+              continuation: commentsInfo.continuation,
+            }
+          : commentsInfo,
       nestedVideoCommentsInfo: commentId
         ? {
             ...state.nestedVideoCommentsInfo,

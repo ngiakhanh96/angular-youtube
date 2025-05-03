@@ -73,7 +73,13 @@
           [publishedDateEpoch]="this.videoInfo()!.publishedDateEpoch"
         ></ay-video-details-description>
       </div>
-      <div class="video-details-info-comments">
+      <div
+        class="video-details-info-comments"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="50"
+        (scrolled)="onScrollDown()"
+      >
         <ay-video-comments [commentsInfo]="commentsInfo()"> </ay-video-comments>
       </div>
     </div>
