@@ -202,7 +202,9 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
           this.videoPlayer().muted = true;
           this.isMuted.set(true);
         }
-        this.startProgressTracking();
+        if (!this.mini()) {
+          this.startProgressTracking();
+        }
       },
     });
   }
