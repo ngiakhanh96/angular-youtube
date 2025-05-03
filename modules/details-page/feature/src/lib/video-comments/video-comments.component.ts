@@ -84,7 +84,10 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
       };
     });
   });
-  totalComments = computed(() => this.commentsInfo()?.commentCount ?? 0);
+  totalCommentsString = computed(() => {
+    const totalComments = this.commentsInfo()?.commentCount ?? 0;
+    return `${totalComments} Comment${totalComments > 1 ? 's' : ''}`;
+  });
   commentInput = new FormControl('');
   isCommentFocused = signal(false);
   isSortOpen = signal(false);
