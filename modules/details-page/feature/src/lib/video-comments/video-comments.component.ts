@@ -88,6 +88,7 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
     const totalComments = this.commentsInfo()?.commentCount ?? 0;
     return `${totalComments} Comment${totalComments > 1 ? 's' : ''}`;
   });
+  //TODO implement comment posting and sorting feature
   commentInput = new FormControl('');
   isCommentFocused = signal(false);
   isSortOpen = signal(false);
