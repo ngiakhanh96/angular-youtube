@@ -12,6 +12,7 @@ mat-sidenav-container {
   }
 
   mat-sidenav-content {
+    @apply pb-[16px];
     overflow: unset;
     ::ng-deep {
       .layout_body {
