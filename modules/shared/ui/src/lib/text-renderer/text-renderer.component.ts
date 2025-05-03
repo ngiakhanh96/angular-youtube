@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 
 @Component({
   selector: 'ay-text-renderer',
@@ -15,4 +20,7 @@ export class TextRenderComponent {
   fontWeight = input<string>('500');
   lineClamp = input<string>('2');
   overview = input(true);
+  textLineClass = computed(() => {
+    return this.lineClamp() === '1' ? 'one-line' : 'multi-line';
+  });
 }

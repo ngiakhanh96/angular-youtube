@@ -84,7 +84,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
    * Quality of the displayed placeholder image. Defaults to `standard`,
    * because not all video have a high-quality placeholder.
    */
-  placeholderImageQuality = input<PlaceholderImageQuality>('standard');
+  placeholderImageQuality = input<PlaceholderImageQuality>('low');
 
   videoPlayerRef =
     viewChild.required<ElementRef<HTMLMediaElement>>('videoPlayer');

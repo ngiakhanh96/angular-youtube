@@ -2,16 +2,21 @@
   @apply block h-full w-full;
 }
 
-.video-title {
+.one-line {
+  @apply overflow-hidden text-ellipsis whitespace-nowrap;
+  font-weight: var(--font-weight);
+}
+
+.multi-line {
   @apply overflow-hidden text-ellipsis;
+  display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: var(--line-clamp);
   line-clamp: var(--line-clamp);
+  -webkit-line-clamp: var(--line-clamp);
   font-weight: var(--font-weight);
 }
 
 .video-title-overview {
-  display: -webkit-box;
   @apply leading-[22px];
 }
 

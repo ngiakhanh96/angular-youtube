@@ -5,6 +5,7 @@
 .channel-name-container {
   @apply flex h-[22px];
   .channel-name {
+    @apply w-full;
   }
 
   .channel-name-verified {
