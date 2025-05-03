@@ -23,7 +23,7 @@
     <video preload="auto" #videoPlayer>
       <source [src]="videoUrl()" type="video/mp4" />
     </video>
-    <div class="player_bottom" [style.visibility]="playerButtonsVisibility()">
+    <div class="player_bottom" [style.display]="playerButtonsDisplay()">
       <div
         class="player_bottom_progress-bar-container"
         (mousedown)="onProgressBarMouseDown($event)"

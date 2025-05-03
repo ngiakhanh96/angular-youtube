@@ -49,6 +49,7 @@ export enum ScreenMode {
   styleUrls: ['./native-youtube-player.component.scss'],
   host: {
     '[style.--border-radius]': 'borderRadius()',
+    '[style.--player-buttons-display]': 'playerButtonsDisplay()',
     '[style.display]': "'block'",
     '[style.height]': "'100%'",
     '[style.width]': "'100%'",
@@ -114,10 +115,10 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   autoNext = signal(true);
 
   isHovered = signal(false);
-  playerButtonsVisibility = computed(() =>
+  playerButtonsDisplay = computed(() =>
     !this.mini() && (this.isHovered() || !this.isVideoPlayed())
-      ? 'visible'
-      : 'hidden',
+      ? 'flex'
+      : 'none',
   );
 
   playerClick = output<HTMLMediaElement>();
