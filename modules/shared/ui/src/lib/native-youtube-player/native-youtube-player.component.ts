@@ -133,7 +133,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   });
 
   private progressUpdateInterval: ReturnType<typeof setInterval> | null = null;
-  private readonly isDragging = signal(false);
+  private isDragging = false;
   private readonly document = inject(DOCUMENT);
 
   private hoverTimer: ReturnType<typeof setTimeout> | null = null;
@@ -158,15 +158,12 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   @HostListener('document:mouseup')
   onMouseUp() {
-    if (this.isDragging()) {
-      this.isDragging.set(false);
-      const justEnded = this.isVideoEnded();
+    if (this.isDragging) {
+      this.isDragging = false;
+      const isVideoJustEnded = this.isVideoEnded();
       const isVideoEnded = this.videoPlayer().currentTime === this.duration();
       this.isVideoEnded.set(isVideoEnded);
-      if (
-        (justEnded && !isVideoEnded) ||
-        (this.isVideoPlayedLastTime() && !isVideoEnded)
-      ) {
+      if ((isVideoJustEnded || this.isVideoPlayedLastTime()) && !isVideoEnded) {
         this.playVideo();
       }
       return;
@@ -176,7 +173,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   @HostListener('document:mousemove', ['$event'])
   onDocumentMouseMove(event: MouseEvent) {
-    if (this.isDragging()) {
+    if (this.isDragging) {
       this.seekToPosition(event);
     }
   }
@@ -240,10 +237,10 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   playVideo() {
-    this.isVideoEnded.set(false);
     this.videoPlayer()
       .play()
       .then(() => {
+        this.isVideoEnded.set(false);
         this.isVideoPlayed.set(true);
       })
       .catch((error) => {
@@ -292,7 +289,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   onProgressBarMouseDown(event: MouseEvent) {
-    this.isDragging.set(true);
+    this.isDragging = true;
     this.isVideoPlayedLastTime.set(this.isVideoPlayed());
     this.pauseVideo();
     this.seekToPosition(event);
