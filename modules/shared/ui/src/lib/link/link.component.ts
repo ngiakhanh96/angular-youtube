@@ -136,13 +136,12 @@ export class LinkComponent {
   private convertQueryStringToParams(
     queryString: string,
   ): Record<string, string> {
-    return queryString.split('&').reduce(
-      (params, param) => {
+    return queryString
+      .split('&')
+      .reduce<Record<string, string>>((params, param) => {
         const [key, value] = param.split('=');
         params[key] = value;
         return params;
-      },
-      {} as Record<string, string>,
-    );
+      }, {});
   }
 }
