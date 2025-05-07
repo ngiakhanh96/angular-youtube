@@ -45,18 +45,23 @@ import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs';
   host: {
     '[style.--search-icon-legacy-bg-color]':
       'searchIconLegacyBackgroundColor()',
+    '[style.--search-box-container-padding-left]':
+      'searchBoxContainerPaddingLeft()',
   },
 })
 export class SearchBoxComponent implements OnInit {
   searchIconLegacyBackgroundColor = signal('rgb(248, 248, 248)');
   inputElement = viewChild.required<ElementRef>('input');
-  searchBoxContainer = viewChild.required<ElementRef>('searchBoxContainer');
   isOpenedSuggestionDropdown = signal(false);
+  searchBoxContainerPaddingLeftPx = signal(16);
+  searchBoxContainerPaddingLeft = computed(
+    () => `${this.searchBoxContainerPaddingLeftPx()}px`,
+  );
   suggestionTexts = input<string[]>([]);
   suggestions = computed<ISection[]>(() => {
     const sectionItems: ISectionItem[] = this.suggestionTexts().map((v) => ({
-      iconName: 'google-account',
-      displayText: v,
+      iconName: 'search',
+      displayHtml: v,
     }));
     return [{ sectionItems }];
   });

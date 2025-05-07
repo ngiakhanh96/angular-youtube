@@ -29,15 +29,15 @@ export class AccountMenuComponent {
       sectionItems: [
         {
           iconName: 'google-account',
-          displayText: 'Google Account',
+          displayHtml: 'Google Account',
         },
         {
           iconName: 'switch-account',
-          displayText: 'Switch account',
+          displayHtml: 'Switch account',
         },
         {
           iconName: 'sign-out',
-          displayText: 'Sign out',
+          displayHtml: 'Sign out',
         },
       ],
     },
@@ -45,15 +45,15 @@ export class AccountMenuComponent {
       sectionItems: [
         {
           iconName: 'youtube-studio',
-          displayText: 'Youtube Studio',
+          displayHtml: 'Youtube Studio',
         },
         {
           iconName: 'youtube-premium-benefits',
-          displayText: 'Your Premium benefits',
+          displayHtml: 'Your Premium benefits',
         },
         {
           iconName: 'purchases-and-memberships',
-          displayText: 'Purchases and memberships',
+          displayHtml: 'Purchases and memberships',
         },
       ],
     },
@@ -61,27 +61,27 @@ export class AccountMenuComponent {
       sectionItems: [
         {
           iconName: 'data-in-youtube',
-          displayText: 'Your data in Youtube',
+          displayHtml: 'Your data in Youtube',
         },
         {
           iconName: 'appearance',
-          displayText: 'Appearance: Device theme',
+          displayHtml: 'Appearance: Device theme',
         },
         {
           iconName: 'language',
-          displayText: 'Language: English',
+          displayHtml: 'Language: English',
         },
         {
           iconName: 'restricted-mode',
-          displayText: 'Restricted Mode: Off',
+          displayHtml: 'Restricted Mode: Off',
         },
         {
           iconName: 'location',
-          displayText: 'Location: Singapore',
+          displayHtml: 'Location: Singapore',
         },
         {
           iconName: 'keyboard-shortcuts',
-          displayText: 'Keyboard shortcuts',
+          displayHtml: 'Keyboard shortcuts',
         },
       ],
     },
@@ -89,7 +89,7 @@ export class AccountMenuComponent {
       sectionItems: [
         {
           iconName: 'settings',
-          displayText: 'Settings',
+          displayHtml: 'Settings',
         },
       ],
     },
@@ -97,11 +97,11 @@ export class AccountMenuComponent {
       sectionItems: [
         {
           iconName: 'help',
-          displayText: 'Help',
+          displayHtml: 'Help',
         },
         {
           iconName: 'send-feedback',
-          displayText: 'Send feedback',
+          displayHtml: 'Send feedback',
         },
       ],
     },

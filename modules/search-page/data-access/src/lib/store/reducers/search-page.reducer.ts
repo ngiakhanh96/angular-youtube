@@ -5,10 +5,12 @@ import { searchPageActionGroup } from '../actions/search-page.action-group';
 export const searchPageStateName = 'searchPage';
 
 export interface ISearchPageState {
+  searchTerm: string;
   searchedVideosInfo: IInvidiousVideoInfo[];
   page: number;
 }
 export const initialSearchPageState: ISearchPageState = {
+  searchTerm: '',
   searchedVideosInfo: [],
   page: 1,
 };
@@ -17,10 +19,14 @@ const reducer = createReducer(
   initialSearchPageState,
   on(
     searchPageActionGroup.searchYoutubeVideosSuccess,
-    (state, { searchedVideosInfo, page }) => ({
+    (state, { searchTerm, searchedVideosInfo, page }) => ({
       ...state,
-      searchedVideosInfo: [...state.searchedVideosInfo, ...searchedVideosInfo],
+      searchedVideosInfo:
+        state.searchTerm === searchTerm
+          ? [...state.searchedVideosInfo, ...searchedVideosInfo]
+          : searchedVideosInfo,
       page: page,
+      searchTerm,
     }),
   ),
 );

@@ -12,6 +12,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { DropdownButtonComponent } from '../dropdown-button/dropdown-button.component';
+import { ISection } from '../menu/menu.component';
 import { NativeYouTubePlayerComponent } from '../native-youtube-player/native-youtube-player.component';
 import { OverviewVideoInfoComponent } from '../overview-video-info/overview-video-info.component';
 import { Utilities } from '../utilities/utilities';
@@ -99,30 +100,30 @@ export class VideoPlayerCardComponent {
       ? 'thumbnail__video-info--vertical'
       : 'thumbnail__video-info--horizontal';
   });
-  settingItems = computed(() =>
+  settingItems = computed<ISection[]>(() =>
     this.authService.accessToken()
       ? [
           {
             sectionItems: [
               {
                 iconName: 'add-to-queue',
-                displayText: 'Add to queue',
+                displayHtml: 'Add to queue',
               },
               {
                 iconName: 'watch-later',
-                displayText: 'Save to Watch later',
+                displayHtml: 'Save to Watch later',
               },
               {
                 iconName: 'save-to-playlist',
-                displayText: 'Save to playlist',
+                displayHtml: 'Save to playlist',
               },
               {
                 iconName: 'downloads',
-                displayText: 'Download',
+                displayHtml: 'Download',
               },
               {
                 iconName: 'share',
-                displayText: 'Share',
+                displayHtml: 'Share',
               },
             ],
           },
@@ -130,15 +131,15 @@ export class VideoPlayerCardComponent {
             sectionItems: [
               {
                 iconName: 'not-interested',
-                displayText: 'Not interested',
+                displayHtml: 'Not interested',
               },
               {
                 iconName: 'dont-recommend-channel',
-                displayText: "Don't recommend channel",
+                displayHtml: "Don't recommend channel",
               },
               {
                 iconName: 'report',
-                displayText: 'Report',
+                displayHtml: 'Report',
               },
             ],
           },
@@ -148,15 +149,15 @@ export class VideoPlayerCardComponent {
             sectionItems: [
               {
                 iconName: 'add-to-queue',
-                displayText: 'Add to queue',
+                displayHtml: 'Add to queue',
               },
               {
                 iconName: 'downloads',
-                displayText: 'Download',
+                displayHtml: 'Download',
               },
               {
                 iconName: 'share',
-                displayText: 'Share',
+                displayHtml: 'Share',
               },
             ],
           },

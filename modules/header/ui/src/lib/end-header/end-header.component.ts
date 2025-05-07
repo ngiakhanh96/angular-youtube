@@ -48,27 +48,27 @@ export class EndHeaderComponent {
       sectionItems: [
         {
           iconName: 'data-in-youtube',
-          displayText: 'Your data in Youtube',
+          displayHtml: 'Your data in Youtube',
         },
         {
           iconName: 'appearance',
-          displayText: 'Appearance: Device theme',
+          displayHtml: 'Appearance: Device theme',
         },
         {
           iconName: 'language',
-          displayText: 'Language: English',
+          displayHtml: 'Language: English',
         },
         {
           iconName: 'restricted-mode',
-          displayText: 'Restricted Mode: Off',
+          displayHtml: 'Restricted Mode: Off',
         },
         {
           iconName: 'location',
-          displayText: 'Location: Singapore',
+          displayHtml: 'Location: Singapore',
         },
         {
           iconName: 'keyboard-shortcuts',
-          displayText: 'Keyboard shortcuts',
+          displayHtml: 'Keyboard shortcuts',
         },
       ],
     },
@@ -76,7 +76,7 @@ export class EndHeaderComponent {
       sectionItems: [
         {
           iconName: 'settings',
-          displayText: 'Settings',
+          displayHtml: 'Settings',
         },
       ],
     },
@@ -84,11 +84,11 @@ export class EndHeaderComponent {
       sectionItems: [
         {
           iconName: 'help',
-          displayText: 'Help',
+          displayHtml: 'Help',
         },
         {
           iconName: 'send-feedback',
-          displayText: 'Send feedback',
+          displayHtml: 'Send feedback',
         },
       ],
     },

@@ -16,7 +16,7 @@ import { SectionItemDirective } from '../directives/section-item/section-item.di
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionItemContentComponent {
-  displayText = input.required<string>();
+  displayHtml = input.required<string>();
   matListItem = inject(SectionItemDirective);
   shouldHighlight = computed(() => this.matListItem.shouldHighlight());
 }

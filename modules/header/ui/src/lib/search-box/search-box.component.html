@@ -20,14 +20,14 @@
         formControlName="searchQuery"
         (keydown.enter)="onSubmit($event)"
         cdkOverlayOrigin
-        #searchBoxOverlayOrigin="cdkOverlayOrigin"
+        #inputOverlayOrigin="cdkOverlayOrigin"
       />
       <ng-template
         ayOverlay
-        [connectedOverlayOrigin]="searchBoxOverlayOrigin"
+        [connectedOverlayOrigin]="inputOverlayOrigin"
         [connectedOverlayOpen]="isOpenedSuggestionDropdown()"
         [connectedOverlayWidth]="searchBoxContainer.offsetWidth"
-        [connectedOverlayOffsetX]="-16"
+        [connectedOverlayOffsetX]="-searchBoxContainerPaddingLeftPx()"
         [connectedOverlayOffsetY]="4"
         [panelClass]="['mdc-list-list-item-one-line-container-height-40px']"
         (overlayOutsideClick)="onOverlayOutsideClick()"

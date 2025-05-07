@@ -29,15 +29,15 @@ export class SidebarComponent extends BaseSidebarComponent {
       sectionItems: [
         {
           iconName: 'home',
-          displayText: 'Home',
+          displayHtml: 'Home',
         },
         {
           iconName: 'shorts',
-          displayText: 'Shorts',
+          displayHtml: 'Shorts',
         },
         {
           iconName: 'subscriptions',
-          displayText: 'Subscriptions',
+          displayHtml: 'Subscriptions',
         },
       ],
     },
@@ -45,11 +45,11 @@ export class SidebarComponent extends BaseSidebarComponent {
       sectionItems: [
         {
           iconName: 'you',
-          displayText: 'You',
+          displayHtml: 'You',
         },
         {
           iconName: 'history',
-          displayText: 'History',
+          displayHtml: 'History',
         },
       ],
     },
@@ -58,35 +58,35 @@ export class SidebarComponent extends BaseSidebarComponent {
       sectionItems: [
         {
           iconName: 'trending',
-          displayText: 'Trending',
+          displayHtml: 'Trending',
         },
         {
           iconName: 'music',
-          displayText: 'Music',
+          displayHtml: 'Music',
         },
         {
           iconName: 'movies',
-          displayText: 'Movies',
+          displayHtml: 'Movies',
         },
         {
           iconName: 'gaming',
-          displayText: 'Gaming',
+          displayHtml: 'Gaming',
         },
         {
           iconName: 'news',
-          displayText: 'News',
+          displayHtml: 'News',
         },
         {
           iconName: 'sports',
-          displayText: 'Sports',
+          displayHtml: 'Sports',
         },
         {
           iconName: 'fashion-and-beauty',
-          displayText: 'Fashion & Beauty',
+          displayHtml: 'Fashion & Beauty',
         },
         {
           iconName: 'podcasts',
-          displayText: 'Podcasts',
+          displayHtml: 'Podcasts',
         },
       ],
     },
@@ -95,15 +95,15 @@ export class SidebarComponent extends BaseSidebarComponent {
       sectionItems: [
         {
           iconName: 'youtube-premium',
-          displayText: 'YouTube Premium',
+          displayHtml: 'YouTube Premium',
         },
         {
           iconName: 'youtube-music',
-          displayText: 'YouTube Music',
+          displayHtml: 'YouTube Music',
         },
         {
           iconName: 'youtube-kids',
-          displayText: 'YouTube Kids',
+          displayHtml: 'YouTube Kids',
         },
       ],
     },
@@ -111,19 +111,19 @@ export class SidebarComponent extends BaseSidebarComponent {
       sectionItems: [
         {
           iconName: 'settings',
-          displayText: 'Settings',
+          displayHtml: 'Settings',
         },
         {
           iconName: 'report',
-          displayText: 'Report History',
+          displayHtml: 'Report History',
         },
         {
           iconName: 'help',
-          displayText: 'Help',
+          displayHtml: 'Help',
         },
         {
           iconName: 'send-feedback',
-          displayText: 'Send feedback',
+          displayHtml: 'Send feedback',
         },
       ],
     },
@@ -135,19 +135,19 @@ export class SidebarComponent extends BaseSidebarComponent {
       sectionItems: [
         {
           iconName: 'home',
-          displayText: 'Home',
+          displayHtml: 'Home',
         },
         {
           iconName: 'shorts',
-          displayText: 'Shorts',
+          displayHtml: 'Shorts',
         },
         {
           iconName: 'subscriptions',
-          displayText: 'Subscriptions',
+          displayHtml: 'Subscriptions',
         },
         {
           iconName: 'youtube-music-light',
-          displayText: 'YouTube Music',
+          displayHtml: 'YouTube Music',
         },
       ],
     },
@@ -156,31 +156,31 @@ export class SidebarComponent extends BaseSidebarComponent {
       sectionItems: [
         {
           iconName: 'history',
-          displayText: 'History',
+          displayHtml: 'History',
         },
         {
           iconName: 'playlists',
-          displayText: 'Playlists',
+          displayHtml: 'Playlists',
         },
         {
           iconName: 'your-videos',
-          displayText: 'Your videos',
+          displayHtml: 'Your videos',
         },
         {
           iconName: 'watch-later',
-          displayText: 'Watch later',
+          displayHtml: 'Watch later',
         },
         {
           iconName: 'liked-videos',
-          displayText: 'Liked videos',
+          displayHtml: 'Liked videos',
         },
         {
           iconName: 'downloads',
-          displayText: 'Downloads',
+          displayHtml: 'Downloads',
         },
         {
           iconName: 'your-clips',
-          displayText: 'Your clips',
+          displayHtml: 'Your clips',
         },
       ],
     },
@@ -189,35 +189,35 @@ export class SidebarComponent extends BaseSidebarComponent {
       sectionItems: [
         {
           iconName: 'trending',
-          displayText: 'Trending',
+          displayHtml: 'Trending',
         },
         {
           iconName: 'music',
-          displayText: 'Music',
+          displayHtml: 'Music',
         },
         {
           iconName: 'movies',
-          displayText: 'Movies',
+          displayHtml: 'Movies',
         },
         {
           iconName: 'gaming',
-          displayText: 'Gaming',
+          displayHtml: 'Gaming',
         },
         {
           iconName: 'news',
-          displayText: 'News',
+          displayHtml: 'News',
         },
         {
           iconName: 'sports',
-          displayText: 'Sports',
+          displayHtml: 'Sports',
         },
         {
           iconName: 'fashion-and-beauty',
-          displayText: 'Fashion & Beauty',
+          displayHtml: 'Fashion & Beauty',
         },
         {
           iconName: 'podcasts',
-          displayText: 'Podcasts',
+          displayHtml: 'Podcasts',
         },
       ],
     },
@@ -226,15 +226,15 @@ export class SidebarComponent extends BaseSidebarComponent {
       sectionItems: [
         {
           iconName: 'youtube-studio',
-          displayText: 'YouTube Studio',
+          displayHtml: 'YouTube Studio',
         },
         {
           iconName: 'youtube-music',
-          displayText: 'YouTube Music',
+          displayHtml: 'YouTube Music',
         },
         {
           iconName: 'youtube-kids',
-          displayText: 'YouTube Kids',
+          displayHtml: 'YouTube Kids',
         },
       ],
     },
@@ -242,19 +242,19 @@ export class SidebarComponent extends BaseSidebarComponent {
       sectionItems: [
         {
           iconName: 'settings',
-          displayText: 'Settings',
+          displayHtml: 'Settings',
         },
         {
           iconName: 'report',
-          displayText: 'Report History',
+          displayHtml: 'Report History',
         },
         {
           iconName: 'help',
-          displayText: 'Help',
+          displayHtml: 'Help',
         },
         {
           iconName: 'send-feedback',
-          displayText: 'Send feedback',
+          displayHtml: 'Send feedback',
         },
       ],
     },

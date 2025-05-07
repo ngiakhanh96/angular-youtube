@@ -3,5 +3,6 @@
   matListItemTitle
   href="#"
   [style.fontWeight]="shouldHighlight() ? '500' : 'unset'"
-  >{{ displayText() }}
+  [innerHTML]="displayHtml()"
+>
 </div>

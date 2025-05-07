@@ -77,23 +77,23 @@ export class VideoDetailsInfoComponent extends BaseWithSandBoxComponent {
       sectionItems: [
         {
           iconName: 'downloads-light',
-          displayText: 'Download',
+          displayHtml: 'Download',
         },
         {
           iconName: 'thanks',
-          displayText: 'Thanks',
+          displayHtml: 'Thanks',
         },
         {
           iconName: 'your-clips-light',
-          displayText: 'Clip',
+          displayHtml: 'Clip',
         },
         {
           iconName: 'save-to-playlist',
-          displayText: 'Save',
+          displayHtml: 'Save',
         },
         {
           iconName: 'report-light',
-          displayText: 'Report',
+          displayHtml: 'Report',
         },
       ],
     },

@@ -34,6 +34,7 @@ export class SearchPageEffects extends BaseEffects {
           ),
           map((searchedVideosInfo) => {
             return searchPageActionGroup.searchYoutubeVideosSuccess({
+              searchTerm: action.searchTerm,
               searchedVideosInfo: searchedVideosInfo,
               page: action.page,
             });

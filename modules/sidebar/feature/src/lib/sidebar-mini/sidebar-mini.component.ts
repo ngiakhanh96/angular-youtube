@@ -33,27 +33,27 @@ export class SidebarMiniComponent extends BaseSidebarComponent {
   anonymousMenuItems = signal<ISectionItem[]>([
     {
       iconName: 'home',
-      displayText: 'Home',
+      displayHtml: 'Home',
     },
     {
       iconName: 'shorts',
-      displayText: 'Shorts',
+      displayHtml: 'Shorts',
     },
     {
       iconName: 'subscriptions',
-      displayText: 'Subscriptions',
+      displayHtml: 'Subscriptions',
     },
     {
       iconName: 'youtube-music-light',
-      displayText: 'YouTube Music',
+      displayHtml: 'YouTube Music',
     },
     {
       iconName: 'you',
-      displayText: 'You',
+      displayHtml: 'You',
     },
     {
       iconName: 'history',
-      displayText: 'History',
+      displayHtml: 'History',
     },
   ]);
 
@@ -61,27 +61,27 @@ export class SidebarMiniComponent extends BaseSidebarComponent {
   loggedInMenuItems = signal<ISectionItem[]>([
     {
       iconName: 'home',
-      displayText: 'Home',
+      displayHtml: 'Home',
     },
     {
       iconName: 'shorts',
-      displayText: 'Shorts',
+      displayHtml: 'Shorts',
     },
     {
       iconName: 'subscriptions',
-      displayText: 'Subscriptions',
+      displayHtml: 'Subscriptions',
     },
     {
       iconName: 'youtube-music-light',
-      displayText: 'YouTube Music',
+      displayHtml: 'YouTube Music',
     },
     {
       iconName: 'you',
-      displayText: 'You',
+      displayHtml: 'You',
     },
     {
       iconName: 'downloads',
-      displayText: 'Downloads',
+      displayHtml: 'Downloads',
     },
   ]);
 }

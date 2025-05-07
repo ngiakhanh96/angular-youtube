@@ -8,6 +8,7 @@ export const searchPageActionGroup = createActionGroup({
       page: number;
     }>(),
     searchYoutubeVideosSuccess: props<{
+      searchTerm: string;
       searchedVideosInfo: IInvidiousVideoInfo[];
       page: number;
     }>(),

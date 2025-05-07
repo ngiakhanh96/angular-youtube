@@ -15,7 +15,7 @@ import { SectionItemContentComponent } from '../section-item-content/section-ite
 
 export interface ISectionItem {
   iconName: string;
-  displayText: string;
+  displayHtml: string;
 }
 
 @Component({
@@ -51,6 +51,6 @@ export class MenuSectionComponent {
 
   onClick(sectionItem: ISectionItem) {
     this.selectedIconName.set(sectionItem.iconName);
-    this.selectedText.set(sectionItem.displayText);
+    this.selectedText.set(sectionItem.displayHtml);
   }
 }
