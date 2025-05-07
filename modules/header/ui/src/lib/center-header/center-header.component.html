@@ -1,6 +1,9 @@
 <div class="center-header">
   <div class="search-box">
-    <ay-search-box></ay-search-box>
+    <ay-search-box
+      [suggestionTexts]="searchSuggestions()"
+      (searchQueryChange)="searchQueryChange.emit($event)"
+    ></ay-search-box>
   </div>
   <div class="voice-search">
     <ay-svg-button-renderer

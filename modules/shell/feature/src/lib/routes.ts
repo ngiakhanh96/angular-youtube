@@ -1,10 +1,21 @@
+import {
+  HeaderEffects,
+  headerReducer,
+  headerStateName,
+} from '@angular-youtube/header-data-access';
 import { Routes } from '@angular/router';
+import { provideEffects } from '@ngrx/effects';
+import { provideState } from '@ngrx/store';
 import { LayoutComponent } from './layout/layout.component';
 
 export const SHELL_ROUTES: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    providers: [
+      provideState(headerStateName, headerReducer),
+      provideEffects(HeaderEffects),
+    ],
     children: [
       {
         path: '',

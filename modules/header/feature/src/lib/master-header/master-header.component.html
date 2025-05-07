@@ -7,7 +7,10 @@
     <div class="master_header_start-placeholder"></div>
   }
   <div class="master_header_center">
-    <ay-center-header></ay-center-header>
+    <ay-center-header
+      [searchSuggestions]="searchSuggestions()"
+      (searchQueryChange)="onSearchQueryChange($event)"
+    ></ay-center-header>
   </div>
   <div class="master_header_end">
     <ay-end-header [user]="user()"></ay-end-header>

@@ -43,12 +43,14 @@ export class MenuSectionComponent {
   sectionItemsList = computed(() => this.sectionItems().sectionItems);
   sectionItemsHeader = computed(() => this.sectionItems().header);
   selectedIconName = model<string | null>();
+  selectedText = model<string | null>();
   marginRight = input('8px');
   marginLeft = input('0px');
   paddingLeft = input('0px');
   borderRadius = input('10px');
 
-  onClick(iconName: string) {
-    this.selectedIconName.set(iconName);
+  onClick(sectionItem: ISectionItem) {
+    this.selectedIconName.set(sectionItem.iconName);
+    this.selectedText.set(sectionItem.displayText);
   }
 }

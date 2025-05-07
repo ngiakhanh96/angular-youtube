@@ -1,9 +1,8 @@
-/* eslint-disable */
 export default {
-  displayName: 'header-ui',
+  displayName: 'header-data-access',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../coverage/modules/header/ui',
+  coverageDirectory: '../../../coverage/modules/header/data-access',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

@@ -12,7 +12,7 @@
       <mat-list-item
         [aySectionItem]="menuItem.iconName === selectedIconName()"
         class="menu_section_item"
-        (click)="onClick(menuItem.iconName)"
+        (click)="onClick(menuItem)"
       >
         <mat-icon [svgIcon]="menuItem.iconName" matListItemIcon></mat-icon>
         <ay-section-item-content

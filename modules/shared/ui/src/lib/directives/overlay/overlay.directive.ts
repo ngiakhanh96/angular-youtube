@@ -11,6 +11,8 @@ import { Directive, effect, inject, input, signal } from '@angular/core';
         'cdkConnectedOverlayOrigin: connectedOverlayOrigin',
         'cdkConnectedOverlayOpen: connectedOverlayOpen',
         'cdkConnectedOverlayWidth: connectedOverlayWidth',
+        'cdkConnectedOverlayOffsetX: connectedOverlayOffsetX',
+        'cdkConnectedOverlayOffsetY: connectedOverlayOffsetY',
       ],
       outputs: ['overlayOutsideClick'],
     },

@@ -1,6 +1,7 @@
 import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AUTHORIZED } from '../../http-context-tokens/authorized.http-context-token';
+import { IInvidiousSearchSuggestions } from '../../models/http-response/invidious-search-suggestions.model';
 import { IInvidiousSearchedVideoInfo } from '../../models/http-response/invidious-searched-video-info.model';
 import { IInvidiousVideoCommentsInfo } from '../../models/http-response/invidious-video-comments.model';
 import { IInvidiousVideoInfo } from '../../models/http-response/invidious-video-info.model';
@@ -13,6 +14,17 @@ export class InvidiousHttpService {
   private httpClient = inject(HttpClient);
   private appSettingsService = inject(AppSettingsService);
   private baseUrl = this.appSettingsService.appConfig()?.invidiousApiBaseUrl;
+
+  getSearchSuggestions(searchQuery: string) {
+    const url = `${this.baseUrl}search/suggestions`;
+
+    return this.httpClient.get<IInvidiousSearchSuggestions>(url, {
+      context: new HttpContext().set(AUTHORIZED, false),
+      params: {
+        q: searchQuery,
+      },
+    });
+  }
 
   getVideoInfo(videoId: string) {
     const url = `${this.baseUrl}videos/${videoId}`;

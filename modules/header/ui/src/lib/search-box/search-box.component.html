@@ -1,5 +1,5 @@
 <form class="search-form">
-  <div class="search-box-container" [formGroup]="form">
+  <div #searchBoxContainer class="search-box-container" [formGroup]="form">
     <div class="search-box" slot="search-box">
       <input
         #input
@@ -18,8 +18,28 @@
         aria-autocomplete="list"
         dir="ltr"
         formControlName="searchQuery"
-        (keydown.enter)="onSearch($event)"
+        (keydown.enter)="onSubmit($event)"
+        cdkOverlayOrigin
+        #searchBoxOverlayOrigin="cdkOverlayOrigin"
       />
+      <ng-template
+        ayOverlay
+        [connectedOverlayOrigin]="searchBoxOverlayOrigin"
+        [connectedOverlayOpen]="isOpenedSuggestionDropdown()"
+        [connectedOverlayWidth]="searchBoxContainer.offsetWidth"
+        [connectedOverlayOffsetX]="-16"
+        [connectedOverlayOffsetY]="4"
+        [panelClass]="['mdc-list-list-item-one-line-container-height-40px']"
+        (overlayOutsideClick)="onOverlayOutsideClick()"
+      >
+        <ay-menu
+          [items]="suggestions()"
+          [(selectedText)]="selectedText"
+          [sectionItemMarginRight]="'0px'"
+          class="w-full"
+          [sectionItemBorderRadius]="'0px'"
+        ></ay-menu>
+      </ng-template>
       @if (this.form.valid) {
         <ay-svg-button-renderer
           class="clear-icon"
@@ -43,7 +63,7 @@
       viewBox="0 -4 24 32"
       ariaLabel="Search"
       path="M16.296 16.996a8 8 0 11.707-.708l3.909 3.91-.707.707-3.909-3.909zM18 11a7 7 0 00-14 0 7 7 0 1014 0z"
-      (click)="onSearch($event)"
+      (click)="onSubmit($event)"
       [disabled]="true"
     >
     </ay-svg-button-renderer>

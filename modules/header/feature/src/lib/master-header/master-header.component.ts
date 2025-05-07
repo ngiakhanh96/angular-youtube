@@ -1,11 +1,24 @@
 import {
+  headerActionGroup,
+  selectHeaderSearchSuggestions,
+} from '@angular-youtube/header-data-access';
+import {
   CenterHeaderComponent,
   EndHeaderComponent,
 } from '@angular-youtube/header-ui';
 import { selectMyChannelInfo } from '@angular-youtube/home-page-data-access';
-import { BaseWithSandBoxComponent } from '@angular-youtube/shared-data-access';
+import {
+  BaseWithSandBoxComponent,
+  IInvidiousSearchSuggestions,
+} from '@angular-youtube/shared-data-access';
 import { LogoMenuComponent } from '@angular-youtube/shared-ui';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  Signal,
+} from '@angular/core';
 
 @Component({
   selector: 'ay-master-header',
@@ -17,4 +30,20 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 export class MasterHeaderComponent extends BaseWithSandBoxComponent {
   showStartHeader = input.required();
   user = this.selectSignal(selectMyChannelInfo);
+  searchSuggestionsInfo: Signal<IInvidiousSearchSuggestions | undefined>;
+  searchSuggestions = computed(
+    () => this.searchSuggestionsInfo()?.suggestions ?? [],
+  );
+  constructor() {
+    super();
+    this.searchSuggestionsInfo = this.selectSignal(
+      selectHeaderSearchSuggestions,
+    );
+  }
+
+  onSearchQueryChange(query: string) {
+    this.dispatchAction(
+      headerActionGroup.loadYoutubeSearchSuggestions({ searchQuery: query }),
+    );
+  }
 }

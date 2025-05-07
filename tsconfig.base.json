@@ -28,6 +28,7 @@
         "modules/header/feature/src/index.ts"
       ],
       "@angular-youtube/header-ui": ["modules/header/ui/src/index.ts"],
+      "@angular-youtube/header-data-access": ["modules/header/data-access/src/index.ts"],
       "@angular-youtube/home-page-data-access": [
         "modules/home-page/data-access/src/index.ts"
       ],
