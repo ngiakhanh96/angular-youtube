@@ -5,9 +5,11 @@ export const searchPageActionGroup = createActionGroup({
   events: {
     searchYoutubeVideos: props<{
       searchTerm: string;
+      page: number;
     }>(),
     searchYoutubeVideosSuccess: props<{
       searchedVideosInfo: IInvidiousVideoInfo[];
+      page: number;
     }>(),
   },
 });

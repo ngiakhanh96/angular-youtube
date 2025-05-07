@@ -1,9 +1,9 @@
 :host {
-  @apply block w-full h-full;
+  @apply block h-full;
 }
 
 .channel-name-container {
-  @apply flex h-[22px];
+  @apply flex h-full;
   .channel-name {
     @apply w-full;
   }

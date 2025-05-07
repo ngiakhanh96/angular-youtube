@@ -21,7 +21,7 @@
           @apply w-[40px] h-[40px] mr-[12px] rounded-[50%];
         }
         .video-details-info-author-info {
-          @apply flex flex-col min-w-[76px] mr-[30px];
+          @apply flex flex-col min-w-[76px] mr-[30px] items-start;
           .video-details-info-author-subscribers {
             @apply h-[18px] text-[12px] text-[rgb(96,96,96)];
           }

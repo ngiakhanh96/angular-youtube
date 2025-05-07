@@ -22,6 +22,7 @@ import {
   computed,
   effect,
   inject,
+  linkedSignal,
   OnInit,
   Signal,
   signal,
@@ -48,10 +49,15 @@ export class SearchComponent
   private searchYoutubeVideosInfo = computed(() =>
     searchPageActionGroup.searchYoutubeVideos({
       searchTerm: this.searchQuery() ?? '',
+      page: this.page(),
     }),
   );
   private titleService = inject(Title);
   private sidebarService = inject(SidebarService);
+  private page = linkedSignal(() => {
+    this.searchQuery();
+    return 1;
+  });
 
   constructor() {
     super();
@@ -89,11 +95,6 @@ export class SearchComponent
       this.titleService.setTitle(
         `${this.searchQuery() ?? ''} - Angular Youtube`,
       );
-      this.dispatchAction(
-        searchPageActionGroup.searchYoutubeVideos({
-          searchTerm: this.searchQuery() ?? '',
-        }),
-      );
     });
   }
 
@@ -104,5 +105,9 @@ export class SearchComponent
         this.searchQuery.set(params.get('search_query'));
       });
     this.sidebarService.setSelectedIconName(null);
+  }
+
+  onScrollDown() {
+    this.page.update((p) => p + 1);
   }
 }

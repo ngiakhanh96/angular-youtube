@@ -3,12 +3,12 @@
 }
 
 .one-line {
-  @apply overflow-hidden text-ellipsis whitespace-nowrap;
+  @apply overflow-hidden text-ellipsis whitespace-nowrap leading-[var(--line-height)];
   font-weight: var(--font-weight);
 }
 
 .multi-line {
-  @apply overflow-hidden text-ellipsis;
+  @apply overflow-hidden text-ellipsis leading-[var(--line-height)];
   display: -webkit-box;
   -webkit-box-orient: vertical;
   line-clamp: var(--line-clamp);
@@ -17,9 +17,8 @@
 }
 
 .video-title-overview {
-  @apply leading-[22px];
 }
 
 .video-title-details {
-  @apply flex items-center h-full leading-[28px];
+  @apply flex items-center h-full;
 }

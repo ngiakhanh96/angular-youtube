@@ -1,6 +1,3 @@
-<div
-  class="video-title"
-  [class]="overview() ? 'video-title-overview' : 'video-title-details'"
->
-  <span [class]="textLineClass()">{{ title() }}</span></div
->
+<div class="video-title" [class.video-title-details]="!overview()">
+  <span [class]="textLineClass()">{{ title() }}</span>
+</div>

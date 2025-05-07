@@ -10,7 +10,7 @@
   }
 
   .overview-video-info__channel {
-    @apply mt-[var(--channel-margin-top)] flex overflow-hidden text-ellipsis text-[rgb(96,96,96)] whitespace-pre line-clamp-1 h-[20px];
+    @apply h-[var(--channel-info-height)] mt-[var(--channel-margin-top)] flex overflow-hidden text-ellipsis text-[rgb(96,96,96)] whitespace-pre line-clamp-1;
     font-size: var(--channel-name-font-size);
     .overview-video-info__channel-logo {
       @apply mr-[8px] flex-shrink-0;

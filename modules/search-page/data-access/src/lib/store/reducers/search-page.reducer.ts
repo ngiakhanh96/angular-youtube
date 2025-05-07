@@ -6,18 +6,21 @@ export const searchPageStateName = 'searchPage';
 
 export interface ISearchPageState {
   searchedVideosInfo: IInvidiousVideoInfo[];
+  page: number;
 }
 export const initialSearchPageState: ISearchPageState = {
   searchedVideosInfo: [],
+  page: 1,
 };
 
 const reducer = createReducer(
   initialSearchPageState,
   on(
     searchPageActionGroup.searchYoutubeVideosSuccess,
-    (state, { searchedVideosInfo }) => ({
+    (state, { searchedVideosInfo, page }) => ({
       ...state,
-      searchedVideosInfo: searchedVideosInfo,
+      searchedVideosInfo: [...state.searchedVideosInfo, ...searchedVideosInfo],
+      page: page,
     }),
   ),
 );

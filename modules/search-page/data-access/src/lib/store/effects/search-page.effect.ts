@@ -14,28 +14,31 @@ export class SearchPageEffects extends BaseEffects {
   searchYoutubeVideosInfo$ = this.createHttpEffectAndUpdateResponse(
     searchPageActionGroup.searchYoutubeVideos,
     (action) => {
-      return this.invidiousService.searchVideosInfo(action.searchTerm).pipe(
-        switchMap((videosInfo) =>
-          combineLatest([
-            ...videosInfo.map((p) =>
-              this.invidiousService.getVideoInfo(p.videoId).pipe(
-                catchError((error: HttpErrorResponse) => {
-                  console.error(error);
-                  return of(<IInvidiousVideoInfo>(<unknown>{
-                    videoId: p.videoId,
-                    formatStreams: [],
-                  }));
-                }),
+      return this.invidiousService
+        .searchVideosInfo(action.searchTerm, action.page)
+        .pipe(
+          switchMap((videosInfo) =>
+            combineLatest([
+              ...videosInfo.map((p) =>
+                this.invidiousService.getVideoInfo(p.videoId).pipe(
+                  catchError((error: HttpErrorResponse) => {
+                    console.error(error);
+                    return of(<IInvidiousVideoInfo>(<unknown>{
+                      videoId: p.videoId,
+                      formatStreams: [],
+                    }));
+                  }),
+                ),
               ),
-            ),
-          ]),
-        ),
-        map((searchedVideosInfo) => {
-          return searchPageActionGroup.searchYoutubeVideosSuccess({
-            searchedVideosInfo: searchedVideosInfo,
-          });
-        }),
-      );
+            ]),
+          ),
+          map((searchedVideosInfo) => {
+            return searchPageActionGroup.searchYoutubeVideosSuccess({
+              searchedVideosInfo: searchedVideosInfo,
+              page: action.page,
+            });
+          }),
+        );
     },
   );
 }

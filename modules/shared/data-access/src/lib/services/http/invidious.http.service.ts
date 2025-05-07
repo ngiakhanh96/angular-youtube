@@ -22,13 +22,14 @@ export class InvidiousHttpService {
     });
   }
 
-  searchVideosInfo(searchTerm: string) {
+  searchVideosInfo(searchTerm: string, page: number) {
     const url = `${this.baseUrl}search`;
 
     return this.httpClient.get<IInvidiousSearchedVideoInfo[]>(url, {
       context: new HttpContext().set(AUTHORIZED, false),
       params: {
         q: searchTerm,
+        page: page,
         type: 'video',
         sort: 'relevance',
       },

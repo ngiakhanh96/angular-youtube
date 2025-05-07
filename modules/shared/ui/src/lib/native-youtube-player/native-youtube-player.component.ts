@@ -123,7 +123,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   );
 
   playerClick = output<HTMLMediaElement>();
-  nextVideo = output<boolean>();
+  nextVideo = output<void>();
   currentTime = signal<number>(0);
   currentTimeString = computed(() => this.formatTime(this.currentTime()));
   duration = signal(0);
@@ -189,7 +189,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
           this.isVideoPlayed.set(false);
           this.isVideoEnded.set(true);
           if (this.autoNext()) {
-            this.nextVideo.emit(true);
+            this.nextVideo.emit();
           }
         });
 

@@ -71,8 +71,10 @@ export class VideoPlayerCardComponent {
   });
   titleFontWeight = input('500');
   titleFontSize = input('16px');
+  titleLineHeight = input('22px');
   channelNameFontSize = input('14px');
   channelMarginTop = input('0px');
+  channelInfoHeight = input('24px');
   videoStatisticFontSize = input('14px');
   titleMarginBottom = input('4px');
   playerBorderRadius = input('12px');

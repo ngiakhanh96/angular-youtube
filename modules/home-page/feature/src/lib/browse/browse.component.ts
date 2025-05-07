@@ -17,6 +17,7 @@ import {
 import {
   IVideoCategory,
   IVideoPlayerCardInfo,
+  SidebarService,
   VideoCategoriesComponent,
   VideoPlayerCardComponent,
 } from '@angular-youtube/shared-ui';
@@ -25,6 +26,7 @@ import {
   Component,
   computed,
   inject,
+  OnInit,
   Signal,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -42,13 +44,17 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
   styleUrls: ['./browse.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BrowseComponent extends BaseWithSandBoxComponent {
+export class BrowseComponent
+  extends BaseWithSandBoxComponent
+  implements OnInit
+{
   protected videosWithMetaData: Signal<IPopularYoutubeVideos | undefined>;
   protected videos: Signal<IVideoPlayerCardInfo[]>;
   protected channelsInfo: Signal<Record<string, IChannelItem> | undefined>;
   protected videosInfo: Signal<Record<string, IFormatStream> | undefined>;
   protected videosCategories: Signal<IVideoCategories | undefined>;
   protected videosCategoriesViewModel: Signal<IVideoCategory[]>;
+  protected sidebarService = inject(SidebarService);
   private router = inject(Router);
   private titleService = inject(Title);
   constructor() {
@@ -96,6 +102,10 @@ export class BrowseComponent extends BaseWithSandBoxComponent {
         })) ?? []
       );
     });
+  }
+
+  ngOnInit(): void {
+    this.sidebarService.setSelectedIconName('home');
   }
 
   onScrollDown() {

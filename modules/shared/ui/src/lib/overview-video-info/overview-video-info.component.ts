@@ -20,6 +20,7 @@ import { Utilities } from '../utilities/utilities';
     '[style.--video-statistic-font-size]': 'videoStatisticFontSize()',
     '[style.--title-margin-bottom]': 'titleMarginBottom()',
     '[style.--channel-margin-top]': 'channelMarginTop()',
+    '[style.--channel-info-height]': 'channelInfoHeight()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -36,10 +37,12 @@ export class OverviewVideoInfoComponent {
   isVerified = input(false);
   titleFontWeight = input('500');
   titleFontSize = input('16px');
+  titleLineHeight = input('22px');
   channelNameFontSize = input('14px');
   videoStatisticFontSize = input('14px');
   titleMarginBottom = input('4px');
   publishedDateString = computed(() =>
     Utilities.publishedDateToString(this.publishedDate()),
   );
+  channelInfoHeight = input('24px');
 }

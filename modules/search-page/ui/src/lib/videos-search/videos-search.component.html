@@ -5,7 +5,14 @@
       [scrollingWidth]="400"
     ></ay-video-categories>
   </div>
-  <div class="videos_search_player_grid">
+  <div
+    class="videos_search_player_grid"
+    infiniteScroll
+    [scrollWindow]="false"
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="50"
+    (scrolled)="onScrollDown()"
+  >
     @for (video of videos(); track video.videoId) {
       @defer (hydrate on viewport; prefetch on idle) {
         <div class="video-search">
