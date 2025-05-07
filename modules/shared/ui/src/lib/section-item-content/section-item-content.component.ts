@@ -6,6 +6,7 @@ import {
   input,
 } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
+import { DomSanitizer } from '@angular/platform-browser';
 import { SectionItemDirective } from '../directives/section-item/section-item.directive';
 
 @Component({
@@ -17,6 +18,10 @@ import { SectionItemDirective } from '../directives/section-item/section-item.di
 })
 export class SectionItemContentComponent {
   displayHtml = input.required<string>();
+  sanitizer = inject(DomSanitizer);
   matListItem = inject(SectionItemDirective);
+  sanitizedDisplayHtml = computed(() => {
+    return this.sanitizer.bypassSecurityTrustHtml(this.displayHtml());
+  });
   shouldHighlight = computed(() => this.matListItem.shouldHighlight());
 }

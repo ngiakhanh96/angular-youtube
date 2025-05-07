@@ -61,7 +61,10 @@ export class SearchBoxComponent implements OnInit {
   suggestions = computed<ISection[]>(() => {
     const sectionItems: ISectionItem[] = this.suggestionTexts().map((v) => ({
       iconName: 'search',
-      displayHtml: v,
+      displayHtml: this.highlightSearchText(
+        v,
+        this.form.controls.searchQuery.value ?? '',
+      ),
     }));
     return [{ sectionItems }];
   });
@@ -167,5 +170,19 @@ export class SearchBoxComponent implements OnInit {
 
   onOverlayOutsideClick() {
     this.isOpenedSuggestionDropdown.update((v) => !v);
+  }
+
+  private highlightSearchText(text: string, searchQuery: string): string {
+    if (!searchQuery) {
+      return text;
+    }
+    const index = text.toLowerCase().indexOf(searchQuery.toLowerCase());
+    if (index === -1) return text;
+
+    const before = text.slice(0, index);
+    const match = text.slice(index, index + searchQuery.length);
+    const after = text.slice(index + searchQuery.length);
+
+    return `${before}<b>${match}</b>${after}`;
   }
 }

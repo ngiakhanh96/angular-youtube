@@ -22,7 +22,7 @@
     </div>
     <div
       class="video-comment-text"
-      [innerHTML]="sanitizer.bypassSecurityTrustHtml(comment().contentHtml)"
+      [innerHTML]="sanitizedCommentHtml()"
       #commentText
     >
     </div>

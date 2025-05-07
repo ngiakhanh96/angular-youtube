@@ -50,6 +50,9 @@ export class VideoCommentComponent implements OnDestroy {
   commentViewModel = input.required<IVideoCommentViewModel>();
   comment = computed(() => this.commentViewModel().comment);
   sanitizer = inject(DomSanitizer);
+  sanitizedCommentHtml = computed(() =>
+    this.sanitizer.bypassSecurityTrustHtml(this.comment().contentHtml),
+  );
   dynamicComponentService = inject(DynamicComponentService);
   commentTextElement =
     viewChild.required<ElementRef<HTMLElement>>('commentText');
