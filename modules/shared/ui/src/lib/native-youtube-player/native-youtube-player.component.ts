@@ -54,6 +54,7 @@ export enum ScreenMode {
     '[style.height]': "'100%'",
     '[style.width]': "'100%'",
     '[style.aspectRatio]': "'16/9'",
+    '[style.cursor]': "cursorStyle()",
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -116,6 +117,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   autoNext = signal(true);
 
   isHovered = signal(false);
+  cursorStyle = signal<string>('auto');
   playerButtonsDisplay = computed(() =>
     !this.mini() && (this.isHovered() || !this.isVideoPlayed())
       ? 'flex'
@@ -223,17 +225,24 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   onMouseEnter() {
+    if (this.mini()) {
+      return;
+    }
     this.isHovered.set(true);
     this.clearHoverTimer();
     this.hoverTimer = setTimeout(() => {
       this.isHovered.set(false);
-      this.document.body.style.cursor = 'none';
+      this.cursorStyle.set('none');
     }, NativeYouTubePlayerComponent.hoverAndRestTimeoutMs);
   }
 
   onMouseLeave() {
+    if (this.mini()) {
+      return;
+    }
     this.isHovered.set(false);
     this.clearHoverTimer();
+    this.cursorStyle.set('auto');
   }
 
   playVideo() {
@@ -356,6 +365,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       clearTimeout(this.hoverTimer);
       this.hoverTimer = null;
     }
-    this.document.body.style.cursor = 'default';
+    this.cursorStyle.set('auto');
   }
 }
