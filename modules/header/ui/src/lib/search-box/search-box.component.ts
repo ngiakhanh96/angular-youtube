@@ -101,7 +101,6 @@ export class SearchBoxComponent implements OnInit {
     afterNextRender(() => {
       this.router.events
         .pipe(
-          takeUntilDestroyed(this.destroyRef),
           filter(
             (event: RouterEvent) =>
               event instanceof NavigationEnd ||
@@ -113,6 +112,7 @@ export class SearchBoxComponent implements OnInit {
               ? event
               : (event as { routerEvent: NavigationEnd }).routerEvent,
           ),
+          takeUntilDestroyed(this.destroyRef),
         )
         .subscribe((event: NavigationEnd) => {
           const url = new URL(event.url, this.document.baseURI);

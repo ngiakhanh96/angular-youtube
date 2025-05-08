@@ -1,5 +1,5 @@
-import { Platform } from '@angular/cdk/platform';
-import { inject, Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { MemoryStorage } from './memory-storage.service';
 
 @Injectable({
@@ -7,9 +7,9 @@ import { MemoryStorage } from './memory-storage.service';
 })
 export class SessionStorage implements Storage {
   private readonly storage: Storage;
-  private _platform = inject(Platform);
+  private platformId = inject(PLATFORM_ID);
   constructor() {
-    if (this._platform.isBrowser && window?.sessionStorage) {
+    if (isPlatformBrowser(this.platformId) && window?.sessionStorage) {
       this.storage = window.sessionStorage;
     } else {
       this.storage = new MemoryStorage();

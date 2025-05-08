@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { inject, Injectable } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 export class ExternalNavigationService {
   private document = inject(DOCUMENT);
   private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
 
   public navigateWithinAppWithoutLocationChange(externalUrl?: string) {
     if (externalUrl) {
@@ -19,13 +20,16 @@ export class ExternalNavigationService {
   }
 
   public navigateByOpeningNewWindow(url?: string) {
-    if (url) {
-      this.document.defaultView?.open(url, '_blank')?.focus();
+    if (url && isPlatformBrowser(this.platformId)) {
+      const newWindow = this.document.defaultView?.open(url, '_blank');
+      if (newWindow) {
+        newWindow.focus();
+      }
     }
   }
 
   public navigateByCurrentWindow(url?: string) {
-    if (url) {
+    if (url && isPlatformBrowser(this.platformId)) {
       this.document.defaultView?.open(url, '_self');
     }
   }
