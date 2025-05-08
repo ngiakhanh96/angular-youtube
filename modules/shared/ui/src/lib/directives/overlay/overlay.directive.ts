@@ -83,15 +83,17 @@ export class OverlayDirective {
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.connectedOverlayOpen.set(false));
 
-    afterNextRender(() => {
-      if (this.autoOpenOnClick()) {
-        const element: Element | null = (<any>(
-          this.cdkConnectedOverlay
-        ))._getOriginElement();
-        element?.addEventListener('click', () => {
-          this.connectedOverlayOpen.update((v) => !v);
-        });
-      }
+    afterNextRender({
+      read: () => {
+        if (this.autoOpenOnClick()) {
+          const element: Element | null = (<any>(
+            this.cdkConnectedOverlay
+          ))._getOriginElement();
+          element?.addEventListener('click', () => {
+            this.connectedOverlayOpen.update((v) => !v);
+          });
+        }
+      },
     });
 
     effect(() => {

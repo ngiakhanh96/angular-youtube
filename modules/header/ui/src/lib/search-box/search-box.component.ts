@@ -98,32 +98,32 @@ export class SearchBoxComponent implements OnInit {
       this.search();
     });
 
-    afterNextRender(() => {
-      this.router.events
-        .pipe(
-          filter(
-            (event: RouterEvent) =>
-              event instanceof NavigationEnd ||
-              (event as { routerEvent?: NavigationEnd }).routerEvent instanceof
-                NavigationEnd,
-          ),
-          map((event: RouterEvent) =>
-            event instanceof NavigationEnd
-              ? event
-              : (event as { routerEvent: NavigationEnd }).routerEvent,
-          ),
-          takeUntilDestroyed(this.destroyRef),
-        )
-        .subscribe((event: NavigationEnd) => {
-          const url = new URL(event.url, this.document.baseURI);
-          if (!url.pathname.includes('results')) {
-            this.form.reset();
-          } else {
-            this.form.controls.searchQuery.setValue(
-              url.searchParams.get('search_query'),
-            );
-          }
-        });
+    afterNextRender({
+      read: () => {
+        this.router.events
+          .pipe(
+            filter(
+              (event: RouterEvent) =>
+                event instanceof NavigationEnd ||
+                (event as { routerEvent?: NavigationEnd })
+                  .routerEvent instanceof NavigationEnd,
+            ),
+            map((event: RouterEvent) =>
+              event instanceof NavigationEnd
+                ? event
+                : (event as { routerEvent: NavigationEnd }).routerEvent,
+            ),
+            takeUntilDestroyed(this.destroyRef),
+          )
+          .subscribe((event: NavigationEnd) => {
+            const url = new URL(event.url, this.document.baseURI);
+            if (url.pathname.includes('results')) {
+              this.form.controls.searchQuery.setValue(
+                url.searchParams.get('search_query'),
+              );
+            }
+          });
+      },
     });
   }
 
