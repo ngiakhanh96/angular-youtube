@@ -1,4 +1,4 @@
-import { selectMyChannelInfo } from '@angular-youtube/home-page-data-access';
+import { selectMyChannelInfo } from '@angular-youtube/shared-data-access';
 import {
   IconDirective,
   ISectionItem,

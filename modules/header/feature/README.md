@@ -1,7 +1,7 @@
-# feature
+# header-feature
 
 This library was generated with [Nx](https://nx.dev).
 
 ## Running unit tests
 
-Run `nx test feature` to execute the unit tests.
+Run `nx test header-feature` to execute the unit tests.

@@ -1,4 +1,4 @@
-import { IMyChannelInfo } from '@angular-youtube/shared-data-access';
+import { Auth, IMyChannelInfo } from '@angular-youtube/shared-data-access';
 import {
   DropdownButtonComponent,
   ISection,
@@ -13,6 +13,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   signal,
 } from '@angular/core';
@@ -39,9 +40,12 @@ import { LoginButtonComponent } from '../login-button/login-button.component';
 export class EndHeaderComponent {
   public user = input.required<IMyChannelInfo | undefined>();
   public userThumbnail = computed(
-    () => this.user()?.items[0].snippet.thumbnails.default.url,
+    () =>
+      this.user()?.items[0].snippet.thumbnails.default.url ??
+      'https://yt3.ggpht.com/a/default-user',
   );
-  public isLoggedIn = computed(() => this.user() != null);
+  auth = inject(Auth);
+  public isLoggedIn = computed(() => this.auth.isLoggedIn());
   public isOpenedAvatarMenu = signal(false);
   settingItems = signal<ISection[]>([
     {

@@ -1,10 +1,9 @@
 import {
   IChannelItem,
   IFormatStream,
-  IMyChannelInfo,
   IPopularYoutubeVideos,
 } from '@angular-youtube/shared-data-access';
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createActionGroup, props } from '@ngrx/store';
 export const homePageActionGroup = createActionGroup({
   source: 'HomePage',
   events: {
@@ -19,7 +18,5 @@ export const homePageActionGroup = createActionGroup({
       channelsInfo: Record<string, IChannelItem>;
       videosInfo: Record<string, IFormatStream>;
     }>(),
-    loadMyChannelInfo: emptyProps(),
-    loadMyChannelInfoSuccess: props<{ myChannelInfo: IMyChannelInfo }>(),
   },
 });

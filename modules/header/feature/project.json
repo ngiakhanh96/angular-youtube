@@ -1,5 +1,5 @@
 {
-  "name": "feature",
+  "name": "header-feature",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "modules/header/feature/src",
   "prefix": "ay",

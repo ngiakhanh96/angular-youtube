@@ -195,4 +195,24 @@ export class SharedEffects extends BaseEffects {
       );
     },
   );
+
+  updateAccessTokenSuccess$ = this.createEffect(
+    sharedActionGroup.updateAccessTokenSuccess,
+    map(() => {
+      return sharedActionGroup.loadMyChannelInfo();
+    }),
+  );
+
+  loadMyChannelInfo$ = this.createHttpEffectAndUpdateResponse(
+    sharedActionGroup.loadMyChannelInfo,
+    () => {
+      return this.youtubeService.getMyChannelInfo().pipe(
+        map((myChannelInfo) => {
+          return sharedActionGroup.loadMyChannelInfoSuccess({
+            myChannelInfo: myChannelInfo,
+          });
+        }),
+      );
+    },
+  );
 }

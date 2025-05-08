@@ -4,7 +4,6 @@ import {
   IFormatStream,
   IInvidiousVideoInfo,
   InvidiousHttpService,
-  sharedActionGroup,
   YoutubeHttpService,
 } from '@angular-youtube/shared-data-access';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -78,26 +77,6 @@ export class HomePageEffects extends BaseEffects {
             videos: videosWithMetaData,
             channelsInfo: channelsInfoMap,
             videosInfo: videosInfoMap,
-          });
-        }),
-      );
-    },
-  );
-
-  updateAccessTokenSuccess$ = this.createEffect(
-    sharedActionGroup.updateAccessTokenSuccess,
-    map(() => {
-      return homePageActionGroup.loadMyChannelInfo();
-    }),
-  );
-
-  loadMyChannelInfo$ = this.createHttpEffectAndUpdateResponse(
-    homePageActionGroup.loadMyChannelInfo,
-    () => {
-      return this.youtubeService.getMyChannelInfo().pipe(
-        map((myChannelInfo) => {
-          return homePageActionGroup.loadMyChannelInfoSuccess({
-            myChannelInfo: myChannelInfo,
           });
         }),
       );

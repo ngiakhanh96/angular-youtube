@@ -6,10 +6,10 @@ import {
   CenterHeaderComponent,
   EndHeaderComponent,
 } from '@angular-youtube/header-ui';
-import { selectMyChannelInfo } from '@angular-youtube/home-page-data-access';
 import {
   BaseWithSandBoxComponent,
   IInvidiousSearchSuggestions,
+  selectMyChannelInfo,
 } from '@angular-youtube/shared-data-access';
 import { LogoMenuComponent } from '@angular-youtube/shared-ui';
 import {

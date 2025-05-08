@@ -1,4 +1,5 @@
 import { emptyProps, props } from '@ngrx/store';
+import { IMyChannelInfo } from '../../../models/http-response/my-channel-info.model';
 import { IVideoCategories } from '../../../models/http-response/video-categories-model';
 import { createAyActionGroup } from '../../base/actions/base.action-group';
 import { IAccessTokenInfoState } from '../reducers/shared.reducer';
@@ -19,6 +20,8 @@ export const sharedActionGroup = createAyActionGroup({
     loadYoutubeVideoCategoriesSuccess: props<{
       videoCategories: IVideoCategories;
     }>(),
+    loadMyChannelInfo: emptyProps(),
+    loadMyChannelInfoSuccess: props<{ myChannelInfo: IMyChannelInfo }>(),
     empty: emptyProps(),
   },
 });

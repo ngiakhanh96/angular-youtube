@@ -1,7 +1,6 @@
 import {
   IChannelItem,
   IFormatStream,
-  IMyChannelInfo,
   IPopularYoutubeVideos,
 } from '@angular-youtube/shared-data-access';
 import { createFeature, createReducer, on } from '@ngrx/store';
@@ -13,13 +12,11 @@ export interface IHomePageState {
   videos: IPopularYoutubeVideos | undefined;
   channelsInfo: Record<string, IChannelItem>;
   videosInfo: Record<string, IFormatStream>;
-  myChannelInfo: IMyChannelInfo | undefined;
 }
 export const initialHomePageState: IHomePageState = {
   videos: undefined,
   channelsInfo: {},
   videosInfo: {},
-  myChannelInfo: undefined,
 };
 
 const reducer = createReducer(
@@ -44,13 +41,6 @@ const reducer = createReducer(
       },
     }),
   ),
-  on(
-    homePageActionGroup.loadMyChannelInfoSuccess,
-    (state, { myChannelInfo }) => ({
-      ...state,
-      myChannelInfo: myChannelInfo,
-    }),
-  ),
 );
 
 export const {
@@ -59,7 +49,6 @@ export const {
   selectVideos: selectHomePageVideos,
   selectChannelsInfo,
   selectVideosInfo,
-  selectMyChannelInfo,
 } = createFeature<string, IHomePageState>({
   name: homePageStateName,
   reducer: reducer,
