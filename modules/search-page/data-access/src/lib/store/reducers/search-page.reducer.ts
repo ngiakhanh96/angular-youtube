@@ -22,9 +22,9 @@ const reducer = createReducer(
     (state, { searchTerm, searchedVideosInfo, page }) => ({
       ...state,
       searchedVideosInfo:
-        state.searchTerm === searchTerm
-          ? [...state.searchedVideosInfo, ...searchedVideosInfo]
-          : searchedVideosInfo,
+        page === 1
+          ? searchedVideosInfo
+          : [...state.searchedVideosInfo, ...searchedVideosInfo],
       page: page,
       searchTerm,
     }),
