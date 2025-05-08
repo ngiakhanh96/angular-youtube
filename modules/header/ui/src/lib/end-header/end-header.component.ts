@@ -46,7 +46,6 @@ export class EndHeaderComponent {
   );
   auth = inject(Auth);
   public isLoggedIn = computed(() => this.auth.isLoggedIn());
-  public isOpenedAvatarMenu = signal(false);
   settingItems = signal<ISection[]>([
     {
       sectionItems: [

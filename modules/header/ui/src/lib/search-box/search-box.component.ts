@@ -15,6 +15,7 @@ import {
   ElementRef,
   inject,
   input,
+  linkedSignal,
   OnInit,
   output,
   signal,
@@ -52,13 +53,13 @@ import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs';
 export class SearchBoxComponent implements OnInit {
   searchIconLegacyBackgroundColor = signal('rgb(248, 248, 248)');
   inputElement = viewChild.required<ElementRef>('input');
-  isOpenedSuggestionDropdown = signal(false);
+  shouldOpenSuggestionDropdown = signal(false);
   searchBoxContainerPaddingLeftPx = signal(16);
   searchBoxContainerPaddingLeft = computed(
     () => `${this.searchBoxContainerPaddingLeftPx()}px`,
   );
   suggestionTexts = input<string[]>([]);
-  suggestions = computed<ISection[]>(() => {
+  suggestions = linkedSignal<ISection[]>(() => {
     const sectionItems: ISectionItem[] = this.suggestionTexts().map((v) => ({
       iconName: 'search',
       displayHtml: this.highlightSearchText(
@@ -67,6 +68,11 @@ export class SearchBoxComponent implements OnInit {
       ),
     }));
     return [{ sectionItems }];
+  });
+  isOpenedSuggestionDropdown = linkedSignal(() => {
+    const shouldOpenSuggestionDropdown = this.shouldOpenSuggestionDropdown();
+    const hasSuggestion = this.suggestions()[0]?.sectionItems.length > 0;
+    return shouldOpenSuggestionDropdown && hasSuggestion;
   });
   selectedText = signal<string | null>(null);
   searchQueryChange = output<string>();
@@ -130,10 +136,11 @@ export class SearchBoxComponent implements OnInit {
           return;
         }
         if (value.length > 0) {
-          this.isOpenedSuggestionDropdown.set(true);
           this.searchQueryChange.emit(value);
+          this.suggestions.set([]);
+          this.shouldOpenSuggestionDropdown.set(true);
         } else {
-          this.isOpenedSuggestionDropdown.set(false);
+          this.shouldOpenSuggestionDropdown.set(false);
         }
       });
   }
@@ -145,7 +152,7 @@ export class SearchBoxComponent implements OnInit {
 
   search() {
     if (this.form.valid) {
-      this.isOpenedSuggestionDropdown.set(false);
+      this.shouldOpenSuggestionDropdown.set(false);
       this.router.navigate(['results'], {
         queryParams: {
           search_query: this.form.value.searchQuery,
@@ -154,11 +161,11 @@ export class SearchBoxComponent implements OnInit {
     }
   }
 
-  mouseEnter() {
+  onMouseEnter() {
     this.searchIconLegacyBackgroundColor.set('rgb(240, 240, 240)');
   }
 
-  mouseLeave() {
+  onMouseLeave() {
     this.searchIconLegacyBackgroundColor.set('rgb(248, 248, 248)');
   }
 

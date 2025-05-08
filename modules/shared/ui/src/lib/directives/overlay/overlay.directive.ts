@@ -29,7 +29,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class OverlayDirective {
   panelClass = input<string[]>([]);
-  connectedOverlayOpen = model.required<boolean>();
+  connectedOverlayOpen = model(false);
+  autoOpenOnClick = input(true);
   private cdkConnectedOverlay = inject(CdkConnectedOverlay);
   private scrollStrategy = signal(
     inject(Overlay).scrollStrategies.reposition(),
@@ -83,12 +84,14 @@ export class OverlayDirective {
       .subscribe(() => this.connectedOverlayOpen.set(false));
 
     afterNextRender(() => {
-      const element: Element | null = (<any>(
-        this.cdkConnectedOverlay
-      ))._getOriginElement();
-      element?.addEventListener('click', () => {
-        this.connectedOverlayOpen.update((v) => !v);
-      });
+      if (this.autoOpenOnClick()) {
+        const element: Element | null = (<any>(
+          this.cdkConnectedOverlay
+        ))._getOriginElement();
+        element?.addEventListener('click', () => {
+          this.connectedOverlayOpen.update((v) => !v);
+        });
+      }
     });
 
     effect(() => {

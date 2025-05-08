@@ -38,7 +38,6 @@ export class DropdownButtonComponent {
       : ['mdc-list-list-item-one-line-container-height-40px'],
   );
   selectedIconName = signal('');
-  isOpenedSettingsMenu = signal(false);
   buttonRenderer = viewChild.required<
     SvgButtonRendererComponent,
     CdkOverlayOrigin

@@ -25,6 +25,7 @@
       <ng-template
         ayOverlay
         [connectedOverlayOrigin]="inputOverlayOrigin"
+        [autoOpenOnClick]="false"
         [(connectedOverlayOpen)]="isOpenedSuggestionDropdown"
         [connectedOverlayWidth]="searchBoxContainer.offsetWidth"
         [connectedOverlayOffsetX]="-searchBoxContainerPaddingLeftPx()"
@@ -54,8 +55,8 @@
   </div>
   <div
     class="search-button-container"
-    (mouseenter)="mouseEnter()"
-    (mouseleave)="mouseLeave()"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
   >
     <ay-svg-button-renderer
       class="search-icon-legacy"
