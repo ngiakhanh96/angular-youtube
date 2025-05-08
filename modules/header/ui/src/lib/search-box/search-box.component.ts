@@ -6,7 +6,9 @@ import {
   SvgButtonRendererComponent,
 } from '@angular-youtube/shared-ui';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { DOCUMENT } from '@angular/common';
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -81,47 +83,51 @@ export class SearchBoxComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
+  private document = inject(DOCUMENT);
 
   form = this.formBuilder.group({
     searchQuery: new FormControl('', Validators.required),
   });
 
   constructor() {
+    const tmp = this.document.createElement('DIV');
     effect(() => {
-      this.form.controls.searchQuery.patchValue(this.selectedText());
+      tmp.innerHTML = this.selectedText() ?? '';
+      this.form.controls.searchQuery.patchValue(tmp.textContent);
       this.selectedSuggestion = true;
       this.search();
+    });
+
+    afterNextRender(() => {
+      this.router.events
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          filter(
+            (event: RouterEvent) =>
+              event instanceof NavigationEnd ||
+              (event as { routerEvent?: NavigationEnd }).routerEvent instanceof
+                NavigationEnd,
+          ),
+          map((event: RouterEvent) =>
+            event instanceof NavigationEnd
+              ? event
+              : (event as { routerEvent: NavigationEnd }).routerEvent,
+          ),
+        )
+        .subscribe((event: NavigationEnd) => {
+          const url = new URL(event.url, this.document.baseURI);
+          if (!url.pathname.includes('results')) {
+            this.form.reset();
+          } else {
+            this.form.controls.searchQuery.setValue(
+              url.searchParams.get('search_query'),
+            );
+          }
+        });
     });
   }
 
   ngOnInit(): void {
-    this.router.events
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        filter(
-          (event: RouterEvent) =>
-            event instanceof NavigationEnd ||
-            (event as { routerEvent?: NavigationEnd }).routerEvent instanceof
-              NavigationEnd,
-        ),
-        map((event: RouterEvent) =>
-          event instanceof NavigationEnd
-            ? event
-            : (event as { routerEvent: NavigationEnd }).routerEvent,
-        ),
-      )
-      .subscribe((event: NavigationEnd) => {
-        const baseUrl = window.location.origin;
-        const url = new URL(event.url, baseUrl);
-        if (!url.pathname.includes('results')) {
-          this.form.reset();
-        } else {
-          this.form.controls.searchQuery.setValue(
-            url.searchParams.get('search_query'),
-          );
-        }
-      });
-
     // Listen for search input changes with debounce
     this.form.controls.searchQuery.valueChanges
       .pipe(

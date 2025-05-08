@@ -13,7 +13,7 @@
       "options": {
         "outputPath": {
           "base": "docs",
-          "browser": ""
+          "browser": "angular-youtube"
         },
         "index": "./src/index.html",
         "browser": "./src/main.ts",
