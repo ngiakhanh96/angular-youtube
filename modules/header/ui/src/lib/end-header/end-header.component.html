@@ -21,7 +21,6 @@
         viewBox="-8 0 40 24"
         cdkOverlayOrigin
         #avatar="cdkOverlayOrigin"
-        (click)="onClickAvatar()"
       >
         <ng-template aySvgButtonTmp>
           <img
@@ -39,10 +38,9 @@
       <ng-template
         ayOverlay
         [connectedOverlayOrigin]="avatar"
-        [connectedOverlayOpen]="isOpenedAvatarMenu()"
+        [(connectedOverlayOpen)]="isOpenedAvatarMenu"
         [connectedOverlayWidth]="300"
         [panelClass]="['mdc-list-list-item-one-line-container-height-40px']"
-        (overlayOutsideClick)="onOverlayOutsideClick()"
       >
         <ay-account-menu [user]="user()"></ay-account-menu>
       </ng-template>

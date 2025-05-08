@@ -45,11 +45,4 @@ export class DropdownButtonComponent {
   >(SvgButtonRendererComponent, { read: CdkOverlayOrigin });
   backgroundColor = input('unset');
   dropDownWidth = input('254px');
-  onClickSettings() {
-    this.isOpenedSettingsMenu.update((v) => !v);
-  }
-
-  onOverlayOutsideClick() {
-    this.isOpenedSettingsMenu.update((v) => !v);
-  }
 }

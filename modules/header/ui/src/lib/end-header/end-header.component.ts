@@ -93,12 +93,4 @@ export class EndHeaderComponent {
       ],
     },
   ]);
-
-  onClickAvatar() {
-    this.isOpenedAvatarMenu.update((v) => !v);
-  }
-
-  onOverlayOutsideClick() {
-    this.isOpenedAvatarMenu.update((v) => !v);
-  }
 }

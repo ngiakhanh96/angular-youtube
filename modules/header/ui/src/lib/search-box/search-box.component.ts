@@ -168,10 +168,6 @@ export class SearchBoxComponent implements OnInit {
     this.inputElement().nativeElement.focus();
   }
 
-  onOverlayOutsideClick() {
-    this.isOpenedSuggestionDropdown.update((v) => !v);
-  }
-
   private highlightSearchText(text: string, searchQuery?: string): string {
     if (!searchQuery) {
       return text;

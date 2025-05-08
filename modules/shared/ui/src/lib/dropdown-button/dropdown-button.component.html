@@ -5,7 +5,6 @@
     path="M12 16.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zM10.5 12c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5zm0-6c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5z"
     cdkOverlayOrigin
     #settings="cdkOverlayOrigin"
-    (click)="onClickSettings()"
   >
   </ay-svg-button-renderer>
 } @else {
@@ -15,7 +14,6 @@
     path="M7.5 12c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5zm4.5-1.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm6 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"
     cdkOverlayOrigin
     #settings="cdkOverlayOrigin"
-    (click)="onClickSettings()"
   >
   </ay-svg-button-renderer>
 }
@@ -23,10 +21,9 @@
 <ng-template
   ayOverlay
   [connectedOverlayOrigin]="buttonRenderer()"
-  [connectedOverlayOpen]="isOpenedSettingsMenu()"
+  [(connectedOverlayOpen)]="isOpenedSettingsMenu"
   [connectedOverlayWidth]="dropDownWidth()"
   [panelClass]="panelClass()"
-  (overlayOutsideClick)="onOverlayOutsideClick()"
 >
   <ay-menu
     [items]="items()"

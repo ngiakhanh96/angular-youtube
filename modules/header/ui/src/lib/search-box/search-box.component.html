@@ -25,12 +25,11 @@
       <ng-template
         ayOverlay
         [connectedOverlayOrigin]="inputOverlayOrigin"
-        [connectedOverlayOpen]="isOpenedSuggestionDropdown()"
+        [(connectedOverlayOpen)]="isOpenedSuggestionDropdown"
         [connectedOverlayWidth]="searchBoxContainer.offsetWidth"
         [connectedOverlayOffsetX]="-searchBoxContainerPaddingLeftPx()"
         [connectedOverlayOffsetY]="4"
         [panelClass]="['mdc-list-list-item-one-line-container-height-40px']"
-        (overlayOutsideClick)="onOverlayOutsideClick()"
       >
         <ay-menu
           [items]="suggestions()"
