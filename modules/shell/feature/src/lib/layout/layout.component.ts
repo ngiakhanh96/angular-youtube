@@ -23,7 +23,6 @@ import {
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 
-//TODO fix the scroll bar not shown as scroll. Need to redo layout
 @Component({
   selector: 'ay-layout',
   imports: [
