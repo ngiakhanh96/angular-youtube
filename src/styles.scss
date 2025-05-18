@@ -7,6 +7,12 @@
   --white-color: rgb(255, 255, 255);
   --white-color-trans: rgba(255, 255, 255, 0.94);
   --black-color: rgb(15, 15, 15);
+  --scrollbar-thumb: rgba(0, 0, 0, 0.4);
+  --scrollbar-thumb-hover: rgb(255, 0, 0);
+}
+
+html {
+  scrollbar-color: rgba(0, 0, 0, 0.68) var(--white-color);
 }
 
 html,
@@ -17,7 +23,6 @@ body {
 body {
   margin: 0;
   font-family: 'Roboto', 'Arial', sans-serif;
-  scrollbar-color: rgba(0, 0, 0, 0.68) var(--white-color);
   text-shadow: 0 0 6px rgba(0, 0, 0, 0);
   pre {
     font-family: 'Roboto', 'Arial', sans-serif;
