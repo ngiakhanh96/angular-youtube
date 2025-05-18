@@ -3,6 +3,7 @@ export * from './lib/card/card.component';
 export * from './lib/channel-name/channel-name.component';
 export * from './lib/combined-text-icon-button/combined-text-icon-button.component';
 export * from './lib/directives/icon/icon.directive';
+export * from './lib/directives/image/image.directive';
 export * from './lib/directives/overlay/overlay.directive';
 export * from './lib/directives/section-item/section-item.directive';
 export * from './lib/dropdown-button/dropdown-button.component';

@@ -1,8 +1,8 @@
 import {
+  ImageDirective,
   SvgButtonRendererComponent,
   SvgButtonTemplateDirective,
 } from '@angular-youtube/shared-ui';
-import { NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   imports: [
     SvgButtonRendererComponent,
     SvgButtonTemplateDirective,
-    NgOptimizedImage,
+    ImageDirective,
   ],
   templateUrl: './account-avatar.component.html',
   styleUrl: './account-avatar.component.scss',

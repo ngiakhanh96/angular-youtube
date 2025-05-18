@@ -13,8 +13,10 @@ import {
   IVideoComment,
 } from '@angular-youtube/shared-data-access';
 
-import { TextIconButtonComponent } from '@angular-youtube/shared-ui';
-import { NgOptimizedImage } from '@angular/common';
+import {
+  ImageDirective,
+  TextIconButtonComponent,
+} from '@angular-youtube/shared-ui';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -39,10 +41,10 @@ export enum CommentSortOption {
   styleUrls: ['./video-comments.component.scss'],
   standalone: true,
   imports: [
-    NgOptimizedImage,
     ReactiveFormsModule,
     TextIconButtonComponent,
     VideoCommentComponent,
+    ImageDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

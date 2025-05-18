@@ -1,4 +1,3 @@
-import { NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,12 +5,13 @@ import {
   input,
 } from '@angular/core';
 import { ChannelNameComponent } from '../channel-name/channel-name.component';
+import { ImageDirective } from '../directives/image/image.directive';
 import { TextRenderComponent } from '../text-renderer/text-renderer.component';
 import { Utilities } from '../utilities/utilities';
 
 @Component({
   selector: 'ay-overview-video-info',
-  imports: [TextRenderComponent, ChannelNameComponent, NgOptimizedImage],
+  imports: [TextRenderComponent, ChannelNameComponent, ImageDirective],
   templateUrl: './overview-video-info.component.html',
   styleUrls: ['./overview-video-info.component.scss'],
   host: {

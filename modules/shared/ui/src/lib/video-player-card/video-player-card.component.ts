@@ -1,5 +1,4 @@
 import { Auth } from '@angular-youtube/shared-data-access';
-import { NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,6 +10,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { ImageDirective } from '../directives/image/image.directive';
 import { DropdownButtonComponent } from '../dropdown-button/dropdown-button.component';
 import { ISection } from '../menu/menu.component';
 import { NativeYouTubePlayerComponent } from '../native-youtube-player/native-youtube-player.component';
@@ -38,7 +38,7 @@ export enum PlayerPosition {
 @Component({
   selector: 'ay-video-player-card',
   imports: [
-    NgOptimizedImage,
+    ImageDirective,
     DropdownButtonComponent,
     NativeYouTubePlayerComponent,
     OverviewVideoInfoComponent,

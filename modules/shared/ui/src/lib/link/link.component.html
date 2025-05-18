@@ -7,12 +7,7 @@
   @if (shouldShowIcon()) {
     {{ prefix() }}
     <span>
-      <img
-        [ngSrc]="imgSource()"
-        width="14"
-        height="14"
-        referrerpolicy="no-referrer"
-      />
+      <img [ayImgSrc]="imgSource()" width="14" height="14" />
     </span>
     {{ suffix() }}
   } @else {

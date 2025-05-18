@@ -9,12 +9,12 @@ import {
   CombinedTextIcon,
   CombinedTextIconButtonComponent,
   DropdownButtonComponent,
+  ImageDirective,
   ISection,
   TextIconButtonComponent,
   TextRenderComponent,
   Utilities,
 } from '@angular-youtube/shared-ui';
-import { NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -44,7 +44,6 @@ export interface IVideoDetailsInfo {
   templateUrl: './video-details-info.component.html',
   styleUrls: ['./video-details-info.component.scss'],
   imports: [
-    NgOptimizedImage,
     TextRenderComponent,
     TextIconButtonComponent,
     DropdownButtonComponent,
@@ -53,6 +52,7 @@ export interface IVideoDetailsInfo {
     ChannelNameComponent,
     VideoCommentsComponent,
     InfiniteScrollDirective,
+    ImageDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

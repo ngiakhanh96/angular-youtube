@@ -2,11 +2,11 @@ import { IVideoComment } from '@angular-youtube/shared-data-access';
 import {
   ChannelNameComponent,
   DynamicComponentService,
+  ImageDirective,
   LinkComponent,
   TextIconButtonComponent,
   Utilities,
 } from '@angular-youtube/shared-ui';
-import { NgOptimizedImage } from '@angular/common';
 import {
   afterRenderEffect,
   ChangeDetectionStrategy,
@@ -42,7 +42,7 @@ export interface IVideoCommentViewModel {
   templateUrl: './video-comment.component.html',
   styleUrls: ['./video-comment.component.scss'],
   standalone: true,
-  imports: [NgOptimizedImage, TextIconButtonComponent, ChannelNameComponent],
+  imports: [ImageDirective, TextIconButtonComponent, ChannelNameComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoCommentComponent implements OnDestroy {

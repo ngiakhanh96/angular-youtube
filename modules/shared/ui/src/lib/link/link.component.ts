@@ -1,4 +1,4 @@
-import { DOCUMENT, NgOptimizedImage } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,6 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { ImageDirective } from '../directives/image/image.directive';
 import { ExternalNavigationService } from '../services/external-navigation.service';
 
 @Component({
@@ -15,7 +16,7 @@ import { ExternalNavigationService } from '../services/external-navigation.servi
   templateUrl: './link.component.html',
   styleUrls: ['./link.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgOptimizedImage],
+  imports: [ImageDirective],
   host: {
     '[style.--color]': 'color()',
     '[style.--background-color]': 'backgroundColor()',

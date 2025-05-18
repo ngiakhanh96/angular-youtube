@@ -1,6 +1,7 @@
 import { Auth, IMyChannelInfo } from '@angular-youtube/shared-data-access';
 import {
   DropdownButtonComponent,
+  ImageDirective,
   ISection,
   OverlayDirective,
   SvgButtonRendererComponent,
@@ -8,7 +9,6 @@ import {
   TextIconButtonComponent,
 } from '@angular-youtube/shared-ui';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -27,7 +27,7 @@ import { LoginButtonComponent } from '../login-button/login-button.component';
   imports: [
     SvgButtonRendererComponent,
     SvgButtonTemplateDirective,
-    NgOptimizedImage,
+    ImageDirective,
     DropdownButtonComponent,
     LoginButtonComponent,
     OverlayModule,
