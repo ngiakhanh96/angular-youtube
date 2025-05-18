@@ -15,6 +15,7 @@ import {
   sharedActionGroup,
 } from '@angular-youtube/shared-data-access';
 import {
+  FixedDirective,
   IVideoCategory,
   IVideoPlayerCardInfo,
   SidebarService,
@@ -39,6 +40,7 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
     VideoPlayerCardComponent,
     InfiniteScrollDirective,
     VideoCategoriesComponent,
+    FixedDirective,
   ],
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.scss'],

@@ -24,7 +24,7 @@
       }
       .search-input {
         outline: none;
-        @apply h-full w-full;
+        @apply h-full w-full bg-transparent;
         padding: 1px 0px;
         font-size: 16px;
       }

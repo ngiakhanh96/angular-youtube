@@ -9,7 +9,10 @@
     <ay-sidebar></ay-sidebar>
   </mat-sidenav>
   <mat-sidenav-content>
-    <ay-master-header [showStartHeader]="showStartHeader()"></ay-master-header>
+    <ay-master-header
+      [ayFixed]="56"
+      [showStartHeader]="showStartHeader()"
+    ></ay-master-header>
     <div class="layout_body">
       @if (showMiniSidebar()) {
         <ay-sidebar-mini></ay-sidebar-mini>

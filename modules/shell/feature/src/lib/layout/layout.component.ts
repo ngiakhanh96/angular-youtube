@@ -5,7 +5,7 @@ import {
   selectAccessTokenInfo,
   sharedActionGroup,
 } from '@angular-youtube/shared-data-access';
-import { SidebarService } from '@angular-youtube/shared-ui';
+import { FixedDirective, SidebarService } from '@angular-youtube/shared-ui';
 import {
   SidebarComponent,
   SidebarMiniComponent,
@@ -31,6 +31,7 @@ import { RouterOutlet } from '@angular/router';
     SidebarComponent,
     SidebarMiniComponent,
     RouterOutlet,
+    FixedDirective,
   ],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],

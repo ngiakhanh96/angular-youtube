@@ -15,9 +15,6 @@ mat-sidenav-container {
     @apply pb-[16px];
     overflow: unset;
     ::ng-deep {
-      ay-master-header {
-        @apply fixed w-full z-10 bg-[var(--white-color)] opacity-95;
-      }
       .layout_body {
         @apply flex flex-row mt-[56px];
         ay-sidebar-mini {
