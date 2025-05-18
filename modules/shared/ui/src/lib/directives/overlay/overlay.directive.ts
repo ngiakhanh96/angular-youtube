@@ -26,9 +26,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
       outputs: ['overlayOutsideClick'],
     },
   ],
+  host: {
+    '(window:resize)': 'resize()',
+  },
 })
 export class OverlayDirective {
   panelClass = input<string[]>([]);
+  connectedOverlayBoundedWidthElement = input<HTMLElement>();
   connectedOverlayOpen = model(false);
   autoOpenOnClick = input(true);
   private cdkConnectedOverlay = inject(CdkConnectedOverlay);
@@ -93,6 +97,7 @@ export class OverlayDirective {
             this.connectedOverlayOpen.update((v) => !v);
           });
         }
+        this.resize();
       },
     });
 
@@ -114,5 +119,22 @@ export class OverlayDirective {
         ),
       });
     });
+  }
+
+  resize() {
+    const connectedOverlayBoundedElementWidth =
+      this.connectedOverlayBoundedWidthElement();
+    if (connectedOverlayBoundedElementWidth) {
+      const previousWidthValue = this.cdkConnectedOverlay.width;
+      this.cdkConnectedOverlay.width =
+        connectedOverlayBoundedElementWidth.offsetWidth;
+      this.cdkConnectedOverlay.ngOnChanges({
+        width: new SimpleChange(
+          previousWidthValue,
+          connectedOverlayBoundedElementWidth.offsetWidth,
+          false,
+        ),
+      });
+    }
   }
 }
