@@ -4,7 +4,6 @@ import {
   Component,
   Directive,
   ElementRef,
-  HostListener,
   TemplateRef,
   contentChild,
   inject,
@@ -20,13 +19,16 @@ export class SvgButtonTemplateDirective {
 @Directive({
   selector: '[ayRippleOnHover]',
   standalone: true,
+  host: {
+    '(mouseenter)': 'onMouseEnter()',
+    '(mouseleave)': 'onMouseLeave()',
+  },
 })
 export class RippleOnHoverDirective {
   elementRef = inject(ElementRef);
   ripple = inject(MatRipple);
   rippleRef: RippleRef | undefined;
 
-  @HostListener('mouseenter')
   onMouseEnter(): void {
     if (!this.ripple.disabled) {
       this.rippleRef = this.ripple.launch({
@@ -39,7 +41,7 @@ export class RippleOnHoverDirective {
       });
     }
   }
-  @HostListener('mouseleave')
+
   onMouseLeave(): void {
     this.rippleRef?.fadeOut();
   }

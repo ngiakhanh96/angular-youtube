@@ -30,7 +30,10 @@ export class DetailsPageEffects extends BaseEffects {
             ),
           ]).pipe(
             map((recommendedVideosInfo) => {
-              return [videoInfo, ...recommendedVideosInfo] as const;
+              return [
+                videoInfo,
+                ...recommendedVideosInfo.filter((p) => p != null),
+              ] as const;
             }),
           ),
         ),

@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  HostListener,
   inject,
   input,
   output,
@@ -53,6 +52,7 @@ export enum PlayerPosition {
     '[style.--horizontal-min-width]': 'horizontalMinWidth()',
     '[style.--horizontal-thumbnail-margin-right]':
       'horizontalThumbnailPlayerContainerMarginRight()',
+    '(click)': 'onClick($event)',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -193,8 +193,6 @@ export class VideoPlayerCardComponent {
 
   private player = viewChild(NativeYouTubePlayerComponent);
   private authService = inject(Auth);
-
-  @HostListener('click', ['$event'])
   onClick(event: MouseEvent) {
     if (!(event.target instanceof HTMLButtonElement)) {
       this.selected.emit(this.videoId());

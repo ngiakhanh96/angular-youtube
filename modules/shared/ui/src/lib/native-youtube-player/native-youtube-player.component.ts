@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostListener,
   OnDestroy,
   ViewEncapsulation,
   afterNextRender,
@@ -54,6 +53,13 @@ export enum ScreenMode {
     '[style.height]': "'100%'",
     '[style.width]': "'100%'",
     '[style.aspectRatio]': "'16/9'",
+    '(document:fullscreenchange)': 'onFullScreenChange()',
+    '(document:webkitfullscreenchange)': 'onFullScreenChange()',
+    '(document:mozfullscreenchange)': 'onFullScreenChange()',
+    '(document:msfullscreenchange)': 'onFullScreenChange()',
+    '(mousemove)': 'onMouseMove()',
+    '(document:mouseup)': 'onMouseUp()',
+    '(document:mousemove)': 'onDocumentMouseMove($event)',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -138,11 +144,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   private hoverTimer: ReturnType<typeof setTimeout> | null = null;
   private static hoverAndRestTimeoutMs = 5000;
-
-  @HostListener('document:fullscreenchange')
-  @HostListener('document:webkitfullscreenchange')
-  @HostListener('document:mozfullscreenchange')
-  @HostListener('document:msfullscreenchange')
   onFullScreenChange() {
     if (!this.document.fullscreenElement) {
       this.screenMode.set(ScreenMode.Default);
@@ -151,12 +152,9 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     }
   }
 
-  @HostListener('mousemove')
   onMouseMove() {
     this.onMouseEnter();
   }
-
-  @HostListener('document:mouseup')
   onMouseUp() {
     if (this.isDragging) {
       this.isDragging = false;
@@ -171,7 +169,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.isVideoEnded.set(false);
   }
 
-  @HostListener('document:mousemove', ['$event'])
   onDocumentMouseMove(event: MouseEvent) {
     if (this.isDragging) {
       this.seekToPosition(event);
