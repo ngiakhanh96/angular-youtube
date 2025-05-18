@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   computed,
   Directive,
@@ -25,6 +26,7 @@ export class FixedDirective {
   backdropFilter = input<number>(16);
   backdropFilterString = computed(() => `blur(${this.backdropFilter()}px)`);
   element: HTMLElement = inject(ElementRef).nativeElement;
+  document = inject(DOCUMENT);
 
   constructor() {
     effect(() => {
@@ -45,7 +47,6 @@ export class FixedDirective {
       this.element.style.width = `${parent.offsetWidth}px`;
       const rect = parent.getBoundingClientRect();
       this.element.style.left = `${rect.left}px`;
-      this.element.style.right = `${rect.right}px`;
     }
   }
 }

@@ -8,7 +8,7 @@
 }
 
 .video-categories {
-  @apply flex h-full relative;
+  @apply flex h-full relative items-center;
   .video-categories-button-container {
     @apply h-full absolute z-10 flex justify-center items-center;
     &__left {
@@ -19,29 +19,9 @@
       @extend .video-categories-button-container;
       @apply right-0;
     }
-    .video-categories-button-padding {
-      @apply w-[50px] h-full;
-      &__left {
-        @extend .video-categories-button-padding;
-        background: linear-gradient(
-          to right,
-          var(--white-color) 40%,
-          rgba(255, 255, 255, 0) 80%
-        );
-      }
-
-      &__right {
-        @extend .video-categories-button-padding;
-        background: linear-gradient(
-          to left,
-          var(--white-color) 40%,
-          rgba(255, 255, 255, 0) 80%
-        );
-      }
-    }
 
     .video-categories-button {
-      @apply w-[24px] h-full bg-[var(--white-color)] flex justify-center items-center;
+      @apply h-full bg-[var(--white-color)] flex justify-center items-center rounded-full;
     }
   }
 

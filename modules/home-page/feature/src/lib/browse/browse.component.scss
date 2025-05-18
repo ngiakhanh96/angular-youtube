@@ -5,7 +5,7 @@
 .browse_container {
   @apply flex flex-col pl-[24px];
   .browse_video_categories {
-    @apply pr-[14px] pt-[12px] pb-[12px];
+    @apply pl-[24px] pr-[24px] pt-[12px] pb-[12px];
   }
   .browse_video_player_grid {
     @apply flex flex-row flex-wrap overflow-scroll pt-[24px] gap-x-[6px] gap-y-[34px] overflow-x-hidden;

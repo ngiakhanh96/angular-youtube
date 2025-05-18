@@ -16,7 +16,7 @@ mat-sidenav-container {
     overflow: unset;
     ::ng-deep {
       .layout_body {
-        @apply flex flex-row mt-[56px];
+        @apply flex flex-row;
         ay-sidebar-mini {
           @apply w-[var(--sidebar-mini-width)] flex-shrink-0 flex-grow-0;
         }
