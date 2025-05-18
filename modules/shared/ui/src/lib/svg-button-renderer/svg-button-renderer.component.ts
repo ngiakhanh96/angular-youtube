@@ -48,7 +48,7 @@ export class RippleOnHoverDirective {
 }
 
 /**
- * @deprecated Refactor to use [TextIconButtonComponent](../text-icon-button/text-icon-button.component) component instead
+ * @deprecated Refactor to use [TextIconButtonComponent](../text-icon-button/text-icon-button.component.ts) component instead
  */
 @Component({
   selector: 'ay-svg-button-renderer',
