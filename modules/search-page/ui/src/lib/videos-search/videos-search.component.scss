@@ -5,13 +5,13 @@
 .videos_search_container {
   @apply flex flex-col pl-[24px];
   .videos_search_categories {
-    @apply flex justify-center h-[32px] pr-[14px] mt-[12px] mb-[12px];
+    @apply fixed w-full z-10 bg-[var(--white-color)] opacity-95 flex justify-center h-[56px] pr-[14px] pt-[12px] pb-[12px];
     ay-video-categories {
       @apply pl-[16px] pr-[22px] max-w-[var(--max-width)] w-0 flex-grow;
     }
   }
   .videos_search_player_grid {
-    @apply flex flex-col items-center h-[calc(100vh-112px)] overflow-scroll gap-y-[16px] overflow-x-hidden;
+    @apply mt-[56px] flex flex-col items-center overflow-scroll gap-y-[16px] overflow-x-hidden;
     .video-search {
       @apply pl-[16px] pr-[16px] max-w-[var(--max-width)] w-full;
     }
