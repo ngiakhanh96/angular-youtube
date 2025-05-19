@@ -1,5 +1,13 @@
 # Angular Youtube
 
+## Wiki
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ngiakhanh96/angular-youtube)
+
+## Tutorial
+
+[Code2tutorial](https://code2tutorial.com/tutorial/4400c614-c8a2-4aa8-8078-ea3157683b12/08_http_services_.md)
+
 ## Run fe
 
 To run the dev server for your app, use:
