@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import {
+  afterRenderEffect,
   computed,
   Directive,
   effect,
@@ -30,14 +31,15 @@ export class FixedTopDirective {
 
   constructor() {
     effect(() => {
-      this.resize();
-
       const nextSibling = <HTMLElement | undefined>(
         this.element.nextElementSibling
       );
       if (nextSibling) {
         nextSibling.style.marginTop = `${this.height()}px`;
       }
+    });
+    afterRenderEffect(() => {
+      this.resize();
     });
   }
 
