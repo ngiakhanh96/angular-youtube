@@ -19,6 +19,6 @@ $theme: mat.define-theme(
   top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.32);
-  z-index: 2000;
+  z-index: var(--layer-2);
   @include mat.progress-spinner-color($theme, $color-variant: primary);
 }

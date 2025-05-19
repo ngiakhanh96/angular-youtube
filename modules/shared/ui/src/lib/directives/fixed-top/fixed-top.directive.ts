@@ -22,7 +22,7 @@ import {
   },
 })
 export class FixedTopDirective {
-  zIndex = input<number>(10);
+  zIndex = input<string>('var(--layer-1)');
   height = input.required<number>({ alias: 'ayFixedTop' });
   backdropFilter = input<number>(16);
   backdropFilterString = computed(() => `blur(${this.backdropFilter()}px)`);
