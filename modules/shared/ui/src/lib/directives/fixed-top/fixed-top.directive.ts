@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[ayFixed]',
+  selector: '[ayFixedTop]',
   standalone: true,
   host: {
     '[style.position]': "'fixed'",
@@ -20,9 +20,9 @@ import {
     '(window:resize)': 'resize()',
   },
 })
-export class FixedDirective {
+export class FixedTopDirective {
   zIndex = input<number>(10);
-  height = input.required<number>({ alias: 'ayFixed' });
+  height = input.required<number>({ alias: 'ayFixedTop' });
   backdropFilter = input<number>(16);
   backdropFilterString = computed(() => `blur(${this.backdropFilter()}px)`);
   element: HTMLElement = inject(ElementRef).nativeElement;

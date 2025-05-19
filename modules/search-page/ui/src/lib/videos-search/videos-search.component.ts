@@ -1,6 +1,6 @@
 import { BaseWithSandBoxComponent } from '@angular-youtube/shared-data-access';
 import {
-  FixedDirective,
+  FixedTopDirective,
   IVideoCategory,
   IVideoPlayerCardInfo,
   PlayerPosition,
@@ -25,7 +25,7 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
     VideoCategoriesComponent,
     VideoPlayerCardComponent,
     InfiniteScrollDirective,
-    FixedDirective,
+    FixedTopDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

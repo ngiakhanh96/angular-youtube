@@ -2,7 +2,7 @@ export * from './lib/button-renderer/button-renderer.component';
 export * from './lib/card/card.component';
 export * from './lib/channel-name/channel-name.component';
 export * from './lib/combined-text-icon-button/combined-text-icon-button.component';
-export * from './lib/directives/fixed/fixed.directive';
+export * from './lib/directives/fixed-top/fixed-top.directive';
 export * from './lib/directives/icon/icon.directive';
 export * from './lib/directives/image/image.directive';
 export * from './lib/directives/overlay/overlay.directive';
