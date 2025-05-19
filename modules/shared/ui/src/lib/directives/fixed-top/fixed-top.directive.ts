@@ -17,15 +17,17 @@ import {
     '[style.zIndex]': 'zIndex()',
     '[style.height]': 'height()',
     '[style.backgroundColor]': "'var(--white-color-trans)'",
-    '[style.backdropFilter]': 'backdropFilterString()',
+    '[style.backdropFilter]': 'backdropFilterBlurString()',
     '(window:resize)': 'resize()',
   },
 })
 export class FixedTopDirective {
   zIndex = input<string>('var(--layer-1)');
   height = input.required<number>({ alias: 'ayFixedTop' });
-  backdropFilter = input<number>(16);
-  backdropFilterString = computed(() => `blur(${this.backdropFilter()}px)`);
+  backdropFilterBlurPx = input<number>(16);
+  backdropFilterBlurString = computed(
+    () => `blur(${this.backdropFilterBlurPx()}px)`,
+  );
   element: HTMLElement = inject(ElementRef).nativeElement;
   document = inject(DOCUMENT);
   parentWidth?: number;
