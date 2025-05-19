@@ -1,7 +1,6 @@
 import { CdkConnectedOverlay, Overlay } from '@angular/cdk/overlay';
 import {
   afterNextRender,
-  afterRenderEffect,
   Directive,
   effect,
   inject,
@@ -98,11 +97,8 @@ export class OverlayDirective {
             this.connectedOverlayOpen.update((v) => !v);
           });
         }
+        this.resize();
       },
-    });
-
-    afterRenderEffect(() => {
-      this.resize();
     });
 
     effect(() => {

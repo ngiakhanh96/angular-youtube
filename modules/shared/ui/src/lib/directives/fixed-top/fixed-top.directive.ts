@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import {
-  afterRenderEffect,
+  afterNextRender,
   computed,
   Directive,
   effect,
@@ -28,6 +28,8 @@ export class FixedTopDirective {
   backdropFilterString = computed(() => `blur(${this.backdropFilter()}px)`);
   element: HTMLElement = inject(ElementRef).nativeElement;
   document = inject(DOCUMENT);
+  parentWidth?: number;
+  parentDomRect?: DOMRect;
 
   constructor() {
     effect(() => {
@@ -38,17 +40,27 @@ export class FixedTopDirective {
         nextSibling.style.marginTop = `${this.height()}px`;
       }
     });
-    afterRenderEffect(() => {
-      this.resize();
+    //This resize must run before afterNextRender resize function of overlay directive run
+    afterNextRender({
+      earlyRead: () => {
+        const parent = this.element.parentElement;
+        if (parent) {
+          this.parentWidth = parent.offsetWidth;
+          this.parentDomRect = parent.getBoundingClientRect();
+        }
+      },
+      write: () => {
+        this.resize();
+      },
     });
   }
 
   resize() {
-    const parent = this.element.parentElement;
-    if (parent) {
-      this.element.style.width = `${parent.offsetWidth}px`;
-      const rect = parent.getBoundingClientRect();
-      this.element.style.left = `${rect.left}px`;
+    if (this.parentWidth) {
+      this.element.style.width = `${this.parentWidth}px`;
+    }
+    if (this.parentDomRect) {
+      this.element.style.left = `${this.parentDomRect.left}px`;
     }
   }
 }
