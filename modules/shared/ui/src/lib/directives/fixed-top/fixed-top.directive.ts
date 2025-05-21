@@ -30,8 +30,6 @@ export class FixedTopDirective {
   );
   element: HTMLElement = inject(ElementRef).nativeElement;
   document = inject(DOCUMENT);
-  parentWidth?: number;
-  parentDomRect?: DOMRect;
 
   constructor() {
     effect(() => {
@@ -44,13 +42,6 @@ export class FixedTopDirective {
     });
     //This resize must run before afterNextRender resize function of overlay directive run
     afterNextRender({
-      earlyRead: () => {
-        const parent = this.element.parentElement;
-        if (parent) {
-          this.parentWidth = parent.offsetWidth;
-          this.parentDomRect = parent.getBoundingClientRect();
-        }
-      },
       write: () => {
         this.resize();
       },
@@ -58,11 +49,10 @@ export class FixedTopDirective {
   }
 
   resize() {
-    if (this.parentWidth) {
-      this.element.style.width = `${this.parentWidth}px`;
-    }
-    if (this.parentDomRect) {
-      this.element.style.left = `${this.parentDomRect.left}px`;
+    const parent = this.element.parentElement;
+    if (parent) {
+      this.element.style.width = `${parent.offsetWidth}px`;
+      this.element.style.left = `${parent.getBoundingClientRect().left}px`;
     }
   }
 }
