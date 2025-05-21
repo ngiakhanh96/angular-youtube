@@ -3,7 +3,6 @@ import {
   Component,
   computed,
   input,
-  ViewEncapsulation,
 } from '@angular/core';
 import {
   SvgButtonRendererComponent,
@@ -17,10 +16,8 @@ export type PlaceholderImageQuality = 'high' | 'standard' | 'low';
   selector: 'ay-youtube-player-placeholder',
   templateUrl: './youtube-player-placeholder.component.html',
   styleUrls: ['./youtube-player-placeholder.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   imports: [SvgButtonRendererComponent, SvgButtonTemplateDirective],
   host: {
-    class: 'youtube-player-placeholder',
     '[class.youtube-player-placeholder-loading]': 'isLoading()',
     '[style.background-image]': 'backgroundImageUrl()',
     '[style.width]': 'width()',
