@@ -20,8 +20,6 @@ export type PlaceholderImageQuality = 'high' | 'standard' | 'low';
   host: {
     '[class.youtube-player-placeholder-loading]': 'isLoading()',
     '[style.background-image]': 'backgroundImageUrl()',
-    '[style.width]': 'width()',
-    '[style.height]': 'height()',
     '[style.borderRadius]': 'borderRadius()',
     '[style.boxShadow]': 'boxShadow()',
   },
@@ -30,12 +28,6 @@ export type PlaceholderImageQuality = 'high' | 'standard' | 'low';
 export class YouTubePlayerPlaceholderComponent {
   /** ID of the video for which to show the placeholder. */
   videoId = input.required<string>();
-
-  /** Width of the video for which to show the placeholder. */
-  width = input<string>('100%');
-
-  /** Height of the video for which to show the placeholder. */
-  height = input<string>('100%');
 
   borderRadius = input<string>('12px');
 

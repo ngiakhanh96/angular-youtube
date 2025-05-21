@@ -4,7 +4,6 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  ViewEncapsulation,
   afterNextRender,
   afterRenderEffect,
   booleanAttribute,
@@ -38,7 +37,6 @@ export enum ScreenMode {
 
 @Component({
   selector: 'ay-native-youtube-player',
-  encapsulation: ViewEncapsulation.None,
   imports: [
     YouTubePlayerPlaceholderComponent,
     SvgButtonRendererComponent,
@@ -49,10 +47,6 @@ export enum ScreenMode {
   host: {
     '[style.--border-radius]': 'borderRadius()',
     '[style.--player-buttons-display]': 'playerButtonsDisplay()',
-    '[style.display]': "'block'",
-    '[style.height]': "'100%'",
-    '[style.width]': "'100%'",
-    '[style.aspectRatio]': "'16/9'",
     '(document:fullscreenchange)': 'onFullScreenChange()',
     '(document:webkitfullscreenchange)': 'onFullScreenChange()',
     '(document:mozfullscreenchange)': 'onFullScreenChange()',

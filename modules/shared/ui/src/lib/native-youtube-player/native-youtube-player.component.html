@@ -2,8 +2,6 @@
   @if (!disablePlaceholder() && !isVideoPlayed()) {
     <ay-youtube-player-placeholder
       [videoId]="videoId()"
-      [width]="width()"
-      [height]="height()"
       [borderRadius]="borderRadius()"
       [isLoading]="false"
       [buttonLabel]="'Play Video'"
@@ -112,14 +110,16 @@
         </div>
         <div class="player_bottom_buttons-right">
           <div class="player_bottom_button mr-[4px]">
-            <div
-              [class]="
-                autoNext()
-                  ? 'player_bottom_button--autonext--enabled'
-                  : 'player_bottom_button--autonext--disabled'
-              "
-              (click)="toggleAutoNext()"
-            ></div>
+            <div class="player_bottom_button--autonext">
+              <div
+                [class]="
+                  autoNext()
+                    ? 'player_bottom_button--autonext--enabled'
+                    : 'player_bottom_button--autonext--disabled'
+                "
+                (click)="toggleAutoNext()"
+              ></div>
+            </div>
           </div>
 
           <div class="player_bottom_button">
