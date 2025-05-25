@@ -4,6 +4,7 @@ import {
   computed,
   input,
 } from '@angular/core';
+import { NgxSkeletonLoaderComponent } from 'ngx-skeleton-loader';
 import { ChannelNameComponent } from '../channel-name/channel-name.component';
 import { ImageDirective } from '../directives/image/image.directive';
 import { TextRenderComponent } from '../text-renderer/text-renderer.component';
@@ -11,7 +12,12 @@ import { Utilities } from '../utilities/utilities';
 
 @Component({
   selector: 'ay-overview-video-info',
-  imports: [TextRenderComponent, ChannelNameComponent, ImageDirective],
+  imports: [
+    TextRenderComponent,
+    ChannelNameComponent,
+    ImageDirective,
+    NgxSkeletonLoaderComponent,
+  ],
   templateUrl: './overview-video-info.component.html',
   styleUrls: ['./overview-video-info.component.scss'],
   host: {
@@ -25,10 +31,11 @@ import { Utilities } from '../utilities/utilities';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverviewVideoInfoComponent {
-  title = input.required<string>();
-  channelName = input.required<string>();
+  isSkeleton = input(false);
+  title = input<string>('');
+  channelName = input<string>('');
   channelLogoUrl = input<string | undefined>(undefined);
-  viewCount = input.required<number>();
+  viewCount = input<number>(0);
   channelMarginTop = input('0px');
   viewCountString = computed(() =>
     Utilities.numberToString(this.viewCount(), 'view', 'No'),

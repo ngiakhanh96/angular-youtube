@@ -124,12 +124,12 @@ export class BrowseComponent
   }
 
   onScrollDown() {
-    this.dispatchAction(
-      homePageActionGroup.loadYoutubePopularVideos({
-        nextPage: true,
-        itemPerPage: 20,
-      }),
-    );
+    // this.dispatchAction(
+    //   homePageActionGroup.loadYoutubePopularVideos({
+    //     nextPage: true,
+    //     itemPerPage: 20,
+    //   }),
+    // );
   }
 
   onSelect(videoId: string) {

@@ -13,15 +13,20 @@
     (scrolled)="onScrollDown()"
   >
     @for (video of videos(); track video.videoId) {
-      @defer (hydrate on viewport; prefetch on idle) {
-        <div class="browse_video_player" #gridItem>
+      <div class="browse_video_player" #gridItem>
+        @defer (hydrate on viewport; prefetch on idle) {
           <ay-video-player-card
             [videoPlayerCardInfo]="video"
             [channelInfoHeight]="'20px'"
             (selected)="onSelect($event)"
           />
-        </div>
-      }
+        } @placeholder (minimum 200000ms) {
+          <ay-video-player-card
+            [isSkeleton]="true"
+            [channelInfoHeight]="'20px'"
+          />
+        }
+      </div>
     }
   </div>
 </div>

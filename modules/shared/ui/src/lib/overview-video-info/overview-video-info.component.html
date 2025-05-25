@@ -1,10 +1,18 @@
 <div class="overview-video-info__video-info">
   <div class="overview-video-info__video-title">
-    <ay-text-renderer
-      [title]="title()"
-      [fontWeight]="titleFontWeight()"
-      [lineHeight]="titleLineHeight()"
-    ></ay-text-renderer>
+    @if (isSkeleton()) {
+      <ngx-skeleton-loader
+        [theme]="{
+          height: '16px',
+        }"
+      ></ngx-skeleton-loader>
+    } @else {
+      <ay-text-renderer
+        [title]="title()"
+        [fontWeight]="titleFontWeight()"
+        [lineHeight]="titleLineHeight()"
+      ></ay-text-renderer>
+    }
   </div>
   @if (channelLogoUrl()) {
     <div class="h-[1px]"></div>
@@ -17,16 +25,14 @@
       >
     </div>
     <div class="overview-video-info__channel">
-      @if (channelLogoUrl()) {
-        <div class="overview-video-info__channel-logo">
-          <img
-            alt="thumbnail channel logo"
-            [ayImgSrc]="channelLogoUrl()!"
-            width="24"
-            height="24"
-          />
-        </div>
-      }
+      <div class="overview-video-info__channel-logo">
+        <img
+          alt="thumbnail channel logo"
+          [ayImgSrc]="channelLogoUrl()!"
+          width="24"
+          height="24"
+        />
+      </div>
       <div class="overview-video-info__channel-name">
         <ay-channel-name
           [channelName]="channelName()"
@@ -38,20 +44,38 @@
   } @else {
     <div class="overview-video-info__channel">
       <div class="overview-video-info__channel-name">
-        <ay-channel-name
-          [channelName]="channelName()"
-          [isVerified]="isVerified()"
-          [fontWeight]="'400'"
-        ></ay-channel-name>
+        @if (isSkeleton()) {
+          <ngx-skeleton-loader
+            [theme]="{
+              height: '14px',
+              width: '80px',
+            }"
+          ></ngx-skeleton-loader>
+        } @else {
+          <ay-channel-name
+            [channelName]="channelName()"
+            [isVerified]="isVerified()"
+            [fontWeight]="'400'"
+          ></ay-channel-name>
+        }
       </div>
     </div>
     <div class="overview-video-info__video-statistic">
-      <div class="overview-video-info__video-view-count">{{
-        viewCountString()
-      }}</div>
-      <div class="overview-video-info__video-publish-date">
-        • {{ publishedDateString() }}</div
-      >
+      @if (isSkeleton()) {
+        <ngx-skeleton-loader
+          [theme]="{
+            height: '14px',
+            width: '160px',
+          }"
+        ></ngx-skeleton-loader>
+      } @else {
+        <div class="overview-video-info__video-view-count">{{
+          viewCountString()
+        }}</div>
+        <div class="overview-video-info__video-publish-date">
+          • {{ publishedDateString() }}</div
+        >
+      }
     </div>
   }
 </div>

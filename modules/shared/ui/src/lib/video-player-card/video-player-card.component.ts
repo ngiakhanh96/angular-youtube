@@ -9,6 +9,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { NgxSkeletonLoaderComponent } from 'ngx-skeleton-loader';
 import { ImageDirective } from '../directives/image/image.directive';
 import { DropdownButtonComponent } from '../dropdown-button/dropdown-button.component';
 import { ISection } from '../menu/menu.component';
@@ -41,6 +42,7 @@ export enum PlayerPosition {
     DropdownButtonComponent,
     NativeYouTubePlayerComponent,
     OverviewVideoInfoComponent,
+    NgxSkeletonLoaderComponent,
   ],
   templateUrl: './video-player-card.component.html',
   styleUrls: ['./video-player-card.component.scss'],
@@ -57,7 +59,16 @@ export enum PlayerPosition {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoPlayerCardComponent {
-  videoPlayerCardInfo = input.required<IVideoPlayerCardInfo>();
+  isSkeleton = input(false);
+  videoPlayerCardInfo = input<IVideoPlayerCardInfo>({
+    videoId: '',
+    videoUrl: '',
+    title: '',
+    channelName: '',
+    viewCount: 0,
+    publishedDate: new Date(),
+    isVerified: false,
+  });
   playerPosition = input(PlayerPosition.Vertical);
   isVerticalPlayerPosition = computed(
     () => this.playerPosition() === PlayerPosition.Vertical,
@@ -193,6 +204,7 @@ export class VideoPlayerCardComponent {
 
   private player = viewChild(NativeYouTubePlayerComponent);
   private authService = inject(Auth);
+
   onClick(event: MouseEvent) {
     if (!(event.target instanceof HTMLButtonElement)) {
       this.selected.emit(this.videoId());

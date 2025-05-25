@@ -5,34 +5,56 @@
     (mouseover)="onMouseEnter()"
     (mouseleave)="onMouseLeave()"
   >
-    <ay-native-youtube-player
-      class="thumbnail__player"
-      [showPlayButton]="false"
-      [videoId]="videoId()"
-      [videoUrl]="videoUrl()"
-      [borderRadius]="playerBorderRadius()"
-      [boxShadow]="boxShadow()"
-    />
-    <div
-      class="thumbnail__duration"
-      [style.display]="thumbnailDurationDisplay()"
-      >{{ durationString() }}</div
-    >
+    @if (isSkeleton()) {
+      <ngx-skeleton-loader
+        class="thumbnail__player"
+        appearance="line"
+        [theme]="{
+          height: '100%',
+        }"
+      ></ngx-skeleton-loader>
+    } @else {
+      <ay-native-youtube-player
+        class="thumbnail__player"
+        [showPlayButton]="false"
+        [videoId]="videoId()"
+        [videoUrl]="videoUrl()"
+        [borderRadius]="playerBorderRadius()"
+        [boxShadow]="boxShadow()"
+      />
+      <div
+        class="thumbnail__duration"
+        [style.display]="thumbnailDurationDisplay()"
+        >{{ durationString() }}</div
+      >
+    }
   </div>
 
   <div class="thumbnail__meta" [class]="thumbnailMetaClass()">
-    @if (isVerticalPlayerPosition() && channelLogoUrl()) {
+    @if (isVerticalPlayerPosition() && (channelLogoUrl() || isSkeleton())) {
       <div class="thumbnail__channel-logo">
-        <img
-          alt="thumbnail channel logo"
-          [ayImgSrc]="channelLogoUrl()!"
-          width="36"
-          height="36"
-        />
+        <!-- TODO consider add support for seleton directly for img tag, may be div tag as well ? -->
+        @if (isSkeleton()) {
+          <ngx-skeleton-loader
+            appearance="circle"
+            [theme]="{
+              width: '36px',
+              height: '36px',
+            }"
+          ></ngx-skeleton-loader>
+        } @else {
+          <img
+            alt="thumbnail channel logo"
+            [ayImgSrc]="channelLogoUrl()!"
+            width="36"
+            height="36"
+          />
+        }
       </div>
     }
     <div class="thumbnail__video-info" [class]="thumbnailVideoInfoClass()">
       <ay-overview-video-info
+        [isSkeleton]="isSkeleton()"
         [title]="title()"
         [channelMarginTop]="channelMarginTop()"
         [channelLogoUrl]="
@@ -51,13 +73,15 @@
         [titleMarginBottom]="titleMarginBottom()"
       ></ay-overview-video-info>
     </div>
-    <div class="thumbnail__settings">
-      <div class="thumbnail__settings-button">
-        <ay-dropdown-button
-          [items]="settingItems()"
-          [mini]="true"
-        ></ay-dropdown-button>
+    @if (!isSkeleton()) {
+      <div class="thumbnail__settings">
+        <div class="thumbnail__settings-button">
+          <ay-dropdown-button
+            [items]="settingItems()"
+            [mini]="true"
+          ></ay-dropdown-button>
+        </div>
       </div>
-    </div>
+    }
   </div>
 </div>

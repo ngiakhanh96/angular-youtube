@@ -34,6 +34,7 @@ import {
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { provideNgxSkeletonLoader } from 'ngx-skeleton-loader';
 import { GlobalErrorHandler } from './global-error-handler';
 import { mainRoutes } from './routes';
 
@@ -88,6 +89,13 @@ export const appConfig: ApplicationConfig = {
       provide: YoutubeApiKey,
       useValue: 'AIzaSyCn5erIAtKzaNiuh-5IJgnorW7yOEH5gyE',
     },
+    provideNgxSkeletonLoader({
+      theme: {
+        extendsFromRoot: true,
+        loadingText: '',
+        'margin-bottom': '0',
+      },
+    }),
     provideAppInitializer(async () => {
       const iconRegistry = inject(MatIconRegistry);
       const domSanitizer = inject(DomSanitizer);
