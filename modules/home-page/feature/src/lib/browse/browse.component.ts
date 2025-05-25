@@ -23,12 +23,15 @@ import {
   VideoPlayerCardComponent,
 } from '@angular-youtube/shared-ui';
 import {
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
+  ElementRef,
   inject,
   OnInit,
   Signal,
+  viewChildren,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -45,6 +48,9 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(window:resize)': 'resize()',
+  },
 })
 export class BrowseComponent
   extends BaseWithSandBoxComponent
@@ -57,6 +63,7 @@ export class BrowseComponent
   protected videosCategories: Signal<IVideoCategories | undefined>;
   protected videosCategoriesViewModel: Signal<IVideoCategory[]>;
   protected sidebarService = inject(SidebarService);
+  protected playerItems = viewChildren<ElementRef<HTMLDivElement>>('gridItem');
   private router = inject(Router);
   private titleService = inject(Title);
   constructor() {
@@ -104,6 +111,12 @@ export class BrowseComponent
         })) ?? []
       );
     });
+    afterRenderEffect({
+      read: () => {
+        this.videos();
+        this.resize();
+      },
+    });
   }
 
   ngOnInit(): void {
@@ -125,5 +138,24 @@ export class BrowseComponent
         v: videoId,
       },
     });
+  }
+
+  resize() {
+    const playerItems = this.playerItems();
+    let itemsPerLine = 0;
+    if (playerItems.length > 0) {
+      const firstLinePlayerItemOffsetTop =
+        playerItems[0].nativeElement.offsetTop;
+      itemsPerLine++;
+      for (let i = 1; i < playerItems.length; i++) {
+        const element = playerItems[i];
+        if (element.nativeElement.offsetTop === firstLinePlayerItemOffsetTop) {
+          itemsPerLine++;
+        } else {
+          break;
+        }
+      }
+    }
+    console.log(itemsPerLine);
   }
 }

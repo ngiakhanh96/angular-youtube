@@ -14,7 +14,7 @@
   >
     @for (video of videos(); track video.videoId) {
       @defer (hydrate on viewport; prefetch on idle) {
-        <div class="browse_video_player">
+        <div class="browse_video_player" #gridItem>
           <ay-video-player-card
             [videoPlayerCardInfo]="video"
             [channelInfoHeight]="'20px'"
