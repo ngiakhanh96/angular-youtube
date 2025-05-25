@@ -94,6 +94,9 @@ export const appConfig: ApplicationConfig = {
         extendsFromRoot: true,
         loadingText: '',
         'margin-bottom': '0',
+        width: '100%',
+        height: '100%',
+        cursor: 'inherit',
       },
     }),
     provideAppInitializer(async () => {
