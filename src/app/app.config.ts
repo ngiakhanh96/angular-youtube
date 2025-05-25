@@ -97,6 +97,7 @@ export const appConfig: ApplicationConfig = {
         width: '100%',
         height: '100%',
         cursor: 'inherit',
+        margin: '0',
       },
     }),
     provideAppInitializer(async () => {
