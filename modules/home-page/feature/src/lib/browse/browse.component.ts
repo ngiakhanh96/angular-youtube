@@ -15,6 +15,7 @@ import {
   sharedActionGroup,
 } from '@angular-youtube/shared-data-access';
 import {
+  CountPipe,
   FixedTopDirective,
   IVideoCategory,
   IVideoPlayerCardInfo,
@@ -30,6 +31,7 @@ import {
   ElementRef,
   inject,
   OnInit,
+  signal,
   Signal,
   viewChildren,
 } from '@angular/core';
@@ -44,6 +46,7 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
     InfiniteScrollDirective,
     VideoCategoriesComponent,
     FixedTopDirective,
+    CountPipe,
   ],
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.scss'],
@@ -62,6 +65,7 @@ export class BrowseComponent
   protected videosInfo: Signal<Record<string, IFormatStream> | undefined>;
   protected videosCategories: Signal<IVideoCategories | undefined>;
   protected videosCategoriesViewModel: Signal<IVideoCategory[]>;
+  protected numberOfSkeletonItemsToMakeBottomLineFull = signal(0);
   protected sidebarService = inject(SidebarService);
   protected playerItems = viewChildren<ElementRef<HTMLDivElement>>('gridItem');
   private router = inject(Router);
@@ -75,6 +79,7 @@ export class BrowseComponent
         itemPerPage: 20,
       }),
     );
+    //TODO make these api calls silent
     this.dispatchAction(sharedActionGroup.loadYoutubeVideoCategories());
     this.videosWithMetaData = this.selectSignal(selectHomePageVideos);
     this.channelsInfo = this.selectSignal(selectChannelsInfo);
@@ -155,7 +160,12 @@ export class BrowseComponent
           break;
         }
       }
+      const remaining = this.videos().length % itemsPerLine;
+      const numberOfSkeletonItemsToMakeBottomLineFull =
+        2 * itemsPerLine - remaining;
+      this.numberOfSkeletonItemsToMakeBottomLineFull.set(
+        numberOfSkeletonItemsToMakeBottomLineFull,
+      );
     }
-    console.log(itemsPerLine);
   }
 }

@@ -28,5 +28,16 @@
         }
       </div>
     }
+    @for (
+      item of numberOfSkeletonItemsToMakeBottomLineFull() | count;
+      track $index
+    ) {
+      <div class="browse_video_player">
+        <ay-video-player-card
+          [isSkeleton]="true"
+          [channelInfoHeight]="'20px'"
+        />
+      </div>
+    }
   </div>
 </div>

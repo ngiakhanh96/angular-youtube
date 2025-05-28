@@ -18,6 +18,7 @@ export * from './lib/menu-section/menu-section.component';
 export * from './lib/menu/menu.component';
 export * from './lib/native-youtube-player/native-youtube-player.component';
 export * from './lib/overview-video-info/overview-video-info.component';
+export * from './lib/pipes/count.pipe';
 export * from './lib/section-item-content/section-item-content.component';
 export * from './lib/services/dynamic-component.service';
 export * from './lib/services/external-navigation.service';
