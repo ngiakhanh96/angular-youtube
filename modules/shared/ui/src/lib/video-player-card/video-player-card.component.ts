@@ -9,8 +9,8 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { NgxSkeletonLoaderComponent } from 'ngx-skeleton-loader';
 import { ImageDirective } from '../directives/image/image.directive';
+import { SkeletonDirective } from '../directives/skeleton/skeleton.directive';
 import { DropdownButtonComponent } from '../dropdown-button/dropdown-button.component';
 import { ISection } from '../menu/menu.component';
 import { NativeYouTubePlayerComponent } from '../native-youtube-player/native-youtube-player.component';
@@ -42,7 +42,7 @@ export enum PlayerPosition {
     DropdownButtonComponent,
     NativeYouTubePlayerComponent,
     OverviewVideoInfoComponent,
-    NgxSkeletonLoaderComponent,
+    SkeletonDirective,
   ],
   templateUrl: './video-player-card.component.html',
   styleUrls: ['./video-player-card.component.scss'],

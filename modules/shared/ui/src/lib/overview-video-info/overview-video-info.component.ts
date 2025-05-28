@@ -4,9 +4,9 @@ import {
   computed,
   input,
 } from '@angular/core';
-import { NgxSkeletonLoaderComponent } from 'ngx-skeleton-loader';
 import { ChannelNameComponent } from '../channel-name/channel-name.component';
 import { ImageDirective } from '../directives/image/image.directive';
+import { SkeletonDirective } from '../directives/skeleton/skeleton.directive';
 import { TextRenderComponent } from '../text-renderer/text-renderer.component';
 import { Utilities } from '../utilities/utilities';
 
@@ -16,7 +16,7 @@ import { Utilities } from '../utilities/utilities';
     TextRenderComponent,
     ChannelNameComponent,
     ImageDirective,
-    NgxSkeletonLoaderComponent,
+    SkeletonDirective,
   ],
   templateUrl: './overview-video-info.component.html',
   styleUrls: ['./overview-video-info.component.scss'],

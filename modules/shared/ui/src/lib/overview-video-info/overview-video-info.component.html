@@ -1,18 +1,12 @@
 <div class="overview-video-info__video-info">
   <div class="overview-video-info__video-title">
-    @if (isSkeleton()) {
-      <ngx-skeleton-loader
-        [theme]="{
-          height: '16px',
-        }"
-      ></ngx-skeleton-loader>
-    } @else {
+    <ng-container *aySkeleton="isSkeleton(); theme: { height: '16px' }">
       <ay-text-renderer
         [title]="title()"
         [fontWeight]="titleFontWeight()"
         [lineHeight]="titleLineHeight()"
       ></ay-text-renderer>
-    }
+    </ng-container>
   </div>
   @if (channelLogoUrl()) {
     <div class="h-[1px]"></div>
@@ -44,38 +38,40 @@
   } @else {
     <div class="overview-video-info__channel">
       <div class="overview-video-info__channel-name">
-        @if (isSkeleton()) {
-          <ngx-skeleton-loader
-            [theme]="{
+        <ng-container
+          *aySkeleton="
+            isSkeleton();
+            theme: {
               height: '14px',
               width: '80px',
-            }"
-          ></ngx-skeleton-loader>
-        } @else {
+            }
+          "
+        >
           <ay-channel-name
             [channelName]="channelName()"
             [isVerified]="isVerified()"
             [fontWeight]="'400'"
           ></ay-channel-name>
-        }
+        </ng-container>
       </div>
     </div>
     <div class="overview-video-info__video-statistic">
-      @if (isSkeleton()) {
-        <ngx-skeleton-loader
-          [theme]="{
+      <ng-container
+        *aySkeleton="
+          isSkeleton();
+          theme: {
             height: '14px',
             width: '160px',
-          }"
-        ></ngx-skeleton-loader>
-      } @else {
+          }
+        "
+      >
         <div class="overview-video-info__video-view-count">{{
           viewCountString()
         }}</div>
         <div class="overview-video-info__video-publish-date">
           • {{ publishedDateString() }}</div
         >
-      }
+      </ng-container>
     </div>
   }
 </div>

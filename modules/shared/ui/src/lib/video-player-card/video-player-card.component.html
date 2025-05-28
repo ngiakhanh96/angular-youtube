@@ -5,15 +5,15 @@
     (mouseover)="onMouseEnter()"
     (mouseleave)="onMouseLeave()"
   >
-    @if (isSkeleton()) {
-      <ngx-skeleton-loader
-        class="thumbnail__player"
-        appearance="line"
-        [theme]="{
+    <ng-container
+      *aySkeleton="
+        isSkeleton();
+        theme: {
           'border-radius': '12px',
-        }"
-      ></ngx-skeleton-loader>
-    } @else {
+        };
+        classes: ['thumbnail__player']
+      "
+    >
       <ay-native-youtube-player
         class="thumbnail__player"
         [showPlayButton]="false"
@@ -27,29 +27,30 @@
         [style.display]="thumbnailDurationDisplay()"
         >{{ durationString() }}</div
       >
-    }
+    </ng-container>
   </div>
 
   <div class="thumbnail__meta" [class]="thumbnailMetaClass()">
     @if (isVerticalPlayerPosition() && (channelLogoUrl() || isSkeleton())) {
       <div class="thumbnail__channel-logo">
-        <!-- TODO consider add support for seleton directly for img tag, may be div tag as well ? -->
-        @if (isSkeleton()) {
-          <ngx-skeleton-loader
-            appearance="circle"
-            [theme]="{
+        <ng-container
+          *aySkeleton="
+            isSkeleton();
+            appearance: 'circle';
+            theme: {
               width: '36px',
               height: '36px',
-            }"
-          ></ngx-skeleton-loader>
-        } @else {
+            };
+            classes: ['thumbnail__player']
+          "
+        >
           <img
             alt="thumbnail channel logo"
             [ayImgSrc]="channelLogoUrl()!"
             width="36"
             height="36"
           />
-        }
+        </ng-container>
       </div>
     }
     <div class="thumbnail__video-info" [class]="thumbnailVideoInfoClass()">
