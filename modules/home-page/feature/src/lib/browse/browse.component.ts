@@ -152,6 +152,10 @@ export class BrowseComponent
     });
   }
 
+  ngOnInit(): void {
+    this.sidebarService.setSelectedIconName('home');
+  }
+
   initializeSkeletonItems(count: number, videoIdPrefix: string) {
     const initialSkeletonItems: IVideoPlayerCardInfo[] = [];
     for (let i = 0; i < count; i++) {
@@ -170,10 +174,6 @@ export class BrowseComponent
       });
     }
     return initialSkeletonItems;
-  }
-
-  ngOnInit(): void {
-    this.sidebarService.setSelectedIconName('home');
   }
 
   onScrollDown() {
@@ -204,23 +204,6 @@ export class BrowseComponent
         numberOfSkeletonItemsToMakeBottomLineFull + 2 * itemsPerLine,
       );
     }
-  }
-
-  getVisibleHeight(element: HTMLElement) {
-    const rect = element.getBoundingClientRect();
-    const viewportHeight = window.innerHeight;
-
-    // Element is completely above viewport
-    if (rect.bottom <= 0) return 0;
-
-    // Element is completely below viewport
-    if (rect.top >= viewportHeight) return 0;
-
-    // Calculate visible portion
-    const visibleTop = Math.max(0, rect.top);
-    const visibleBottom = Math.min(viewportHeight, rect.bottom);
-
-    return visibleBottom - visibleTop;
   }
 
   calculateItemsPerLine<T extends HTMLElement>(
