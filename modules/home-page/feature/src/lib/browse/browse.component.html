@@ -15,16 +15,21 @@
     @let channelInfo = "'20px'";
     @for (video of videos(); track video.videoId) {
       <div class="browse_video_player" #gridItem>
-        @defer (on immediate; prefetch on idle; hydrate on viewport) {
+        @defer (on viewport; prefetch on idle; hydrate on viewport) {
           <ay-video-player-card
             [videoPlayerCardInfo]="video"
             [channelInfoHeight]="channelInfo"
             (selected)="onSelect($event)"
           />
+        } @placeholder (minimum 1000ms) {
+          <ay-video-player-card
+            [videoPlayerCardInfo]="convertToPlayerSkeletonItem(video)"
+            [channelInfoHeight]="channelInfo"
+          />
         }
       </div>
     }
-    @for (item of skeletonPlayerItemsToFillBottomLine(); track item) {
+    @for (item of skeletonPlayerItemsToFillBottomLine(); track item.videoId) {
       <div class="browse_video_player">
         <ay-video-player-card
           [videoPlayerCardInfo]="item"

@@ -242,4 +242,13 @@ export class BrowseComponent
     }
     return itemsPerLine;
   }
+
+  convertToPlayerSkeletonItem(
+    video: IVideoPlayerCardInfo,
+  ): IVideoPlayerCardInfo {
+    return {
+      ...video,
+      isSkeleton: true,
+    };
+  }
 }
