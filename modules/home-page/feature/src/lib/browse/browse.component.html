@@ -6,7 +6,6 @@
     ></ay-video-categories>
   </div>
   <div
-    #gridContainer
     class="browse_video_player_grid"
     infiniteScroll
     [infiniteScrollDistance]="3"
@@ -14,17 +13,9 @@
     (scrolled)="onScrollDown()"
   >
     @let channelInfo = "'20px'";
-    @for (item of numberOfSkeletonItemsToFillViewPort() | count; track $index) {
-      <div class="browse_video_player" #gridSkeletonItem>
-        <ay-video-player-card
-          [isSkeleton]="true"
-          [channelInfoHeight]="channelInfo"
-        />
-      </div>
-    }
     @for (video of videos(); track video.videoId) {
       <div class="browse_video_player" #gridItem>
-        @defer (prefetch on idle; hydrate on viewport) {
+        @defer (on immediate; prefetch on idle; hydrate on viewport) {
           <ay-video-player-card
             [videoPlayerCardInfo]="video"
             [channelInfoHeight]="channelInfo"
@@ -33,13 +24,10 @@
         }
       </div>
     }
-    @for (
-      item of numberOfSkeletonItemsToMakeBottomLineFull() | count;
-      track $index
-    ) {
+    @for (item of skeletonPlayerItemsToFillBottomLine(); track item) {
       <div class="browse_video_player">
         <ay-video-player-card
-          [isSkeleton]="true"
+          [videoPlayerCardInfo]="item"
           [channelInfoHeight]="channelInfo"
         />
       </div>

@@ -78,6 +78,7 @@ export class SearchComponent
         searchedVideos
           .filter((p) => p.type === 'video')
           .map((p) => ({
+            isSkeleton: false,
             videoId: p.videoId ?? '',
             title: p.title ?? '',
             channelName: p.author ?? '',

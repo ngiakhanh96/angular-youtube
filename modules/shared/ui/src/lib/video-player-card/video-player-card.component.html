@@ -1,3 +1,4 @@
+@let isSkeleton = videoPlayerCardInfo().isSkeleton;
 <div class="thumbnail__container" [class]="thumbnailContainerClass()">
   <div
     class="thumbnail__player-container"
@@ -7,7 +8,7 @@
   >
     <ng-container
       *aySkeleton="
-        isSkeleton();
+        isSkeleton;
         theme: {
           'border-radius': '12px',
         }
@@ -30,11 +31,11 @@
   </div>
 
   <div class="thumbnail__meta" [class]="thumbnailMetaClass()">
-    @if (isVerticalPlayerPosition() && (channelLogoUrl() || isSkeleton())) {
+    @if (isVerticalPlayerPosition() && (channelLogoUrl() || isSkeleton)) {
       <div class="thumbnail__channel-logo">
         <ng-container
           *aySkeleton="
-            isSkeleton();
+            isSkeleton;
             appearance: 'circle';
             theme: {
               width: '36px',
@@ -53,7 +54,7 @@
     }
     <div class="thumbnail__video-info" [class]="thumbnailVideoInfoClass()">
       <ay-overview-video-info
-        [isSkeleton]="isSkeleton()"
+        [isSkeleton]="isSkeleton"
         [title]="title()"
         [channelMarginTop]="channelMarginTop()"
         [channelLogoUrl]="
@@ -72,7 +73,7 @@
         [titleMarginBottom]="titleMarginBottom()"
       ></ay-overview-video-info>
     </div>
-    @if (!isSkeleton()) {
+    @if (!isSkeleton) {
       <div class="thumbnail__settings">
         <div class="thumbnail__settings-button">
           <ay-dropdown-button

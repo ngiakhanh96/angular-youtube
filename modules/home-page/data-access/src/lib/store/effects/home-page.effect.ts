@@ -81,5 +81,6 @@ export class HomePageEffects extends BaseEffects {
         }),
       );
     },
+    false,
   );
 }

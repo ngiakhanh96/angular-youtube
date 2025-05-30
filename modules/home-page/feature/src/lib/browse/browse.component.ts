@@ -15,7 +15,6 @@ import {
   sharedActionGroup,
 } from '@angular-youtube/shared-data-access';
 import {
-  CountPipe,
   FixedTopDirective,
   IVideoCategory,
   IVideoPlayerCardInfo,
@@ -24,7 +23,6 @@ import {
   VideoPlayerCardComponent,
 } from '@angular-youtube/shared-ui';
 import {
-  afterNextRender,
   afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
@@ -35,7 +33,6 @@ import {
   OnInit,
   signal,
   Signal,
-  viewChild,
   viewChildren,
   WritableSignal,
 } from '@angular/core';
@@ -50,7 +47,6 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
     InfiniteScrollDirective,
     VideoCategoriesComponent,
     FixedTopDirective,
-    CountPipe,
   ],
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.scss'],
@@ -64,19 +60,20 @@ export class BrowseComponent
   implements OnInit
 {
   protected videosWithMetaData: Signal<IPopularYoutubeVideos | undefined>;
-  protected videos: Signal<IVideoPlayerCardInfo[]>;
+  protected videos: WritableSignal<IVideoPlayerCardInfo[]>;
   protected channelsInfo: Signal<Record<string, IChannelItem> | undefined>;
   protected videosInfo: Signal<Record<string, IFormatStream> | undefined>;
   protected videosCategories: Signal<IVideoCategories | undefined>;
   protected videosCategoriesViewModel: Signal<IVideoCategory[]>;
-  protected numberOfSkeletonItemsToFillViewPort: WritableSignal<number>;
-  protected numberOfSkeletonItemsToMakeBottomLineFull = signal(0);
+  protected numberOfSkeletonPlayerItemsToFillBottomLine = signal(0);
+  protected skeletonPlayerItemsToFillBottomLine = computed(() => {
+    return this.initializeSkeletonItems(
+      this.numberOfSkeletonPlayerItemsToFillBottomLine(),
+      'filledInSkeleton',
+    );
+  });
   protected sidebarService = inject(SidebarService);
   protected playerItems = viewChildren<ElementRef<HTMLDivElement>>('gridItem');
-  protected skeletonPlayerItems =
-    viewChildren<ElementRef<HTMLDivElement>>('gridSkeletonItem');
-  protected gridContainer =
-    viewChild.required<ElementRef<HTMLDivElement>>('gridContainer');
   private router = inject(Router);
   private titleService = inject(Title);
   constructor() {
@@ -93,37 +90,50 @@ export class BrowseComponent
     this.videosWithMetaData = this.selectSignal(selectHomePageVideos);
     this.channelsInfo = this.selectSignal(selectChannelsInfo);
     this.videosInfo = this.selectSignal(selectVideosInfo);
-    this.videos = computed<IVideoPlayerCardInfo[]>(() => {
-      const videosWithMetaData = this.videosWithMetaData();
-      const channelsInfo = this.channelsInfo() ?? {};
-      const videosInfo = this.videosInfo() ?? {};
-      return (
-        videosWithMetaData?.items
-          .filter((p) => p.kind === 'youtube#video')
-          .map((p) => ({
-            videoId: p.id,
-            title: p.snippet.title,
-            channelName: p.snippet.channelTitle,
-            viewCount: +p.statistics.viewCount,
-            publishedDate: new Date(p.snippet.publishedAt),
-            duration: p.contentDetails.duration,
-            channelLogoUrl:
-              channelsInfo[p.snippet.channelId]?.snippet.thumbnails.default
-                .url ?? '',
-            videoUrl: videosInfo[p.id]?.url ?? '',
-            isVerified: false,
-          })) ?? []
-      );
-    });
-    this.numberOfSkeletonItemsToFillViewPort = linkedSignal({
-      source: this.videos,
-      computation: (videos, prev) => {
-        if (videos.length === 0) {
-          return prev?.value ?? 10;
+    this.videos = linkedSignal<
+      {
+        videosWithMetaData: IPopularYoutubeVideos | undefined;
+        channelsInfo: Record<string, IChannelItem> | undefined;
+        videosInfo: Record<string, IFormatStream> | undefined;
+      },
+      IVideoPlayerCardInfo[]
+    >({
+      source: () => ({
+        videosWithMetaData: this.videosWithMetaData(),
+        channelsInfo: this.channelsInfo(),
+        videosInfo: this.videosInfo(),
+      }),
+      computation: (input, prev) => {
+        const videosWithMetaDataItems = input.videosWithMetaData?.items ?? [];
+        const channelsInfo = input.channelsInfo ?? {};
+        const videosInfo = input.videosInfo ?? {};
+        if (videosWithMetaDataItems.length === 0) {
+          return [
+            ...(prev?.value ??
+              this.initializeSkeletonItems(20, 'mainSkeleton')),
+          ];
         }
-        return 0;
+        return (
+          videosWithMetaDataItems
+            .filter((p) => p.kind === 'youtube#video')
+            .map((p) => ({
+              isSkeleton: false,
+              videoId: p.id,
+              title: p.snippet.title,
+              channelName: p.snippet.channelTitle,
+              viewCount: +p.statistics.viewCount,
+              publishedDate: new Date(p.snippet.publishedAt),
+              duration: p.contentDetails.duration,
+              channelLogoUrl:
+                channelsInfo[p.snippet.channelId]?.snippet.thumbnails.default
+                  .url ?? '',
+              videoUrl: videosInfo[p.id]?.url ?? '',
+              isVerified: false,
+            })) ?? []
+        );
       },
     });
+
     this.videosCategories = this.selectSignal(selectVideoCategories);
     this.videosCategoriesViewModel = computed(() => {
       const videoCategories = this.videosCategories();
@@ -134,29 +144,6 @@ export class BrowseComponent
         })) ?? []
       );
     });
-    afterNextRender({
-      write: () => {
-        const skeletonPlayerItems = this.skeletonPlayerItems().map(
-          (item) => item.nativeElement,
-        );
-        const itemsPerRow = this.calculateItemsPerLine(
-          this.skeletonPlayerItems(),
-        );
-
-        // Calculate rows needed to fill viewport height plus 2 extra rows to encourage scrolling
-        const gridContainerVisibleHeight = this.getVisibleHeight(
-          this.gridContainer().nativeElement,
-        );
-        const itemHeight = skeletonPlayerItems[0].offsetHeight + 34; // 34 is the margin-bottom of the skeleton item
-        const rowsToFillScreen = Math.ceil(
-          gridContainerVisibleHeight / itemHeight,
-        );
-        const totalRows = rowsToFillScreen + 2; // Add 2 extra rows
-
-        const totalItems = itemsPerRow * totalRows;
-        this.numberOfSkeletonItemsToFillViewPort.set(totalItems);
-      },
-    });
     afterRenderEffect({
       read: () => {
         this.videos();
@@ -165,17 +152,37 @@ export class BrowseComponent
     });
   }
 
+  initializeSkeletonItems(count: number, videoIdPrefix: string) {
+    const initialSkeletonItems: IVideoPlayerCardInfo[] = [];
+    for (let i = 0; i < count; i++) {
+      initialSkeletonItems.push({
+        isSkeleton: true,
+        videoId: `${videoIdPrefix}${i}`,
+        title: '',
+        channelName: '',
+        viewCount: 0,
+        publishedDate: new Date(),
+        duration: '',
+        lengthSeconds: 0,
+        channelLogoUrl: '',
+        videoUrl: '',
+        isVerified: false,
+      });
+    }
+    return initialSkeletonItems;
+  }
+
   ngOnInit(): void {
     this.sidebarService.setSelectedIconName('home');
   }
 
   onScrollDown() {
-    // this.dispatchAction(
-    //   homePageActionGroup.loadYoutubePopularVideos({
-    //     nextPage: true,
-    //     itemPerPage: 20,
-    //   }),
-    // );
+    this.dispatchAction(
+      homePageActionGroup.loadYoutubePopularVideos({
+        nextPage: true,
+        itemPerPage: 20,
+      }),
+    );
   }
 
   onSelect(videoId: string) {
@@ -193,8 +200,8 @@ export class BrowseComponent
       const remaining = this.videos().length % itemsPerLine;
       const numberOfSkeletonItemsToMakeBottomLineFull =
         remaining === 0 ? 0 : itemsPerLine - remaining;
-      this.numberOfSkeletonItemsToMakeBottomLineFull.set(
-        numberOfSkeletonItemsToMakeBottomLineFull,
+      this.numberOfSkeletonPlayerItemsToFillBottomLine.set(
+        numberOfSkeletonItemsToMakeBottomLineFull + 2 * itemsPerLine,
       );
     }
   }

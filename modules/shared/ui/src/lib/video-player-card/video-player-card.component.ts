@@ -18,6 +18,7 @@ import { OverviewVideoInfoComponent } from '../overview-video-info/overview-vide
 import { Utilities } from '../utilities/utilities';
 
 export interface IVideoPlayerCardInfo {
+  isSkeleton: boolean;
   videoId: string;
   videoUrl: string;
   title: string;
@@ -59,8 +60,8 @@ export enum PlayerPosition {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoPlayerCardComponent {
-  isSkeleton = input(false);
   videoPlayerCardInfo = input<IVideoPlayerCardInfo>({
+    isSkeleton: false,
     videoId: '',
     videoUrl: '',
     title: '',
