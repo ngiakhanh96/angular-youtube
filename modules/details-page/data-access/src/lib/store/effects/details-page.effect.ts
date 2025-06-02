@@ -45,6 +45,7 @@ export class DetailsPageEffects extends BaseEffects {
         }),
       );
     },
+    false,
   );
 
   loadYoutubeVideoCommentsInfo$ = this.createHttpEffectAndUpdateResponse(
