@@ -19,6 +19,7 @@ import {
   IVideoCategory,
   IVideoPlayerCardInfo,
   SidebarService,
+  Utilities,
   VideoCategoriesComponent,
   VideoPlayerCardComponent,
 } from '@angular-youtube/shared-ui';
@@ -67,7 +68,7 @@ export class BrowseComponent
   protected videosCategoriesViewModel: Signal<IVideoCategory[]>;
   protected numberOfSkeletonPlayerItemsToFillBottomLine = signal(0);
   protected skeletonPlayerItemsToFillBottomLine = computed(() => {
-    return this.initializeSkeletonItems(
+    return Utilities.createPlayerSkeletonItems(
       this.numberOfSkeletonPlayerItemsToFillBottomLine(),
       'filledInSkeleton',
     );
@@ -109,7 +110,7 @@ export class BrowseComponent
         if (videosWithMetaDataItems.length === 0) {
           return [
             ...(prev?.value ??
-              this.initializeSkeletonItems(20, 'mainSkeleton')),
+              Utilities.createPlayerSkeletonItems(20, 'mainSkeleton')),
           ];
         }
         return (
@@ -153,26 +154,6 @@ export class BrowseComponent
 
   ngOnInit(): void {
     this.sidebarService.setSelectedIconName('home');
-  }
-
-  initializeSkeletonItems(count: number, videoIdPrefix: string) {
-    const initialSkeletonItems: IVideoPlayerCardInfo[] = [];
-    for (let i = 0; i < count; i++) {
-      initialSkeletonItems.push({
-        isSkeleton: true,
-        videoId: `${videoIdPrefix}${i}`,
-        title: '',
-        channelName: '',
-        viewCount: 0,
-        publishedDate: new Date(),
-        duration: '',
-        lengthSeconds: 0,
-        channelLogoUrl: '',
-        videoUrl: '',
-        isVerified: false,
-      });
-    }
-    return initialSkeletonItems;
   }
 
   onScrollDown() {

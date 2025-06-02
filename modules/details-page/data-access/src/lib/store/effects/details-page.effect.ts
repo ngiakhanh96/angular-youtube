@@ -80,5 +80,6 @@ export class DetailsPageEffects extends BaseEffects {
           }),
         );
     },
+    false,
   );
 }

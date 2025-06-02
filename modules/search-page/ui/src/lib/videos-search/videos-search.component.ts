@@ -4,6 +4,7 @@ import {
   IVideoCategory,
   IVideoPlayerCardInfo,
   PlayerPosition,
+  Utilities,
   VideoCategoriesComponent,
   VideoPlayerCardComponent,
 } from '@angular-youtube/shared-ui';
@@ -39,10 +40,11 @@ export class VideosSearchComponent extends BaseWithSandBoxComponent {
   videos = input.required<IVideoPlayerCardInfo[]>();
   PlayerPosition: typeof PlayerPosition = PlayerPosition;
   scrollDown = output<void>();
+  Utilities = Utilities;
   displayedVideos = computed(() => {
     return this.videos().length > 0
-      ? [...this.videos(), ...this.createSkeletonItems(4)]
-      : this.createSkeletonItems(20);
+      ? [...this.videos(), ...Utilities.createPlayerSkeletonItems(4)]
+      : Utilities.createPlayerSkeletonItems(20);
   });
   private router = inject(Router);
 
@@ -56,25 +58,5 @@ export class VideosSearchComponent extends BaseWithSandBoxComponent {
 
   onScrollDown() {
     this.scrollDown.emit();
-  }
-
-  createSkeletonItems(count: number): IVideoPlayerCardInfo[] {
-    const initialSkeletonItems: IVideoPlayerCardInfo[] = [];
-    for (let i = 0; i < count; i++) {
-      initialSkeletonItems.push({
-        isSkeleton: true,
-        videoId: `skeleton-${i}`,
-        title: '',
-        channelName: '',
-        viewCount: 0,
-        publishedDate: new Date(),
-        duration: '',
-        lengthSeconds: 0,
-        channelLogoUrl: '',
-        videoUrl: '',
-        isVerified: false,
-      });
-    }
-    return initialSkeletonItems;
   }
 }
