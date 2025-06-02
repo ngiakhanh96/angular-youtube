@@ -13,19 +13,28 @@
     (scrolled)="onScrollDown()"
   >
     @let channelInfo = "'20px'";
+    <ng-template #videoCard let-video="video">
+      <ay-video-player-card
+        [videoPlayerCardInfo]="video"
+        [channelInfoHeight]="channelInfo"
+        (selected)="onSelect($event)"
+      />
+    </ng-template>
     @for (video of videos(); track video.videoId) {
       <div class="browse_video_player" #gridItem>
-        @defer (on viewport; prefetch on idle; hydrate on viewport) {
-          <ay-video-player-card
-            [videoPlayerCardInfo]="video"
-            [channelInfoHeight]="channelInfo"
-            (selected)="onSelect($event)"
-          />
+        @defer (prefetch on idle; hydrate on viewport) {
+          <ng-container
+            *ngTemplateOutlet="videoCard; context: { video: video }"
+          ></ng-container>
         } @placeholder (minimum 1000ms) {
-          <ay-video-player-card
-            [videoPlayerCardInfo]="convertToPlayerSkeletonItem(video)"
-            [channelInfoHeight]="channelInfo"
-          />
+          <ng-container
+            *ngTemplateOutlet="
+              videoCard;
+              context: {
+                video: convertToPlayerSkeletonItem(video),
+              }
+            "
+          ></ng-container>
         }
       </div>
     }

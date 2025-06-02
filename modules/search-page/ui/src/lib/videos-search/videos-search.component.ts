@@ -8,6 +8,7 @@ import {
   VideoCategoriesComponent,
   VideoPlayerCardComponent,
 } from '@angular-youtube/shared-ui';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -28,6 +29,7 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
     VideoPlayerCardComponent,
     InfiniteScrollDirective,
     FixedTopDirective,
+    NgTemplateOutlet,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

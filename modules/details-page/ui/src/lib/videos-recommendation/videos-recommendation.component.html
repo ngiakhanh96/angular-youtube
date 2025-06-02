@@ -6,42 +6,37 @@
     ></ay-video-categories>
   </div>
   <div class="video-recommendation-list">
+    <ng-template #videoCard let-video="video">
+      <div class="video-recommendation">
+        <ay-video-player-card
+          [videoPlayerCardInfo]="video"
+          [playerPosition]="PlayerPosition.Horizontal"
+          [titleFontSize]="'14px'"
+          [titleLineHeight]="'20px'"
+          [channelNameFontSize]="'12px'"
+          [channelInfoHeight]="'18px'"
+          [videoStatisticFontSize]="'12px'"
+          [titleMarginBottom]="'4px'"
+          [playerBorderRadius]="'8px'"
+          [boxShadow]="'unset'"
+          [thumbnailSettingsButtonMarginTop]="'0px'"
+          [thumbnailDurationRight]="'4px'"
+          (selected)="onSelect($event)"
+        />
+      </div>
+    </ng-template>
     @for (video of displayedVideos(); track video.videoId) {
-      @defer (on viewport; prefetch on idle; hydrate on viewport) {
-        <div class="video-recommendation">
-          <ay-video-player-card
-            [videoPlayerCardInfo]="video"
-            [playerPosition]="PlayerPosition.Horizontal"
-            [titleFontSize]="'14px'"
-            [titleLineHeight]="'20px'"
-            [channelNameFontSize]="'12px'"
-            [channelInfoHeight]="'18px'"
-            [videoStatisticFontSize]="'12px'"
-            [titleMarginBottom]="'4px'"
-            [playerBorderRadius]="'8px'"
-            [boxShadow]="'unset'"
-            [thumbnailSettingsButtonMarginTop]="'0px'"
-            [thumbnailDurationRight]="'4px'"
-            (selected)="onSelect($event)"
-          />
-        </div>
+      @defer (prefetch on idle; hydrate on viewport) {
+        <ng-container
+          *ngTemplateOutlet="videoCard; context: { video: video }"
+        ></ng-container>
       } @placeholder (minimum 500ms) {
-        <div class="video-recommendation">
-          <ay-video-player-card
-            [videoPlayerCardInfo]="Utilities.convertToPlayerSkeletonItem(video)"
-            [playerPosition]="PlayerPosition.Horizontal"
-            [titleFontSize]="'14px'"
-            [titleLineHeight]="'20px'"
-            [channelNameFontSize]="'12px'"
-            [channelInfoHeight]="'18px'"
-            [videoStatisticFontSize]="'12px'"
-            [titleMarginBottom]="'4px'"
-            [playerBorderRadius]="'8px'"
-            [boxShadow]="'unset'"
-            [thumbnailSettingsButtonMarginTop]="'0px'"
-            [thumbnailDurationRight]="'4px'"
-          />
-        </div>
+        <ng-container
+          *ngTemplateOutlet="
+            videoCard;
+            context: { video: Utilities.convertToPlayerSkeletonItem(video) }
+          "
+        ></ng-container>
       }
     }
   </div>

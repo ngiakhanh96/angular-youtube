@@ -23,6 +23,7 @@ import {
   VideoCategoriesComponent,
   VideoPlayerCardComponent,
 } from '@angular-youtube/shared-ui';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
   ChangeDetectionStrategy,
@@ -48,6 +49,7 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
     InfiniteScrollDirective,
     VideoCategoriesComponent,
     FixedTopDirective,
+    NgTemplateOutlet,
   ],
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.scss'],

@@ -12,48 +12,40 @@
     [infiniteScrollThrottle]="50"
     (scrolled)="onScrollDown()"
   >
+    <ng-template #videoCard let-video="video">
+      <div class="video-search">
+        <ay-video-player-card
+          [videoPlayerCardInfo]="video"
+          [horizontalThumbnailPlayerContainerMarginRight]="'16px'"
+          [playerPosition]="PlayerPosition.Horizontal"
+          [titleFontWeight]="'400'"
+          [titleFontSize]="'18px'"
+          [channelMarginTop]="'12px'"
+          [channelNameFontSize]="'12px'"
+          [videoStatisticFontSize]="'12px'"
+          [titleMarginBottom]="'0px'"
+          [playerBorderRadius]="'12px'"
+          [boxShadow]="'unset'"
+          [thumbnailSettingsButtonMarginTop]="'0px'"
+          [thumbnailDurationRight]="'4px'"
+          [horizontalMaxWidth]="'500px'"
+          [horizontalMinWidth]="'240px'"
+          (selected)="onSelect($event)"
+        />
+      </div>
+    </ng-template>
     @for (video of displayedVideos(); track video.videoId) {
-      @defer (on viewport; prefetch on idle; hydrate on viewport) {
-        <div class="video-search">
-          <ay-video-player-card
-            [videoPlayerCardInfo]="video"
-            [horizontalThumbnailPlayerContainerMarginRight]="'16px'"
-            [playerPosition]="PlayerPosition.Horizontal"
-            [titleFontWeight]="'400'"
-            [titleFontSize]="'18px'"
-            [channelMarginTop]="'12px'"
-            [channelNameFontSize]="'12px'"
-            [videoStatisticFontSize]="'12px'"
-            [titleMarginBottom]="'0px'"
-            [playerBorderRadius]="'12px'"
-            [boxShadow]="'unset'"
-            [thumbnailSettingsButtonMarginTop]="'0px'"
-            [thumbnailDurationRight]="'4px'"
-            [horizontalMaxWidth]="'500px'"
-            [horizontalMinWidth]="'240px'"
-            (selected)="onSelect($event)"
-          />
-        </div>
+      @defer (prefetch on idle; hydrate on viewport) {
+        <ng-container
+          *ngTemplateOutlet="videoCard; context: { video: video }"
+        ></ng-container>
       } @placeholder (minimum 1000ms) {
-        <div class="video-search">
-          <ay-video-player-card
-            [videoPlayerCardInfo]="Utilities.convertToPlayerSkeletonItem(video)"
-            [horizontalThumbnailPlayerContainerMarginRight]="'16px'"
-            [playerPosition]="PlayerPosition.Horizontal"
-            [titleFontWeight]="'400'"
-            [titleFontSize]="'18px'"
-            [channelMarginTop]="'12px'"
-            [channelNameFontSize]="'12px'"
-            [videoStatisticFontSize]="'12px'"
-            [titleMarginBottom]="'0px'"
-            [playerBorderRadius]="'12px'"
-            [boxShadow]="'unset'"
-            [thumbnailSettingsButtonMarginTop]="'0px'"
-            [thumbnailDurationRight]="'4px'"
-            [horizontalMaxWidth]="'500px'"
-            [horizontalMinWidth]="'240px'"
-          />
-        </div>
+        <ng-container
+          *ngTemplateOutlet="
+            videoCard;
+            context: { video: Utilities.convertToPlayerSkeletonItem(video) }
+          "
+        ></ng-container>
       }
     }
   </div>

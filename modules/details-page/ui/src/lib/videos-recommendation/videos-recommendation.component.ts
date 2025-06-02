@@ -6,6 +6,7 @@ import {
   VideoCategoriesComponent,
   VideoPlayerCardComponent,
 } from '@angular-youtube/shared-ui';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,7 +20,11 @@ import { Router } from '@angular/router';
   selector: 'ay-videos-recommendation',
   templateUrl: './videos-recommendation.component.html',
   styleUrls: ['./videos-recommendation.component.scss'],
-  imports: [VideoCategoriesComponent, VideoPlayerCardComponent],
+  imports: [
+    VideoCategoriesComponent,
+    VideoPlayerCardComponent,
+    NgTemplateOutlet,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideosRecommendationInfoComponent {
