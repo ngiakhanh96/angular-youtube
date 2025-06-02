@@ -85,7 +85,6 @@ export class BrowseComponent
         itemPerPage: 20,
       }),
     );
-    //TODO make these api calls silent
     this.dispatchAction(sharedActionGroup.loadYoutubeVideoCategories());
     this.videosWithMetaData = this.selectSignal(selectHomePageVideos);
     this.channelsInfo = this.selectSignal(selectChannelsInfo);

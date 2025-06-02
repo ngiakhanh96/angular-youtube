@@ -12,7 +12,7 @@
     [infiniteScrollThrottle]="50"
     (scrolled)="onScrollDown()"
   >
-    @for (video of videos(); track video.videoId) {
+    @for (video of displayedVideos(); track video.videoId) {
       @defer (hydrate on viewport; prefetch on idle) {
         <div class="video-search">
           <ay-video-player-card

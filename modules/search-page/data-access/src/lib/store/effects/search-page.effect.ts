@@ -41,5 +41,6 @@ export class SearchPageEffects extends BaseEffects {
           }),
         );
     },
+    false,
   );
 }
