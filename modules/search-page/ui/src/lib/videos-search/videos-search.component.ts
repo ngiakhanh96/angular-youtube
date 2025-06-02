@@ -20,6 +20,7 @@ import {
 import { Router } from '@angular/router';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
+//TODO implement local spinner instead of global spinner
 @Component({
   selector: 'ay-videos-search',
   templateUrl: './videos-search.component.html',
