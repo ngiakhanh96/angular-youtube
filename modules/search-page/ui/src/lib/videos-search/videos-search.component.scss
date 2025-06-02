@@ -5,7 +5,7 @@
 .videos_search_container {
   @apply flex flex-col pl-[24px];
   .videos_search_categories {
-    @apply flex justify-center pl-[24px] pr-[16px] pt-[12px] pb-[12px];
+    @apply flex justify-center pr-[16px] pt-[12px] pb-[12px];
     ay-video-categories {
       @apply pl-[16px] pr-[22px] max-w-[var(--max-width)] w-0 flex-grow;
     }
