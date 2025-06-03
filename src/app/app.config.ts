@@ -98,7 +98,6 @@ export const appConfig: ApplicationConfig = {
         height: '100%',
         cursor: 'inherit',
         margin: '0',
-        'pointer-events': 'none',
       },
     }),
     provideAppInitializer(async () => {

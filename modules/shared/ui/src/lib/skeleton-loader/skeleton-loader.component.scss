@@ -1,11 +1,14 @@
+:host {
+  @apply flex items-center w-full h-full;
+}
 .skeleton-loader {
   box-sizing: border-box;
 
   /**
-    * `overflow` and `position` are required steps to make sure
-    * the component respects the specified dimensions
-    * given via `theme` object @Input attribute
-    */
+  * `overflow` and `position` are required steps to make sure
+  * the component respects the specified dimensions
+  * given via `theme` object @Input attribute
+  */
   overflow: hidden;
   position: relative;
 
@@ -13,9 +16,9 @@
 
   border-radius: 4px;
   width: 100%;
-  height: 20px;
-  display: inline-block;
-  margin-bottom: 10px;
+  height: 100%;
+  display: flex;
+  align-items: center;
 
   // More details about CSS `will-change` property
   // in https://developer.mozilla.org/en-US/docs/Web/CSS/will-change
@@ -27,9 +30,9 @@
   }
 
   /**
-    * Added only when `appearance` attribute is `circle`
-    * at component level. So that we can use it only if needed
-    */
+  * Added only when `appearance` attribute is `circle`
+  * at component level. So that we can use it only if needed
+  */
   &.circle {
     width: 40px;
     height: 40px;
@@ -38,10 +41,10 @@
   }
 
   /**
-    * Added only when `animation` attribute is `progress`
-    * at component level. So that we can load the
-    * animations only if needed
-    */
+  * Added only when `animation` attribute is `progress`
+  * at component level. So that we can load the
+  * animations only if needed
+  */
   &.progress,
   &.progress-dark {
     &:after,
@@ -88,10 +91,10 @@
   }
 
   /**
-    * Added only when `animation` attribute is `pulse`
-    * at component level. So that we can load the
-    * animations only if needed
-    */
+  * Added only when `animation` attribute is `pulse`
+  * at component level. So that we can load the
+  * animations only if needed
+  */
   &.pulse {
     animation: pulse 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     animation-delay: 0.5s;

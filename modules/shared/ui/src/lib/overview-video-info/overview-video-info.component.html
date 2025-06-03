@@ -1,6 +1,8 @@
 <div class="overview-video-info__video-info">
   <div class="overview-video-info__video-title">
-    <ng-container *aySkeleton="isSkeleton(); theme: { height: '16px' }">
+    <ng-container
+      *aySkeleton="isSkeleton(); theme: { height: 'var(--title-font-size)' }"
+    >
       <ay-text-renderer
         [title]="title()"
         [fontWeight]="titleFontWeight()"
@@ -42,7 +44,7 @@
           *aySkeleton="
             isSkeleton();
             theme: {
-              height: '14px',
+              height: 'var(--channel-name-font-size)',
               width: '80px',
             }
           "
@@ -60,7 +62,7 @@
         *aySkeleton="
           isSkeleton();
           theme: {
-            height: '14px',
+            height: 'var(--video-statistic-font-size)',
             width: '160px',
           }
         "

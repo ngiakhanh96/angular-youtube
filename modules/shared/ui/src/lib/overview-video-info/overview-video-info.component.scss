@@ -27,7 +27,7 @@
 
   .overview-video-info__video-statistic {
     @apply flex flex-row h-[20px];
-    font-size: calc(var(--video-statistic-font-size));
+    font-size: var(--video-statistic-font-size);
     * {
       @apply overflow-hidden text-ellipsis text-[rgb(96,96,96)] whitespace-pre;
     }

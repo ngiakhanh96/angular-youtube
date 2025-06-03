@@ -46,21 +46,6 @@ export class SkeletonDirective {
             className,
           );
         }
-        this.renderer2.setStyle(
-          skeletonComponent.location.nativeElement,
-          'width',
-          '100%',
-        );
-        this.renderer2.setStyle(
-          skeletonComponent.location.nativeElement,
-          'height',
-          '100%',
-        );
-        this.renderer2.setStyle(
-          skeletonComponent.location.nativeElement,
-          'display',
-          'block',
-        );
       } else if (!this.isSkeleton()) {
         if (this.hasSkeletonComponent) {
           this.hasSkeletonComponent = false;
