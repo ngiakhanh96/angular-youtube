@@ -94,6 +94,7 @@ export class VideoPlayerCardComponent {
   boxShadow = input('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
   thumbnailSettingsButtonMarginTop = input('6px');
   thumbnailDurationRight = input('8px');
+  showChannelNameFirst = input(false);
   thumbnailContainerFlexDirection = computed(() =>
     this.playerPosition().toString(),
   );

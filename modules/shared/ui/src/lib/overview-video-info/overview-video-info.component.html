@@ -10,31 +10,62 @@
       ></ay-text-renderer>
     </ng-container>
   </div>
-  @if (channelLogoUrl()) {
+  @if (showChannelNameFirst()) {
     <div class="h-[1px]"></div>
     <div class="overview-video-info__video-statistic">
-      <div class="overview-video-info__video-view-count">{{
-        viewCountString()
-      }}</div>
-      <div class="overview-video-info__video-publish-date">
-        • {{ publishedDateString() }}</div
+      <ng-container
+        *aySkeleton="
+          isSkeleton();
+          theme: {
+            height: 'var(--video-statistic-font-size)',
+            width: '160px',
+          }
+        "
       >
+        <div class="overview-video-info__video-view-count">{{
+          viewCountString()
+        }}</div>
+        <div class="overview-video-info__video-publish-date">
+          • {{ publishedDateString() }}</div
+        >
+      </ng-container>
     </div>
     <div class="overview-video-info__channel">
       <div class="overview-video-info__channel-logo">
-        <img
-          alt="thumbnail channel logo"
-          [ayImgSrc]="channelLogoUrl()!"
-          width="24"
-          height="24"
-        />
+        <ng-container
+          *aySkeleton="
+            isSkeleton() || !channelLogoUrl();
+            appearance: 'circle';
+            theme: {
+              height: '24px',
+              width: '24px',
+            }
+          "
+        >
+          <img
+            alt="thumbnail channel logo"
+            [ayImgSrc]="channelLogoUrl()!"
+            width="24"
+            height="24"
+          />
+        </ng-container>
       </div>
       <div class="overview-video-info__channel-name">
-        <ay-channel-name
-          [channelName]="channelName()"
-          [isVerified]="isVerified()"
-          [fontWeight]="'400'"
-        ></ay-channel-name>
+        <ng-container
+          *aySkeleton="
+            isSkeleton();
+            theme: {
+              height: 'var(--channel-name-font-size)',
+              width: '80px',
+            }
+          "
+        >
+          <ay-channel-name
+            [channelName]="channelName()"
+            [isVerified]="isVerified()"
+            [fontWeight]="'400'"
+          ></ay-channel-name>
+        </ng-container>
       </div>
     </div>
   } @else {

@@ -34,6 +34,7 @@ export class OverviewVideoInfoComponent {
   isSkeleton = input(false);
   title = input<string>('');
   channelName = input<string>('');
+  showChannelNameFirst = input<boolean>(false);
   channelLogoUrl = input<string | undefined>(undefined);
   viewCount = input<number>(0);
   channelMarginTop = input('0px');
