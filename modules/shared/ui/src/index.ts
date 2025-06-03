@@ -23,6 +23,8 @@ export * from './lib/section-item-content/section-item-content.component';
 export * from './lib/services/dynamic-component.service';
 export * from './lib/services/external-navigation.service';
 export * from './lib/services/sidebar.service';
+export * from './lib/skeleton-loader/skeleton-loader.component';
+export * from './lib/skeleton-loader/skeleton-loader.provider';
 export * from './lib/spinner/spinner.component';
 export * from './lib/svg-button-renderer/svg-button-renderer.component';
 export * from './lib/text-icon-button/text-icon-button.component';

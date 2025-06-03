@@ -7,8 +7,9 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { NgxSkeletonLoaderComponent } from 'ngx-skeleton-loader';
+
 import { DynamicComponentService } from '../../services/dynamic-component.service';
+import { AySkeletonLoaderComponent } from '../../skeleton-loader/skeleton-loader.component';
 
 @Directive({
   selector: '[aySkeleton]',
@@ -31,7 +32,7 @@ export class SkeletonDirective {
         this.hasSkeletonComponent = true;
         this.viewContainerRef.clear();
         const skeletonComponent = this.dynamicComponentService.createComponent(
-          NgxSkeletonLoaderComponent,
+          AySkeletonLoaderComponent,
           {
             appearance: this.appearance(),
             theme: this.theme(),

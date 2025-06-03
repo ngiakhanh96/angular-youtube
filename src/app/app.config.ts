@@ -7,6 +7,7 @@ import {
   AppSettingsService,
   YoutubeApiKey,
 } from '@angular-youtube/shared-data-access';
+import { provideAySkeletonLoader } from '@angular-youtube/shared-ui';
 import { authInterceptor } from '@angular-youtube/shell-data-access';
 import {
   provideHttpClient,
@@ -34,7 +35,6 @@ import {
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { provideNgxSkeletonLoader } from 'ngx-skeleton-loader';
 import { GlobalErrorHandler } from './global-error-handler';
 import { mainRoutes } from './routes';
 
@@ -89,7 +89,7 @@ export const appConfig: ApplicationConfig = {
       provide: YoutubeApiKey,
       useValue: 'AIzaSyCn5erIAtKzaNiuh-5IJgnorW7yOEH5gyE',
     },
-    provideNgxSkeletonLoader({
+    provideAySkeletonLoader({
       theme: {
         extendsFromRoot: true,
         loadingText: '',
@@ -98,6 +98,7 @@ export const appConfig: ApplicationConfig = {
         height: '100%',
         cursor: 'inherit',
         margin: '0',
+        'pointer-events': 'none',
       },
     }),
     provideAppInitializer(async () => {
