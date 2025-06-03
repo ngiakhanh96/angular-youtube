@@ -14,7 +14,7 @@ import {
   selector: '[ayFixedTop]',
   standalone: true,
   host: {
-    '[style.position]': "'absolute'",
+    '[style.position]': "'fixed'",
     '[style.zIndex]': 'zIndex()',
     '[style.height]': 'height()',
     '[style.backgroundColor]': "'var(--white-color-trans)'",
@@ -47,7 +47,6 @@ export class FixedTopDirective implements OnDestroy {
     afterNextRender({
       write: () => {
         this.resize();
-        this.element.parentElement!.style.position = 'relative';
         this.resizeObserver = new ResizeObserver((_) => {
           this.resize();
         });
