@@ -28,7 +28,7 @@
     }
 
     .thumbnail__duration {
-      @apply absolute bg-[rgba(0,0,0,0.6)] right-[var(--thumbnail-duration-right)] bottom-[4px] text-white flex-row items-center;
+      @apply absolute bg-[rgba(0,0,0,0.6)] right-[var(--thumbnail-duration-right-bottom)] bottom-[var(--thumbnail-duration-right-bottom)] text-white flex-row items-center;
       border-radius: 2px;
       padding-left: 4px;
       padding-right: 4px;

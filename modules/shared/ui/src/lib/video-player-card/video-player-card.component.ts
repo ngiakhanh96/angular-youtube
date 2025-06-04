@@ -50,7 +50,8 @@ export enum PlayerPosition {
   host: {
     '[style.--thumbnail-settings-button-margin-top]':
       'thumbnailSettingsButtonMarginTop()',
-    '[style.--thumbnail-duration-right]': 'thumbnailDurationRight()',
+    '[style.--thumbnail-duration-right-bottom]':
+      'thumbnailDurationRightBottom()',
     '[style.--horizontal-max-width]': 'horizontalMaxWidth()',
     '[style.--horizontal-min-width]': 'horizontalMinWidth()',
     '[style.--horizontal-thumbnail-margin-right]':
@@ -93,7 +94,7 @@ export class VideoPlayerCardComponent {
   playerBorderRadius = input('12px');
   boxShadow = input('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
   thumbnailSettingsButtonMarginTop = input('6px');
-  thumbnailDurationRight = input('8px');
+  thumbnailDurationRightBottom = input('8px');
   showChannelNameFirst = input(false);
   thumbnailContainerFlexDirection = computed(() =>
     this.playerPosition().toString(),
