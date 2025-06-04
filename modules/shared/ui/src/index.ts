@@ -5,6 +5,8 @@ export * from './lib/combined-text-icon-button/combined-text-icon-button.compone
 export * from './lib/directives/fixed-top/fixed-top.directive';
 export * from './lib/directives/icon/icon.directive';
 export * from './lib/directives/image/image.directive';
+export * from './lib/directives/infinite-scroll/infinite-scroll.directive';
+export * from './lib/directives/infinite-scroll/scroll-state.model';
 export * from './lib/directives/overlay/overlay.directive';
 export * from './lib/directives/section-item/section-item.directive';
 export * from './lib/directives/skeleton/skeleton.directive';

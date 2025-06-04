@@ -10,6 +10,7 @@ import {
   CombinedTextIconButtonComponent,
   DropdownButtonComponent,
   ImageDirective,
+  InfiniteScrollDirective,
   ISection,
   TextIconButtonComponent,
   TextRenderComponent,
@@ -22,7 +23,6 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { VideoCommentsComponent } from '../video-comments/video-comments.component';
 
 export interface IVideoDetailsInfo {

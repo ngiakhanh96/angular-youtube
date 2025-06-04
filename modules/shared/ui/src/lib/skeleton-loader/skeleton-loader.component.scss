@@ -1,5 +1,5 @@
 :host {
-  @apply flex items-center w-full h-full;
+  @apply flex items-center w-full h-full select-none;
 }
 .skeleton-loader {
   box-sizing: border-box;
@@ -123,14 +123,6 @@
     &.custom-content {
       background-image: none;
     }
-  }
-
-  // MEDIA QUERY: Desktop-only styling
-  @media screen and (min-device-width: 1200px) {
-    // Removing selection and cursor since the content is loading
-    // This is a even better way to create awareness to consumers that the content is loading
-    user-select: none;
-    cursor: wait;
   }
 }
 

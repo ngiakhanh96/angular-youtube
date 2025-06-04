@@ -1,6 +1,7 @@
 import { BaseWithSandBoxComponent } from '@angular-youtube/shared-data-access';
 import {
   FixedTopDirective,
+  InfiniteScrollDirective,
   IVideoCategory,
   IVideoPlayerCardInfo,
   PlayerPosition,
@@ -18,7 +19,6 @@ import {
   output,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 //TODO implement local spinner instead of global spinner
 @Component({

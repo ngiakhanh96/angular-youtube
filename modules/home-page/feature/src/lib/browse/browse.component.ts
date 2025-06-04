@@ -16,6 +16,7 @@ import {
 } from '@angular-youtube/shared-data-access';
 import {
   FixedTopDirective,
+  InfiniteScrollDirective,
   IVideoCategory,
   IVideoPlayerCardInfo,
   SidebarService,
@@ -40,7 +41,6 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 @Component({
   selector: 'ay-browse',

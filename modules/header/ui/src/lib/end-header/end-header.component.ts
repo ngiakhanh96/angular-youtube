@@ -67,7 +67,7 @@ export class EndHeaderComponent {
         },
         {
           iconName: 'location',
-          displayHtml: 'Location: Singapore',
+          displayHtml: `Location: Singapore`,
         },
         {
           iconName: 'keyboard-shortcuts',
