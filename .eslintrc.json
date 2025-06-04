@@ -32,7 +32,7 @@
             "style": "kebab-case"
           }
         ],
-        "@angular-eslint/prefer-standalone": "on"
+        "@angular-eslint/prefer-standalone": "error"
       }
     },
     {
