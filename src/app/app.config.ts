@@ -1,10 +1,8 @@
 import {
-  GoogleLoginProvider,
-  SocialAuthServiceConfig,
-  SocialLoginModule,
-} from '@abacritt/angularx-social-login';
-import {
   AppSettingsService,
+  GoogleLoginProvider,
+  SocialAuthService,
+  SocialAuthServiceConfig,
   YoutubeApiKey,
 } from '@angular-youtube/shared-data-access';
 import { provideAySkeletonLoader } from '@angular-youtube/shared-ui';
@@ -17,7 +15,6 @@ import {
 import {
   ApplicationConfig,
   ErrorHandler,
-  importProvidersFrom,
   inject,
   provideAppInitializer,
   provideExperimentalZonelessChangeDetection,
@@ -63,7 +60,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideStoreDevtools({ maxAge: 25, logOnly: false }),
-    importProvidersFrom(SocialLoginModule),
+    SocialAuthService,
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {

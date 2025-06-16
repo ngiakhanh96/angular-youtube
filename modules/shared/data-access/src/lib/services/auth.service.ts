@@ -1,9 +1,7 @@
-import {
-  GoogleLoginProvider,
-  SocialAuthService,
-} from '@abacritt/angularx-social-login';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { SessionStorage } from './session-storage.service';
+import { GoogleLoginProvider } from './social-login/providers/google-login-provider';
+import { SocialAuthService } from './social-login/social-auth.service';
 
 @Injectable({
   providedIn: 'root',
