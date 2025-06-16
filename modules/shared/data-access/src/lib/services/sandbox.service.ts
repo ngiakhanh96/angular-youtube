@@ -6,7 +6,6 @@ import {
   select,
   Store,
 } from '@ngrx/store';
-import { CreatorsNotAllowedCheck } from '@ngrx/store/src/models';
 import { filter, Observable, Subscription } from 'rxjs';
 import {
   HttpResponse,
@@ -46,7 +45,7 @@ export class SandboxService implements OnDestroy {
           this.spinnerService.loadingOff();
         }
       }),
-  );
+    );
   }
 
   getResponseDetailsSelector(action: Action) {
@@ -64,7 +63,7 @@ export class SandboxService implements OnDestroy {
   }
 
   dispatchActionFromSignal(
-    action: () => Action & CreatorsNotAllowedCheck<() => Action>,
+    action: Parameters<Store['dispatch']>[0],
     config?: {
       injector: Injector;
     },

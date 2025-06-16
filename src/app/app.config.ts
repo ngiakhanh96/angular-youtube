@@ -16,7 +16,7 @@ import {
   ErrorHandler,
   inject,
   provideAppInitializer,
-  provideExperimentalZonelessChangeDetection,
+  provideZonelessChangeDetection,
 } from '@angular/core';
 import { MAT_RIPPLE_GLOBAL_OPTIONS } from '@angular/material/core';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -39,7 +39,7 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideEffects(),
     provideAnimations(),
-    provideExperimentalZonelessChangeDetection(),
+    provideZonelessChangeDetection(),
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     {
       provide: MAT_RIPPLE_GLOBAL_OPTIONS,

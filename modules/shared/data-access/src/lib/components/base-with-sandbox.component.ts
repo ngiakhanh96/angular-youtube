@@ -1,8 +1,7 @@
 import { DestroyRef, inject, Injector, Signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { Action, MemoizedSelector, select } from '@ngrx/store';
-import { CreatorsNotAllowedCheck } from '@ngrx/store/src/models';
+import { Action, MemoizedSelector, select, Store } from '@ngrx/store';
 import { first, map } from 'rxjs';
 import { HttpResponseStatus } from '../models/http-response/http-response.model';
 import { SandboxService } from '../services/sandbox.service';
@@ -61,7 +60,7 @@ export abstract class BaseWithSandBoxComponent {
   }
 
   protected dispatchActionFromSignal(
-    action: () => Action & CreatorsNotAllowedCheck<() => Action>,
+    action: Parameters<Store['dispatch']>[0],
     successfulCallBack?: () => void,
     config?: {
       injector: Injector;

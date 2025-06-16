@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+
 import {
   afterNextRender,
   computed,
@@ -8,6 +8,7 @@ import {
   inject,
   input,
   OnDestroy,
+  DOCUMENT
 } from '@angular/core';
 
 @Directive({

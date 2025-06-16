@@ -46,7 +46,7 @@
       commentViewModel of commentViewModels();
       track commentViewModel.comment.commentId
     ) {
-      @defer (hydrate on viewport; prefetch on idle) {
+      @defer (prefetch on idle) {
         <ay-video-comment
           [commentViewModel]="commentViewModel"
         ></ay-video-comment>

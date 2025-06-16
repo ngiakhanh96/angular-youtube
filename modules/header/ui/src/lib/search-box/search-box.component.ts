@@ -6,7 +6,7 @@ import {
   SvgButtonRendererComponent,
 } from '@angular-youtube/shared-ui';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { DOCUMENT } from '@angular/common';
+
 import {
   afterNextRender,
   ChangeDetectionStrategy,
@@ -22,6 +22,7 @@ import {
   output,
   signal,
   viewChild,
+  DOCUMENT
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {

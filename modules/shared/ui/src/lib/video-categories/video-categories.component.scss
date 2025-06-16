@@ -1,10 +1,10 @@
 :host {
   @apply block h-full;
-  --mdc-chip-elevated-container-color: rgba(0, 0, 0, 0.05);
-  --mdc-chip-elevated-selected-container-color: var(--black-color);
-  --mdc-chip-outline-color: var(--white-color);
-  --mdc-chip-label-text-color: rgb(15, 15, 15);
-  --mdc-chip-selected-label-text-color: var(--white-color);
+  --mat-chip-elevated-container-color: rgba(0, 0, 0, 0.05);
+  --mat-chip-elevated-selected-container-color: var(--black-color);
+  --mat-chip-outline-color: var(--white-color);
+  --mat-chip-label-text-color: rgb(15, 15, 15);
+  --mat-chip-selected-label-text-color: var(--white-color);
 }
 
 .video-categories {

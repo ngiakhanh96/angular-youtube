@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,6 +15,7 @@ import {
   signal,
   untracked,
   viewChild,
+  DOCUMENT
 } from '@angular/core';
 import {
   SvgButtonRendererComponent,

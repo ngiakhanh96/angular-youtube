@@ -4,16 +4,16 @@
 
 .text-icon-button {
   & {
-    --mdc-fab-container-color: var(--background-color);
-    --mdc-extended-fab-hover-container-elevation-shadow: none;
-    --mdc-extended-fab-container-elevation-shadow: none;
-    --mdc-extended-fab-focus-container-elevation-shadow: none;
-    --mdc-extended-fab-pressed-container-elevation-shadow: none;
+    --mat-fab-container-color: var(--background-color);
+    --mat-fab-extended-hover-container-elevation-shadow: none;
+    --mat-fab-extended-container-elevation-shadow: none;
+    --mat-fab-extended-focus-container-elevation-shadow: none;
+    --mat-fab-extended-pressed-container-elevation-shadow: none;
     --mat-fab-state-layer-color: var(--hover-background-color);
     --mat-fab-hover-state-layer-opacity: 1;
     --mat-fab-focus-state-layer-opacity: 1;
     --mat-fab-pressed-state-layer-opacity: 1;
-    --mdc-extended-fab-container-shape: var(--border-radius);
+    --mat-fab-extended-container-shape: var(--border-radius);
     --mat-sys-label-large-weight: var(--font-weight);
     --mat-sys-label-large-size: var(--font-size);
     color: var(--color);

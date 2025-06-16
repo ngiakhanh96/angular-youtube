@@ -62,9 +62,9 @@ export class VideoCommentComponent implements OnDestroy {
   cachedContinuation?: string;
   shouldUpdateCachedNestedComments = false;
   nestedCommentsResource = rxResource({
-    request: this.repliesCollapsed,
-    loader: ({ request: repliesCollapsed }) => {
-      if (repliesCollapsed) {
+    params: () => ({ repliesCollapsed: this.repliesCollapsed() }),
+    stream: (request) => {
+      if (request.params.repliesCollapsed) {
         return of(<IVideoCommentViewModelsWithContinuation>{
           comments: [],
           continuation: '',

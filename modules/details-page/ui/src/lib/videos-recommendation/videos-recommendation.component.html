@@ -26,7 +26,7 @@
       </div>
     </ng-template>
     @for (video of displayedVideos(); track video.videoId) {
-      @defer (prefetch on idle; hydrate on viewport) {
+      @defer (prefetch on idle) {
         <ng-container
           *ngTemplateOutlet="videoCard; context: { video: video }"
         ></ng-container>

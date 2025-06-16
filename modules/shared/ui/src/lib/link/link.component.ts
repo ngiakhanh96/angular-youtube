@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,6 +6,7 @@ import {
   inject,
   input,
   signal,
+  DOCUMENT
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageDirective } from '../directives/image/image.directive';
