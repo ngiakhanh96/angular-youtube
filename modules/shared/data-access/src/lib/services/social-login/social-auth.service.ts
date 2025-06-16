@@ -1,4 +1,11 @@
-import { Inject, Injectable, Injector, NgZone, Type } from '@angular/core';
+import {
+  Inject,
+  Injectable,
+  Injector,
+  makeEnvironmentProviders,
+  NgZone,
+  Type,
+} from '@angular/core';
 import { AsyncSubject, isObservable, Observable, ReplaySubject } from 'rxjs';
 import { ILoginProvider } from './login-provider';
 import { GoogleLoginProvider } from './providers/google-login-provider';
@@ -12,6 +19,16 @@ export interface SocialAuthServiceConfig {
   lang?: string;
   providers: { id: string; provider: ILoginProvider | Type<ILoginProvider> }[];
   onError?: (error: any) => any;
+}
+
+export function provideSocialAuth(config: SocialAuthServiceConfig) {
+  return makeEnvironmentProviders([
+    SocialAuthService,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: config,
+    },
+  ]);
 }
 
 /**

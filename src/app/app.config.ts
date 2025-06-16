@@ -1,9 +1,8 @@
 import {
   AppSettingsService,
   GoogleLoginProvider,
-  SocialAuthService,
-  SocialAuthServiceConfig,
-  YoutubeApiKey,
+  provideSocialAuth,
+  provideYoutubeApiKey,
 } from '@angular-youtube/shared-data-access';
 import { provideAySkeletonLoader } from '@angular-youtube/shared-ui';
 import { authInterceptor } from '@angular-youtube/shell-data-access';
@@ -60,32 +59,25 @@ export const appConfig: ApplicationConfig = {
     ),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideStoreDevtools({ maxAge: 25, logOnly: false }),
-    SocialAuthService,
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        lang: 'en',
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '387433020564-0q4ii59780k1ecqvueub42qj1ohdpktv.apps.googleusercontent.com',
-              {
-                scopes: `https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtube.channel-memberships.creator https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtubepartner https://www.googleapis.com/auth/youtubepartner-channel-audit`,
-              },
-            ),
-          },
-        ],
-        onError: (err) => {
-          console.error(err);
+    provideSocialAuth({
+      autoLogin: false,
+      lang: 'en',
+      providers: [
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider(
+            '387433020564-0q4ii59780k1ecqvueub42qj1ohdpktv.apps.googleusercontent.com',
+            {
+              scopes: `https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtube.channel-memberships.creator https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtubepartner https://www.googleapis.com/auth/youtubepartner-channel-audit`,
+            },
+          ),
         },
-      } as SocialAuthServiceConfig,
-    },
-    {
-      provide: YoutubeApiKey,
-      useValue: 'AIzaSyCn5erIAtKzaNiuh-5IJgnorW7yOEH5gyE',
-    },
+      ],
+      onError: (err) => {
+        console.error(err);
+      },
+    }),
+    provideYoutubeApiKey('AIzaSyCn5erIAtKzaNiuh-5IJgnorW7yOEH5gyE'),
     provideAySkeletonLoader({
       theme: {
         extendsFromRoot: true,
