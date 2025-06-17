@@ -16,6 +16,7 @@ import {
   ErrorHandler,
   inject,
   provideAppInitializer,
+  provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
 import { MAT_RIPPLE_GLOBAL_OPTIONS } from '@angular/material/core';
@@ -40,6 +41,7 @@ export const appConfig: ApplicationConfig = {
     provideEffects(),
     provideAnimations(),
     provideZonelessChangeDetection(),
+    provideBrowserGlobalErrorListeners(),
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     {
       provide: MAT_RIPPLE_GLOBAL_OPTIONS,

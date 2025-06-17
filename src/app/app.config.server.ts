@@ -1,8 +1,4 @@
-import {
-  ApplicationConfig,
-  mergeApplicationConfig,
-  provideBrowserGlobalErrorListeners,
-} from '@angular/core';
+import { ApplicationConfig, mergeApplicationConfig } from '@angular/core';
 import {
   provideClientHydration,
   withEventReplay,
@@ -14,7 +10,6 @@ import { appConfig } from './app.config';
 const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(),
-    provideBrowserGlobalErrorListeners(),
     provideClientHydration(withEventReplay(), withIncrementalHydration()),
   ],
 };
