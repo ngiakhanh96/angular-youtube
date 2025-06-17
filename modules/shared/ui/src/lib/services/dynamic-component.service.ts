@@ -95,12 +95,14 @@ export class DynamicComponentService {
     component: () => Promise<any>,
     componentName: string,
   ) {
-    if (this.componentTypes.has(componentName)) {
-      return this.componentTypes.get(componentName)!;
+    let componentType = this.componentTypes.get(componentName);
+    if (componentType) {
+      return componentType;
     }
-    const componentType = await component().then(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    componentType = (await component().then(
       (m) => m[componentName] as Type<any>,
-    );
+    ))!;
     this.componentTypes.set(componentName, componentType);
     return componentType;
   }
