@@ -11,6 +11,7 @@ import {
   BaseWithSandBoxComponent,
   IInvidiousVideoCommentsInfo,
   IVideoComment,
+  selectMyChannelInfo,
 } from '@angular-youtube/shared-data-access';
 
 import {
@@ -100,9 +101,12 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
   CommentSortOption = CommentSortOption;
 
   sortChanged = output<CommentSortOption>();
-
-  // TODO: Replace with actual user avatar from auth service
-  userAvatar = signal('https://yt3.ggpht.com/ytc/default_avatar');
+  user = this.selectSignal(selectMyChannelInfo);
+  userThumbnail = computed(
+    () =>
+      this.user()?.items[0].snippet.thumbnails.default.url ??
+      'https://yt3.ggpht.com/a/default-user',
+  );
 
   getRepliesCount(comment: IVideoComment) {
     const repliesCount = comment.replies?.replyCount ?? 0;
