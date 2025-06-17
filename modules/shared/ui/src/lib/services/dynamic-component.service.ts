@@ -1,11 +1,13 @@
 import {
   ApplicationRef,
-  ComponentFactory,
-  ComponentFactoryResolver,
+  Binding,
   ComponentRef,
+  createComponent,
+  EnvironmentInjector,
   inject,
   Injectable,
   Injector,
+  inputBinding,
   Type,
   ViewContainerRef,
 } from '@angular/core';
@@ -15,22 +17,17 @@ import {
 })
 export class DynamicComponentService {
   appRef = inject(ApplicationRef);
-  componentFactoryResolver = inject(ComponentFactoryResolver);
-  componentFactories = new Map<string, ComponentFactory<any>>();
+  componentTypes = new Map<string, Type<any>>();
+  environmentInjector = inject(EnvironmentInjector);
 
   createComponent<T>(
-    component: Type<T>,
-    inputs?: Record<string, any>,
+    componentType: Type<T>,
+    inputs?: Record<string, unknown>,
     injector?: Injector,
     viewContainerRef?: ViewContainerRef,
   ): ComponentRef<T> {
-    const componentName = component.name.replace('_', '');
-    const componentFactory =
-      this.componentFactories.get(componentName) ??
-      this.componentFactoryResolver.resolveComponentFactory(component);
-    this.componentFactories.set(componentName, componentFactory);
-    return this.createComponentFromFactory(
-      componentFactory,
+    return this.createComponentFromComponentType(
+      componentType,
       inputs,
       injector,
       viewContainerRef,
@@ -40,42 +37,44 @@ export class DynamicComponentService {
   async createComponentLazily(
     component: () => Promise<any>,
     componentName: string,
-    inputs?: Record<string, any>,
+    inputs?: Record<string, unknown>,
     injector?: Injector,
     viewContainerRef?: ViewContainerRef,
   ): Promise<ComponentRef<any>> {
-    const componentFactory =
-      this.componentFactories.get(componentName) ??
-      this.componentFactoryResolver.resolveComponentFactory(
-        await component().then((m) => m[componentName] as Type<any>),
-      );
-    this.componentFactories.set(componentName, componentFactory);
-    return this.createComponentFromFactory(
-      componentFactory,
+    const componentType = await this.loadComponentLazily(
+      component,
+      componentName,
+    );
+    return this.createComponentFromComponentType(
+      componentType,
       inputs,
       injector,
       viewContainerRef,
     );
   }
 
-  createComponentFromFactory<T>(
-    componentFactory: ComponentFactory<T>,
-    inputs?: Record<string, any>,
+  createComponentFromComponentType(
+    componentType: Type<any>,
+    inputs?: Record<string, unknown>,
     injector?: Injector,
     viewContainerRef?: ViewContainerRef,
   ) {
-    const componentRef = componentFactory.create(
-      injector ?? this.appRef.injector,
-    );
+    const inputArr: Binding[] = [];
+    if (inputs) {
+      for (const [key, value] of Object.entries(inputs)) {
+        inputArr.push(inputBinding(key, () => value));
+      }
+    }
+    const componentRef = createComponent(componentType, {
+      environmentInjector: this.environmentInjector,
+      elementInjector: injector ?? this.appRef.injector,
+      hostElement: undefined,
+      bindings: [...inputArr],
+    });
     if (viewContainerRef) {
       viewContainerRef.insert(componentRef.hostView);
     } else {
       this.appRef.attachView(componentRef.hostView);
-    }
-    if (inputs) {
-      for (const [key, value] of Object.entries(inputs)) {
-        componentRef.setInput(key, value);
-      }
     }
     return componentRef;
   }
@@ -90,5 +89,19 @@ export class DynamicComponentService {
       this.appRef.detachView(componentRef.hostView);
     }
     componentRef.destroy();
+  }
+
+  private async loadComponentLazily(
+    component: () => Promise<any>,
+    componentName: string,
+  ) {
+    if (this.componentTypes.has(componentName)) {
+      return this.componentTypes.get(componentName)!;
+    }
+    const componentType = await component().then(
+      (m) => m[componentName] as Type<any>,
+    );
+    this.componentTypes.set(componentName, componentType);
+    return componentType;
   }
 }
