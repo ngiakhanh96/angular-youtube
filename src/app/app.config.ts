@@ -19,7 +19,10 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
-import { MAT_RIPPLE_GLOBAL_OPTIONS } from '@angular/material/core';
+import {
+  MAT_RIPPLE_GLOBAL_OPTIONS,
+  MATERIAL_ANIMATIONS,
+} from '@angular/material/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -50,6 +53,13 @@ export const appConfig: ApplicationConfig = {
           enterDuration: 200,
           exitDuration: 200,
         },
+      },
+    },
+    {
+      //TODO Rewrite the sidebar manually
+      provide: MATERIAL_ANIMATIONS,
+      useValue: {
+        animationsDisabled: false,
       },
     },
     provideRouter(
