@@ -28,10 +28,13 @@
           type="text"
           placeholder="Add a comment..."
           [formControl]="commentInput"
+          (focus)="isCommentFocused.set(true)"
         />
         @if (isCommentFocused()) {
           <div class="video-comments-input-actions">
-            <button class="cancel-button">Cancel</button>
+            <button class="cancel-button" (click)="cancelCommentFocused()"
+              >Cancel</button
+            >
             <button class="comment-button" [disabled]="!commentInput.value">
               Comment
             </button>
