@@ -56,9 +56,6 @@ const getGoogleAccountsOrThrow = (): typeof google.accounts => {
 
 export class GoogleLoginProvider extends BaseLoginProvider {
   public static readonly PROVIDER_ID: string = 'GOOGLE';
-
-  public override readonly changeUser = new EventEmitter<ISocialUser>();
-
   private readonly _socialUser = new BehaviorSubject<ISocialUser | null>(null);
   private readonly _accessToken = new BehaviorSubject<string | null>(null);
   private readonly _receivedAccessToken = new EventEmitter<string | null>();
@@ -72,13 +69,8 @@ export class GoogleLoginProvider extends BaseLoginProvider {
 
     this.initOptions = { ...defaultInitOptions, ...this.initOptions };
 
-    // emit changeUser events but skip initial value and convert null to undefined
-    this._socialUser
-      .pipe(
-        skip(1),
-        filter((user): user is ISocialUser => user !== null),
-      )
-      .subscribe(this.changeUser);
+    // emit changeUser events but skip initial value from behaviorSubject
+    this._socialUser.pipe(skip(1)).subscribe(this.changeUser);
 
     // emit receivedAccessToken but skip initial value from behaviorSubject
     this._accessToken.pipe(skip(1)).subscribe(this._receivedAccessToken);
@@ -89,16 +81,16 @@ export class GoogleLoginProvider extends BaseLoginProvider {
       try {
         this.loadScript(
           GoogleLoginProvider.PROVIDER_ID,
-          this.getGoogleLoginScriptSrc(lang ?? ''),
+          this.getGoogleLoginScriptSrc(lang),
           () => {
             if (!isGoogleAccountsDefined()) return;
 
             google.accounts.id.initialize({
               client_id: this.clientId,
               auto_select: autoLogin,
-              callback: ({ credential }: { credential: string }) => {
-                const ISocialUser = this.createSocialUser(credential);
-                this._socialUser.next(ISocialUser);
+              callback: ({ credential }) => {
+                const socialUser = this.createSocialUser(credential);
+                this._socialUser.next(socialUser);
               },
               prompt_parent_id: this.initOptions?.prompt_parent_id,
               itp_support: this.initOptions?.oneTapEnabled,
@@ -121,12 +113,7 @@ export class GoogleLoginProvider extends BaseLoginProvider {
                 client_id: this.clientId,
                 scope,
                 prompt: this.initOptions.prompt,
-                callback: (tokenResponse: {
-                  error: any;
-                  error_description: any;
-                  error_uri: any;
-                  access_token: string | null;
-                }) => {
+                callback: (tokenResponse) => {
                   if (tokenResponse.error) {
                     this._accessToken.error({
                       code: tokenResponse.error,
@@ -163,17 +150,23 @@ export class GoogleLoginProvider extends BaseLoginProvider {
 
   override refreshToken(): Promise<ISocialUser | null> {
     return new Promise((resolve, reject) => {
-      getGoogleAccountsOrThrow().id.revoke(
-        this._socialUser?.value?.id ?? '',
-        (response: google.accounts.id.RevocationResponse) => {
-          if (response.error) reject(response.error);
-          else resolve(this._socialUser.value);
-        },
-      );
+      if (this._socialUser.value?.id) {
+        getGoogleAccountsOrThrow().id.revoke(
+          this._socialUser.value.id,
+          (response) => {
+            if (response.error) reject(response.error);
+            else resolve(this._socialUser.value);
+          },
+        );
+      } else {
+        reject(
+          `No user is currently logged in with ${GoogleLoginProvider.PROVIDER_ID}`,
+        );
+      }
     });
   }
 
-  getAccessToken(): Promise<string> {
+  getAccessToken(): Promise<string | null> {
     return new Promise((resolve, reject) => {
       if (!this._tokenClient) {
         if (this._socialUser.value) {
@@ -187,15 +180,7 @@ export class GoogleLoginProvider extends BaseLoginProvider {
         this._tokenClient.requestAccessToken({
           hint: this._socialUser.value?.email,
         });
-        this._receivedAccessToken
-          .pipe(
-            take(1),
-            filter((token): token is string => token !== null),
-          )
-          .subscribe({
-            next: resolve,
-            error: reject,
-          });
+        this._receivedAccessToken.pipe(take(1)).subscribe(resolve);
       }
     });
   }
@@ -236,7 +221,7 @@ export class GoogleLoginProvider extends BaseLoginProvider {
   private createSocialUser(idToken: string) {
     const payload = this.decodeJwt(idToken);
     const user: ISocialUser = {
-      idToken,
+      idToken: idToken,
       id: payload['sub'],
       name: payload['name'],
       email: payload['email'],
@@ -244,6 +229,7 @@ export class GoogleLoginProvider extends BaseLoginProvider {
       firstName: payload['given_name'],
       lastName: payload['family_name'],
     };
+
     return user;
   }
 
@@ -262,7 +248,7 @@ export class GoogleLoginProvider extends BaseLoginProvider {
     return JSON.parse(jsonPayload);
   }
 
-  private getGoogleLoginScriptSrc(lang: string): string {
+  private getGoogleLoginScriptSrc(lang?: string): string {
     return lang
       ? `https://accounts.google.com/gsi/client?hl=${lang}`
       : 'https://accounts.google.com/gsi/client';

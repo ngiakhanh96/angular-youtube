@@ -3,7 +3,7 @@ import { ILoginProvider } from '../login-provider';
 import { ISocialUser } from '../social-user';
 
 export abstract class BaseLoginProvider implements ILoginProvider {
-  readonly changeUser?: EventEmitter<ISocialUser>;
+  readonly changeUser?: EventEmitter<ISocialUser | null>;
   abstract initialize(autoLogin?: boolean, lang?: string): Promise<void>;
   abstract getLoginStatus(): Promise<ISocialUser>;
   abstract signIn(signInOptions?: object): Promise<ISocialUser>;
