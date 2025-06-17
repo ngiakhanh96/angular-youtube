@@ -1,6 +1,7 @@
 import {
-  Inject,
+  inject,
   Injectable,
+  InjectionToken,
   Injector,
   makeEnvironmentProviders,
   NgZone,
@@ -25,11 +26,15 @@ export function provideSocialAuth(config: SocialAuthServiceConfig) {
   return makeEnvironmentProviders([
     SocialAuthService,
     {
-      provide: 'SocialAuthServiceConfig',
+      provide: SOCIAL_AUTH_SERVICE_CONFIG,
       useValue: config,
     },
   ]);
 }
+
+const SOCIAL_AUTH_SERVICE_CONFIG = new InjectionToken<
+  SocialAuthServiceConfig | Promise<SocialAuthServiceConfig>
+>('SocialAuthServiceConfig');
 
 /**
  * The service encapsulating the social login functionality. Exposes methods like
@@ -71,21 +76,20 @@ export class SocialAuthService {
     return this._initState.asObservable();
   }
 
+  private readonly _ngZone = inject(NgZone);
+  private readonly _injector = inject(Injector);
   /**
-   * @param config A `SocialAuthServiceConfig` object or a `Promise` that resolves to a `SocialAuthServiceConfig` object
+   * @private config A `SocialAuthServiceConfig` object or a `Promise` that resolves to a `SocialAuthServiceConfig` object
    */
-  constructor(
-    @Inject('SocialAuthServiceConfig')
-    config: SocialAuthServiceConfig | Promise<SocialAuthServiceConfig>,
-    private readonly _ngZone: NgZone,
-    private readonly _injector: Injector,
-  ) {
-    if (config instanceof Promise) {
-      config.then((config: SocialAuthServiceConfig) => {
+  private config = inject(SOCIAL_AUTH_SERVICE_CONFIG);
+
+  constructor() {
+    if (this.config instanceof Promise) {
+      this.config.then((config: SocialAuthServiceConfig) => {
         this.initialize(config);
       });
     } else {
-      this.initialize(config);
+      this.initialize(this.config);
     }
   }
 
