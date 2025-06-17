@@ -151,7 +151,7 @@ export class SocialAuthService {
       });
   }
 
-  async getAccessToken(providerId: string): Promise<string> {
+  async getAccessToken(providerId: string): Promise<string | null> {
     const providerObject = this.providers.get(providerId);
     if (!this.initialized) {
       throw SocialAuthService.ERR_NOT_INITIALIZED;

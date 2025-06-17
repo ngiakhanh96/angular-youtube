@@ -7,7 +7,7 @@ import { IAccessTokenInfoState } from '../reducers/shared.reducer';
 export const sharedActionGroup = createAyActionGroup({
   source: 'Shared',
   events: {
-    updateAccessToken: props<{ accessToken: string | undefined }>(),
+    updateAccessToken: props<{ accessToken: string | null }>(),
     updateAccessTokenSuccess: props<{ accessToken: string }>(),
     getAccessTokenInfo: props<{ accessToken: string }>(),
     getAccessTokenInfoSuccess: props<{

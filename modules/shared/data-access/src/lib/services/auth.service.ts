@@ -19,7 +19,7 @@ export class Auth {
 
   public logout() {
     this.sessionStorageService.removeItem('Authorization');
-    this._accessToken.set(undefined);
+    this._accessToken.set(null);
   }
 
   public isLoggedIn = computed(() => {
@@ -29,7 +29,7 @@ export class Auth {
   private _accessToken = signal(
     this.sessionStorageService.getItem('Authorization') != null
       ? this.sessionStorageService.getItem('Authorization')!
-      : undefined,
+      : null,
   );
   public accessToken = computed(() => this._accessToken());
 }
