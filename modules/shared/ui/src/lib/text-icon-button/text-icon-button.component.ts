@@ -27,6 +27,8 @@ import { IconDirective } from '../directives/icon/icon.directive';
     '[style.--icon-padding-right]': 'iconPaddingRight()',
     '[style.--font-weight]': 'fontWeight()',
     '[style.--font-size]': 'fontSize()',
+    '[style.--disabled-color]': 'disabledColor()',
+    '[style.--disabled-background-color]': 'disabledBackgroundColor()',
   },
 })
 export class TextIconButtonComponent {
@@ -36,6 +38,8 @@ export class TextIconButtonComponent {
   spaceBetween = input<string>('6px');
   backgroundColor = input<string>('rgba(0, 0, 0, 0.05)');
   hoverBackgroundColor = input<string>('rgba(0, 0, 0, 0.1)');
+  disabledColor = input<string>('rgba(0, 0, 0, 0.5)');
+  disabledBackgroundColor = input<string>('rgba(0, 0, 0, 0.05)');
   border = input<string>('none');
   borderRadius = input<string>('24px');
   borderRadiusForLeft = input<boolean>(true);
@@ -45,6 +49,9 @@ export class TextIconButtonComponent {
   transform = input<string | undefined>(undefined);
   fontWeight = input<string>('500');
   fontSize = input<string>('14px');
+  disabled = input<boolean>(false);
+  disabledRipple = input<boolean>(true);
+  disabledInteractive = input<boolean>(false);
 
   borderLeftRadius = computed(() => {
     const borderRadiusForLeft = this.borderRadiusForLeft();

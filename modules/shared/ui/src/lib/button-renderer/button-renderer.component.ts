@@ -20,11 +20,11 @@ export class ButtonIconTemplateDirective {
 }
 
 @Component({
-    selector: 'ay-button-renderer',
-    templateUrl: './button-renderer.component.html',
-    styleUrls: ['./button-renderer.component.scss'],
-    imports: [NgTemplateOutlet],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ay-button-renderer',
+  templateUrl: './button-renderer.component.html',
+  styleUrls: ['./button-renderer.component.scss'],
+  imports: [NgTemplateOutlet],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonRendererComponent {
   public buttonTextTmp = contentChild(ButtonTextTemplateDirective, {
@@ -35,5 +35,5 @@ export class ButtonRendererComponent {
   });
 
   public href = input('#');
-  public color = input('rgb(6, 95, 212)');
+  public color = input('var(--blue-color)');
 }

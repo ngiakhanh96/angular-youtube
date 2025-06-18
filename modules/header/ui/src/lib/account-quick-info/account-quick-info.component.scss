@@ -25,7 +25,7 @@
     }
 
     .account-quick-info-view {
-      @apply mt-[8px] text-[rgb(6,95,212)];
+      @apply mt-[8px] text-[var(--blue-color)];
       @include account-quick-info-text(14px);
     }
   }

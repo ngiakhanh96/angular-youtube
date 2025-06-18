@@ -1,12 +1,11 @@
-
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DOCUMENT,
   inject,
   input,
   signal,
-  DOCUMENT
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageDirective } from '../directives/image/image.directive';
@@ -105,7 +104,7 @@ export class LinkComponent {
     return this.text();
   });
   color = computed(() => {
-    return this.shouldShowIcon() ? 'var(--black-color)' : 'rgb(6,95,212)';
+    return this.shouldShowIcon() ? 'var(--black-color)' : 'var(--blue-color)';
   });
 
   backgroundColor = computed(() => {

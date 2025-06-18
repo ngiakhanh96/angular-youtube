@@ -25,19 +25,32 @@
       </div>
       <div class="video-comments-input-field">
         <input
+          id="commentInput"
           type="text"
           placeholder="Add a comment..."
           [formControl]="commentInput"
           (focus)="isCommentFocused.set(true)"
+          autocomplete="off"
         />
         @if (isCommentFocused()) {
           <div class="video-comments-input-actions">
-            <button class="cancel-button" (click)="cancelCommentFocused()"
-              >Cancel</button
-            >
-            <button class="comment-button" [disabled]="!commentInput.value">
-              Comment
-            </button>
+            <div>
+              <ay-text-icon-button
+                [displayText]="'Cancel'"
+                [color]="'var(--black-color)'"
+                [backgroundColor]="'var(--white-color)'"
+                [disabledRipple]="true"
+                (click)="cancelCommentFocused()"
+              ></ay-text-icon-button>
+            </div>
+            <div>
+              <ay-text-icon-button
+                [displayText]="'Comment'"
+                [color]="'var(--white-color)'"
+                [backgroundColor]="'var(--blue-color)'"
+                [disabled]="!commentInput.value"
+              ></ay-text-icon-button>
+            </div>
           </div>
         }
       </div>

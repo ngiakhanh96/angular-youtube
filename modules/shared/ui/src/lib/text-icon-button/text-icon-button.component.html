@@ -1,5 +1,12 @@
 @if (svgIcon() && displayText()) {
-  <button class="text-icon-button" mat-fab extended>
+  <button
+    class="text-icon-button"
+    mat-fab
+    [disabled]="disabled()"
+    [disableRipple]="disabledRipple()"
+    [disabledInteractive]="disabledInteractive()"
+    extended
+  >
     <mat-icon
       [svgIcon]="svgIcon()!"
       [fill]="'currentcolor'"
@@ -8,11 +15,25 @@
     {{ displayText() }}
   </button>
 } @else if (displayText()) {
-  <button class="text-icon-button" mat-fab extended>
+  <button
+    class="text-icon-button"
+    mat-fab
+    [disabled]="disabled()"
+    [disableRipple]="disabledRipple()"
+    [disabledInteractive]="disabledInteractive()"
+    extended
+  >
     {{ displayText() }}
   </button>
 } @else {
-  <button class="text-icon-button" mat-fab extended>
+  <button
+    class="text-icon-button"
+    mat-fab
+    [disabled]="disabled()"
+    [disableRipple]="disabledRipple()"
+    [disabledInteractive]="disabledInteractive()"
+    extended
+  >
     <mat-icon
       [svgIcon]="svgIcon()!"
       [fill]="'currentcolor'"

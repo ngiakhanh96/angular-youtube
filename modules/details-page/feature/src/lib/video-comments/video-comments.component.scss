@@ -9,43 +9,27 @@
   }
 
   .video-comments-input {
-    @apply flex gap-4 mb-[10px];
+    @apply flex gap-[16px] mb-[10px];
 
     .video-comments-input-avatar {
       img {
-        @apply rounded-full h-[40px];
+        @apply rounded-full;
       }
     }
 
     .video-comments-input-field {
-      @apply flex-1 flex flex-col gap-2 text-[14px] mr-[16px];
+      @apply flex-1 flex flex-col gap-[8px] text-[14px] mr-[16px];
       input {
-        @apply w-full border-b border-[rgba(0,0,0,0.1)] py-1 outline-none focus:border-black;
+        @apply w-full border-b py-[4px] outline-none focus:border-black;
       }
 
       .video-comments-input-actions {
-        @apply flex justify-end gap-2;
-
-        button {
-          @apply px-4 py-2 rounded-full text-sm font-medium;
-
-          &.cancel-button {
-            @apply hover:bg-[rgba(0,0,0,0.1)];
-          }
-
-          &.comment-button {
-            @apply bg-[rgba(0,0,0,0.05)] text-[rgba(0,0,0,0.5)];
-
-            &:not(:disabled) {
-              @apply bg-[#065fd4] text-white;
-            }
-          }
-        }
+        @apply flex justify-end gap-[8px] h-[36px];
       }
     }
   }
 
   .video-comments-list {
-    @apply flex flex-col gap-4;
+    @apply flex flex-col gap-[16px];
   }
 }
