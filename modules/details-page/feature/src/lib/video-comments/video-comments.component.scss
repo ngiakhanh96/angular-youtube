@@ -21,6 +21,11 @@
       @apply flex-1 flex flex-col gap-[8px] text-[14px] mr-[16px];
       input {
         @apply w-full border-b py-[4px] outline-none focus:border-black;
+
+        &::placeholder {
+          color: var(--black-color);
+          opacity: 0.7;
+        }
       }
 
       .video-comments-input-actions {
@@ -28,12 +33,6 @@
 
         .video-comments-emotions {
           @apply rounded-full w-[40px] h-[40px] overflow-hidden ml-[-8px];
-          ay-text-icon-button {
-            @apply rounded-full;
-            svg {
-              @apply w-[24px] h-[24px];
-            }
-          }
         }
 
         .video-comments-buttons {
