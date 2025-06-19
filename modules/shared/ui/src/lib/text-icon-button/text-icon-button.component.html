@@ -2,8 +2,12 @@
   <button
     class="text-icon-button"
     mat-fab
+    mat-ripple
+    [matRippleColor]="rippleColor()"
+    [matRippleUnbounded]="true"
+    [matRippleDisabled]="disabledRipple()"
     [disabled]="disabled()"
-    [disableRipple]="disabledRipple()"
+    [disableRipple]="true"
     [disabledInteractive]="disabledInteractive()"
     extended
   >
