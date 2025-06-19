@@ -24,7 +24,21 @@
       }
 
       .video-comments-input-actions {
-        @apply flex justify-end gap-[8px] h-[36px];
+        @apply flex justify-between h-[36px];
+
+        .video-comments-emotions {
+          @apply rounded-full w-[40px] h-[40px] overflow-hidden ml-[-8px];
+          ay-text-icon-button {
+            @apply rounded-full;
+            svg {
+              @apply w-[24px] h-[24px];
+            }
+          }
+        }
+
+        .video-comments-buttons {
+          @apply flex gap-[8px];
+        }
       }
     }
   }

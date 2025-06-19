@@ -1,10 +1,10 @@
 <ay-text-icon-button
-  displayText="Sign in"
-  svgIcon="you"
+  [displayText]="'Sign in'"
+  [svgIcon]="'you'"
   [border]="'1px solid rgba(0,0,0,0.1)'"
-  color="var(--blue-color)"
-  backgroundColor="var(--white-color)"
-  hoverBackgroundColor="rgb(222, 241, 255)"
-  spaceBetween="0px"
+  [color]="'var(--blue-color)'"
+  [backgroundColor]="'var(--white-color)'"
+  [hoverBackgroundColor]="'rgb(222, 241, 255)'"
+  [svgIconMarginRight]="'0px'"
   (click)="onClickLogin()"
 ></ay-text-icon-button>

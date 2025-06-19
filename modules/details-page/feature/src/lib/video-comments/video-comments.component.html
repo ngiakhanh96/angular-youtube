@@ -12,7 +12,7 @@
     </div>
   </div>
 
-  @if (auth.isLoggedIn()) {
+  @if (true) {
     <div class="video-comments-input">
       <div class="video-comments-input-avatar">
         <img
@@ -34,22 +34,35 @@
         />
         @if (isCommentFocused()) {
           <div class="video-comments-input-actions">
-            <div>
+            <div class="video-comments-emotions">
               <ay-text-icon-button
-                [displayText]="'Cancel'"
-                [color]="'var(--black-color)'"
-                [backgroundColor]="'var(--white-color)'"
-                [disabledRipple]="true"
-                (click)="cancelCommentFocused()"
+                svgIcon="emotion"
+                backgroundColor="transparent"
+                borderRadius="0px"
+                [svgIconMarginLeft]="'0px'"
+                [svgIconMarginRight]="'0px'"
+                [iconPaddingLeft]="'0px'"
+                [iconPaddingRight]="'0px'"
               ></ay-text-icon-button>
             </div>
-            <div>
-              <ay-text-icon-button
-                [displayText]="'Comment'"
-                [color]="'var(--white-color)'"
-                [backgroundColor]="'var(--blue-color)'"
-                [disabled]="!commentInput.value"
-              ></ay-text-icon-button>
+            <div class="video-comments-buttons">
+              <div>
+                <ay-text-icon-button
+                  [displayText]="'Cancel'"
+                  [color]="'var(--black-color)'"
+                  [backgroundColor]="'var(--white-color)'"
+                  [disabledRipple]="true"
+                  (click)="cancelCommentFocused()"
+                ></ay-text-icon-button>
+              </div>
+              <div>
+                <ay-text-icon-button
+                  [displayText]="'Comment'"
+                  [color]="'var(--white-color)'"
+                  [backgroundColor]="'var(--blue-color)'"
+                  [disabled]="!commentInput.value"
+                ></ay-text-icon-button>
+              </div>
             </div>
           </div>
         }

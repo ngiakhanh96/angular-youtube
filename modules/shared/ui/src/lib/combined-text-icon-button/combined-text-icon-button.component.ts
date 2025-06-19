@@ -22,7 +22,7 @@ export interface CombinedTextIcon {
 export class CombinedTextIconButtonComponent {
   combinedTextIcons = input.required<CombinedTextIcon[]>();
   color = input<string>('black');
-  spaceBetween = input<string>('6px');
+  svgIconMarginRight = input<string>('6px');
   backgroundColor = input<string>('rgba(0, 0, 0, 0.05)');
   hoverBackgroundColor = input<string>('rgba(0, 0, 0, 0.1)');
   border = input<string>('none');

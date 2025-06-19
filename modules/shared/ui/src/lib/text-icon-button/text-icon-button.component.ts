@@ -16,7 +16,8 @@ import { IconDirective } from '../directives/icon/icon.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.--color]': 'color()',
-    '[style.--space-between]': 'spaceBetween()',
+    '[style.--icon-margin-right]': 'svgIconMarginRight()',
+    '[style.--icon-margin-left]': 'svgIconMarginLeft()',
     '[style.--background-color]': 'backgroundColor()',
     '[style.--hover-background-color]': 'hoverBackgroundColor()',
     '[style.--border]': 'border()',
@@ -35,7 +36,8 @@ export class TextIconButtonComponent {
   displayText = input<string>();
   svgIcon = input<string>();
   color = input<string>('black');
-  spaceBetween = input<string>('6px');
+  svgIconMarginRight = input<string>('6px');
+  svgIconMarginLeft = input<string>('-6px');
   backgroundColor = input<string>('rgba(0, 0, 0, 0.05)');
   hoverBackgroundColor = input<string>('rgba(0, 0, 0, 0.1)');
   disabledColor = input<string>('rgba(0, 0, 0, 0.5)');

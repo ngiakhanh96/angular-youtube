@@ -2,7 +2,8 @@
   @apply block w-full h-full;
 }
 
-.text-icon-button {
+.text-icon-button,
+.text-or-icon-button {
   & {
     --mat-fab-container-color: var(--background-color);
     --mat-fab-extended-hover-container-elevation-shadow: none;
@@ -31,6 +32,10 @@
   @apply w-full h-full pl-[var(--icon-padding-left)] pr-[var(--icon-padding-right)] flex justify-between place-items-center rounded-l-[var(--border-left-radius)] rounded-r-[var(--border-right-radius)];
 
   mat-icon {
-    @apply w-[24px] h-[24px] mr-[var(--space-between)] ml-[-6px];
+    @apply w-[24px] h-[24px] mr-[var(--icon-margin-right)] ml-[var(--icon-margin-left)];
   }
+}
+
+.text-or-icon-button {
+  @apply justify-center;
 }
