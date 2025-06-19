@@ -15,13 +15,14 @@ import {
 } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { DynamicComponentService } from '../services/dynamic-component.service';
+import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
 
 @Component({
   selector: 'ay-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatRippleModule],
+  imports: [MatRippleModule, TextIconButtonComponent],
   host: {
     '[style.--background-color]': 'clickedBackgroundColor()',
     '[style.--padding]': 'padding()',
@@ -82,19 +83,7 @@ export class CardComponent implements OnDestroy {
   onClickCardShowButton(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-
-    // Store current scroll position
-    const scrollPosition = window.scrollY;
-
     this.toggleExpanded();
-
-    // Restore scroll position after DOM update
-    requestAnimationFrame(() => {
-      window.scrollTo({
-        top: scrollPosition,
-        behavior: 'instant',
-      });
-    });
   }
 
   onClickCardContainer(event: Event) {

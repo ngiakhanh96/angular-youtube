@@ -5,6 +5,7 @@ import {
   input,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { IconDirective } from '../directives/icon/icon.directive';
 
@@ -12,9 +13,11 @@ import { IconDirective } from '../directives/icon/icon.directive';
   selector: 'ay-text-icon-button',
   templateUrl: './text-icon-button.component.html',
   styleUrls: ['./text-icon-button.component.scss'],
-  imports: [MatButtonModule, MatIconModule, IconDirective],
+  imports: [MatButtonModule, MatIconModule, IconDirective, MatRippleModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    '[style.width]': 'widthHeight()',
+    '[style.height]': 'widthHeight()',
     '[style.--color]': 'color()',
     '[style.--icon-margin-right]': 'svgIconMarginRight()',
     '[style.--icon-margin-left]': 'svgIconMarginLeft()',
@@ -33,6 +36,7 @@ import { IconDirective } from '../directives/icon/icon.directive';
   },
 })
 export class TextIconButtonComponent {
+  widthHeight = input<string>('100%');
   displayText = input<string>();
   svgIcon = input<string>();
   color = input<string>('black');
@@ -54,6 +58,7 @@ export class TextIconButtonComponent {
   disabled = input<boolean>(false);
   disabledRipple = input<boolean>(true);
   disabledInteractive = input<boolean>(false);
+  rippleColor = input('rgba(0, 0, 0, 0.2)');
 
   borderLeftRadius = computed(() => {
     const borderRadiusForLeft = this.borderRadiusForLeft();

@@ -1,5 +1,5 @@
 :host {
-  @apply block w-full h-full;
+  @apply block;
 }
 
 .text-icon-button,
@@ -37,5 +37,5 @@
 }
 
 .text-or-icon-button {
-  @apply justify-center;
+  @apply justify-center overflow-hidden;
 }

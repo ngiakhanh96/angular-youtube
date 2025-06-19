@@ -14,30 +14,27 @@
     ></mat-icon>
     {{ displayText() }}
   </button>
-} @else if (displayText()) {
-  <button
-    class="text-or-icon-button"
-    mat-fab
-    [disabled]="disabled()"
-    [disableRipple]="disabledRipple()"
-    [disabledInteractive]="disabledInteractive()"
-    extended
-  >
-    {{ displayText() }}
-  </button>
 } @else {
   <button
     class="text-or-icon-button"
     mat-fab
+    mat-ripple
+    [matRippleColor]="rippleColor()"
+    [matRippleUnbounded]="true"
+    [matRippleDisabled]="disabledRipple()"
     [disabled]="disabled()"
-    [disableRipple]="disabledRipple()"
+    [disableRipple]="true"
     [disabledInteractive]="disabledInteractive()"
     extended
   >
-    <mat-icon
-      [svgIcon]="svgIcon()!"
-      [fill]="'currentcolor'"
-      [transform]="transform()"
-    ></mat-icon>
+    @if (displayText()) {
+      {{ displayText() }}
+    } @else {
+      <mat-icon
+        [svgIcon]="svgIcon()!"
+        [fill]="'currentcolor'"
+        [transform]="transform()"
+      ></mat-icon>
+    }
   </button>
 }

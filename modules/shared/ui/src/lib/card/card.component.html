@@ -14,7 +14,22 @@
   >
     <ng-content></ng-content>
   </div>
-  <div
+  <div>
+    <ay-text-icon-button
+      class="card-show"
+      [class]="expanded() ? 'card-show__less' : 'card-show__more'"
+      [displayText]="expanded() ? 'Show less' : '...more'"
+      [backgroundColor]="'transparent'"
+      [hoverBackgroundColor]="'transparent'"
+      [borderRadius]="'0px'"
+      [disabledRipple]="false"
+      [iconPaddingLeft]="'0px'"
+      [iconPaddingRight]="'0px'"
+      [widthHeight]="'auto'"
+      (click)="onClickCardShowButton($event)"
+    ></ay-text-icon-button>
+  </div>
+  <!-- <div
     class="card-show"
     [class]="expanded() ? 'card-show__less' : 'card-show__more'"
     (click)="onClickCardShowButton($event)"
@@ -22,5 +37,5 @@
     matRippleColor="rgba(0, 0, 0, 0.2)"
   >
     {{ expanded() ? 'Show less' : '...more' }}
-  </div>
+  </div> -->
 </div>
