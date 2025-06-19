@@ -1,44 +1,25 @@
-@if (svgIcon() && displayText()) {
-  <button
-    class="text-icon-button"
-    mat-fab
-    mat-ripple
-    [matRippleColor]="rippleColor()"
-    [matRippleUnbounded]="true"
-    [matRippleDisabled]="disabledRipple()"
-    [disabled]="disabled()"
-    [disableRipple]="true"
-    [disabledInteractive]="disabledInteractive()"
-    extended
-  >
+<button
+  [class]="
+    svgIcon() && displayText() ? 'text-icon-button' : 'text-or-icon-button'
+  "
+  mat-fab
+  mat-ripple
+  [matRippleColor]="rippleColor()"
+  [matRippleUnbounded]="true"
+  [matRippleDisabled]="disabledRipple()"
+  [disabled]="disabled()"
+  [disableRipple]="true"
+  [disabledInteractive]="disabledInteractive()"
+  extended
+>
+  @if (svgIcon()) {
     <mat-icon
       [svgIcon]="svgIcon()!"
       [fill]="'currentcolor'"
       [transform]="transform()"
     ></mat-icon>
+  }
+  @if (displayText()) {
     {{ displayText() }}
-  </button>
-} @else {
-  <button
-    class="text-or-icon-button"
-    mat-fab
-    mat-ripple
-    [matRippleColor]="rippleColor()"
-    [matRippleUnbounded]="true"
-    [matRippleDisabled]="disabledRipple()"
-    [disabled]="disabled()"
-    [disableRipple]="true"
-    [disabledInteractive]="disabledInteractive()"
-    extended
-  >
-    @if (displayText()) {
-      {{ displayText() }}
-    } @else {
-      <mat-icon
-        [svgIcon]="svgIcon()!"
-        [fill]="'currentcolor'"
-        [transform]="transform()"
-      ></mat-icon>
-    }
-  </button>
-}
+  }
+</button>
