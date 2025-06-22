@@ -33,6 +33,7 @@ export class LinkComponent {
     ['www.tiktok.com', 'social_media/tiktok_1x.png'],
     ['www.discord.com', 'social_media/discord_1x.png'],
     ['www.spotify.com', 'social_media/spotify_1x.png'],
+    ['www.instagram.com', 'social_media/instagram_1x.png'],
     [this.currentHostName, 'yt_favicon_ringo2.png'],
   ]);
   router = inject(Router);
