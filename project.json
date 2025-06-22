@@ -5,7 +5,7 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "./src",
-  "tags": [],
+  "tags": ["scope:master"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",

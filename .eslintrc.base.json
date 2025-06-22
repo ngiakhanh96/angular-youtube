@@ -139,6 +139,10 @@
               {
                 "sourceTag": "scope:shared-data-access",
                 "onlyDependOnLibsWithTags": []
+              },
+              {
+                "sourceTag": "scope:master",
+                "onlyDependOnLibsWithTags": ["*"]
               }
             ]
           }
