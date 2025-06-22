@@ -3,4 +3,5 @@ export interface IAppSettings {
   invidiousApiBaseUrl: string;
   youtubeApiBaseUrl: string;
   ytDlpApiBaseUrl: string;
+  supportedSocialMedias: Record<string, string>;
 }

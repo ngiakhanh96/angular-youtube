@@ -8,6 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppSettingsService } from 'modules/shared/data-access/src/lib/services/app-settings.service';
 import { ImageDirective } from '../directives/image/image.directive';
 import { ExternalNavigationService } from '../services/external-navigation.service';
 
@@ -25,17 +26,14 @@ import { ExternalNavigationService } from '../services/external-navigation.servi
 export class LinkComponent {
   document = inject(DOCUMENT);
   externalNavigationService = inject(ExternalNavigationService);
-  currentHostName = this.document.defaultView?.location.hostname;
-  supportedSocialMedias = new Map([
-    ['www.twitch.com', 'social_media/twitch_1x.png'],
-    ['www.facebook.com', 'social_media/facebook_1x.png'],
-    ['www.twitter.com', 'social_media/twitter_1x.png'],
-    ['www.tiktok.com', 'social_media/tiktok_1x.png'],
-    ['www.discord.com', 'social_media/discord_1x.png'],
-    ['www.spotify.com', 'social_media/spotify_1x.png'],
-    ['www.instagram.com', 'social_media/instagram_1x.png'],
-    [this.currentHostName, 'yt_favicon_ringo2.png'],
-  ]);
+  appSettingsService = inject(AppSettingsService);
+  currentHostName = this.document.defaultView?.location.hostname ?? '';
+  supportedSocialMedias = new Map(
+    Object.entries({
+      ...(this.appSettingsService.appConfig()?.supportedSocialMedias ?? {}),
+      [this.currentHostName]: 'yt_favicon_ringo2.png',
+    }),
+  );
   router = inject(Router);
   href = input.required<string>();
   attributeHref = input.required<string>();
