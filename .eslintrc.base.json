@@ -68,6 +68,7 @@
               {
                 "sourceTag": "scope:details-page-ui",
                 "onlyDependOnLibsWithTags": [
+                  "scope:details-page-data-access",
                   "scope:shared-ui",
                   "scope:shared-data-access"
                 ]
@@ -75,6 +76,7 @@
               {
                 "sourceTag": "scope:header-ui",
                 "onlyDependOnLibsWithTags": [
+                  "scope:header-data-access",
                   "scope:shared-ui",
                   "scope:shared-data-access"
                 ]
@@ -82,6 +84,7 @@
               {
                 "sourceTag": "scope:home-page-ui",
                 "onlyDependOnLibsWithTags": [
+                  "scope:home-page-data-access",
                   "scope:shared-ui",
                   "scope:shared-data-access"
                 ]
@@ -89,6 +92,7 @@
               {
                 "sourceTag": "scope:search-page-ui",
                 "onlyDependOnLibsWithTags": [
+                  "scope:search-page-data-access",
                   "scope:shared-ui",
                   "scope:shared-data-access"
                 ]
@@ -96,6 +100,7 @@
               {
                 "sourceTag": "scope:shell-ui",
                 "onlyDependOnLibsWithTags": [
+                  "scope:shell-data-access",
                   "scope:shared-ui",
                   "scope:shared-data-access"
                 ]
