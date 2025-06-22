@@ -67,27 +67,45 @@
               },
               {
                 "sourceTag": "scope:details-page-ui",
-                "onlyDependOnLibsWithTags": ["scope:shared-ui"]
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared-ui",
+                  "scope:shared-data-access"
+                ]
               },
               {
                 "sourceTag": "scope:header-ui",
-                "onlyDependOnLibsWithTags": ["scope:shared-ui"]
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared-ui",
+                  "scope:shared-data-access"
+                ]
               },
               {
                 "sourceTag": "scope:home-page-ui",
-                "onlyDependOnLibsWithTags": ["scope:shared-ui"]
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared-ui",
+                  "scope:shared-data-access"
+                ]
               },
               {
                 "sourceTag": "scope:search-page-ui",
-                "onlyDependOnLibsWithTags": ["scope:shared-ui"]
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared-ui",
+                  "scope:shared-data-access"
+                ]
               },
               {
                 "sourceTag": "scope:shell-ui",
-                "onlyDependOnLibsWithTags": ["scope:shared-ui"]
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared-ui",
+                  "scope:shared-data-access"
+                ]
               },
               {
                 "sourceTag": "scope:sidebar-ui",
-                "onlyDependOnLibsWithTags": ["scope:shared-ui"]
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared-ui",
+                  "scope:shared-data-access"
+                ]
               },
               {
                 "sourceTag": "scope:shared-ui",
