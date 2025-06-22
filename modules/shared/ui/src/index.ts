@@ -13,6 +13,7 @@ export * from './lib/directives/skeleton/skeleton.directive';
 export * from './lib/dropdown-button/dropdown-button.component';
 export * from './lib/hamburger-button/hamburger-button.component';
 export * from './lib/link/link.component';
+export * from './lib/loading-bar/loading-bar.component';
 export * from './lib/logo-menu/logo-menu.component';
 export * from './lib/logo-renderer/logo-renderer.component';
 export * from './lib/menu-section-header/menu-section-header.component';
