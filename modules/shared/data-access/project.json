@@ -4,7 +4,7 @@
   "sourceRoot": "modules/shared/data-access/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": [],
+  "tags": ["scope:shared-data-access"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

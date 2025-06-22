@@ -4,7 +4,7 @@
   "sourceRoot": "modules/sidebar/ui/src",
   "prefix": "lib",
   "projectType": "library",
-  "tags": [],
+  "tags": ["scope:sidebar-ui"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

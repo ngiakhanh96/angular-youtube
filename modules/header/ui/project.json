@@ -4,7 +4,7 @@
   "sourceRoot": "modules/header/ui/src",
   "prefix": "lib",
   "projectType": "library",
-  "tags": [],
+  "tags": ["scope:header-ui"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

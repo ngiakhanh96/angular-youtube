@@ -4,7 +4,7 @@
   "sourceRoot": "modules/search-page/ui/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": [],
+  "tags": ["scope:search-page-ui"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

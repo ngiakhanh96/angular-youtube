@@ -4,7 +4,7 @@
   "sourceRoot": "modules/shell/ui/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": [],
+  "tags": ["scope:shell-ui"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

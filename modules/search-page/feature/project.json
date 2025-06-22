@@ -4,7 +4,7 @@
   "sourceRoot": "modules/search-page/feature/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": [],
+  "tags": ["scope:search-page-feature"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

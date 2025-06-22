@@ -4,7 +4,7 @@
   "sourceRoot": "modules/shell/data-access/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": [],
+  "tags": ["scope:shell-data-access"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

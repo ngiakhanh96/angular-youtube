@@ -4,7 +4,7 @@
   "sourceRoot": "modules/header/data-access/src",
   "prefix": "lib",
   "projectType": "library",
-  "tags": [],
+  "tags": ["scope:header-data-access"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

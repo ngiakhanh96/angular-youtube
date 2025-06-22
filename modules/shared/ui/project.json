@@ -4,7 +4,7 @@
   "sourceRoot": "modules/shared/ui/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": [],
+  "tags": ["scope:shared-ui"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
