@@ -27,7 +27,7 @@ export class LinkComponent {
   document = inject(DOCUMENT);
   externalNavigationService = inject(ExternalNavigationService);
   appSettingsService = inject(AppSettingsService);
-  currentHostName = this.document.defaultView?.location.hostname ?? '';
+  currentHostName = this.document.defaultView?.location.hostname ?? 'localhost';
   supportedSocialMedias = new Map(
     Object.entries({
       ...(this.appSettingsService.appConfig()?.supportedSocialMedias ?? {}),
