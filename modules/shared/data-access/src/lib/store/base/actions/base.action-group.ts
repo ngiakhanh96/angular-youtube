@@ -11,7 +11,7 @@ import {
   HttpErrorResponseDetails,
   HttpResponseStatus,
 } from '../../../models/http-response/http-response.model';
-import { IBaseState } from '../../../models/state.model';
+import { IBaseState } from '../../../models/state';
 
 export function createAyActionGroup<
   Source extends string,

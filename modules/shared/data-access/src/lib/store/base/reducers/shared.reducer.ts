@@ -2,7 +2,7 @@ import { createFeature, on } from '@ngrx/store';
 import { IAccessTokenInfo } from '../../../models/http-response/auth.model';
 import { IMyChannelInfo } from '../../../models/http-response/my-channel-info.model';
 import { IVideoCategories } from '../../../models/http-response/video-categories-model';
-import { IBaseState } from '../../../models/state.model';
+import { IBaseState } from '../../../models/state';
 import { sharedActionGroup } from '../../base/actions/shared.action-group';
 import {
   createAyReducer,

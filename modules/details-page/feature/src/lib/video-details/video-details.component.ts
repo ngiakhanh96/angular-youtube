@@ -36,6 +36,7 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { LoadingBarService } from 'modules/shared/ui/src/lib/services/loading-bar.service';
 import {
   IVideoDetailsInfo,
   VideoDetailsInfoComponent,
@@ -65,6 +66,7 @@ export class VideoDetailsComponent
   titleService = inject(Title);
   router = inject(Router);
   sidebarService = inject(SidebarService);
+  loadingBarService = inject(LoadingBarService);
   videoId = signal('');
   videoRecommendationMarginTop = signal('44px');
   getVideoInfo = computed(() => {
@@ -219,6 +221,11 @@ export class VideoDetailsComponent
     effect(() => {
       this.titleService.setTitle(this.videoInfo()?.title ?? 'Angular Youtube');
     });
+    effect(() => {
+      if (this.videoUrl()) {
+        this.loadingBarService.load(100);
+      }
+    });
     afterRenderEffect({
       write: () => {
         this.player().seekTo(this.currentTime());
@@ -232,6 +239,7 @@ export class VideoDetailsComponent
       .subscribe((params) => {
         this.videoId.set(params['v']);
         this.currentTime.set(params['t'] ?? 0);
+        this.loadingBarService.load(25);
       });
     this.sidebarService.setMiniSidebarState(false);
     this.sidebarService.setState(false);

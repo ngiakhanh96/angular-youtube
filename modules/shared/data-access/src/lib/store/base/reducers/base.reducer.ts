@@ -11,7 +11,7 @@ import {
   HttpResponse,
   HttpResponseStatus,
 } from '../../../models/http-response/http-response.model';
-import { IBaseState } from '../../../models/state.model';
+import { IBaseState } from '../../../models/state';
 import { BaseActionGroup } from '../actions/base.action-group';
 
 export const initialBaseState: IBaseState = {

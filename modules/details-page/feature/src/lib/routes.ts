@@ -3,6 +3,7 @@ import {
   detailsPageReducer,
   detailsPageStateName,
 } from '@angular-youtube/details-page-data-access';
+import { RouteData } from '@angular-youtube/shared-data-access';
 import { Routes } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
@@ -16,5 +17,8 @@ export const DETAILS_PAGE_ROUTES: Routes = [
       provideEffects(DetailsPageEffects),
     ],
     component: VideoDetailsComponent,
+    data: <RouteData>{
+      detectRouteTransitions: false,
+    },
   },
 ];

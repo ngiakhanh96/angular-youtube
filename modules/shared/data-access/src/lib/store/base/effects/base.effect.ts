@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action, ActionCreator, Creator, Store } from '@ngrx/store';
 import { Observable, OperatorFunction, switchMap } from 'rxjs';
 import { HttpResponseStatus } from '../../../models/http-response/http-response.model';
-import { IBaseState } from '../../../models/state.model';
+import { IBaseState } from '../../../models/state';
 import { ActionForSuccessfulResponse } from '../actions/base.action-group';
 import { sharedActionGroup } from '../actions/shared.action-group';
 

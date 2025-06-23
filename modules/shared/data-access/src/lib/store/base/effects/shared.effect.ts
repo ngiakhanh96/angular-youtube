@@ -13,7 +13,7 @@ import {
   throwError,
 } from 'rxjs';
 import { HttpResponseStatus } from '../../../models/http-response/http-response.model';
-import { IBaseState } from '../../../models/state.model';
+import { IBaseState } from '../../../models/state';
 import { AuthHttpService } from '../../../services/http/auth.http.service';
 import { YoutubeHttpService } from '../../../services/http/youtube.http.service';
 import { SessionStorage } from '../../../services/session-storage.service';
