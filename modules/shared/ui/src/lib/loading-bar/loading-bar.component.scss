@@ -1,21 +1,6 @@
 .loading-bar {
   @apply fixed top-0 left-0 w-full h-[2px] bg-red-500 z-[var(--layer-2)];
-  animation: loading-bar 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-@keyframes loading-bar {
-  0% {
-    @apply w-0;
-  }
-  25% {
-    @apply w-1/4;
-  }
-  50% {
-    @apply w-1/2;
-  }
-  75% {
-    @apply w-3/4;
-  }
-  100% {
-    @apply w-full;
-  }
+  transition:
+    width 1s ease-in-out,
+    opacity 2s ease-in-out;
 }

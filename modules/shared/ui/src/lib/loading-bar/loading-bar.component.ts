@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
+  OnInit,
   signal,
 } from '@angular/core';
 import {
@@ -12,6 +14,7 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
+import { LoadingBarService } from '../services/loading-bar.service';
 
 @Component({
   selector: 'ay-loading-bar',
@@ -20,19 +23,27 @@ import {
   styleUrls: ['./loading-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoadingBarComponent {
+export class LoadingBarComponent implements OnInit {
   loading = signal(false);
+  loadingBarService = inject(LoadingBarService);
+  opacity = computed(() =>
+    this.loadingBarService.loadingPercentage() === 100 ||
+    this.loadingBarService.loadingPercentage() === 0
+      ? 0
+      : 1,
+  );
   private router = inject(Router);
-  constructor() {
+
+  ngOnInit(): void {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
-        this.loading.set(true);
+        this.loadingBarService.load(25);
       } else if (
         event instanceof NavigationEnd ||
         event instanceof NavigationCancel ||
         event instanceof NavigationError
       ) {
-        this.loading.set(false);
+        this.loadingBarService.load(100);
       }
     });
   }
