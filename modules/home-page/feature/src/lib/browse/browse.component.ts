@@ -30,6 +30,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   ElementRef,
   inject,
   linkedSignal,
@@ -41,6 +42,7 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { LoadingBarService } from 'modules/shared/ui/src/lib/services/loading-bar.service';
 
 @Component({
   selector: 'ay-browse',
@@ -79,6 +81,8 @@ export class BrowseComponent
   protected playerItems = viewChildren<ElementRef<HTMLDivElement>>('gridItem');
   private router = inject(Router);
   private titleService = inject(Title);
+  private loadingBarService = inject(LoadingBarService);
+
   constructor() {
     super();
     this.titleService.setTitle('Angular Youtube');
@@ -146,6 +150,12 @@ export class BrowseComponent
         })) ?? []
       );
     });
+    effect(() => {
+      const realVideos = this.videos()?.filter((p) => !p.isSkeleton) ?? [];
+      if (realVideos.length > 0) {
+        this.loadingBarService.load(100);
+      }
+    });
     afterRenderEffect({
       read: () => {
         this.videos();
@@ -156,6 +166,7 @@ export class BrowseComponent
 
   ngOnInit(): void {
     this.sidebarService.setSelectedIconName('home');
+    this.loadingBarService.load(25);
   }
 
   onScrollDown() {

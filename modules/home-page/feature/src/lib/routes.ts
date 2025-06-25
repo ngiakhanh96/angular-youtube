@@ -3,6 +3,7 @@ import {
   homePageReducer,
   homePageStateName,
 } from '@angular-youtube/home-page-data-access';
+import { RouteData } from '@angular-youtube/shared-data-access';
 import { Routes } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
@@ -16,5 +17,8 @@ export const HOME_PAGE_ROUTES: Routes = [
       provideEffects(HomePageEffects),
     ],
     component: BrowseComponent,
+    data: <RouteData>{
+      detectRouteTransitions: false,
+    },
   },
 ];
