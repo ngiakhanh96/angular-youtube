@@ -3,9 +3,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
+  ElementRef,
   inject,
   input,
   OnInit,
+  viewChild,
 } from '@angular/core';
 import {
   ActivatedRoute,
@@ -37,6 +40,26 @@ export class LoadingBarComponent implements OnInit {
       : 1,
   );
   private router = inject(Router);
+  loadingBarRef = viewChild.required<ElementRef<HTMLDivElement>>('loadingBar');
+
+  constructor() {
+    let lastWidth = 0;
+    effect(() => {
+      const el = this.loadingBarRef().nativeElement;
+      const currentWidth = this.loadingBarService.loadingPercentage();
+      if (currentWidth > lastWidth) {
+        setTimeout(() => {
+          el.style.transition =
+            'width 1.2s ease-in, opacity 0.6s ease-in-out 1.2s';
+        });
+      } else {
+        setTimeout(() => {
+          el.style.transition = 'none';
+        });
+      }
+      lastWidth = currentWidth;
+    });
+  }
 
   ngOnInit(): void {
     this.router.events
@@ -60,9 +83,7 @@ export class LoadingBarComponent implements OnInit {
           return;
         }
         if (event instanceof ChildActivationEnd) {
-          setTimeout(() => {
-            this.loadingBarService.load(25);
-          });
+          this.loadingBarService.load(25);
         } else if (
           event instanceof NavigationEnd ||
           event instanceof NavigationCancel ||
