@@ -15,6 +15,7 @@ import {
 import {
   IVideoCategory,
   IVideoPlayerCardInfo,
+  LoadingBarService,
   NativeYouTubePlayerComponent,
   SidebarService,
   Utilities,
@@ -36,7 +37,6 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { LoadingBarService } from 'modules/shared/ui/src/lib/services/loading-bar.service';
 import {
   IVideoDetailsInfo,
   VideoDetailsInfoComponent,

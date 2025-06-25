@@ -12,6 +12,7 @@ import {
 import {
   IVideoCategory,
   IVideoPlayerCardInfo,
+  LoadingBarService,
   PlayerPosition,
   SidebarService,
   Utilities,
@@ -29,7 +30,7 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingBarService } from 'modules/shared/ui/src/lib/services/loading-bar.service';
+
 @Component({
   selector: 'ay-search',
   templateUrl: './search.component.html',

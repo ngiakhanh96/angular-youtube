@@ -19,6 +19,7 @@ import {
   InfiniteScrollDirective,
   IVideoCategory,
   IVideoPlayerCardInfo,
+  LoadingBarService,
   SidebarService,
   Utilities,
   VideoCategoriesComponent,
@@ -42,7 +43,6 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { LoadingBarService } from 'modules/shared/ui/src/lib/services/loading-bar.service';
 
 @Component({
   selector: 'ay-browse',
