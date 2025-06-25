@@ -1,5 +1,5 @@
 import {
-  afterRenderEffect,
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   ComponentRef,
@@ -49,8 +49,8 @@ export class CardComponent implements OnDestroy {
   );
 
   constructor() {
-    afterRenderEffect({
-      write: async () => {
+    afterNextRender({
+      read: async () => {
         const cardContainerElement = this.cardContainer().nativeElement;
         const currentVideoId = this.currentVideoId();
         const aTags = Array.from(
