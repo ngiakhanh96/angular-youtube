@@ -8,7 +8,7 @@ import {
   Utilities,
 } from '@angular-youtube/shared-ui';
 import {
-  afterRenderEffect,
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   ComponentRef,
@@ -152,8 +152,8 @@ export class VideoCommentComponent implements OnDestroy {
   });
 
   constructor() {
-    afterRenderEffect({
-      write: () => {
+    afterNextRender({
+      read: () => {
         const commentTextElement = this.commentTextElement().nativeElement;
         const aTags = Array.from(commentTextElement.getElementsByTagName('a'));
         for (const aTag of aTags) {
