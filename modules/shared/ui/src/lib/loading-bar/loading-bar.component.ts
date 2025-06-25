@@ -48,14 +48,9 @@ export class LoadingBarComponent implements OnInit {
       const el = this.loadingBarRef().nativeElement;
       const currentWidth = this.loadingBarService.loadingPercentage();
       if (currentWidth > lastWidth) {
-        setTimeout(() => {
-          el.style.transition =
-            'width 1.2s ease-in, opacity 0.6s ease-in-out 1.2s';
-        });
+        el.style.transition = 'width 1s ease-in, opacity 0.6s ease-in-out 1s';
       } else {
-        setTimeout(() => {
-          el.style.transition = 'none';
-        });
+        el.style.transition = 'none';
       }
       lastWidth = currentWidth;
     });

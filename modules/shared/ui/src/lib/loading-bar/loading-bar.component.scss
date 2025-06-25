@@ -1,6 +1,7 @@
+:host {
+  @apply fixed top-0 left-0 w-full h-[2px] z-[var(--layer-2)];
+}
+
 .loading-bar {
-  @apply fixed top-0 left-0 w-full h-[2px] bg-red-500 z-[var(--layer-2)];
-  // transition:
-  //   width 0.4s ease-in,
-  //   opacity 1.2s ease-in-out;
+  @apply h-full bg-red-500;
 }
