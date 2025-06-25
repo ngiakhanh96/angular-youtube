@@ -29,6 +29,7 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { LoadingBarService } from 'modules/shared/ui/src/lib/services/loading-bar.service';
 @Component({
   selector: 'ay-search',
   templateUrl: './search.component.html',
@@ -54,6 +55,7 @@ export class SearchComponent
   );
   private titleService = inject(Title);
   private sidebarService = inject(SidebarService);
+  private loadingBarService = inject(LoadingBarService);
   private page = linkedSignal(() => {
     this.searchQuery();
     return 1;
@@ -97,6 +99,11 @@ export class SearchComponent
         `${this.searchQuery() ?? ''} - Angular Youtube`,
       );
     });
+    effect(() => {
+      if (this.searchedVideosInfo().length > 0) {
+        this.loadingBarService.load(100);
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -104,6 +111,7 @@ export class SearchComponent
       .pipe(this.takeUntilDestroyed())
       .subscribe((params) => {
         this.searchQuery.set(params.get('search_query'));
+        this.loadingBarService.load(25);
       });
     this.sidebarService.setSelectedIconName(null);
   }

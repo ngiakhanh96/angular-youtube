@@ -3,6 +3,7 @@ import {
   searchPageReducer,
   searchPageStateName,
 } from '@angular-youtube/search-page-data-access';
+import { RouteData } from '@angular-youtube/shared-data-access';
 import { Routes } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
@@ -16,5 +17,8 @@ export const SEARCH_PAGE_ROUTES: Routes = [
       provideEffects(SearchPageEffects),
     ],
     component: SearchComponent,
+    data: <RouteData>{
+      detectRouteTransitions: false,
+    },
   },
 ];
