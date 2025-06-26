@@ -42,8 +42,6 @@ import {
   VideoDetailsInfoComponent,
 } from '../video-details-info/video-details-info.component';
 
-//TODO for video-details when loading may need to have .net backend to combine video and sound
-//to avoid double sound when seek to a particular time
 @Component({
   selector: 'ay-video-details',
   templateUrl: './video-details.component.html',
@@ -94,7 +92,9 @@ export class VideoDetailsComponent
       0 > 0
     ) {
       return this.videoInfo()
-        ?.adaptiveFormats.filter((format) => format.fps != null)
+        ?.adaptiveFormats.filter(
+          (format) => format.url !== '' && format.fps != null,
+        )
         .sort((a, b) => +b.bitrate - +a.bitrate)[0]?.url;
     } else if (this.videoInfo()?.formatStreams) {
       return this.videoInfo()?.formatStreams[0]?.url;
@@ -108,8 +108,24 @@ export class VideoDetailsComponent
       0 > 0
     ) {
       return this.videoInfo()
-        ?.adaptiveFormats.filter((format) => format.audioQuality != null)
-        .sort((a, b) => +b.bitrate - +a.bitrate)[0]?.url;
+        ?.adaptiveFormats.filter(
+          (format) => format.url !== '' && format.audioQuality != null,
+        )
+        .sort((a, b) => {
+          // Priority: lang%3Dvi > lang%3Den > others
+          const getLangPriority = (url: string) => {
+            if (url.includes('lang%3Dvi')) return 2;
+            if (url.includes('lang%3Den')) return 1;
+            return 0;
+          };
+          const aPriority = getLangPriority(a.url);
+          const bPriority = getLangPriority(b.url);
+          if (aPriority !== bPriority) {
+            return bPriority - aPriority; // Higher priority first
+          }
+          // Then, sort by bitrate descending
+          return +b.bitrate - +a.bitrate;
+        })[0]?.url;
     }
     return undefined;
   });

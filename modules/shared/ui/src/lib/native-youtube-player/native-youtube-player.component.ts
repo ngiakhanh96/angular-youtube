@@ -141,6 +141,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   private progressUpdateInterval: ReturnType<typeof setInterval> | null = null;
   private isDragging = false;
+  private isSeeking = false;
   private readonly document = inject(DOCUMENT);
 
   private hoverTimer: ReturnType<typeof setTimeout> | null = null;
@@ -201,18 +202,32 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         });
         this.videoPlayer().addEventListener('play', () => {
           this.synchronizeAudioWithVideo();
-          this.audioPlayer()
-            .play()
-            .catch((error) => {
-              console.log(error);
-            });
+          this.playAudio();
         });
         this.videoPlayer().addEventListener('pause', () => {
           this.synchronizeAudioWithVideo();
           this.audioPlayer().pause();
         });
+        this.videoPlayer().addEventListener('seeking', () => {
+          this.isSeeking = true;
+          this.audioPlayer().pause();
+        });
         this.videoPlayer().addEventListener('timeupdate', () => {
-          this.synchronizeAudioWithVideo();
+          if (this.isSeeking) {
+            this.synchronizeAudioWithVideo();
+          }
+        });
+        this.videoPlayer().addEventListener('seeked', () => {
+          this.isSeeking = false;
+          if (this.isVideoPlayed()) {
+            this.playAudio();
+          }
+        });
+        this.videoPlayer().addEventListener('waiting', () => {
+          this.audioPlayer().pause();
+        });
+        this.videoPlayer().addEventListener('playing', () => {
+          this.playAudio();
         });
       },
     });
@@ -322,6 +337,14 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   seekTo(currentTime: number) {
     this.videoPlayer().currentTime = currentTime;
+  }
+
+  private playAudio() {
+    this.audioPlayer()
+      .play()
+      .catch((error) => {
+        console.log('Error playing audio:', error);
+      });
   }
 
   private synchronizeAudioWithVideo() {
