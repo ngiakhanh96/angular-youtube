@@ -301,7 +301,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   toggleMute() {
     this.isMuted.update((v) => !v);
     this.videoPlayer().muted = this.isMuted();
-    this.audioPlayer().muted = this.isMuted();
   }
 
   toggleViewMode() {
@@ -323,14 +322,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   private synchronizeAudioWithVideo() {
     if (this.audioUrl() && this.audioUrl() !== '') {
-      const timeDifference = Math.abs(
-        this.videoPlayer().currentTime - this.audioPlayer().currentTime,
-      );
-
-      // If difference is more than 0.1 seconds, resync
-      if (timeDifference > 0.1) {
-        this.audioPlayer().currentTime = this.videoPlayer().currentTime;
-      }
+      this.audioPlayer().currentTime = this.videoPlayer().currentTime;
     }
   }
 
