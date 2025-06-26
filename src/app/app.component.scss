@@ -1,3 +1,11 @@
 :host {
   @apply flex flex-col;
 }
+
+ay-loading-bar {
+  @apply fixed top-0 left-0;
+}
+
+ay-spinner {
+  @apply fixed;
+}
