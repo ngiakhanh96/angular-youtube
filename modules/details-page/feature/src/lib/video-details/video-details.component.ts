@@ -42,6 +42,8 @@ import {
   VideoDetailsInfoComponent,
 } from '../video-details-info/video-details-info.component';
 
+//TODO for video-details when loading may need to have .net backend to combine video and sound
+//to avoid double sound when seek to a particular time
 @Component({
   selector: 'ay-video-details',
   templateUrl: './video-details.component.html',

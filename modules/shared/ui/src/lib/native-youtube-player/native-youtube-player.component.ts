@@ -193,24 +193,22 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
         this.videoPlayer().addEventListener('loadedmetadata', () => {
           this.duration.set(this.videoPlayer().duration);
-          this.audioPlayer().currentTime = this.videoPlayer().currentTime;
+          this.synchronizeAudioWithVideo();
+        });
+        this.videoPlayer().addEventListener('volumechange', () => {
+          this.audioPlayer().muted = this.videoPlayer().muted;
+          this.synchronizeAudioWithVideo();
         });
         this.videoPlayer().addEventListener('play', () => {
-          this.audioPlayer().currentTime = this.videoPlayer().currentTime;
+          this.synchronizeAudioWithVideo();
           this.audioPlayer().play();
         });
         this.videoPlayer().addEventListener('pause', () => {
+          this.synchronizeAudioWithVideo();
           this.audioPlayer().pause();
         });
         this.videoPlayer().addEventListener('timeupdate', () => {
-          const timeDifference = Math.abs(
-            this.videoPlayer().currentTime - this.audioPlayer().currentTime,
-          );
-
-          // If difference is more than 0.3 seconds, resync
-          if (timeDifference > 0.3) {
-            this.audioPlayer().currentTime = this.videoPlayer().currentTime;
-          }
+          this.synchronizeAudioWithVideo();
         });
       },
     });
@@ -303,6 +301,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   toggleMute() {
     this.isMuted.update((v) => !v);
     this.videoPlayer().muted = this.isMuted();
+    this.audioPlayer().muted = this.isMuted();
   }
 
   toggleViewMode() {
@@ -320,6 +319,19 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   seekTo(currentTime: number) {
     this.videoPlayer().currentTime = currentTime;
+  }
+
+  private synchronizeAudioWithVideo() {
+    if (this.audioUrl() && this.audioUrl() !== '') {
+      const timeDifference = Math.abs(
+        this.videoPlayer().currentTime - this.audioPlayer().currentTime,
+      );
+
+      // If difference is more than 0.1 seconds, resync
+      if (timeDifference > 0.1) {
+        this.audioPlayer().currentTime = this.videoPlayer().currentTime;
+      }
+    }
   }
 
   private formatTime(timeInSeconds: number): string {
