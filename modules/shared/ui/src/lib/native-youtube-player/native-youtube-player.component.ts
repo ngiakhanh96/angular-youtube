@@ -207,7 +207,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
             this.videoPlayer().currentTime - this.audioPlayer().currentTime,
           );
 
-          // If difference is more than 0.4 seconds, resync
+          // If difference is more than 0.3 seconds, resync
           if (timeDifference > 0.3) {
             this.audioPlayer().currentTime = this.videoPlayer().currentTime;
           }
