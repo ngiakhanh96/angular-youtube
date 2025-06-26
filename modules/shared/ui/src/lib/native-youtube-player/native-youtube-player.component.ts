@@ -1,7 +1,7 @@
-
 import {
   ChangeDetectionStrategy,
   Component,
+  DOCUMENT,
   ElementRef,
   OnDestroy,
   afterNextRender,
@@ -15,7 +15,6 @@ import {
   signal,
   untracked,
   viewChild,
-  DOCUMENT
 } from '@angular/core';
 import {
   SvgButtonRendererComponent,
@@ -89,7 +88,10 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   placeholderImageQuality = input<PlaceholderImageQuality>('low');
 
   videoPlayerRef =
-    viewChild.required<ElementRef<HTMLMediaElement>>('videoPlayer');
+    viewChild.required<ElementRef<HTMLVideoElement>>('videoPlayer');
+
+  audioPlayerRef =
+    viewChild.required<ElementRef<HTMLAudioElement>>('audioPlayer');
 
   videoPlayerContainerRef = viewChild.required<ElementRef<HTMLDivElement>>(
     'videoPlayerContainer',
@@ -100,6 +102,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   playedProgress = signal(0);
 
   videoPlayer = computed(() => this.videoPlayerRef().nativeElement);
+  audioPlayer = computed(() => this.audioPlayerRef().nativeElement);
 
   showPlayButton = input(false);
   boxShadow = input<string>('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
@@ -110,6 +113,9 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   mini = input<boolean>(true);
   viewMode = model<ViewMode>(ViewMode.Theater);
   isMuted = model(false);
+
+  /** Audio URL for separate audio stream */
+  audioUrl = input<string | undefined>(undefined);
 
   ViewMode = ViewMode;
   screenMode = signal<ScreenMode>(ScreenMode.Default);
@@ -187,6 +193,27 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
         this.videoPlayer().addEventListener('loadedmetadata', () => {
           this.duration.set(this.videoPlayer().duration);
+          this.audioPlayer().currentTime = this.videoPlayer().currentTime;
+        });
+        this.videoPlayer().addEventListener('play', () => {
+          this.audioPlayer().currentTime = this.videoPlayer().currentTime;
+          this.audioPlayer().play();
+        });
+        this.videoPlayer().addEventListener('pause', () => {
+          this.audioPlayer().pause();
+        });
+        this.videoPlayer().addEventListener('seeked', () => {
+          // this.audioPlayer().currentTime = this.videoPlayer().currentTime;
+        });
+        this.videoPlayer().addEventListener('timeupdate', () => {
+          const timeDifference = Math.abs(
+            this.videoPlayer().currentTime - this.audioPlayer().currentTime,
+          );
+
+          // If difference is more than 0.4 seconds, resync
+          if (timeDifference > 0.4) {
+            this.audioPlayer().currentTime = this.videoPlayer().currentTime;
+          }
         });
       },
     });

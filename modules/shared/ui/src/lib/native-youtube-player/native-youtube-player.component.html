@@ -21,6 +21,7 @@
     <video preload="auto" #videoPlayer>
       <source [src]="videoUrl()" type="video/mp4" />
     </video>
+    <audio #audioPlayer [src]="audioUrl()"> </audio>
     <div class="player_bottom" [style.display]="playerButtonsDisplay()">
       <div
         class="player_bottom_progress-bar-container"
@@ -146,7 +147,7 @@
             <ay-svg-button-renderer
               ariaLabel="MiniPlayer"
               viewBox="0 0 36 36"
-              path="M25,17 L17,17 L17,23 L25,23 L25,17 L25,17 Z M29,25 L29,10.98 C29,9.88 28.1,9 27,9 L9,9 C7.9,9 7,9.88 7,10.98 L7,25 C7,26.1 7.9,27 9,27 L27,27 C28.1,27 29,26.1 29,25 L29,25 Z M27,25.02 L9,25.02 L9,10.97 L27,10.97 L27,25.02 L27,25.02 Z"
+              path="M25,17 L17,17 L17,23 L25,23 L25,17 L25,17 Z M29,25 L29,10.98 C29,9.88 28.1,9 27,9 L9,9 C7.9,9 7,9.88 7,10.98 L7,25 C7,26.1 7.9,27 9,27 L27,27 C28.1,27 29,26.1 29,25 L29,25 Z M27,25.02 L9,25.02 L9,10.97 L27,10.97 L27,25.02 L27,25.02 z"
               fill="white"
             >
             </ay-svg-button-renderer>

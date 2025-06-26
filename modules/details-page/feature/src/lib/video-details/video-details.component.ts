@@ -86,8 +86,28 @@ export class VideoDetailsComponent
     return sharedActionGroup.empty();
   });
   videoUrl = computed(() => {
-    if (this.videoInfo()?.formatStreams) {
+    if (
+      this.videoInfo()?.adaptiveFormats.filter((format) => format.url !== '')
+        ?.length ??
+      0 > 0
+    ) {
+      return this.videoInfo()
+        ?.adaptiveFormats.filter((format) => format.fps != null)
+        .sort((a, b) => +b.bitrate - +a.bitrate)[0]?.url;
+    } else if (this.videoInfo()?.formatStreams) {
       return this.videoInfo()?.formatStreams[0]?.url;
+    }
+    return undefined;
+  });
+  audioUrl = computed(() => {
+    if (
+      this.videoInfo()?.adaptiveFormats.filter((format) => format.url !== '')
+        ?.length ??
+      0 > 0
+    ) {
+      return this.videoInfo()
+        ?.adaptiveFormats.filter((format) => format.audioQuality != null)
+        .sort((a, b) => +b.bitrate - +a.bitrate)[0]?.url;
     }
     return undefined;
   });
