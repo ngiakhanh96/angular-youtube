@@ -2,6 +2,7 @@ import { SpinnerService } from '@angular-youtube/shared-data-access';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   input,
   OnInit,
@@ -21,11 +22,19 @@ import { tap } from 'rxjs';
   styleUrls: ['./spinner.component.scss'],
   imports: [MatProgressSpinnerModule, RouterModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[style.opacity]': 'opacity()',
+    '[style.zIndex]': 'zIndex()',
+  },
 })
 export class SpinnerComponent implements OnInit {
   detectRouteTransitions = input(false);
   spinnerService = inject(SpinnerService);
   router = inject(Router);
+  opacity = computed(() => (this.spinnerService.isLoading() ? 1 : 0));
+  zIndex = computed(() =>
+    this.spinnerService.isLoading() ? 'var(--layer-2)' : '0',
+  );
 
   ngOnInit() {
     if (this.detectRouteTransitions()) {
