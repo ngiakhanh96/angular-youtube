@@ -5,7 +5,7 @@ import { computed, Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class LoadingBarService {
-  private _loadingPercentage = signal(0);
+  private _loadingPercentage = signal(100);
   loadingPercentage = computed(() => this._loadingPercentage());
 
   load(percentage: number) {
