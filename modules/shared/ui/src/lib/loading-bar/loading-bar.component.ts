@@ -14,9 +14,7 @@ import {
   ActivatedRoute,
   ChildActivationEnd,
   Event,
-  NavigationCancel,
   NavigationEnd,
-  NavigationError,
   Router,
 } from '@angular/router';
 import { distinctUntilChanged, filter } from 'rxjs';
@@ -63,9 +61,7 @@ export class LoadingBarComponent implements OnInit {
         filter(
           (event) =>
             event instanceof ChildActivationEnd ||
-            event instanceof NavigationEnd ||
-            event instanceof NavigationCancel ||
-            event instanceof NavigationError,
+            event instanceof NavigationEnd,
         ),
         distinctUntilChanged(
           (prev, curr) => prev.constructor === curr.constructor,
@@ -80,11 +76,7 @@ export class LoadingBarComponent implements OnInit {
         }
         if (event instanceof ChildActivationEnd) {
           this.loadingBarService.load(25);
-        } else if (
-          event instanceof NavigationEnd ||
-          event instanceof NavigationCancel ||
-          event instanceof NavigationError
-        ) {
+        } else if (event instanceof NavigationEnd) {
           setTimeout(() => {
             this.loadingBarService.load(100);
           }, 1000);

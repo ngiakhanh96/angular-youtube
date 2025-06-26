@@ -14,7 +14,7 @@ import {
   Router,
   RouterModule,
 } from '@angular/router';
-import { tap } from 'rxjs';
+import { filter, tap } from 'rxjs';
 
 @Component({
   selector: 'ay-spinner',
@@ -40,6 +40,12 @@ export class SpinnerComponent implements OnInit {
     if (this.detectRouteTransitions()) {
       this.router.events
         .pipe(
+          filter(
+            (event) =>
+              event instanceof NavigationStart ||
+              event instanceof NavigationEnd,
+          ),
+          // Use tap to perform side effects
           tap((event) => {
             if (event instanceof NavigationStart) {
               this.spinnerService.loadingOn();
