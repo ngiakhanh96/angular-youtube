@@ -201,7 +201,11 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         });
         this.videoPlayer().addEventListener('play', () => {
           this.synchronizeAudioWithVideo();
-          this.audioPlayer().play();
+          this.audioPlayer()
+            .play()
+            .catch((error) => {
+              console.log(error);
+            });
         });
         this.videoPlayer().addEventListener('pause', () => {
           this.synchronizeAudioWithVideo();
@@ -321,9 +325,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   private synchronizeAudioWithVideo() {
-    if (this.audioUrl() && this.audioUrl() !== '') {
-      this.audioPlayer().currentTime = this.videoPlayer().currentTime;
-    }
+    this.audioPlayer().currentTime = this.videoPlayer().currentTime;
   }
 
   private formatTime(timeInSeconds: number): string {
