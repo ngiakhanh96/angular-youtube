@@ -202,16 +202,13 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         this.videoPlayer().addEventListener('pause', () => {
           this.audioPlayer().pause();
         });
-        this.videoPlayer().addEventListener('seeked', () => {
-          // this.audioPlayer().currentTime = this.videoPlayer().currentTime;
-        });
         this.videoPlayer().addEventListener('timeupdate', () => {
           const timeDifference = Math.abs(
             this.videoPlayer().currentTime - this.audioPlayer().currentTime,
           );
 
           // If difference is more than 0.4 seconds, resync
-          if (timeDifference > 0.4) {
+          if (timeDifference > 0.3) {
             this.audioPlayer().currentTime = this.videoPlayer().currentTime;
           }
         });
