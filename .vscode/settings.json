@@ -2,5 +2,17 @@
     "css.customData": [
         ".vscode/tailwind.json"
     ],
-    "nxConsole.generateAiAgentRules": true
+    "nxConsole.generateAiAgentRules": true,
+    "cSpell.words": [
+        "autonext",
+        "dont",
+        "ecqvueub",
+        "googleusercontent",
+        "lofi",
+        "miliseconds",
+        "mozfullscreenchange",
+        "msfullscreenchange",
+        "ohdpktv",
+        "Volumn"
+    ]
 }
