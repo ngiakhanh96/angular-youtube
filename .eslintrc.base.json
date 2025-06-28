@@ -51,6 +51,7 @@
               {
                 "sourceTag": "scope:shell-feature",
                 "onlyDependOnLibsWithTags": [
+                  "scope:*-feature",
                   "scope:shell-ui",
                   "scope:shell-data-access",
                   "scope:shared-ui",
