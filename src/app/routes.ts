@@ -2,6 +2,7 @@ import {
   SharedEffects,
   sharedReducer,
   sharedStateName,
+  SharedStore,
   SpinnerService,
 } from '@angular-youtube/shared-data-access';
 import { ExternalNavigationService } from '@angular-youtube/shared-ui';
@@ -36,6 +37,7 @@ export const mainRoutes: Route[] = [
     providers: [
       provideState(sharedStateName, sharedReducer),
       provideEffects(SharedEffects),
+      SharedStore,
     ],
     loadChildren: () =>
       import('@angular-youtube/shell-feature').then((m) => m.SHELL_ROUTES),

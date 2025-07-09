@@ -197,11 +197,13 @@ export class SharedEffects extends BaseEffects {
     false,
   );
 
-  updateAccessTokenSuccess$ = this.createEffect(
-    sharedActionGroup.updateAccessTokenSuccess,
-    map(() => {
-      return sharedActionGroup.loadMyChannelInfo();
-    }),
+  updateAccessTokenSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(sharedActionGroup.updateAccessTokenSuccess),
+      map(() => {
+        return sharedActionGroup.loadMyChannelInfo();
+      }),
+    ),
   );
 
   loadMyChannelInfo$ = this.createHttpEffectAndUpdateResponse(
