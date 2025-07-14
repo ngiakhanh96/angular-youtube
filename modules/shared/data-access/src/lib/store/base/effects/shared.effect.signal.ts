@@ -26,7 +26,6 @@ import { createHttpEffectAndUpdateResponse } from './base.effect.signal';
 
 export function withSharedEffects() {
   return signalStoreFeature(
-    // ... other features
     withEffects(
       (
         store,
