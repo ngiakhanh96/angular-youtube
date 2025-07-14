@@ -1,6 +1,7 @@
-import { DestroyRef, inject, Injector, Signal } from '@angular/core';
+import { DestroyRef, effect, inject, Injector, Signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
+import { Dispatcher, EventInstance } from '@ngrx/signals/events';
 import { Action, MemoizedSelector, select, Store } from '@ngrx/store';
 import { first, map } from 'rxjs';
 import { HttpResponseStatus } from '../models/http-response/http-response.model';
@@ -10,7 +11,8 @@ export abstract class BaseWithSandBoxComponent {
   protected activatedRoute = inject(ActivatedRoute);
   protected injector = inject(Injector);
   protected destroyRef = inject(DestroyRef);
-  private sandbox = inject(SandboxService);
+  protected dispatcher = inject(Dispatcher);
+  protected sandbox = inject(SandboxService);
 
   protected takeUntilDestroyed<T>() {
     return takeUntilDestroyed<T>(this.destroyRef);
@@ -82,5 +84,38 @@ export abstract class BaseWithSandBoxComponent {
           }
         });
     });
+  }
+
+  protected dispatchEventFromSignal(
+    eventSignal: Signal<EventInstance<string, any>>,
+    successfulCallBack?: () => void,
+    config?: {
+      injector: Injector;
+    },
+  ) {
+    effect(
+      () => {
+        const event: EventInstance<string, any> = eventSignal();
+        this.sandbox.dispatchEvent(event);
+        setTimeout(() => {
+          const responseDetails = this.sandbox.getResponseDetailsSignal(event);
+          responseDetails
+            .pipe(
+              first(
+                (details) =>
+                  !details || details.status !== HttpResponseStatus.Pending,
+              ),
+            )
+            .subscribe((details) => {
+              if (!details || details.status === HttpResponseStatus.Success) {
+                successfulCallBack?.();
+              }
+            });
+        });
+      },
+      {
+        injector: config?.injector ?? this.injector,
+      },
+    );
   }
 }

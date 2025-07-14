@@ -1,5 +1,13 @@
 import { computed } from '@angular/core';
-import { signalStoreFeature, type, withComputed } from '@ngrx/signals';
+import { toObservable, ToObservableOptions } from '@angular/core/rxjs-interop';
+import {
+  signalStoreFeature,
+  type,
+  withComputed,
+  withProps,
+} from '@ngrx/signals';
+import { EventInstance } from '@ngrx/signals/events';
+import { map } from 'rxjs';
 import { IBaseState } from '../../../models/state';
 
 export function withHttpResponse() {
@@ -7,9 +15,17 @@ export function withHttpResponse() {
     { state: type<IBaseState>() },
     withComputed((state) => ({
       getResponse: computed(() => state.httpResponse()),
-      getResponseDetails: computed(() => {
-        return (eventType: string) => state.httpResponse().details[eventType];
-      }),
+    })),
+    withProps(({ httpResponse }) => ({
+      getResponse$: (options?: ToObservableOptions) =>
+        toObservable(httpResponse, options),
+      getResponseDetails$: (
+        event: EventInstance<string, any>,
+        options?: ToObservableOptions,
+      ) =>
+        toObservable(httpResponse, options).pipe(
+          map((response) => response.details[event.type]),
+        ),
     })),
   );
 }

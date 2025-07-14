@@ -11,7 +11,6 @@ import {
   BaseWithSandBoxComponent,
   IInvidiousVideoCommentsInfo,
   IVideoComment,
-  selectMyChannelInfo,
 } from '@angular-youtube/shared-data-access';
 
 import {
@@ -101,7 +100,7 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
   CommentSortOption = CommentSortOption;
 
   sortChanged = output<CommentSortOption>();
-  user = this.selectSignal(selectMyChannelInfo);
+  user = this.sandbox.signalStore.myChannelInfo;
   userThumbnail = computed(
     () =>
       this.user()?.items[0].snippet.thumbnails.default.url ??

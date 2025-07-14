@@ -16,7 +16,7 @@ export abstract class BaseEffects {
   >(
     requestActionCreator: TActionCreator,
     callBackFn: (action: ReturnType<TActionCreator>) => Observable<Action>,
-    showSpinner = true,
+    showSpinner = false,
     actionForSuccessfulResponse: ActionForSuccessfulResponse = ActionForSuccessfulResponse.UpdateResponseAndHideSpinner,
   ) {
     return createEffect(() =>
@@ -56,7 +56,7 @@ export abstract class BaseEffects {
     callBackFn: (
       actionWithState: [ReturnType<TActionCreator>, TState],
     ) => Observable<Action>,
-    showSpinner = true,
+    showSpinner = false,
     actionForSuccessfulResponse: ActionForSuccessfulResponse = ActionForSuccessfulResponse.UpdateResponseAndHideSpinner,
   ) {
     return createEffect(() =>

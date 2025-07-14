@@ -4,12 +4,17 @@ import {
   type,
   withState,
 } from '@ngrx/signals';
-import { on, withReducer } from '@ngrx/signals/events';
+import { EventCreator, on, withReducer } from '@ngrx/signals/events';
 
+import {
+  HttpErrorResponseDetails,
+  HttpResponse,
+  HttpResponseStatus,
+} from '../../../models/http-response/http-response.model';
+import { IBaseState } from '../../../models/state';
 import { sharedEventGroup } from '../actions/shared.event-group';
 import { withSharedEffects } from '../effects/shared.effect.signal';
 import { withHttpResponse } from '../selectors/base.computed';
-import { updateResponse } from './base.reducer';
 import { initialSharedState, ISharedState } from './shared.reducer';
 
 export const SharedStore = signalStore(
@@ -36,7 +41,7 @@ export function withSharedReducer() {
           },
           state,
         ) => ({
-          httpResponse: updateResponse(
+          httpResponse: updateResponseSignal(
             requestEventCreator,
             state,
             status,
@@ -56,4 +61,34 @@ export function withSharedReducer() {
       })),
     ),
   );
+}
+
+export function updateResponseSignal(
+  eventCreator: EventCreator<string, any>,
+  state: IBaseState,
+  responseStatus: HttpResponseStatus,
+  showSpinner: boolean,
+  error?: HttpErrorResponseDetails,
+): HttpResponse {
+  const newPendingCount = showSpinner
+    ? responseStatus === HttpResponseStatus.Pending
+      ? state.httpResponse.details[eventCreator.type]?.status ===
+        HttpResponseStatus.Pending
+        ? state.httpResponse.isPendingCount
+        : state.httpResponse.isPendingCount + 1
+      : state.httpResponse.isPendingCount - 1
+    : state.httpResponse.isPendingCount;
+
+  return {
+    isPendingCount: newPendingCount,
+    details: {
+      ...state.httpResponse.details,
+      [responseStatus === HttpResponseStatus.Error
+        ? error!.actionName
+        : eventCreator.type]: {
+        status: responseStatus,
+        errorResponse: error!,
+      },
+    },
+  };
 }

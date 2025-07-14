@@ -9,7 +9,6 @@ import {
 import {
   BaseWithSandBoxComponent,
   IInvidiousSearchSuggestions,
-  selectMyChannelInfo,
 } from '@angular-youtube/shared-data-access';
 import { LogoMenuComponent } from '@angular-youtube/shared-ui';
 import {
@@ -29,7 +28,7 @@ import {
 })
 export class MasterHeaderComponent extends BaseWithSandBoxComponent {
   showStartHeader = input.required();
-  user = this.selectSignal(selectMyChannelInfo);
+  user = this.sandbox.signalStore.myChannelInfo;
   searchSuggestionsInfo: Signal<IInvidiousSearchSuggestions | undefined>;
   searchSuggestions = computed(
     () => this.searchSuggestionsInfo()?.suggestions ?? [],

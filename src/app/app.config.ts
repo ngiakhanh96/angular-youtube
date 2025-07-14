@@ -3,6 +3,7 @@ import {
   GoogleLoginProvider,
   provideSocialAuth,
   provideYoutubeApiKey,
+  SharedStore,
 } from '@angular-youtube/shared-data-access';
 import { provideAySkeletonLoader } from '@angular-youtube/shared-ui';
 import { authInterceptor } from '@angular-youtube/shell-data-access';
@@ -41,6 +42,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideStore(),
     provideEffects(),
+    SharedStore,
     provideZonelessChangeDetection(),
     provideBrowserGlobalErrorListeners(),
     { provide: ErrorHandler, useClass: GlobalErrorHandler },

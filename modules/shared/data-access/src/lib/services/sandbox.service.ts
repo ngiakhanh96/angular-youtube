@@ -1,4 +1,5 @@
-import { inject, Injectable, Injector, OnDestroy } from '@angular/core';
+import { effect, inject, Injectable, Injector, OnDestroy } from '@angular/core';
+import { Dispatcher, EventInstance } from '@ngrx/signals/events';
 import {
   Action,
   createSelector,
@@ -7,18 +8,17 @@ import {
   Store,
 } from '@ngrx/store';
 import { filter, Observable, Subscription } from 'rxjs';
-import {
-  HttpResponse,
-  ResponseDetails,
-} from '../models/http-response/http-response.model';
+import { HttpResponse } from '../models/http-response/http-response.model';
 import {
   ISharedState,
   selectSharedState,
 } from '../store/base/reducers/shared.reducer';
+import { SharedStore } from '../store/base/reducers/shared.reducer.signal';
 import {
   getResponse,
   getResponseDetails,
 } from '../store/base/selectors/base.selector';
+import { ResponseDetails } from './../models/http-response/http-response.model';
 import { SpinnerService } from './spinner.service';
 
 @Injectable({
@@ -27,6 +27,9 @@ import { SpinnerService } from './spinner.service';
 export class SandboxService implements OnDestroy {
   public response$: Observable<HttpResponse>;
   public store = inject(Store);
+  public signalStore = inject(SharedStore);
+  protected injector = inject(Injector);
+  protected dispatcher = inject(Dispatcher);
   protected getResponseSelector: MemoizedSelector<
     object,
     HttpResponse,
@@ -46,6 +49,14 @@ export class SandboxService implements OnDestroy {
         }
       }),
     );
+    effect(() => {
+      const response = this.signalStore.getResponse();
+      if (response.isPendingCount > 0) {
+        this.spinnerService.loadingOn();
+      } else {
+        this.spinnerService.loadingOff();
+      }
+    });
   }
 
   getResponseDetailsSelector(action: Action) {
@@ -56,6 +67,12 @@ export class SandboxService implements OnDestroy {
 
   getResponseDetails(action: Action): Observable<ResponseDetails> {
     return this.store.pipe(select(this.getResponseDetailsSelector(action)));
+  }
+
+  getResponseDetailsSignal(event: EventInstance<string, any>) {
+    return this.signalStore.getResponseDetails$(event, {
+      injector: this.injector,
+    });
   }
 
   dispatchAction(action: Action) {
@@ -69,6 +86,10 @@ export class SandboxService implements OnDestroy {
     },
   ) {
     this.store.dispatch(action, config);
+  }
+
+  dispatchEvent(event: EventInstance<string, any>) {
+    this.dispatcher.dispatch(event);
   }
 
   ngOnDestroy(): void {

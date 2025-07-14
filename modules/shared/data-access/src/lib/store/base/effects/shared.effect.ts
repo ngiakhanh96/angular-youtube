@@ -181,6 +181,7 @@ export class SharedEffects extends BaseEffects {
         }),
       );
     },
+    false,
   );
 
   loadYoutubeVideoCategories$ = this.createHttpEffectAndUpdateResponse(
@@ -217,5 +218,6 @@ export class SharedEffects extends BaseEffects {
         }),
       );
     },
+    false,
   );
 }
