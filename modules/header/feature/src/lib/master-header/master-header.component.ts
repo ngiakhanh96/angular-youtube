@@ -1,6 +1,6 @@
 import {
-  headerActionGroup,
-  selectHeaderSearchSuggestions,
+  headerEventGroup,
+  HeaderStore,
 } from '@angular-youtube/header-data-access';
 import {
   CenterHeaderComponent,
@@ -15,6 +15,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   Signal,
 } from '@angular/core';
@@ -27,6 +28,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MasterHeaderComponent extends BaseWithSandBoxComponent {
+  headerStore = inject(HeaderStore);
   showStartHeader = input.required();
   user = this.sandbox.sharedStore.myChannelInfo;
   searchSuggestionsInfo: Signal<IInvidiousSearchSuggestions | undefined>;
@@ -35,14 +37,12 @@ export class MasterHeaderComponent extends BaseWithSandBoxComponent {
   );
   constructor() {
     super();
-    this.searchSuggestionsInfo = this.selectSignal(
-      selectHeaderSearchSuggestions,
-    );
+    this.searchSuggestionsInfo = this.headerStore.searchSuggestions;
   }
 
   onSearchQueryChange(query: string) {
-    this.dispatchAction(
-      headerActionGroup.loadYoutubeSearchSuggestions({ searchQuery: query }),
+    this.dispatchEvent(
+      headerEventGroup.loadYoutubeSearchSuggestions({ searchQuery: query }),
     );
   }
 }

@@ -85,62 +85,6 @@ export function withSharedEffects() {
             ),
           ),
         ),
-        sendingRequestWithState$: events
-          .on(sharedEventGroup.sendingRequestWithState)
-          .pipe(
-            mergeMap((sendingRequestAction) => {
-              const currentState = sendingRequestAction.payload.currentState;
-              return sendingRequestAction.payload
-                .requestEventCallBackWithState!(
-                sendingRequestAction.payload.requestEvent,
-                currentState,
-              ).pipe(
-                switchMap((successEvent) => {
-                  if (
-                    sendingRequestAction.payload.eventForSuccessfulResponse ===
-                    EventForSuccessfulResponse.DoNothing
-                  ) {
-                    return [successEvent];
-                  }
-                  return [
-                    successEvent,
-                    sharedEventGroup.updateResponse({
-                      requestEventCreator:
-                        sendingRequestAction.payload.requestEventCreator,
-                      status: HttpResponseStatus.Success,
-                      showSpinner: sendingRequestAction.payload.showSpinner,
-                    }),
-                  ];
-                }),
-                catchError((error: HttpErrorResponse) => {
-                  return of(
-                    sharedEventGroup.updateResponse({
-                      requestEventCreator:
-                        sendingRequestAction.payload.requestEventCreator,
-                      status: HttpResponseStatus.Error,
-                      errorResponse: {
-                        actionName:
-                          sendingRequestAction.payload.requestEventCreator.type,
-                        errorInfo: error,
-                      },
-                      showSpinner: sendingRequestAction.payload.showSpinner,
-                    }),
-                  );
-                }),
-                takeUntil(
-                  events
-                    .on(sharedEventGroup.cancelRequest)
-                    .pipe(
-                      filter(
-                        (event) =>
-                          event.payload.requestEventCreator ===
-                          sendingRequestAction.payload.requestEventCreator,
-                      ),
-                    ),
-                ),
-              );
-            }),
-          ),
         updateAccessToken$: events.on(sharedEventGroup.updateAccessToken).pipe(
           map((event) => {
             if (event.payload.accessToken != null) {

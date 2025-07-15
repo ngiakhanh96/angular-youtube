@@ -6,11 +6,7 @@ import { BrowseComponent } from './browse/browse.component';
 export const HOME_PAGE_ROUTES: Routes = [
   {
     path: '',
-    providers: [
-      // provideState(homePageStateName, homePageReducer),
-      // provideEffects(HomePageEffects),
-      HomePageStore,
-    ],
+    providers: [HomePageStore],
     component: BrowseComponent,
     data: <RouteData>{
       detectRouteTransitions: false,

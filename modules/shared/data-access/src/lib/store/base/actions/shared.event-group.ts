@@ -14,7 +14,6 @@ export const sharedEventGroup = eventGroup({
   events: {
     updateResponse: type<UpdateResponseEvent>(),
     sendingRequest: type<SendingRequestEvent>(),
-    sendingRequestWithState: type<SendingRequestEvent>(),
     cancelRequest: type<CancelRequestEvent>(),
     updateAccessToken: type<{ accessToken: string | null }>(),
     updateAccessTokenSuccess: type<{ accessToken: string }>(),
