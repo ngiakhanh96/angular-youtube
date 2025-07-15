@@ -100,7 +100,7 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
   CommentSortOption = CommentSortOption;
 
   sortChanged = output<CommentSortOption>();
-  user = this.sandbox.signalStore.myChannelInfo;
+  user = this.sandbox.sharedStore.myChannelInfo;
   userThumbnail = computed(
     () =>
       this.user()?.items[0].snippet.thumbnails.default.url ??

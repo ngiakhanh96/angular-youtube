@@ -1,7 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { concatLatestFrom } from '@ngrx/operators';
-import { signalStoreFeature } from '@ngrx/signals';
+import { signalStoreFeature, type } from '@ngrx/signals';
 import { Events, withEffects } from '@ngrx/signals/events';
 import {
   catchError,
@@ -14,7 +13,6 @@ import {
   throwError,
 } from 'rxjs';
 import { HttpResponseStatus } from '../../../models/http-response/http-response.model';
-import { IBaseState } from '../../../models/state';
 import { AuthHttpService } from '../../../services/http/auth.http.service';
 import { YoutubeHttpService } from '../../../services/http/youtube.http.service';
 import { SessionStorage } from '../../../services/session-storage.service';
@@ -22,10 +20,12 @@ import {
   EventForSuccessfulResponse,
   sharedEventGroup,
 } from '../actions/shared.event-group';
+import { ISharedState } from '../reducers/shared.reducer';
 import { createHttpEffectAndUpdateResponse } from './base.effect.signal';
 
 export function withSharedEffects() {
   return signalStoreFeature(
+    { state: type<ISharedState>() },
     withEffects(
       (
         store,
@@ -88,15 +88,13 @@ export function withSharedEffects() {
         sendingRequestWithState$: events
           .on(sharedEventGroup.sendingRequestWithState)
           .pipe(
-            concatLatestFrom((sendingRequest) =>
-              sendingRequest.payload.observableFactory!(sendingRequest),
-            ),
-            mergeMap(([sendingRequestAction, state]) => {
+            mergeMap((sendingRequestAction) => {
+              const currentState = sendingRequestAction.payload.currentState;
               return sendingRequestAction.payload
-                .requestEventCallBackWithState!([
+                .requestEventCallBackWithState!(
                 sendingRequestAction.payload.requestEvent,
-                state as IBaseState,
-              ]).pipe(
+                currentState,
+              ).pipe(
                 switchMap((successEvent) => {
                   if (
                     sendingRequestAction.payload.eventForSuccessfulResponse ===

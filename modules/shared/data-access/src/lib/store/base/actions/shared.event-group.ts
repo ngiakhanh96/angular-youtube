@@ -7,7 +7,6 @@ import {
 } from '../../../models/http-response/http-response.model';
 import { IMyChannelInfo } from '../../../models/http-response/my-channel-info.model';
 import { IVideoCategories } from '../../../models/http-response/video-categories-model';
-import { IBaseState } from '../../../models/state';
 import { IAccessTokenInfoState } from '../reducers/shared.reducer';
 
 export const sharedEventGroup = eventGroup({
@@ -50,13 +49,12 @@ export interface SendingRequestEvent {
     event: EventInstance<string, any>,
   ) => Observable<EventInstance<string, any>>;
   requestEventCallBackWithState?: (
-    eventWithState: [EventInstance<string, any>, IBaseState],
+    event: EventInstance<string, any>,
+    state: any,
   ) => Observable<EventInstance<string, any>>;
   showSpinner: boolean;
   eventForSuccessfulResponse: EventForSuccessfulResponse;
-  observableFactory?: (
-    value: EventInstance<string, any>,
-  ) => Observable<unknown>;
+  currentState?: any;
 }
 
 export interface CancelRequestEvent {

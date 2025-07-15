@@ -83,7 +83,7 @@ export class LayoutComponent
   );
 
   refreshTokenEffect = effect(() => {
-    const accessTokenInfo = this.sandbox.signalStore.accessTokenInfo();
+    const accessTokenInfo = this.sandbox.sharedStore.accessTokenInfo();
     //TODO find a way to get refresh token to get new access token silently
     if (accessTokenInfo) {
       const milisecondsDiff =

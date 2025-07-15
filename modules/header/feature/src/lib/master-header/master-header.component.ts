@@ -28,7 +28,7 @@ import {
 })
 export class MasterHeaderComponent extends BaseWithSandBoxComponent {
   showStartHeader = input.required();
-  user = this.sandbox.signalStore.myChannelInfo;
+  user = this.sandbox.sharedStore.myChannelInfo;
   searchSuggestionsInfo: Signal<IInvidiousSearchSuggestions | undefined>;
   searchSuggestions = computed(
     () => this.searchSuggestionsInfo()?.suggestions ?? [],

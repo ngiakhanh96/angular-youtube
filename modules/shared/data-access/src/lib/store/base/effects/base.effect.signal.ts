@@ -1,7 +1,6 @@
 import { EventCreator, EventInstance, Events } from '@ngrx/signals/events';
 import { Observable, switchMap } from 'rxjs';
 import { HttpResponseStatus } from '../../../models/http-response/http-response.model';
-import { IBaseState } from '../../../models/state';
 import {
   EventForSuccessfulResponse,
   sharedEventGroup,
@@ -13,7 +12,7 @@ export function createHttpEffectAndUpdateResponse<
   events: Events,
   requestEventCreator: TEventCreator,
   callBackFn: (
-    action: ReturnType<TEventCreator>,
+    event: ReturnType<TEventCreator>,
   ) => Observable<EventInstance<string, any>>,
   showSpinner = true,
   eventForSuccessfulResponse: EventForSuccessfulResponse = EventForSuccessfulResponse.UpdateResponseAndHideSpinner,
@@ -32,7 +31,7 @@ export function createHttpEffectAndUpdateResponse<
         requestEvent: requestEvent,
         requestEventCreator: requestEventCreator,
         requestEventCallback: callBackFn as (
-          action: EventInstance<string, any>,
+          event: EventInstance<string, any>,
         ) => Observable<EventInstance<string, any>>,
         showSpinner: showSpinner,
         eventForSuccessfulResponse: eventForSuccessfulResponse,
@@ -47,15 +46,16 @@ export function createHttpEffectWithStateAndUpdateResponse<
 >(
   events: Events,
   requestEventCreator: TEventCreator,
-  observableFactory: (action: ReturnType<TEventCreator>) => Observable<TState>,
+  currentState: TState,
   callBackFn: (
-    actionWithState: [ReturnType<TEventCreator>, TState],
+    event: ReturnType<TEventCreator>,
+    state: TState,
   ) => Observable<EventInstance<string, any>>,
   showSpinner = true,
   eventForSuccessfulResponse: EventForSuccessfulResponse = EventForSuccessfulResponse.UpdateResponseAndHideSpinner,
 ) {
   return events.on(requestEventCreator).pipe(
-    switchMap((requestActionWithState) => {
+    switchMap((requestEventWithState) => {
       return [
         sharedEventGroup.updateResponse({
           requestEventCreator: requestEventCreator,
@@ -66,16 +66,15 @@ export function createHttpEffectWithStateAndUpdateResponse<
           requestEventCreator: requestEventCreator,
         }),
         sharedEventGroup.sendingRequestWithState({
-          requestEvent: requestActionWithState,
+          requestEvent: requestEventWithState,
           requestEventCreator: requestEventCreator,
           requestEventCallBackWithState: callBackFn as (
-            actionWithState: [EventInstance<string, any>, IBaseState],
+            event: EventInstance<string, any>,
+            state: any,
           ) => Observable<EventInstance<string, any>>,
           showSpinner: showSpinner,
           eventForSuccessfulResponse: eventForSuccessfulResponse,
-          observableFactory: observableFactory as (
-            value: EventInstance<string, any>,
-          ) => Observable<unknown>,
+          currentState: currentState,
         }),
       ];
     }),

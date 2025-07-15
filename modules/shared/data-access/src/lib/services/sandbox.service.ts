@@ -27,7 +27,7 @@ import { SpinnerService } from './spinner.service';
 export class SandboxService implements OnDestroy {
   public response$: Observable<HttpResponse>;
   public store = inject(Store);
-  public signalStore = inject(SharedStore);
+  public sharedStore = inject(SharedStore);
   protected injector = inject(Injector);
   protected dispatcher = inject(Dispatcher);
   protected getResponseSelector: MemoizedSelector<
@@ -50,7 +50,7 @@ export class SandboxService implements OnDestroy {
       }),
     );
     effect(() => {
-      const response = this.signalStore.getResponse();
+      const response = this.sharedStore.getResponse();
       if (response.isPendingCount > 0) {
         this.spinnerService.loadingOn();
       } else {
@@ -70,7 +70,7 @@ export class SandboxService implements OnDestroy {
   }
 
   getResponseDetailsSignal(event: EventInstance<string, any>) {
-    return this.signalStore.getResponseDetails$(event, {
+    return this.sharedStore.getResponseDetails$(event, {
       injector: this.injector,
     });
   }
