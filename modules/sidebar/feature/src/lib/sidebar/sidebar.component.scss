@@ -17,7 +17,7 @@
     scrollbar-color: rgba(0, 0, 0, 0.4) var(--white-color);
     scrollbar-width: thin;
     &:not(:hover) {
-      @apply overflow-hidden;
+      @apply overflow-hidden pr-[10px];
     }
   }
 }

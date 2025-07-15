@@ -114,10 +114,7 @@
               },
               {
                 "sourceTag": "scope:shared-ui",
-                "onlyDependOnLibsWithTags": [
-                  "scope:shared-ui",
-                  "scope:shared-data-access"
-                ]
+                "onlyDependOnLibsWithTags": ["scope:shared-data-access"]
               },
               {
                 "sourceTag": "scope:details-page-data-access",
