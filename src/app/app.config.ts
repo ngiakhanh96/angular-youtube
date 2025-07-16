@@ -32,15 +32,11 @@ import {
   withInMemoryScrolling,
   withPreloading,
 } from '@angular/router';
-import { provideEffects } from '@ngrx/effects';
-import { provideStore } from '@ngrx/store';
 import { GlobalErrorHandler } from './global-error-handler';
 import { mainRoutes } from './routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideStore(),
-    provideEffects(),
     SharedStore,
     provideZonelessChangeDetection(),
     provideBrowserGlobalErrorListeners(),
