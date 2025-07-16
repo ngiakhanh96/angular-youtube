@@ -14,7 +14,7 @@ import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 import { homePageEventGroup } from '../events/home-page.event-group';
 import { IHomePageState } from '../reducers/home-page.reducer';
 
-export function withHomeEffects() {
+export function withHomePageEffects() {
   return signalStoreFeature(
     { state: type<IHomePageState>() },
     withEffects(

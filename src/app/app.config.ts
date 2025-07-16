@@ -34,7 +34,6 @@ import {
 } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
-import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { GlobalErrorHandler } from './global-error-handler';
 import { mainRoutes } from './routes';
 
@@ -70,7 +69,6 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
-    provideStoreDevtools({ maxAge: 25, logOnly: false }),
     provideSocialAuth({
       autoLogin: false,
       lang: 'en',

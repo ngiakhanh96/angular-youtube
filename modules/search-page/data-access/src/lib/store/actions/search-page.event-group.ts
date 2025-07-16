@@ -1,13 +1,14 @@
 import { IInvidiousVideoInfo } from '@angular-youtube/shared-data-access';
-import { createActionGroup, props } from '@ngrx/store';
-export const searchPageActionGroup = createActionGroup({
+import { type } from '@ngrx/signals';
+import { eventGroup } from '@ngrx/signals/events';
+export const searchPageEventGroup = eventGroup({
   source: 'SearchPage',
   events: {
-    searchYoutubeVideos: props<{
+    searchYoutubeVideos: type<{
       searchTerm: string;
       page: number;
     }>(),
-    searchYoutubeVideosSuccess: props<{
+    searchYoutubeVideosSuccess: type<{
       searchTerm: string;
       searchedVideosInfo: IInvidiousVideoInfo[];
       page: number;

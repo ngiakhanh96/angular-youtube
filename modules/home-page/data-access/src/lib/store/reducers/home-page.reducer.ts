@@ -8,7 +8,7 @@ import { on, withReducer } from '@ngrx/signals/events';
 import { IChannelItem } from 'modules/shared/data-access/src/lib/models/http-response/channels-info.model';
 import { IFormatStream } from 'modules/shared/data-access/src/lib/models/http-response/invidious-video-info.model';
 import { IPopularYoutubeVideos } from 'modules/shared/data-access/src/lib/models/http-response/popular-youtube-videos.model';
-import { withHomeEffects } from '../effects/home-page.effect';
+import { withHomePageEffects } from '../effects/home-page.effect';
 import { homePageEventGroup } from '../events/home-page.event-group';
 
 export interface IHomePageState {
@@ -24,11 +24,11 @@ export const initialHomePageState: IHomePageState = {
 
 export const HomePageStore = signalStore(
   withState<IHomePageState>(initialHomePageState),
-  withHomeEffects(),
-  withHomeReducer(),
+  withHomePageEffects(),
+  withHomePageReducer(),
 );
 
-export function withHomeReducer() {
+export function withHomePageReducer() {
   return signalStoreFeature(
     { state: type<IHomePageState>() },
     withReducer(

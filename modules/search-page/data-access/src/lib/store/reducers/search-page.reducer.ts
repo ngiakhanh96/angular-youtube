@@ -1,8 +1,13 @@
 import { IInvidiousVideoInfo } from '@angular-youtube/shared-data-access';
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { searchPageActionGroup } from '../actions/search-page.action-group';
-
-export const searchPageStateName = 'searchPage';
+import {
+  signalStore,
+  signalStoreFeature,
+  type,
+  withState,
+} from '@ngrx/signals';
+import { on, withReducer } from '@ngrx/signals/events';
+import { searchPageEventGroup } from '../actions/search-page.event-group';
+import { withSearchPageEffects } from '../effects/search-page.effect';
 
 export interface ISearchPageState {
   searchTerm: string;
@@ -15,26 +20,27 @@ export const initialSearchPageState: ISearchPageState = {
   page: 1,
 };
 
-const reducer = createReducer(
-  initialSearchPageState,
-  on(
-    searchPageActionGroup.searchYoutubeVideosSuccess,
-    (state, { searchTerm, searchedVideosInfo, page }) => ({
-      ...state,
-      searchedVideosInfo:
-        page === 1
-          ? searchedVideosInfo
-          : [...state.searchedVideosInfo, ...searchedVideosInfo],
-      page: page,
-      searchTerm,
-    }),
-  ),
+export const SearchPageStore = signalStore(
+  withState<ISearchPageState>(initialSearchPageState),
+  withSearchPageEffects(),
+  withSearchPageReducer(),
 );
 
-export const {
-  reducer: searchPageReducer,
-  selectSearchedVideosInfo: selectSearchedVideosInfo,
-} = createFeature<string, ISearchPageState>({
-  name: searchPageStateName,
-  reducer: reducer,
-});
+export function withSearchPageReducer() {
+  return signalStoreFeature(
+    { state: type<ISearchPageState>() },
+    withReducer(
+      on(
+        searchPageEventGroup.searchYoutubeVideosSuccess,
+        ({ payload: { searchTerm, searchedVideosInfo, page } }, state) => ({
+          searchedVideosInfo:
+            page === 1
+              ? searchedVideosInfo
+              : [...state.searchedVideosInfo, ...searchedVideosInfo],
+          page: page,
+          searchTerm,
+        }),
+      ),
+    ),
+  );
+}

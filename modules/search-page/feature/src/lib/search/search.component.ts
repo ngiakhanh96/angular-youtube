@@ -1,13 +1,8 @@
-import {
-  searchPageActionGroup,
-  selectSearchedVideosInfo,
-} from '@angular-youtube/search-page-data-access';
 import { VideosSearchComponent } from '@angular-youtube/search-page-ui';
 import {
   BaseWithSandBoxComponent,
   IVideoCategories,
-  selectVideoCategories,
-  sharedActionGroup,
+  sharedEventGroup,
 } from '@angular-youtube/shared-data-access';
 import {
   IVideoCategory,
@@ -30,6 +25,8 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { searchPageEventGroup } from 'modules/search-page/data-access/src/lib/store/actions/search-page.event-group';
+import { SearchPageStore } from 'modules/search-page/data-access/src/lib/store/reducers/search-page.reducer';
 
 @Component({
   selector: 'ay-search',
@@ -42,6 +39,7 @@ export class SearchComponent
   extends BaseWithSandBoxComponent
   implements OnInit
 {
+  protected searchPageStore = inject(SearchPageStore);
   protected videosCategories: Signal<IVideoCategories | undefined>;
   protected videosCategoriesViewModel: Signal<IVideoCategory[]>;
   protected PlayerPosition: typeof PlayerPosition = PlayerPosition;
@@ -49,7 +47,7 @@ export class SearchComponent
   private route = inject(ActivatedRoute);
   private searchQuery = signal<string | null>(null);
   private searchYoutubeVideosInfo = computed(() =>
-    searchPageActionGroup.searchYoutubeVideos({
+    searchPageEventGroup.searchYoutubeVideos({
       searchTerm: this.searchQuery() ?? '',
       page: this.page(),
     }),
@@ -64,8 +62,8 @@ export class SearchComponent
 
   constructor() {
     super();
-    this.dispatchAction(sharedActionGroup.loadYoutubeVideoCategories());
-    this.videosCategories = this.selectSignal(selectVideoCategories);
+    this.dispatchEvent(sharedEventGroup.loadYoutubeVideoCategories());
+    this.videosCategories = this.sandbox.sharedStore.videoCategories;
     this.videosCategoriesViewModel = computed(() => {
       const videoCategories = this.videosCategories();
       return (
@@ -75,10 +73,10 @@ export class SearchComponent
         })) ?? []
       );
     });
-    this.searchedVideosInfo = this.selectSignal(
-      selectSearchedVideosInfo,
-      (searchedVideos) =>
-        searchedVideos
+    this.searchedVideosInfo = computed(() => {
+      return (
+        this.searchPageStore
+          .searchedVideosInfo()
           .filter((p) => p.type === 'video')
           .map((p) => ({
             isSkeleton: false,
@@ -92,9 +90,10 @@ export class SearchComponent
             channelLogoUrl: p.authorThumbnails[0]?.url ?? '',
             videoUrl: p.formatStreams[0]?.url ?? '',
             isVerified: p.authorVerified ?? false,
-          })) ?? [],
-    );
-    this.dispatchActionFromSignal(this.searchYoutubeVideosInfo);
+          })) ?? []
+      );
+    });
+    this.dispatchEventFromSignal(this.searchYoutubeVideosInfo);
     effect(() => {
       this.titleService.setTitle(
         `${this.searchQuery() ?? ''} - Angular Youtube`,

@@ -8,11 +8,11 @@ import {
 } from '@ngrx/signals';
 import { EventInstance } from '@ngrx/signals/events';
 import { map } from 'rxjs';
-import { IBaseState } from '../../../models/state';
+import { ISharedState } from '../reducers/shared.reducer';
 
 export function withSharedSelector() {
   return signalStoreFeature(
-    { state: type<IBaseState>() },
+    { state: type<ISharedState>() },
     withComputed((state) => ({
       getResponse: computed(() => state.httpResponse()),
     })),

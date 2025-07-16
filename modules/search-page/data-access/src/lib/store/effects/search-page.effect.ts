@@ -1,46 +1,61 @@
 import {
-  BaseEffects,
+  createHttpEffectAndUpdateResponse,
   IInvidiousVideoInfo,
   InvidiousHttpService,
 } from '@angular-youtube/shared-data-access';
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { signalStoreFeature, type } from '@ngrx/signals';
+import { Events, withEffects } from '@ngrx/signals/events';
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
-import { searchPageActionGroup } from '../actions/search-page.action-group';
+import { searchPageEventGroup } from '../actions/search-page.event-group';
+import { ISearchPageState } from '../reducers/search-page.reducer';
 
-export class SearchPageEffects extends BaseEffects {
-  private invidiousService = inject(InvidiousHttpService);
-
-  searchYoutubeVideosInfo$ = this.createHttpEffectAndUpdateResponse(
-    searchPageActionGroup.searchYoutubeVideos,
-    (action) => {
-      return this.invidiousService
-        .searchVideosInfo(action.searchTerm, action.page)
-        .pipe(
-          switchMap((videosInfo) =>
-            combineLatest([
-              ...videosInfo.map((p) =>
-                this.invidiousService.getVideoInfo(p.videoId).pipe(
-                  catchError((error: HttpErrorResponse) => {
-                    console.error(error);
-                    return of(<IInvidiousVideoInfo>(<unknown>{
-                      videoId: p.videoId,
-                      formatStreams: [],
-                    }));
-                  }),
+export function withSearchPageEffects() {
+  return signalStoreFeature(
+    { state: type<ISearchPageState>() },
+    withEffects(
+      (
+        store,
+        events = inject(Events),
+        invidiousService = inject(InvidiousHttpService),
+      ) => ({
+        searchYoutubeVideosInfo$: createHttpEffectAndUpdateResponse(
+          events,
+          searchPageEventGroup.searchYoutubeVideos,
+          (event) => {
+            return invidiousService
+              .searchVideosInfo(event.payload.searchTerm, event.payload.page)
+              .pipe(
+                switchMap((videosInfo) =>
+                  combineLatest([
+                    ...videosInfo.map((p) =>
+                      invidiousService.getVideoInfo(p.videoId).pipe(
+                        catchError((error: HttpErrorResponse) => {
+                          console.error(error);
+                          return of(<IInvidiousVideoInfo>(<unknown>{
+                            videoId: p.videoId,
+                            formatStreams: [],
+                          }));
+                        }),
+                      ),
+                    ),
+                  ]),
                 ),
-              ),
-            ]),
-          ),
-          map((searchedVideosInfo) => {
-            return searchPageActionGroup.searchYoutubeVideosSuccess({
-              searchTerm: action.searchTerm,
-              searchedVideosInfo: searchedVideosInfo.filter((p) => p != null),
-              page: action.page,
-            });
-          }),
-        );
-    },
-    false,
+                map((searchedVideosInfo) => {
+                  return searchPageEventGroup.searchYoutubeVideosSuccess({
+                    searchTerm: event.payload.searchTerm,
+                    searchedVideosInfo: searchedVideosInfo.filter(
+                      (p) => p != null,
+                    ),
+                    page: event.payload.page,
+                  });
+                }),
+              );
+          },
+          false,
+        ),
+      }),
+    ),
   );
 }
