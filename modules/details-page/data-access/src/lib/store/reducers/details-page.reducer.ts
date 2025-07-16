@@ -2,10 +2,16 @@ import {
   IInvidiousVideoCommentsInfo,
   IInvidiousVideoInfo,
 } from '@angular-youtube/shared-data-access';
-import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
-import { detailsPageActionGroup } from '../actions/details-page.action-group';
-
-export const detailsPageStateName = 'detailsPage';
+import {
+  signalStore,
+  signalStoreFeature,
+  type,
+  withState,
+} from '@ngrx/signals';
+import { on, withReducer } from '@ngrx/signals/events';
+import { withDetailsPageEffects } from '../effects/details-page.effect';
+import { detailsPageEventGroup } from '../events/details-page.event-group';
+import { withDetailsPageSelectors } from '../selector/details-page.selector';
 
 export interface IDetailsPageState {
   videoInfo: IInvidiousVideoInfo | undefined;
@@ -20,67 +26,59 @@ export const initialDetailsPageState: IDetailsPageState = {
   nestedVideoCommentsInfo: {},
 };
 
-const reducer = createReducer(
-  initialDetailsPageState,
-  on(
-    detailsPageActionGroup.loadYoutubeVideoSuccess,
-    (state, { videoInfo, recommendedVideosInfo }) => ({
-      ...state,
-      videoInfo: videoInfo,
-      recommendedVideosInfo: recommendedVideosInfo,
-    }),
-  ),
-  on(
-    detailsPageActionGroup.loadYoutubeVideoCommentsSuccess,
-    (state, { commentsInfo, commentId, continuation }) => ({
-      ...state,
-      videoCommentsInfo: commentId
-        ? state.videoCommentsInfo
-        : continuation
-          ? {
-              ...(state.videoCommentsInfo ?? commentsInfo),
-              comments: [
-                ...(state.videoCommentsInfo?.comments ?? []),
-                ...commentsInfo.comments,
-              ],
-              continuation: commentsInfo.continuation,
-            }
-          : commentsInfo,
-      nestedVideoCommentsInfo: commentId
-        ? {
-            ...state.nestedVideoCommentsInfo,
-            [commentId]: state.nestedVideoCommentsInfo[commentId]
+export const DetailsPageStore = signalStore(
+  withState<IDetailsPageState>(initialDetailsPageState),
+  withDetailsPageEffects(),
+  withDetailsPageReducer(),
+  withDetailsPageSelectors(),
+);
+
+export function withDetailsPageReducer() {
+  return signalStoreFeature(
+    { state: type<IDetailsPageState>() },
+    withReducer(
+      on(
+        detailsPageEventGroup.loadYoutubeVideoSuccess,
+        ({ payload: { videoInfo, recommendedVideosInfo } }, state) => ({
+          videoInfo: videoInfo,
+          recommendedVideosInfo: recommendedVideosInfo,
+        }),
+      ),
+      on(
+        detailsPageEventGroup.loadYoutubeVideoCommentsSuccess,
+        ({ payload: { commentsInfo, commentId, continuation } }, state) => ({
+          ...state,
+          videoCommentsInfo: commentId
+            ? state.videoCommentsInfo
+            : continuation
               ? {
-                  ...state.nestedVideoCommentsInfo[commentId],
+                  ...(state.videoCommentsInfo ?? commentsInfo),
                   comments: [
-                    ...(state.nestedVideoCommentsInfo[commentId].comments ??
-                      []),
+                    ...(state.videoCommentsInfo?.comments ?? []),
                     ...commentsInfo.comments,
                   ],
                   continuation: commentsInfo.continuation,
                 }
               : commentsInfo,
-          }
-        : state.nestedVideoCommentsInfo,
-    }),
-  ),
-  on(detailsPageActionGroup.reset, () => initialDetailsPageState),
-);
-
-export const {
-  reducer: detailsPageReducer,
-  selectDetailsPageState,
-  selectVideoInfo: selectDetailsPageVideoInfo,
-  selectRecommendedVideosInfo: selectDetailsPageRecommendedVideosInfo,
-  selectVideoCommentsInfo: selectDetailsPageVideoCommentsInfo,
-  selectNestedVideoCommentsInfo: selectDetailsPageNestedVideoCommentsInfo,
-} = createFeature<string, IDetailsPageState>({
-  name: detailsPageStateName,
-  reducer: reducer,
-});
-
-export const selectNestedVideoCommentsInfoByCommentId = (commentId: string) =>
-  createSelector(
-    selectDetailsPageNestedVideoCommentsInfo,
-    (nestedCommentsInfo) => nestedCommentsInfo[commentId] ?? undefined,
+          nestedVideoCommentsInfo: commentId
+            ? {
+                ...state.nestedVideoCommentsInfo,
+                [commentId]: state.nestedVideoCommentsInfo[commentId]
+                  ? {
+                      ...state.nestedVideoCommentsInfo[commentId],
+                      comments: [
+                        ...(state.nestedVideoCommentsInfo[commentId].comments ??
+                          []),
+                        ...commentsInfo.comments,
+                      ],
+                      continuation: commentsInfo.continuation,
+                    }
+                  : commentsInfo,
+              }
+            : state.nestedVideoCommentsInfo,
+        }),
+      ),
+      on(detailsPageEventGroup.reset, () => initialDetailsPageState),
+    ),
   );
+}

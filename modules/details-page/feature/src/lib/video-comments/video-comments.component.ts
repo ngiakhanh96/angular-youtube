@@ -1,6 +1,6 @@
 import {
-  detailsPageActionGroup,
-  selectNestedVideoCommentsInfoByCommentId,
+  detailsPageEventGroup,
+  DetailsPageStore,
 } from '@angular-youtube/details-page-data-access';
 import {
   IVideoCommentViewModel,
@@ -49,33 +49,36 @@ export enum CommentSortOption {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoCommentsComponent extends BaseWithSandBoxComponent {
+  detailsPageStore = inject(DetailsPageStore);
   commentsInfo = input.required<IInvidiousVideoCommentsInfo | undefined>();
   videoId = computed(() => this.commentsInfo()?.videoId ?? '');
   comments = computed(() => this.commentsInfo()?.comments ?? []);
   repliesFn = (comment: IVideoComment, continuation?: string) => {
-    this.dispatchAction(
-      detailsPageActionGroup.loadYoutubeVideoComments({
+    this.dispatchEvent(
+      detailsPageEventGroup.loadYoutubeVideoComments({
         videoId: this.videoId(),
         continuation: continuation ?? comment.replies?.continuation,
         commentId: comment.commentId,
       }),
     );
-    return this.select(
-      selectNestedVideoCommentsInfoByCommentId(comment.commentId),
-    ).pipe(
-      map((nestedCommentsInfo) => {
-        return {
-          comments: nestedCommentsInfo?.comments.map((comment) => {
-            return {
-              comment,
-              videoId: this.videoId(),
-              repliesFn: this.repliesFn,
-            };
-          }),
-          continuation: nestedCommentsInfo?.continuation,
-        };
-      }),
-    );
+    return this.detailsPageStore
+      .getNestedVideoCommentsInfoByCommentId$(comment.commentId, {
+        injector: this.injector,
+      })
+      .pipe(
+        map((nestedCommentsInfo) => {
+          return {
+            comments: nestedCommentsInfo?.comments.map((comment) => {
+              return {
+                comment,
+                videoId: this.videoId(),
+                repliesFn: this.repliesFn,
+              };
+            }),
+            continuation: nestedCommentsInfo?.continuation,
+          };
+        }),
+      );
   };
   commentViewModels = computed<IVideoCommentViewModel[]>(() => {
     return this.comments().map((comment) => {

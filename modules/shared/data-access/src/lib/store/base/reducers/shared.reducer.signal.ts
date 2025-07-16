@@ -14,13 +14,13 @@ import {
 import { IBaseState } from '../../../models/state';
 import { sharedEventGroup } from '../actions/shared.event-group';
 import { withSharedEffects } from '../effects/shared.effect.signal';
-import { withHttpResponse } from '../selectors/base.computed';
+import { withSharedSelector } from '../selectors/shared.selector';
 import { initialSharedState, ISharedState } from './shared.reducer';
 
 export const SharedStore = signalStore(
   withState<ISharedState>(initialSharedState),
   withSharedEffects(),
-  withHttpResponse(),
+  withSharedSelector(),
   withSharedReducer(),
 );
 

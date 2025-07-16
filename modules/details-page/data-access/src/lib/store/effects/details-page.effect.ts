@@ -1,86 +1,99 @@
 import {
-  BaseEffects,
+  createHttpEffectAndUpdateResponse,
   IInvidiousVideoInfo,
   InvidiousHttpService,
 } from '@angular-youtube/shared-data-access';
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { signalStoreFeature, type } from '@ngrx/signals';
+import { Events, withEffects } from '@ngrx/signals/events';
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
-import { detailsPageActionGroup } from '../actions/details-page.action-group';
+import { detailsPageEventGroup } from '../events/details-page.event-group';
+import { IDetailsPageState } from '../reducers/details-page.reducer';
 
-export class DetailsPageEffects extends BaseEffects {
-  private invidiousService = inject(InvidiousHttpService);
-
-  loadYoutubeVideoInfo$ = this.createHttpEffectAndUpdateResponse(
-    detailsPageActionGroup.loadYoutubeVideo,
-    (action) => {
-      return this.invidiousService.getVideoInfo(action.videoId).pipe(
-        switchMap((videoInfo) =>
-          combineLatest([
-            ...videoInfo.recommendedVideos.map((p) =>
-              this.invidiousService.getVideoInfo(p.videoId!).pipe(
-                catchError((error: HttpErrorResponse) => {
-                  console.error(error);
-                  return of(<IInvidiousVideoInfo>(<unknown>{
-                    videoId: p.videoId,
-                    formatStreams: [],
-                  }));
-                }),
+export function withDetailsPageEffects() {
+  return signalStoreFeature(
+    { state: type<IDetailsPageState>() },
+    withEffects(
+      (
+        store,
+        events = inject(Events),
+        invidiousService = inject(InvidiousHttpService),
+      ) => ({
+        loadYoutubeVideoInfo$: createHttpEffectAndUpdateResponse(
+          events,
+          detailsPageEventGroup.loadYoutubeVideo,
+          (event) => {
+            return invidiousService.getVideoInfo(event.payload.videoId).pipe(
+              switchMap((videoInfo) =>
+                combineLatest([
+                  ...videoInfo.recommendedVideos.map((p) =>
+                    invidiousService.getVideoInfo(p.videoId!).pipe(
+                      catchError((error: HttpErrorResponse) => {
+                        console.error(error);
+                        return of(<IInvidiousVideoInfo>(<unknown>{
+                          videoId: p.videoId,
+                          formatStreams: [],
+                        }));
+                      }),
+                    ),
+                  ),
+                ]).pipe(
+                  map((recommendedVideosInfo) => {
+                    return [
+                      videoInfo,
+                      ...recommendedVideosInfo.filter((p) => p != null),
+                    ] as const;
+                  }),
+                ),
               ),
-            ),
-          ]).pipe(
-            map((recommendedVideosInfo) => {
-              return [
-                videoInfo,
-                ...recommendedVideosInfo.filter((p) => p != null),
-              ] as const;
-            }),
-          ),
-        ),
-        map(([videoInfo, ...recommendedVideosInfo]) => {
-          return detailsPageActionGroup.loadYoutubeVideoSuccess({
-            videoInfo: videoInfo,
-            recommendedVideosInfo: recommendedVideosInfo,
-          });
-        }),
-      );
-    },
-    false,
-  );
-
-  loadYoutubeVideoCommentsInfo$ = this.createHttpEffectAndUpdateResponse(
-    detailsPageActionGroup.loadYoutubeVideoComments,
-    (action) => {
-      return this.invidiousService
-        .getVideoCommentsInfo(
-          action.videoId,
-          action.sortBy,
-          action.continuation,
-        )
-        .pipe(
-          map((commentsInfo) => {
-            return detailsPageActionGroup.loadYoutubeVideoCommentsSuccess({
-              commentId: action.commentId,
-              commentsInfo: commentsInfo,
-              continuation: action.continuation,
-            });
-          }),
-          catchError((error: HttpErrorResponse) => {
-            console.error(error);
-            return of(
-              detailsPageActionGroup.loadYoutubeVideoCommentsSuccess({
-                commentId: action.commentId,
-                commentsInfo: {
-                  commentCount: 0,
-                  videoId: action.videoId,
-                  comments: [],
-                  continuation: undefined,
-                },
+              map(([videoInfo, ...recommendedVideosInfo]) => {
+                return detailsPageEventGroup.loadYoutubeVideoSuccess({
+                  videoInfo: videoInfo,
+                  recommendedVideosInfo: recommendedVideosInfo,
+                });
               }),
             );
-          }),
-        );
-    },
-    false,
+          },
+          false,
+        ),
+        loadYoutubeVideoCommentsInfo$: createHttpEffectAndUpdateResponse(
+          events,
+          detailsPageEventGroup.loadYoutubeVideoComments,
+          (event) => {
+            return invidiousService
+              .getVideoCommentsInfo(
+                event.payload.videoId,
+                event.payload.sortBy,
+                event.payload.continuation,
+              )
+              .pipe(
+                map((commentsInfo) => {
+                  return detailsPageEventGroup.loadYoutubeVideoCommentsSuccess({
+                    commentId: event.payload.commentId,
+                    commentsInfo: commentsInfo,
+                    continuation: event.payload.continuation,
+                  });
+                }),
+                catchError((error: HttpErrorResponse) => {
+                  console.error(error);
+                  return of(
+                    detailsPageEventGroup.loadYoutubeVideoCommentsSuccess({
+                      commentId: event.payload.commentId,
+                      commentsInfo: {
+                        commentCount: 0,
+                        videoId: event.payload.videoId,
+                        comments: [],
+                        continuation: undefined,
+                      },
+                    }),
+                  );
+                }),
+              );
+          },
+          false,
+        ),
+      }),
+    ),
   );
 }

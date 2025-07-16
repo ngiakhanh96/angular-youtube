@@ -1,4 +1,4 @@
-import { detailsPageActionGroup } from '@angular-youtube/details-page-data-access';
+import { detailsPageEventGroup } from '@angular-youtube/details-page-data-access';
 import { VideoDetailsDescriptionComponent } from '@angular-youtube/details-page-ui';
 import {
   BaseWithSandBoxComponent,
@@ -116,8 +116,8 @@ export class VideoDetailsInfoComponent extends BaseWithSandBoxComponent {
 
   onScrollDown() {
     if (this.commentsInfo()?.continuation) {
-      this.dispatchAction(
-        detailsPageActionGroup.loadYoutubeVideoComments({
+      this.dispatchEvent(
+        detailsPageEventGroup.loadYoutubeVideoComments({
           videoId: this.videoInfo()?.id ?? '',
           continuation: this.commentsInfo()?.continuation,
         }),

@@ -38,5 +38,5 @@ export * from './lib/store/base/effects/shared.effect.signal';
 export * from './lib/store/base/reducers/base.reducer';
 export * from './lib/store/base/reducers/shared.reducer';
 export * from './lib/store/base/reducers/shared.reducer.signal';
-export * from './lib/store/base/selectors/base.computed';
 export * from './lib/store/base/selectors/base.selector';
+export * from './lib/store/base/selectors/shared.selector';
