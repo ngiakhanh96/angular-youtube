@@ -25,7 +25,6 @@ import {
   templateUrl: './skeleton-loader.component.html',
   styleUrls: ['./skeleton-loader.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
 })
 export class AySkeletonLoaderComponent {
   /**

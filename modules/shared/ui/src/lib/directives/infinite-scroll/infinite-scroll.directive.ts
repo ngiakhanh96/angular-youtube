@@ -17,7 +17,6 @@ import { createScroller, InfiniteScrollActions } from './scroll.register';
 
 @Directive({
   selector: '[ayInfiniteScroll]',
-  standalone: true,
 })
 export class InfiniteScrollDirective implements OnDestroy {
   scrolled = output<IInfiniteScrollEvent>();

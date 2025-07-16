@@ -11,14 +11,13 @@ import {
 } from '@angular/core';
 import { MatRipple, MatRippleModule, RippleRef } from '@angular/material/core';
 
-@Directive({ selector: '[aySvgButtonTmp]', standalone: true })
+@Directive({ selector: '[aySvgButtonTmp]' })
 export class SvgButtonTemplateDirective {
   template = inject<TemplateRef<unknown>>(TemplateRef);
 }
 
 @Directive({
   selector: '[ayRippleOnHover]',
-  standalone: true,
   host: {
     '(mouseenter)': 'onMouseEnter()',
     '(mouseleave)': 'onMouseLeave()',

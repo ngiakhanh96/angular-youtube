@@ -9,12 +9,12 @@ import {
   input,
 } from '@angular/core';
 
-@Directive({ selector: '[ayButtonTextTmp]', standalone: true })
+@Directive({ selector: '[ayButtonTextTmp]' })
 export class ButtonTextTemplateDirective {
   template = inject<TemplateRef<unknown>>(TemplateRef);
 }
 
-@Directive({ selector: '[ayButtonIconTmp]', standalone: true })
+@Directive({ selector: '[ayButtonIconTmp]' })
 export class ButtonIconTemplateDirective {
   template = inject<TemplateRef<unknown>>(TemplateRef);
 }

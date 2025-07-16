@@ -7,7 +7,6 @@ import { computed, Directive, input, signal } from '@angular/core';
     '(mouseenter)': 'onMouseEnter()',
     '(mouseleave)': 'onMouseLeave()',
   },
-  standalone: true,
 })
 export class SectionItemDirective {
   isSelected = input<boolean>(false, { alias: 'aySectionItem' });

@@ -3,7 +3,6 @@ import { Directive, ElementRef, inject } from '@angular/core';
 
 @Directive({
   selector: '[ayImgSrc]',
-  standalone: true,
   hostDirectives: [
     {
       directive: NgOptimizedImage,

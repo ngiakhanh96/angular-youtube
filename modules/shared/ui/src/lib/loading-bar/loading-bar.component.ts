@@ -22,7 +22,6 @@ import { LoadingBarService } from '../services/loading-bar.service';
 
 @Component({
   selector: 'ay-loading-bar',
-  standalone: true,
   templateUrl: './loading-bar.component.html',
   styleUrls: ['./loading-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

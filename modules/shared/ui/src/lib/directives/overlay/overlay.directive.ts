@@ -13,7 +13,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive({
   selector: '[ayOverlay]',
-  standalone: true,
   hostDirectives: [
     {
       directive: CdkConnectedOverlay,

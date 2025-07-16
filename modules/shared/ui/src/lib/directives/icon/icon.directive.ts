@@ -5,7 +5,6 @@ import { MatIcon } from '@angular/material/icon';
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'mat-icon',
-  standalone: true,
   host: {
     '[style.font-variation-settings]': 'fontVariationSettings()',
     '[style.fill]': 'fill()',

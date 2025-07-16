@@ -1,19 +1,17 @@
-
 import {
   afterNextRender,
   computed,
   Directive,
+  DOCUMENT,
   effect,
   ElementRef,
   inject,
   input,
   OnDestroy,
-  DOCUMENT
 } from '@angular/core';
 
 @Directive({
   selector: '[ayFixedTop]',
-  standalone: true,
   host: {
     '[style.position]': "'fixed'",
     '[style.zIndex]': 'zIndex()',

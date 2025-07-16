@@ -39,7 +39,6 @@ export enum CommentSortOption {
   selector: 'ay-video-comments',
   templateUrl: './video-comments.component.html',
   styleUrls: ['./video-comments.component.scss'],
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     TextIconButtonComponent,

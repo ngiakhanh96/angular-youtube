@@ -41,7 +41,6 @@ export interface IVideoCommentViewModel {
   selector: 'ay-video-comment',
   templateUrl: './video-comment.component.html',
   styleUrls: ['./video-comment.component.scss'],
-  standalone: true,
   imports: [ImageDirective, TextIconButtonComponent, ChannelNameComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

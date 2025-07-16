@@ -13,7 +13,6 @@ import { AySkeletonLoaderComponent } from '../../skeleton-loader/skeleton-loader
 
 @Directive({
   selector: '[aySkeleton]',
-  standalone: true,
 })
 export class SkeletonDirective {
   isSkeleton = input.required<boolean>({ alias: 'aySkeleton' });
