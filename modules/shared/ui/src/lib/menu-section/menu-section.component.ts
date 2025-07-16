@@ -35,7 +35,7 @@ export interface ISectionItem {
     '[style.--margin-right]': 'marginRight()',
     '[style.--margin-left]': 'marginLeft()',
     '[style.--padding-left]': 'paddingLeft()',
-    '[style.--borderRadius]': 'borderRadius()',
+    '[style.--border-radius]': 'borderRadius()',
   },
 })
 export class MenuSectionComponent {

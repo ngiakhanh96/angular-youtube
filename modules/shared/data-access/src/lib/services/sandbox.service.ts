@@ -1,74 +1,37 @@
-import { inject, Injectable, Injector, OnDestroy } from '@angular/core';
-import {
-  Action,
-  createSelector,
-  MemoizedSelector,
-  select,
-  Store,
-} from '@ngrx/store';
-import { filter, Observable, Subscription } from 'rxjs';
-import {
-  HttpResponse,
-  ResponseDetails,
-} from '../models/http-response/http-response.model';
-import {
-  ISharedState,
-  selectSharedState,
-} from '../store/base/reducers/shared.reducer';
-import {
-  getResponse,
-  getResponseDetails,
-} from '../store/base/selectors/base.selector';
+import { effect, inject, Injectable, Injector, OnDestroy } from '@angular/core';
+import { Dispatcher, EventInstance } from '@ngrx/signals/events';
+import { Subscription } from 'rxjs';
+import { SharedStore } from '../store/base/reducers/shared.reducer';
 import { SpinnerService } from './spinner.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SandboxService implements OnDestroy {
-  public response$: Observable<HttpResponse>;
-  public store = inject(Store);
-  protected getResponseSelector: MemoizedSelector<
-    object,
-    HttpResponse,
-    (s1: ISharedState) => HttpResponse
-  >;
+  public sharedStore = inject(SharedStore);
+  protected injector = inject(Injector);
+  protected dispatcher = inject(Dispatcher);
   private spinnerService = inject(SpinnerService);
   private subs: Subscription[] = [];
   constructor() {
-    this.getResponseSelector = createSelector(selectSharedState, getResponse);
-    this.response$ = this.store.pipe(select(this.getResponseSelector));
-    this.subs.push(
-      this.response$.pipe(filter((p) => p != null)).subscribe((response) => {
-        if (response.isPendingCount > 0) {
-          this.spinnerService.loadingOn();
-        } else {
-          this.spinnerService.loadingOff();
-        }
-      }),
-    );
+    effect(() => {
+      const response = this.sharedStore.getResponse();
+      if (response.isPendingCount > 0) {
+        this.spinnerService.loadingOn();
+      } else {
+        this.spinnerService.loadingOff();
+      }
+    });
   }
 
-  getResponseDetailsSelector(action: Action) {
-    return createSelector(selectSharedState, (state) =>
-      getResponseDetails(state, action.type),
-    );
+  getResponseDetailsSignal(event: EventInstance<string, any>) {
+    return this.sharedStore.getResponseDetails$(event, {
+      injector: this.injector,
+    });
   }
 
-  getResponseDetails(action: Action): Observable<ResponseDetails> {
-    return this.store.pipe(select(this.getResponseDetailsSelector(action)));
-  }
-
-  dispatchAction(action: Action) {
-    this.store.dispatch(action);
-  }
-
-  dispatchActionFromSignal(
-    action: Parameters<Store['dispatch']>[0],
-    config?: {
-      injector: Injector;
-    },
-  ) {
-    this.store.dispatch(action, config);
+  dispatchEvent(event: EventInstance<string, any>) {
+    this.dispatcher.dispatch(event);
   }
 
   ngOnDestroy(): void {

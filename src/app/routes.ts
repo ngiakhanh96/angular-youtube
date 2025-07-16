@@ -1,9 +1,4 @@
-import {
-  SharedEffects,
-  sharedReducer,
-  sharedStateName,
-  SpinnerService,
-} from '@angular-youtube/shared-data-access';
+import { SpinnerService } from '@angular-youtube/shared-data-access';
 import { ExternalNavigationService } from '@angular-youtube/shared-ui';
 import { inject } from '@angular/core';
 import {
@@ -13,8 +8,6 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { provideEffects } from '@ngrx/effects';
-import { provideState } from '@ngrx/store';
 import { ExternalComponent } from './external.component';
 
 const canNavigateToExternalPage: CanActivateFn = (
@@ -33,10 +26,6 @@ const canNavigateToExternalPage: CanActivateFn = (
 export const mainRoutes: Route[] = [
   {
     path: '',
-    providers: [
-      provideState(sharedStateName, sharedReducer),
-      provideEffects(SharedEffects),
-    ],
     loadChildren: () =>
       import('@angular-youtube/shell-feature').then((m) => m.SHELL_ROUTES),
   },

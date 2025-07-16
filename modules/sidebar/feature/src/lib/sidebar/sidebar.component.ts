@@ -1,4 +1,3 @@
-import { selectMyChannelInfo } from '@angular-youtube/shared-data-access';
 import {
   ISection,
   LogoMenuComponent,
@@ -22,7 +21,7 @@ import { BaseSidebarComponent } from '../base-sidebar.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent extends BaseSidebarComponent {
-  user = this.selectSignal(selectMyChannelInfo);
+  user = this.sandbox.sharedStore.myChannelInfo;
   isLoggedIn = computed(() => this.user() != null);
   anonymousMenuItems = signal<ISection[]>([
     {

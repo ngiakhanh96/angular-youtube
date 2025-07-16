@@ -1,8 +1,13 @@
 import { IInvidiousSearchSuggestions } from '@angular-youtube/shared-data-access';
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { headerActionGroup } from '../actions/header.action-group';
-
-export const headerStateName = 'header';
+import {
+  signalStore,
+  signalStoreFeature,
+  type,
+  withState,
+} from '@ngrx/signals';
+import { on, withReducer } from '@ngrx/signals/events';
+import { withHeaderEffects } from '../effects/header.effect';
+import { headerEventGroup } from '../events/header.event-group';
 
 export interface IHeaderState {
   searchSuggestions: IInvidiousSearchSuggestions | undefined;
@@ -11,22 +16,22 @@ export const initialHeaderState: IHeaderState = {
   searchSuggestions: undefined,
 };
 
-const reducer = createReducer(
-  initialHeaderState,
-  on(
-    headerActionGroup.loadYoutubeSearchSuggestionsSuccess,
-    (state, { searchSuggestions }) => ({
-      ...state,
-      searchSuggestions: searchSuggestions,
-    }),
-  ),
+export const HeaderStore = signalStore(
+  withState<IHeaderState>(initialHeaderState),
+  withHeaderEffects(),
+  withHeaderReducer(),
 );
 
-export const {
-  reducer: headerReducer,
-  selectHeaderState,
-  selectSearchSuggestions: selectHeaderSearchSuggestions,
-} = createFeature<string, IHeaderState>({
-  name: headerStateName,
-  reducer: reducer,
-});
+export function withHeaderReducer() {
+  return signalStoreFeature(
+    { state: type<IHeaderState>() },
+    withReducer(
+      on(
+        headerEventGroup.loadYoutubeSearchSuggestionsSuccess,
+        ({ payload: { searchSuggestions } }, state) => ({
+          searchSuggestions: searchSuggestions,
+        }),
+      ),
+    ),
+  );
+}

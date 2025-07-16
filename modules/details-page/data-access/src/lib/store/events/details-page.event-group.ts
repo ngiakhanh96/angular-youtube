@@ -1,27 +1,29 @@
 import { IInvidiousVideoInfo } from '@angular-youtube/shared-data-access';
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { type } from '@ngrx/signals';
+import { eventGroup } from '@ngrx/signals/events';
 import { IInvidiousVideoCommentsInfo } from 'modules/shared/data-access/src/lib/models/http-response/invidious-video-comments.model';
-export const detailsPageActionGroup = createActionGroup({
+
+export const detailsPageEventGroup = eventGroup({
   source: 'HomePage',
   events: {
-    loadYoutubeVideo: props<{
+    loadYoutubeVideo: type<{
       videoId: string;
     }>(),
-    loadYoutubeVideoSuccess: props<{
+    loadYoutubeVideoSuccess: type<{
       videoInfo: IInvidiousVideoInfo;
       recommendedVideosInfo: IInvidiousVideoInfo[];
     }>(),
-    loadYoutubeVideoComments: props<{
+    loadYoutubeVideoComments: type<{
       commentId?: string;
       videoId: string;
       sortBy?: string;
       continuation?: string;
     }>(),
-    loadYoutubeVideoCommentsSuccess: props<{
+    loadYoutubeVideoCommentsSuccess: type<{
       commentId?: string;
       commentsInfo: IInvidiousVideoCommentsInfo;
       continuation?: string;
     }>(),
-    reset: emptyProps(),
+    reset: type<void>(),
   },
 });

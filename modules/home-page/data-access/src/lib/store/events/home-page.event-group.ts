@@ -3,16 +3,18 @@ import {
   IFormatStream,
   IPopularYoutubeVideos,
 } from '@angular-youtube/shared-data-access';
-import { createActionGroup, props } from '@ngrx/store';
-export const homePageActionGroup = createActionGroup({
+import { type } from '@ngrx/signals';
+import { eventGroup } from '@ngrx/signals/events';
+
+export const homePageEventGroup = eventGroup({
   source: 'HomePage',
   events: {
-    loadYoutubePopularVideos: props<{
+    loadYoutubePopularVideos: type<{
       nextPage: boolean;
       itemPerPage: number;
       videoCategory?: number;
     }>(),
-    loadYoutubePopularVideosSuccess: props<{
+    loadYoutubePopularVideosSuccess: type<{
       nextPage: boolean;
       videos: IPopularYoutubeVideos;
       channelsInfo: Record<string, IChannelItem>;

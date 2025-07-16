@@ -1,16 +1,13 @@
 import {
-  detailsPageActionGroup,
-  selectDetailsPageRecommendedVideosInfo,
-  selectDetailsPageVideoCommentsInfo,
-  selectDetailsPageVideoInfo,
+  detailsPageEventGroup,
+  DetailsPageStore,
 } from '@angular-youtube/details-page-data-access';
-
 import { VideosRecommendationInfoComponent } from '@angular-youtube/details-page-ui';
 import {
   BaseWithSandBoxComponent,
   IInvidiousVideoCommentsInfo,
   IInvidiousVideoInfo,
-  sharedActionGroup,
+  sharedEventGroup,
 } from '@angular-youtube/shared-data-access';
 import {
   IVideoCategory,
@@ -63,6 +60,7 @@ export class VideoDetailsComponent
   extends BaseWithSandBoxComponent
   implements OnInit, OnDestroy
 {
+  detailsPageStore = inject(DetailsPageStore);
   titleService = inject(Title);
   router = inject(Router);
   sidebarService = inject(SidebarService);
@@ -71,19 +69,19 @@ export class VideoDetailsComponent
   videoRecommendationMarginTop = signal('44px');
   getVideoInfo = computed(() => {
     if (this.videoId() !== '') {
-      return detailsPageActionGroup.loadYoutubeVideo({
+      return detailsPageEventGroup.loadYoutubeVideo({
         videoId: this.videoId(),
       });
     }
-    return sharedActionGroup.empty();
+    return sharedEventGroup.empty();
   });
   getVideoCommentsInfo = computed(() => {
     if (this.videoId() !== '') {
-      return detailsPageActionGroup.loadYoutubeVideoComments({
+      return detailsPageEventGroup.loadYoutubeVideoComments({
         videoId: this.videoId(),
       });
     }
-    return sharedActionGroup.empty();
+    return sharedEventGroup.empty();
   });
   videoUrl = computed(() => {
     if (
@@ -247,15 +245,11 @@ export class VideoDetailsComponent
   ]);
   constructor() {
     super();
-    this.dispatchActionFromSignal(this.getVideoInfo);
-    this.dispatchActionFromSignal(this.getVideoCommentsInfo);
-    this.videoInfo = this.selectSignal(selectDetailsPageVideoInfo);
-    this.videoCommentsInfo = this.selectSignal(
-      selectDetailsPageVideoCommentsInfo,
-    );
-    this.recommendedVideosInfo = this.selectSignal(
-      selectDetailsPageRecommendedVideosInfo,
-    );
+    this.dispatchEventFromSignal(this.getVideoInfo);
+    this.dispatchEventFromSignal(this.getVideoCommentsInfo);
+    this.videoInfo = this.detailsPageStore.videoInfo;
+    this.videoCommentsInfo = this.detailsPageStore.videoCommentsInfo;
+    this.recommendedVideosInfo = this.detailsPageStore.recommendedVideosInfo;
     effect(() => {
       this.titleService.setTitle(this.videoInfo()?.title ?? 'Angular Youtube');
     });
@@ -286,7 +280,7 @@ export class VideoDetailsComponent
 
   ngOnDestroy(): void {
     this.sidebarService.setMiniSidebarState(true);
-    this.dispatchAction(detailsPageActionGroup.reset());
+    this.dispatchEvent(detailsPageEventGroup.reset());
   }
 
   onClickMainPlayer() {

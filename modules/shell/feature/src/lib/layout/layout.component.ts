@@ -2,8 +2,7 @@ import { MasterHeaderComponent } from '@angular-youtube/header-feature';
 import {
   Auth,
   BaseWithSandBoxComponent,
-  selectAccessTokenInfo,
-  sharedActionGroup,
+  sharedEventGroup,
 } from '@angular-youtube/shared-data-access';
 import { FixedTopDirective, SidebarService } from '@angular-youtube/shared-ui';
 import {
@@ -77,15 +76,14 @@ export class LayoutComponent
         : '100vw'
       : 'calc(100vw - var(--sidebar-width))';
   });
-  accessTokenInfo = this.selectSignal(selectAccessTokenInfo);
-  updateAccessTokenAction = computed(() =>
-    sharedActionGroup.updateAccessToken({
+  updateAccessTokenEvent = computed(() =>
+    sharedEventGroup.updateAccessToken({
       accessToken: this.authService.accessToken(),
     }),
   );
 
   refreshTokenEffect = effect(() => {
-    const accessTokenInfo = this.accessTokenInfo();
+    const accessTokenInfo = this.sandbox.sharedStore.accessTokenInfo();
     //TODO find a way to get refresh token to get new access token silently
     if (accessTokenInfo) {
       const milisecondsDiff =
@@ -102,7 +100,7 @@ export class LayoutComponent
 
   constructor() {
     super();
-    this.dispatchActionFromSignal(this.updateAccessTokenAction);
+    this.dispatchEventFromSignal(this.updateAccessTokenEvent);
   }
 
   ngOnInit() {

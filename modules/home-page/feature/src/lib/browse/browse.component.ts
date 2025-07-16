@@ -1,8 +1,6 @@
 import {
-  homePageActionGroup,
-  selectChannelsInfo,
-  selectHomePageVideos,
-  selectVideosInfo,
+  homePageEventGroup,
+  HomePageStore,
 } from '@angular-youtube/home-page-data-access';
 
 import {
@@ -11,8 +9,7 @@ import {
   IFormatStream,
   IPopularYoutubeVideos,
   IVideoCategories,
-  selectVideoCategories,
-  sharedActionGroup,
+  sharedEventGroup,
 } from '@angular-youtube/shared-data-access';
 import {
   FixedTopDirective,
@@ -64,6 +61,7 @@ export class BrowseComponent
   extends BaseWithSandBoxComponent
   implements OnInit
 {
+  protected homePageStore = inject(HomePageStore);
   protected videosWithMetaData: Signal<IPopularYoutubeVideos | undefined>;
   protected videos: WritableSignal<IVideoPlayerCardInfo[]>;
   protected channelsInfo: Signal<Record<string, IChannelItem> | undefined>;
@@ -86,16 +84,16 @@ export class BrowseComponent
   constructor() {
     super();
     this.titleService.setTitle('Angular Youtube');
-    this.dispatchAction(
-      homePageActionGroup.loadYoutubePopularVideos({
+    this.dispatchEvent(
+      homePageEventGroup.loadYoutubePopularVideos({
         nextPage: false,
         itemPerPage: 20,
       }),
     );
-    this.dispatchAction(sharedActionGroup.loadYoutubeVideoCategories());
-    this.videosWithMetaData = this.selectSignal(selectHomePageVideos);
-    this.channelsInfo = this.selectSignal(selectChannelsInfo);
-    this.videosInfo = this.selectSignal(selectVideosInfo);
+    this.dispatchEvent(sharedEventGroup.loadYoutubeVideoCategories());
+    this.videosWithMetaData = this.homePageStore.videos;
+    this.channelsInfo = this.homePageStore.channelsInfo;
+    this.videosInfo = this.homePageStore.videosInfo;
     this.videos = linkedSignal<
       {
         videosWithMetaData: IPopularYoutubeVideos | undefined;
@@ -140,7 +138,7 @@ export class BrowseComponent
       },
     });
 
-    this.videosCategories = this.selectSignal(selectVideoCategories);
+    this.videosCategories = this.sandbox.sharedStore.videoCategories;
     this.videosCategoriesViewModel = computed(() => {
       const videoCategories = this.videosCategories();
       return (
@@ -170,8 +168,8 @@ export class BrowseComponent
   }
 
   onScrollDown() {
-    this.dispatchAction(
-      homePageActionGroup.loadYoutubePopularVideos({
+    this.dispatchEvent(
+      homePageEventGroup.loadYoutubePopularVideos({
         nextPage: true,
         itemPerPage: 20,
       }),

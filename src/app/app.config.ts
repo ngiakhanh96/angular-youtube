@@ -3,6 +3,7 @@ import {
   GoogleLoginProvider,
   provideSocialAuth,
   provideYoutubeApiKey,
+  SharedStore,
 } from '@angular-youtube/shared-data-access';
 import { provideAySkeletonLoader } from '@angular-youtube/shared-ui';
 import { authInterceptor } from '@angular-youtube/shell-data-access';
@@ -31,16 +32,12 @@ import {
   withInMemoryScrolling,
   withPreloading,
 } from '@angular/router';
-import { provideEffects } from '@ngrx/effects';
-import { provideStore } from '@ngrx/store';
-import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { GlobalErrorHandler } from './global-error-handler';
 import { mainRoutes } from './routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideStore(),
-    provideEffects(),
+    SharedStore,
     provideZonelessChangeDetection(),
     provideBrowserGlobalErrorListeners(),
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
@@ -68,7 +65,6 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
-    provideStoreDevtools({ maxAge: 25, logOnly: false }),
     provideSocialAuth({
       autoLogin: false,
       lang: 'en',
