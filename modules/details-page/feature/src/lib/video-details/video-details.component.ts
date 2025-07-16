@@ -243,6 +243,8 @@ export class VideoDetailsComponent
       title: 'Shopping',
     },
   ]);
+  isFirstTime = true;
+
   constructor() {
     super();
     this.dispatchEventFromSignal(this.getVideoInfo);
@@ -269,6 +271,10 @@ export class VideoDetailsComponent
     this.activatedRoute.queryParams
       .pipe(this.takeUntilDestroyed())
       .subscribe((params) => {
+        if (this.isFirstTime) {
+          this.dispatchEvent(detailsPageEventGroup.reset());
+          this.isFirstTime = false;
+        }
         this.videoId.set(params['v']);
         this.currentTime.set(params['t'] ?? 0);
         this.loadingBarService.load(25);
@@ -280,7 +286,6 @@ export class VideoDetailsComponent
 
   ngOnDestroy(): void {
     this.sidebarService.setMiniSidebarState(true);
-    this.dispatchEvent(detailsPageEventGroup.reset());
   }
 
   onClickMainPlayer() {
