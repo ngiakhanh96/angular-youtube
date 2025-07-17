@@ -10,7 +10,7 @@
   .browse_video_player_grid {
     @apply flex flex-row flex-wrap overflow-scroll pt-[24px] gap-x-[6px] gap-y-[34px] overflow-x-hidden;
     .browse_video_player {
-      @apply flex-grow basis-[320px];
+      @apply flex-grow basis-[374px];
     }
   }
 }
