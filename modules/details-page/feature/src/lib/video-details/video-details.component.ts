@@ -248,11 +248,6 @@ export class VideoDetailsComponent
     effect(() => {
       this.titleService.setTitle(this.videoInfo()?.title ?? 'Angular Youtube');
     });
-    effect(() => {
-      if (this.videoUrl()) {
-        this.loadingBarService.load(100);
-      }
-    });
     afterRenderEffect({
       write: () => {
         this.player().seekTo(this.currentTime());
@@ -279,6 +274,10 @@ export class VideoDetailsComponent
 
   ngOnDestroy(): void {
     this.sidebarService.setMiniSidebarState(true);
+  }
+
+  onCanPlay() {
+    this.loadingBarService.load(100);
   }
 
   onClickMainPlayer() {

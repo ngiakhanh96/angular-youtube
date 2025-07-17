@@ -131,6 +131,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   playerClick = output<HTMLMediaElement>();
   nextVideo = output<void>();
+  canPlay = output<void>();
   currentTime = signal<number>(0);
   currentTimeString = computed(() => this.formatTime(this.currentTime()));
   duration = signal(0);
@@ -228,6 +229,9 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         });
         this.videoPlayer().addEventListener('playing', () => {
           this.playAudio();
+        });
+        this.videoPlayer().addEventListener('canplay', () => {
+          this.canPlay.emit();
         });
       },
     });
