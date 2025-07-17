@@ -21,8 +21,7 @@ import { BaseSidebarComponent } from '../base-sidebar.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent extends BaseSidebarComponent {
-  user = this.sandbox.sharedStore.myChannelInfo;
-  isLoggedIn = computed(() => this.user() != null);
+  isLoggedIn = computed(() => this.sandbox.sharedStore.myChannelInfo() != null);
   anonymousMenuItems = signal<ISection[]>([
     {
       sectionItems: [

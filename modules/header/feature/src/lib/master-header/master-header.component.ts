@@ -6,10 +6,7 @@ import {
   CenterHeaderComponent,
   EndHeaderComponent,
 } from '@angular-youtube/header-ui';
-import {
-  BaseWithSandBoxComponent,
-  IInvidiousSearchSuggestions,
-} from '@angular-youtube/shared-data-access';
+import { BaseWithSandBoxComponent } from '@angular-youtube/shared-data-access';
 import { LogoMenuComponent } from '@angular-youtube/shared-ui';
 import {
   ChangeDetectionStrategy,
@@ -17,7 +14,6 @@ import {
   computed,
   inject,
   input,
-  Signal,
 } from '@angular/core';
 
 @Component({
@@ -31,14 +27,9 @@ export class MasterHeaderComponent extends BaseWithSandBoxComponent {
   headerStore = inject(HeaderStore);
   showStartHeader = input.required();
   user = this.sandbox.sharedStore.myChannelInfo;
-  searchSuggestionsInfo: Signal<IInvidiousSearchSuggestions | undefined>;
   searchSuggestions = computed(
-    () => this.searchSuggestionsInfo()?.suggestions ?? [],
+    () => this.headerStore.searchSuggestions()?.suggestions ?? [],
   );
-  constructor() {
-    super();
-    this.searchSuggestionsInfo = this.headerStore.searchSuggestions;
-  }
 
   onSearchQueryChange(query: string) {
     this.dispatchEvent(
