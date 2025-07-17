@@ -233,6 +233,9 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         this.videoPlayer().addEventListener('canplay', () => {
           this.canPlay.emit();
         });
+        this.videoPlayer().addEventListener('canplaythrough', () => {
+          this.canPlay.emit();
+        });
       },
     });
 
