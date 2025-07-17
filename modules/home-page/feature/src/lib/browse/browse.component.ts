@@ -8,13 +8,11 @@ import {
   IChannelItem,
   IFormatStream,
   IPopularYoutubeVideos,
-  IVideoCategories,
   sharedEventGroup,
 } from '@angular-youtube/shared-data-access';
 import {
   FixedTopDirective,
   InfiniteScrollDirective,
-  IVideoCategory,
   IVideoPlayerCardInfo,
   LoadingBarService,
   SidebarService,
@@ -34,9 +32,7 @@ import {
   linkedSignal,
   OnInit,
   signal,
-  Signal,
   viewChildren,
-  WritableSignal,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -62,12 +58,59 @@ export class BrowseComponent
   implements OnInit
 {
   protected homePageStore = inject(HomePageStore);
-  protected videosWithMetaData: Signal<IPopularYoutubeVideos | undefined>;
-  protected videos: WritableSignal<IVideoPlayerCardInfo[]>;
-  protected channelsInfo: Signal<Record<string, IChannelItem> | undefined>;
-  protected videosInfo: Signal<Record<string, IFormatStream> | undefined>;
-  protected videosCategories: Signal<IVideoCategories | undefined>;
-  protected videosCategoriesViewModel: Signal<IVideoCategory[]>;
+  protected videos = linkedSignal<
+    {
+      videosWithMetaData: IPopularYoutubeVideos | undefined;
+      channelsInfo: Record<string, IChannelItem> | undefined;
+      videosInfo: Record<string, IFormatStream> | undefined;
+    },
+    IVideoPlayerCardInfo[]
+  >({
+    source: () => ({
+      videosWithMetaData: this.homePageStore.videos(),
+      channelsInfo: this.homePageStore.channelsInfo(),
+      videosInfo: this.homePageStore.videosInfo(),
+    }),
+    computation: (input, prev) => {
+      const videosWithMetaDataItems = input.videosWithMetaData?.items ?? [];
+      const channelsInfo = input.channelsInfo ?? {};
+      const videosInfo = input.videosInfo ?? {};
+      if (videosWithMetaDataItems.length === 0) {
+        return [
+          ...(prev?.value ??
+            Utilities.createPlayerSkeletonItems(20, 'mainSkeleton')),
+        ];
+      }
+      return (
+        videosWithMetaDataItems
+          .filter((p) => p.kind === 'youtube#video')
+          .map((p) => ({
+            isSkeleton: false,
+            videoId: p.id,
+            title: p.snippet.title,
+            channelName: p.snippet.channelTitle,
+            viewCount: +p.statistics.viewCount,
+            publishedDate: new Date(p.snippet.publishedAt),
+            duration: p.contentDetails.duration,
+            channelLogoUrl:
+              channelsInfo[p.snippet.channelId]?.snippet.thumbnails.default
+                .url ?? '',
+            videoUrl: videosInfo[p.id]?.url ?? '',
+            isVerified: false,
+          })) ?? []
+      );
+    },
+  });
+
+  protected videosCategoriesViewModel = computed(() => {
+    const videoCategories = this.sandbox.sharedStore.videoCategories();
+    return (
+      videoCategories?.items.map((p) => ({
+        title: p.snippet.title,
+        id: p.id,
+      })) ?? []
+    );
+  });
   protected numberOfSkeletonPlayerItemsToFillBottomLine = signal(0);
   protected skeletonPlayerItemsToFillBottomLine = computed(() => {
     return Utilities.createPlayerSkeletonItems(
@@ -91,63 +134,6 @@ export class BrowseComponent
       }),
     );
     this.dispatchEvent(sharedEventGroup.loadYoutubeVideoCategories());
-    this.videosWithMetaData = this.homePageStore.videos;
-    this.channelsInfo = this.homePageStore.channelsInfo;
-    this.videosInfo = this.homePageStore.videosInfo;
-    this.videos = linkedSignal<
-      {
-        videosWithMetaData: IPopularYoutubeVideos | undefined;
-        channelsInfo: Record<string, IChannelItem> | undefined;
-        videosInfo: Record<string, IFormatStream> | undefined;
-      },
-      IVideoPlayerCardInfo[]
-    >({
-      source: () => ({
-        videosWithMetaData: this.videosWithMetaData(),
-        channelsInfo: this.channelsInfo(),
-        videosInfo: this.videosInfo(),
-      }),
-      computation: (input, prev) => {
-        const videosWithMetaDataItems = input.videosWithMetaData?.items ?? [];
-        const channelsInfo = input.channelsInfo ?? {};
-        const videosInfo = input.videosInfo ?? {};
-        if (videosWithMetaDataItems.length === 0) {
-          return [
-            ...(prev?.value ??
-              Utilities.createPlayerSkeletonItems(20, 'mainSkeleton')),
-          ];
-        }
-        return (
-          videosWithMetaDataItems
-            .filter((p) => p.kind === 'youtube#video')
-            .map((p) => ({
-              isSkeleton: false,
-              videoId: p.id,
-              title: p.snippet.title,
-              channelName: p.snippet.channelTitle,
-              viewCount: +p.statistics.viewCount,
-              publishedDate: new Date(p.snippet.publishedAt),
-              duration: p.contentDetails.duration,
-              channelLogoUrl:
-                channelsInfo[p.snippet.channelId]?.snippet.thumbnails.default
-                  .url ?? '',
-              videoUrl: videosInfo[p.id]?.url ?? '',
-              isVerified: false,
-            })) ?? []
-        );
-      },
-    });
-
-    this.videosCategories = this.sandbox.sharedStore.videoCategories;
-    this.videosCategoriesViewModel = computed(() => {
-      const videoCategories = this.videosCategories();
-      return (
-        videoCategories?.items.map((p) => ({
-          title: p.snippet.title,
-          id: p.id,
-        })) ?? []
-      );
-    });
     effect(() => {
       const realVideos = this.videos()?.filter((p) => !p.isSkeleton) ?? [];
       if (realVideos.length > 0) {

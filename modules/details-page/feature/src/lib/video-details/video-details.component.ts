@@ -5,8 +5,6 @@ import {
 import { VideosRecommendationInfoComponent } from '@angular-youtube/details-page-ui';
 import {
   BaseWithSandBoxComponent,
-  IInvidiousVideoCommentsInfo,
-  IInvidiousVideoInfo,
   sharedEventGroup,
 } from '@angular-youtube/shared-data-access';
 import {
@@ -29,7 +27,6 @@ import {
   OnDestroy,
   OnInit,
   signal,
-  Signal,
   viewChild,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -144,8 +141,8 @@ export class VideoDetailsComponent
   );
   player = viewChild.required<NativeYouTubePlayerComponent>('youtubePlayer');
   ViewMode = ViewMode;
-  videoInfo: Signal<IInvidiousVideoInfo | undefined>;
-  videoCommentsInfo: Signal<IInvidiousVideoCommentsInfo | undefined>;
+  videoInfo = this.detailsPageStore.videoInfo;
+  videoCommentsInfo = this.detailsPageStore.videoCommentsInfo;
   videoDetailsInfo = computed<IVideoDetailsInfo | undefined>(() => {
     const videoInfo = this.videoInfo();
     if (videoInfo) {
@@ -165,11 +162,10 @@ export class VideoDetailsComponent
     }
     return undefined;
   });
-  recommendedVideosInfo: Signal<IInvidiousVideoInfo[]>;
   currentTime = signal(0);
   //TODO call api to get channel info/video url same as browse component
   recommendedVideos = computed<IVideoPlayerCardInfo[]>(() => {
-    const videosInfo = this.recommendedVideosInfo();
+    const videosInfo = this.detailsPageStore.recommendedVideosInfo();
     return videosInfo
       .filter((p) => p.type === 'video')
       .map((p) => ({
@@ -249,9 +245,6 @@ export class VideoDetailsComponent
     super();
     this.dispatchEventFromSignal(this.getVideoInfo);
     this.dispatchEventFromSignal(this.getVideoCommentsInfo);
-    this.videoInfo = this.detailsPageStore.videoInfo;
-    this.videoCommentsInfo = this.detailsPageStore.videoCommentsInfo;
-    this.recommendedVideosInfo = this.detailsPageStore.recommendedVideosInfo;
     effect(() => {
       this.titleService.setTitle(this.videoInfo()?.title ?? 'Angular Youtube');
     });
