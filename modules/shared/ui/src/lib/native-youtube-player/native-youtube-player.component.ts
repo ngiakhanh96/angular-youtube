@@ -147,6 +147,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   private hoverTimer: ReturnType<typeof setTimeout> | null = null;
   private static hoverAndRestTimeoutMs = 5000;
+
   onFullScreenChange() {
     if (!this.document.fullscreenElement) {
       this.screenMode.set(ScreenMode.Default);
@@ -206,6 +207,10 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
           this.playAudio();
         });
         this.videoPlayer().addEventListener('pause', () => {
+          if (this.document.hidden) {
+            this.videoPlayer().play();
+            return;
+          }
           this.synchronizeAudioWithVideo();
           this.audioPlayer().pause();
         });
