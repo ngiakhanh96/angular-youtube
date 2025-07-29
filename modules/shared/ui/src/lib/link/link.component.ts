@@ -68,6 +68,7 @@ export class LinkComponent {
       this.isNonYoutubeSupportedSocialMedia();
     //TODO for youtube channel links in comment section not in video description,
     // should not show icon
+    // /watch?v=CsCgX0Cm44g
     const isYoutubeChannelLink = this.isYoutubeChannelLink();
     const isOtherYoutubeVideo = this.isOtherYoutubeVideo();
     return (
