@@ -66,6 +66,8 @@ export class LinkComponent {
   shouldShowIcon = computed(() => {
     const isNonYoutubeSupportedSocialMedia =
       this.isNonYoutubeSupportedSocialMedia();
+    //TODO for youtube channel links in comment section not in video description,
+    // should not show icon
     const isYoutubeChannelLink = this.isYoutubeChannelLink();
     const isOtherYoutubeVideo = this.isOtherYoutubeVideo();
     return (
