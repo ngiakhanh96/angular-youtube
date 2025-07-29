@@ -1,5 +1,5 @@
 <div class="player-container">
-  @if (!disablePlaceholder() && !isVideoPlayed()) {
+  @if (!disablePlaceholder() && !isVideoPlaying()) {
     <ay-youtube-player-placeholder
       [videoId]="videoId()"
       [borderRadius]="borderRadius()"
@@ -13,7 +13,7 @@
   }
   <div
     class="player"
-    [style.display]="!isVideoPlayed() && !disablePlaceholder() ? 'none' : ''"
+    [style.display]="!isVideoPlaying() && !disablePlaceholder() ? 'none' : ''"
     #videoPlayerContainer
     (mouseover)="onMouseEnter()"
     (mouseleave)="onMouseLeave()"
@@ -45,7 +45,7 @@
       <div class="player_bottom_buttons-container">
         <div class="player_bottom_buttons-left">
           <div class="player_bottom_button" (click)="toggleVideo()">
-            @if (isVideoPlayed()) {
+            @if (isVideoPlaying()) {
               <ay-svg-button-renderer
                 ariaLabel="Pause video"
                 viewBox="0 0 36 36"

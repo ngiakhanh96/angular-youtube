@@ -106,7 +106,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   showPlayButton = input(false);
   boxShadow = input<string>('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
-  isVideoPlayed = signal(false);
+  isVideoPlaying = signal(false);
   isVideoPlayedLastTime = signal(false);
   isVideoEnded = signal(false);
   autoPlay = input<boolean>(false);
@@ -124,7 +124,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   isHovered = signal(false);
   playerButtonsDisplay = computed(() =>
-    !this.mini() && (this.isHovered() || !this.isVideoPlayed())
+    !this.mini() && (this.isHovered() || !this.isVideoPlaying())
       ? 'flex'
       : 'none',
   );
@@ -187,7 +187,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         });
 
         this.videoPlayer().addEventListener('ended', () => {
-          this.isVideoPlayed.set(false);
+          this.isVideoPlaying.set(false);
           this.isVideoEnded.set(true);
           if (this.autoNext()) {
             this.nextVideo.emit();
@@ -221,7 +221,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         });
         this.videoPlayer().addEventListener('seeked', () => {
           this.isSeeking = false;
-          if (this.isVideoPlayed()) {
+          if (this.isVideoPlaying()) {
             this.playAudio();
           }
         });
@@ -236,6 +236,13 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         });
         this.videoPlayer().addEventListener('canplaythrough', () => {
           this.canPlay.emit();
+        });
+        this.videoPlayer().addEventListener('leavepictureinpicture', () => {
+          NativeYouTubePlayerComponent.exitPictureInPicture(
+            this.document,
+            true,
+            this.videoPlayer(),
+          );
         });
       },
     });
@@ -289,23 +296,23 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       .play()
       .then(() => {
         this.isVideoEnded.set(false);
-        this.isVideoPlayed.set(true);
+        this.isVideoPlaying.set(true);
       })
       .catch((error) => {
-        this.isVideoPlayed.set(false);
+        this.isVideoPlaying.set(false);
         console.log('Error playing video:', error);
       });
   }
 
   pauseVideo() {
-    if (this.isVideoPlayed()) {
+    if (this.isVideoPlaying()) {
       this.videoPlayer().pause();
-      this.isVideoPlayed.set(false);
+      this.isVideoPlaying.set(false);
     }
   }
 
   toggleVideo() {
-    if (this.isVideoPlayed()) {
+    if (this.isVideoPlaying()) {
       this.pauseVideo();
     } else {
       this.playVideo();
@@ -338,7 +345,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   onProgressBarMouseDown(event: MouseEvent) {
     this.isDragging = true;
-    this.isVideoPlayedLastTime.set(this.isVideoPlayed());
+    this.isVideoPlayedLastTime.set(this.isVideoPlaying());
     this.pauseVideo();
     this.seekToPosition(event);
   }
@@ -347,10 +354,14 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.videoPlayer().currentTime = currentTime;
   }
 
-  requestPictureInPicture(destroyElement = false) {
+  requestPictureInPicture(
+    destroyElement = false,
+    videoElement?: HTMLVideoElement,
+  ) {
     NativeYouTubePlayerComponent.exitPictureInPicture(
       this.document,
       destroyElement,
+      videoElement,
     );
     if (
       this.document.pictureInPictureEnabled &&
@@ -358,7 +369,9 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     ) {
       this.videoPlayer()
         .requestPictureInPicture()
-        .then(() => this.playVideo())
+        .then(() =>
+          this.isVideoPlaying() ? this.playVideo() : this.pauseVideo(),
+        )
         .catch((error) => {
           console.error('Error entering Picture-in-Picture mode:', error);
         });
@@ -367,22 +380,27 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     }
   }
 
-  static exitPictureInPicture(document: Document, destroyElement = false) {
-    if (document.pictureInPictureEnabled && document.pictureInPictureElement) {
-      const video: HTMLVideoElement =
-        document.pictureInPictureElement as HTMLVideoElement;
-      if (destroyElement && video) {
+  static exitPictureInPicture(
+    document: Document,
+    destroyElement = false,
+    videoElement?: HTMLVideoElement,
+  ) {
+    videoElement ??= document.pictureInPictureElement as HTMLVideoElement;
+    if (document.pictureInPictureEnabled && videoElement) {
+      if (destroyElement && videoElement) {
         // Pause and clear
-        video.pause();
-        video.src = ''; // Clear source
-        video.load(); // Release memory
+        videoElement.pause();
+        videoElement.src = ''; // Clear source
+        videoElement.load(); // Release memory
 
         // Remove from DOM
-        video.remove();
+        videoElement.remove();
       }
-      document.exitPictureInPicture().catch((error) => {
-        console.error('Error exiting Picture-in-Picture mode:', error);
-      });
+      if (document.pictureInPictureElement) {
+        document.exitPictureInPicture().catch((error) => {
+          console.error('Error exiting Picture-in-Picture mode:', error);
+        });
+      }
     } else {
       console.warn('Not currently in Picture-in-Picture mode.');
     }
