@@ -21,6 +21,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DOCUMENT,
   effect,
   ElementRef,
   inject,
@@ -240,7 +241,7 @@ export class VideoDetailsComponent
     },
   ]);
   isFirstTime = true;
-
+  document = inject(DOCUMENT);
   constructor() {
     super();
     this.dispatchEventFromSignal(this.getVideoInfo);
@@ -263,6 +264,7 @@ export class VideoDetailsComponent
           this.dispatchEvent(detailsPageEventGroup.reset());
           this.isFirstTime = false;
         }
+        NativeYouTubePlayerComponent.exitPictureInPicture(this.document, true);
         this.videoId.set(params['v']);
         this.currentTime.set(params['t'] ?? 0);
         this.loadingBarService.load(25);
@@ -274,6 +276,7 @@ export class VideoDetailsComponent
 
   ngOnDestroy(): void {
     this.sidebarService.setMiniSidebarState(true);
+    this.mainPlayer().requestPictureInPicture();
   }
 
   onCanPlay() {

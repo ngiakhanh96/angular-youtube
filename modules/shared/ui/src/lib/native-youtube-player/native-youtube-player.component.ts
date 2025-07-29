@@ -207,10 +207,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
           this.playAudio();
         });
         this.videoPlayer().addEventListener('pause', () => {
-          if (this.document.hidden) {
-            this.videoPlayer().play();
-            return;
-          }
           this.synchronizeAudioWithVideo();
           this.audioPlayer().pause();
         });
@@ -349,6 +345,47 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   seekTo(currentTime: number) {
     this.videoPlayer().currentTime = currentTime;
+  }
+
+  requestPictureInPicture(destroyElement = false) {
+    NativeYouTubePlayerComponent.exitPictureInPicture(
+      this.document,
+      destroyElement,
+    );
+    if (
+      this.document.pictureInPictureEnabled &&
+      this.videoPlayer().requestPictureInPicture
+    ) {
+      this.videoPlayer()
+        .requestPictureInPicture()
+        .then(() => this.playVideo())
+        .catch((error) => {
+          console.error('Error entering Picture-in-Picture mode:', error);
+        });
+    } else {
+      console.warn('Picture-in-Picture is not supported by this browser.');
+    }
+  }
+
+  static exitPictureInPicture(document: Document, destroyElement = false) {
+    if (document.pictureInPictureEnabled && document.pictureInPictureElement) {
+      const video: HTMLVideoElement =
+        document.pictureInPictureElement as HTMLVideoElement;
+      if (destroyElement && video) {
+        // Pause and clear
+        video.pause();
+        video.src = ''; // Clear source
+        video.load(); // Release memory
+
+        // Remove from DOM
+        video.remove();
+      }
+      document.exitPictureInPicture().catch((error) => {
+        console.error('Error exiting Picture-in-Picture mode:', error);
+      });
+    } else {
+      console.warn('Not currently in Picture-in-Picture mode.');
+    }
   }
 
   private playAudio() {
