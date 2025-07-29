@@ -297,7 +297,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       })
       .catch((error) => {
         this.isVideoPlayed.set(false);
-        console.error('Error playing video:', error);
+        console.log('Error playing video:', error);
       });
   }
 
