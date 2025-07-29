@@ -46,7 +46,7 @@ export class LinkComponent {
   isNonYoutubeSupportedSocialMedia = computed(() => {
     const url = new URL(this.href());
     const isFromYoutube = this.isFromYoutube();
-    return this.supportedSocialMedias.has(url.hostname) && !isFromYoutube;
+    return this.getSupportedSocialMediaIconUrl(url.hostname) && !isFromYoutube;
   });
   isOtherYoutubeVideo = computed(() => {
     const url = new URL(this.href());
@@ -90,7 +90,7 @@ export class LinkComponent {
       : `\u00a0${text}\u00a0\u00a0`;
   });
   imgSource = computed(() => {
-    return `https://www.gstatic.com/youtube/img/watch/${this.supportedSocialMedias.get(new URL(this.href()).hostname)}`;
+    return `https://www.gstatic.com/youtube/img/watch/${this.getSupportedSocialMediaIconUrl(new URL(this.href()).hostname)}`;
   });
   formattedText = computed(() => {
     const attributeHref = this.attributeHref();
@@ -132,6 +132,13 @@ export class LinkComponent {
     }
     return '_blank';
   });
+
+  private getSupportedSocialMediaIconUrl(hostname: string) {
+    return (
+      this.supportedSocialMedias.get(hostname) ??
+      this.supportedSocialMedias.get('www.' + hostname)
+    );
+  }
 
   private convertQueryStringToParams(
     queryString: string,
