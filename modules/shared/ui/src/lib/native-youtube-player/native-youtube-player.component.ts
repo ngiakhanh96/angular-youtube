@@ -16,6 +16,7 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   SvgButtonRendererComponent,
   SvgButtonTemplateDirective,
@@ -178,7 +179,9 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       this.seekToPosition(event);
     }
   }
-
+  router = inject(Router);
+  activatedRoute = inject(ActivatedRoute);
+  static videoDetailsPageUrl = '';
   constructor() {
     afterNextRender({
       read: () => {
@@ -237,13 +240,16 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         this.videoPlayer().addEventListener('canplaythrough', () => {
           this.canPlay.emit();
         });
-        this.videoPlayer().addEventListener('leavepictureinpicture', () => {
-          NativeYouTubePlayerComponent.exitPictureInPicture(
-            this.document,
-            true,
-            this.videoPlayer(),
-          );
-        });
+        this.videoPlayer().addEventListener(
+          'leavepictureinpicture',
+          (event) => {
+            if (!this.router.url.includes('watch')) {
+              this.router.navigateByUrl(
+                NativeYouTubePlayerComponent.videoDetailsPageUrl,
+              );
+            }
+          },
+        );
       },
     });
 
@@ -355,6 +361,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   requestPictureInPicture(
+    currentUrl: string,
     destroyElement = false,
     videoElement?: HTMLVideoElement,
   ) {
@@ -366,9 +373,12 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     if (this.document.pictureInPictureEnabled) {
       this.videoPlayer()
         .requestPictureInPicture()
-        .then(() =>
-          this.isVideoPlaying() ? this.playVideo() : this.pauseVideo(),
-        )
+        .then(() => {
+          {
+            this.isVideoPlaying() ? this.playVideo() : this.pauseVideo();
+            NativeYouTubePlayerComponent.videoDetailsPageUrl = currentUrl;
+          }
+        })
         .catch((error) => {
           console.error('Error entering Picture-in-Picture mode:', error);
         });

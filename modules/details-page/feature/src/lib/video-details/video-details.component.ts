@@ -8,6 +8,7 @@ import {
   sharedEventGroup,
 } from '@angular-youtube/shared-data-access';
 import {
+  ICustomRouteReuseComponent,
   IVideoCategory,
   IVideoPlayerCardInfo,
   LoadingBarService,
@@ -56,7 +57,7 @@ import {
 //TODO handle responsive design when the screen is <= 1016px
 export class VideoDetailsComponent
   extends BaseWithSandBoxComponent
-  implements OnInit, OnDestroy
+  implements OnInit, OnDestroy, ICustomRouteReuseComponent
 {
   detailsPageStore = inject(DetailsPageStore);
   titleService = inject(Title);
@@ -242,6 +243,8 @@ export class VideoDetailsComponent
   ]);
   isFirstTime = true;
   document = inject(DOCUMENT);
+  currentUrl = this.router.url;
+
   constructor() {
     super();
     this.dispatchEventFromSignal(this.getVideoInfo);
@@ -269,14 +272,28 @@ export class VideoDetailsComponent
         this.currentTime.set(params['t'] ?? 0);
         this.loadingBarService.load(25);
       });
+    this.onRetrieveByRouteReuseStrategy();
+  }
+
+  shouldRetrieveByRouteReuseStrategy(): boolean {
+    return true;
+  }
+
+  onRetrieveByRouteReuseStrategy() {
+    NativeYouTubePlayerComponent.exitPictureInPicture(this.document);
     this.sidebarService.setMiniSidebarState(false);
     this.sidebarService.setState(false);
     this.sidebarService.setSelectedIconName(null);
   }
 
   ngOnDestroy(): void {
+    this.onStoreByRouteReuseStrategy();
+  }
+
+  onStoreByRouteReuseStrategy() {
+    const fullUrl = this.currentUrl;
     this.sidebarService.setMiniSidebarState(true);
-    this.mainPlayer().requestPictureInPicture();
+    this.mainPlayer().requestPictureInPicture(fullUrl);
   }
 
   onCanPlay() {
