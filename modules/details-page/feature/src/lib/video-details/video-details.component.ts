@@ -37,6 +37,7 @@ import {
   IVideoDetailsInfo,
   VideoDetailsInfoComponent,
 } from '../video-details-info/video-details-info.component';
+import { PipService } from './../../../../../shared/ui/src/lib/services/pip.service';
 
 @Component({
   selector: 'ay-video-details',
@@ -64,6 +65,8 @@ export class VideoDetailsComponent
   router = inject(Router);
   sidebarService = inject(SidebarService);
   loadingBarService = inject(LoadingBarService);
+  document = inject(DOCUMENT);
+  pipService = inject(PipService);
   videoId = signal('');
   videoRecommendationMarginTop = signal('44px');
   getVideoInfo = computed(() => {
@@ -242,7 +245,6 @@ export class VideoDetailsComponent
     },
   ]);
   isFirstTime = true;
-  document = inject(DOCUMENT);
   currentUrl = this.router.url;
 
   constructor() {
@@ -291,9 +293,17 @@ export class VideoDetailsComponent
   }
 
   onStoreByRouteReuseStrategy() {
-    const fullUrl = this.currentUrl;
     this.sidebarService.setMiniSidebarState(true);
-    this.mainPlayer().requestPictureInPicture(fullUrl);
+    this.mainPlayer().requestPictureInPicture(undefined, undefined, () => {
+      this.pipService.setOriginalVideoUrl(this.currentUrl);
+    });
+  }
+
+  onLeavePictureInPicture(event: PictureInPictureEvent) {
+    const originalVideoUrl = this.pipService.getOriginalVideoUrl();
+    if (!this.router.url.includes('/watch') && originalVideoUrl) {
+      this.router.navigateByUrl(originalVideoUrl);
+    }
   }
 
   onCanPlay() {
