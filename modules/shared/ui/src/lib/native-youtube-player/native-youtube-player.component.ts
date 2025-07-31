@@ -184,6 +184,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   constructor() {
     afterNextRender({
       read: () => {
+        (this.videoPlayer() as any).audioElement = this.audioPlayer();
         this.videoPlayer().addEventListener('click', () => {
           this.playerClick.emit(this.videoPlayer());
         });
@@ -205,10 +206,13 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
           this.synchronizeAudioWithVideo();
         });
         this.videoPlayer().addEventListener('play', () => {
+          this.isVideoEnded.set(false);
+          this.isVideoPlaying.set(true);
           this.synchronizeAudioWithVideo();
           this.playAudio();
         });
         this.videoPlayer().addEventListener('pause', () => {
+          this.isVideoPlaying.set(false);
           this.synchronizeAudioWithVideo();
           this.audioPlayer().pause();
         });
@@ -243,9 +247,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
           'leavepictureinpicture',
           (event) => {
             this.leavePictureInPicture.emit(event);
-            setTimeout(() => {
-              this.playVideo();
-            });
           },
         );
       },
@@ -298,10 +299,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   playVideo() {
     this.videoPlayer()
       .play()
-      .then(() => {
-        this.isVideoEnded.set(false);
-        this.isVideoPlaying.set(true);
-      })
       .catch((error) => {
         this.isVideoPlaying.set(false);
         console.log('Error playing video:', error);
@@ -311,7 +308,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   pauseVideo() {
     if (this.isVideoPlaying()) {
       this.videoPlayer().pause();
-      this.isVideoPlaying.set(false);
     }
   }
 
@@ -360,13 +356,11 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   requestPictureInPicture(
     destroyElement = false,
-    videoElement?: HTMLVideoElement,
     successCallback?: () => void,
   ) {
     NativeYouTubePlayerComponent.exitPictureInPicture(
       this.document,
       destroyElement,
-      videoElement,
     );
     if (this.document.pictureInPictureEnabled) {
       this.videoPlayer()
@@ -385,21 +379,22 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     }
   }
 
-  static exitPictureInPicture(
-    document: Document,
-    destroyElement = false,
-    videoElement?: HTMLVideoElement,
-  ) {
-    videoElement ??= document.pictureInPictureElement as HTMLVideoElement;
+  static exitPictureInPicture(document: Document, destroyElement = false) {
+    const videoElement = document.pictureInPictureElement as HTMLVideoElement;
     if (document.pictureInPictureEnabled && videoElement) {
       if (destroyElement && videoElement) {
         // Pause and clear
         videoElement.pause();
         videoElement.src = ''; // Clear source
         videoElement.load(); // Release memory
+        videoElement.remove(); // Remove from DOM
 
-        // Remove from DOM
-        videoElement.remove();
+        const audioElement: HTMLAudioElement = (videoElement as any)
+          .audioElement;
+        audioElement.pause();
+        audioElement.src = ''; // Clear source
+        audioElement.load(); // Release memory
+        audioElement.remove(); // Remove from DOM
       }
       if (document.pictureInPictureElement) {
         document.exitPictureInPicture().catch((error) => {

@@ -245,7 +245,7 @@ export class VideoDetailsComponent
     },
   ]);
   isFirstTime = true;
-  currentUrl = this.document.location.href;
+  currentUrl = this.router.url;
 
   constructor() {
     super();
@@ -273,7 +273,7 @@ export class VideoDetailsComponent
         this.videoId.set(params['v']);
         this.currentTime.set(params['t'] ?? 0);
         this.loadingBarService.load(25);
-        this.currentUrl = this.document.location.href;
+        this.currentUrl = this.router.url;
       });
     this.onRetrieveByRouteReuseStrategy();
     this.customRouteReuseStrategy.registerCachedComponentName(
@@ -282,6 +282,10 @@ export class VideoDetailsComponent
   }
 
   shouldRetrieveByRouteReuseStrategy(route: ActivatedRouteSnapshot): boolean {
+    if (this.videoId() !== route.queryParams['v']) {
+      NativeYouTubePlayerComponent.exitPictureInPicture(this.document, true);
+      return false;
+    }
     return this.videoId() === route.queryParams['v'];
   }
 
@@ -293,12 +297,12 @@ export class VideoDetailsComponent
   }
 
   ngOnDestroy(): void {
-    this.onStoreByRouteReuseStrategy();
+    this.sidebarService.setMiniSidebarState(true);
   }
 
   onStoreByRouteReuseStrategy() {
     this.sidebarService.setMiniSidebarState(true);
-    this.mainPlayer().requestPictureInPicture(undefined, undefined, () => {
+    this.mainPlayer().requestPictureInPicture(undefined, () => {
       this.customRouteReuseStrategy.setOriginalVideoUrl(this.currentUrl);
     });
   }
@@ -309,9 +313,8 @@ export class VideoDetailsComponent
     if (!originalVideoUrl) {
       return;
     }
-    const url = new URL(originalVideoUrl);
-    if (!this.router.url.includes('/watch') && url) {
-      this.router.navigateByUrl(url.pathname + url.search);
+    if (!this.router.url.includes('/watch') && originalVideoUrl) {
+      this.router.navigateByUrl(originalVideoUrl);
     }
   }
 
