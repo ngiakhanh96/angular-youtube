@@ -1,4 +1,4 @@
-import { ComponentRef, Injectable, signal } from '@angular/core';
+import { ComponentRef, Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   DetachedRouteHandle,
@@ -15,16 +15,16 @@ export interface ICustomRouteReuseComponent {
   providedIn: 'root',
 })
 export class CustomRouteReuseStrategy implements RouteReuseStrategy {
-  private _originalVideoUrlString = signal<string | undefined>(undefined);
+  private _originalVideoUrlString?: string | undefined;
   private _cachedComponentNames = new Set<string>();
   private _storedHandles = new Map<string, DetachedRouteHandle | null>();
 
   setOriginalVideoUrl(url: string): void {
-    this._originalVideoUrlString.set(url);
+    this._originalVideoUrlString = url;
   }
 
   getOriginalVideoUrl(): string | undefined {
-    return this._originalVideoUrlString();
+    return this._originalVideoUrlString;
   }
 
   registerCachedComponentName(componentName: string): void {
