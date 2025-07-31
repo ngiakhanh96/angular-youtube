@@ -8,6 +8,8 @@ import {
   sharedEventGroup,
 } from '@angular-youtube/shared-data-access';
 import {
+  CustomRouteReuseStrategy,
+  ICustomRouteReuseComponent,
   IVideoCategory,
   IVideoPlayerCardInfo,
   LoadingBarService,
@@ -31,7 +33,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import {
   IVideoDetailsInfo,
   VideoDetailsInfoComponent,
@@ -56,13 +58,15 @@ import {
 //TODO handle responsive design when the screen is <= 1016px
 export class VideoDetailsComponent
   extends BaseWithSandBoxComponent
-  implements OnInit, OnDestroy
+  implements OnInit, OnDestroy, ICustomRouteReuseComponent
 {
   detailsPageStore = inject(DetailsPageStore);
   titleService = inject(Title);
   router = inject(Router);
   sidebarService = inject(SidebarService);
   loadingBarService = inject(LoadingBarService);
+  document = inject(DOCUMENT);
+  customRouteReuseStrategy = inject(CustomRouteReuseStrategy);
   videoId = signal('');
   videoRecommendationMarginTop = signal('44px');
   getVideoInfo = computed(() => {
@@ -241,7 +245,8 @@ export class VideoDetailsComponent
     },
   ]);
   isFirstTime = true;
-  document = inject(DOCUMENT);
+  currentUrl = this.document.location.href;
+
   constructor() {
     super();
     this.dispatchEventFromSignal(this.getVideoInfo);
@@ -268,15 +273,46 @@ export class VideoDetailsComponent
         this.videoId.set(params['v']);
         this.currentTime.set(params['t'] ?? 0);
         this.loadingBarService.load(25);
+        this.currentUrl = this.document.location.href;
       });
+    this.onRetrieveByRouteReuseStrategy();
+    this.customRouteReuseStrategy.registerCachedComponentName(
+      this.constructor.name,
+    );
+  }
+
+  shouldRetrieveByRouteReuseStrategy(route: ActivatedRouteSnapshot): boolean {
+    return this.videoId() === route.queryParams['v'];
+  }
+
+  onRetrieveByRouteReuseStrategy() {
+    NativeYouTubePlayerComponent.exitPictureInPicture(this.document);
     this.sidebarService.setMiniSidebarState(false);
     this.sidebarService.setState(false);
     this.sidebarService.setSelectedIconName(null);
   }
 
   ngOnDestroy(): void {
+    this.onStoreByRouteReuseStrategy();
+  }
+
+  onStoreByRouteReuseStrategy() {
     this.sidebarService.setMiniSidebarState(true);
-    this.mainPlayer().requestPictureInPicture();
+    this.mainPlayer().requestPictureInPicture(undefined, undefined, () => {
+      this.customRouteReuseStrategy.setOriginalVideoUrl(this.currentUrl);
+    });
+  }
+
+  onLeavePictureInPicture(event: PictureInPictureEvent) {
+    const originalVideoUrl =
+      this.customRouteReuseStrategy.getOriginalVideoUrl();
+    if (!originalVideoUrl) {
+      return;
+    }
+    const url = new URL(originalVideoUrl);
+    if (!this.router.url.includes('/watch') && url) {
+      this.router.navigateByUrl(url.pathname + url.search);
+    }
   }
 
   onCanPlay() {

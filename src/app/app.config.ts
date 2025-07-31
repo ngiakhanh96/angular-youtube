@@ -5,7 +5,10 @@ import {
   provideYoutubeApiKey,
   SharedStore,
 } from '@angular-youtube/shared-data-access';
-import { provideAySkeletonLoader } from '@angular-youtube/shared-ui';
+import {
+  CustomRouteReuseStrategy,
+  provideAySkeletonLoader,
+} from '@angular-youtube/shared-ui';
 import { authInterceptor } from '@angular-youtube/shell-data-access';
 import {
   provideHttpClient,
@@ -29,6 +32,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import {
   PreloadAllModules,
   provideRouter,
+  RouteReuseStrategy,
   withInMemoryScrolling,
   withPreloading,
 } from '@angular/router';
@@ -64,6 +68,10 @@ export const appConfig: ApplicationConfig = {
         scrollPositionRestoration: 'top',
       }),
     ),
+    {
+      provide: RouteReuseStrategy,
+      useExisting: CustomRouteReuseStrategy,
+    },
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideSocialAuth({
       autoLogin: false,

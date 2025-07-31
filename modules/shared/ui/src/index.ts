@@ -30,6 +30,7 @@ export * from './lib/services/sidebar.service';
 export * from './lib/skeleton-loader/skeleton-loader.component';
 export * from './lib/skeleton-loader/skeleton-loader.provider';
 export * from './lib/spinner/spinner.component';
+export * from './lib/strategies/custom-route-reuse.strategy';
 export * from './lib/svg-button-renderer/svg-button-renderer.component';
 export * from './lib/text-icon-button/text-icon-button.component';
 export * from './lib/text-renderer/text-renderer.component';

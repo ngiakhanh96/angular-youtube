@@ -132,6 +132,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   playerClick = output<HTMLMediaElement>();
   nextVideo = output<void>();
   canPlay = output<void>();
+  leavePictureInPicture = output<PictureInPictureEvent>();
+
   currentTime = signal<number>(0);
   currentTimeString = computed(() => this.formatTime(this.currentTime()));
   duration = signal(0);
@@ -237,13 +239,15 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         this.videoPlayer().addEventListener('canplaythrough', () => {
           this.canPlay.emit();
         });
-        this.videoPlayer().addEventListener('leavepictureinpicture', () => {
-          NativeYouTubePlayerComponent.exitPictureInPicture(
-            this.document,
-            true,
-            this.videoPlayer(),
-          );
-        });
+        this.videoPlayer().addEventListener(
+          'leavepictureinpicture',
+          (event) => {
+            this.leavePictureInPicture.emit(event);
+            setTimeout(() => {
+              this.playVideo();
+            });
+          },
+        );
       },
     });
 
@@ -357,6 +361,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   requestPictureInPicture(
     destroyElement = false,
     videoElement?: HTMLVideoElement,
+    successCallback?: () => void,
   ) {
     NativeYouTubePlayerComponent.exitPictureInPicture(
       this.document,
@@ -366,9 +371,12 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     if (this.document.pictureInPictureEnabled) {
       this.videoPlayer()
         .requestPictureInPicture()
-        .then(() =>
-          this.isVideoPlaying() ? this.playVideo() : this.pauseVideo(),
-        )
+        .then(() => {
+          {
+            this.isVideoPlaying() ? this.playVideo() : this.pauseVideo();
+            successCallback?.();
+          }
+        })
         .catch((error) => {
           console.error('Error entering Picture-in-Picture mode:', error);
         });
