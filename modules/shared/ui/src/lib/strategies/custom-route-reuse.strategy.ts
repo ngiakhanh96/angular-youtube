@@ -7,7 +7,7 @@ import {
 
 export interface ICustomRouteReuseComponent {
   onStoreByRouteReuseStrategy(): void;
-  shouldRetrieveByRouteReuseStrategy(route: ActivatedRouteSnapshot): boolean;
+  shouldAttachByRouteReuseStrategy(route: ActivatedRouteSnapshot): boolean;
   onRetrieveByRouteReuseStrategy(): void;
 }
 
@@ -82,7 +82,7 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
       const handle = this._storedHandles.get(route.routeConfig.component.name)!;
       const componentRef = this.getComponentRefFromHandle(handle);
       const component: ICustomRouteReuseComponent = componentRef.instance;
-      if (component.shouldRetrieveByRouteReuseStrategy?.(route)) {
+      if (component.shouldAttachByRouteReuseStrategy?.(route)) {
         return true;
       }
 

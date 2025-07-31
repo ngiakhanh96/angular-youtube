@@ -269,23 +269,19 @@ export class VideoDetailsComponent
           this.dispatchEvent(detailsPageEventGroup.reset());
           this.isFirstTime = false;
         }
-        NativeYouTubePlayerComponent.exitPictureInPicture(this.document, true);
         this.videoId.set(params['v']);
         this.currentTime.set(params['t'] ?? 0);
         this.loadingBarService.load(25);
         this.currentUrl = this.router.url;
       });
+    NativeYouTubePlayerComponent.exitPictureInPicture(this.document, true);
     this.onRetrieveByRouteReuseStrategy();
     this.customRouteReuseStrategy.registerCachedComponentName(
       this.constructor.name,
     );
   }
 
-  shouldRetrieveByRouteReuseStrategy(route: ActivatedRouteSnapshot): boolean {
-    if (this.videoId() !== route.queryParams['v']) {
-      NativeYouTubePlayerComponent.exitPictureInPicture(this.document, true);
-      return false;
-    }
+  shouldAttachByRouteReuseStrategy(route: ActivatedRouteSnapshot): boolean {
     return this.videoId() === route.queryParams['v'];
   }
 
