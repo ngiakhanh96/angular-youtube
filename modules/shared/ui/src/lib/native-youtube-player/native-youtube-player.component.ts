@@ -16,7 +16,6 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import {
   SvgButtonRendererComponent,
   SvgButtonTemplateDirective,
@@ -181,9 +180,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       this.seekToPosition(event);
     }
   }
-  router = inject(Router);
-  activatedRoute = inject(ActivatedRoute);
-  static videoDetailsPageUrl = '';
+
   constructor() {
     afterNextRender({
       read: () => {
@@ -242,8 +239,14 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         this.videoPlayer().addEventListener('canplaythrough', () => {
           this.canPlay.emit();
         });
-        this.videoPlayer().addEventListener('leavepictureinpicture', (event) =>
-          this.leavePictureInPicture.emit(event),
+        this.videoPlayer().addEventListener(
+          'leavepictureinpicture',
+          (event) => {
+            this.leavePictureInPicture.emit(event);
+            setTimeout(() => {
+              this.playVideo();
+            });
+          },
         );
       },
     });

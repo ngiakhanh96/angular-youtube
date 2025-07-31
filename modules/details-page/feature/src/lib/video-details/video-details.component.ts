@@ -8,6 +8,7 @@ import {
   sharedEventGroup,
 } from '@angular-youtube/shared-data-access';
 import {
+  CustomRouteReuseStrategy,
   ICustomRouteReuseComponent,
   IVideoCategory,
   IVideoPlayerCardInfo,
@@ -32,12 +33,11 @@ import {
   viewChild,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import {
   IVideoDetailsInfo,
   VideoDetailsInfoComponent,
 } from '../video-details-info/video-details-info.component';
-import { PipService } from './../../../../../shared/ui/src/lib/services/pip.service';
 
 @Component({
   selector: 'ay-video-details',
@@ -66,7 +66,7 @@ export class VideoDetailsComponent
   sidebarService = inject(SidebarService);
   loadingBarService = inject(LoadingBarService);
   document = inject(DOCUMENT);
-  pipService = inject(PipService);
+  customRouteReuseStrategy = inject(CustomRouteReuseStrategy);
   videoId = signal('');
   videoRecommendationMarginTop = signal('44px');
   getVideoInfo = computed(() => {
@@ -245,7 +245,7 @@ export class VideoDetailsComponent
     },
   ]);
   isFirstTime = true;
-  currentUrl = this.router.url;
+  currentUrl = this.document.location.href;
 
   constructor() {
     super();
@@ -273,12 +273,16 @@ export class VideoDetailsComponent
         this.videoId.set(params['v']);
         this.currentTime.set(params['t'] ?? 0);
         this.loadingBarService.load(25);
+        this.currentUrl = this.document.location.href;
       });
     this.onRetrieveByRouteReuseStrategy();
+    this.customRouteReuseStrategy.registerCachedComponentName(
+      this.constructor.name,
+    );
   }
 
-  shouldRetrieveByRouteReuseStrategy(): boolean {
-    return true;
+  shouldRetrieveByRouteReuseStrategy(route: ActivatedRouteSnapshot): boolean {
+    return this.videoId() === route.queryParams['v'];
   }
 
   onRetrieveByRouteReuseStrategy() {
@@ -295,14 +299,19 @@ export class VideoDetailsComponent
   onStoreByRouteReuseStrategy() {
     this.sidebarService.setMiniSidebarState(true);
     this.mainPlayer().requestPictureInPicture(undefined, undefined, () => {
-      this.pipService.setOriginalVideoUrl(this.currentUrl);
+      this.customRouteReuseStrategy.setOriginalVideoUrl(this.currentUrl);
     });
   }
 
   onLeavePictureInPicture(event: PictureInPictureEvent) {
-    const originalVideoUrl = this.pipService.getOriginalVideoUrl();
-    if (!this.router.url.includes('/watch') && originalVideoUrl) {
-      this.router.navigateByUrl(originalVideoUrl);
+    const originalVideoUrl =
+      this.customRouteReuseStrategy.getOriginalVideoUrl();
+    if (!originalVideoUrl) {
+      return;
+    }
+    const url = new URL(originalVideoUrl);
+    if (!this.router.url.includes('/watch') && url) {
+      this.router.navigateByUrl(url.pathname + url.search);
     }
   }
 

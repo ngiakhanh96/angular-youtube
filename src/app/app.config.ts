@@ -70,7 +70,7 @@ export const appConfig: ApplicationConfig = {
     ),
     {
       provide: RouteReuseStrategy,
-      useClass: CustomRouteReuseStrategy,
+      useExisting: CustomRouteReuseStrategy,
     },
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideSocialAuth({
