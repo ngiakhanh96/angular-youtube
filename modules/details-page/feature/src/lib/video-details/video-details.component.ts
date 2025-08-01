@@ -27,7 +27,6 @@ import {
   effect,
   ElementRef,
   inject,
-  OnDestroy,
   OnInit,
   signal,
   viewChild,
@@ -58,7 +57,7 @@ import {
 //TODO handle responsive design when the screen is <= 1016px
 export class VideoDetailsComponent
   extends BaseWithSandBoxComponent
-  implements OnInit, OnDestroy, ICustomRouteReuseComponent
+  implements OnInit, ICustomRouteReuseComponent
 {
   detailsPageStore = inject(DetailsPageStore);
   titleService = inject(Title);
@@ -290,10 +289,6 @@ export class VideoDetailsComponent
     this.sidebarService.setMiniSidebarState(false);
     this.sidebarService.setState(false);
     this.sidebarService.setSelectedIconName(null);
-  }
-
-  ngOnDestroy(): void {
-    this.sidebarService.setMiniSidebarState(true);
   }
 
   onStoreByRouteReuseStrategy() {
