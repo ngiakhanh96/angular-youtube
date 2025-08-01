@@ -1,5 +1,5 @@
 import {
-  afterNextRender,
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   ComponentRef,
@@ -49,29 +49,25 @@ export class CardComponent implements OnDestroy {
   );
 
   constructor() {
-    afterNextRender({
-      read: async () => {
-        const cardContainerElement = this.cardContainer().nativeElement;
-        const currentVideoId = this.currentVideoId();
-        const aTags = Array.from(
-          cardContainerElement.getElementsByTagName('a'),
-        );
-        for (const aTag of aTags) {
-          const linkComponentRef =
-            await this.dynamicComponentService.createComponentLazily(
-              () => import('../link/link.component'),
-              'LinkComponent',
-              {
-                href: aTag.href,
-                attributeHref: aTag.getAttribute('href') ?? '',
-                text: aTag.textContent,
-                currentVideoId: currentVideoId,
-              },
-            );
-          this.linkComponentRefs.push(linkComponentRef);
-          aTag.replaceWith(linkComponentRef.location.nativeElement);
-        }
-      },
+    afterRenderEffect(async () => {
+      const cardContainerElement = this.cardContainer().nativeElement;
+      const currentVideoId = this.currentVideoId();
+      const aTags = Array.from(cardContainerElement.getElementsByTagName('a'));
+      for (const aTag of aTags) {
+        const linkComponentRef =
+          await this.dynamicComponentService.createComponentLazily(
+            () => import('../link/link.component'),
+            'LinkComponent',
+            {
+              href: aTag.href,
+              attributeHref: aTag.getAttribute('href') ?? '',
+              text: aTag.textContent,
+              currentVideoId: currentVideoId,
+            },
+          );
+        this.linkComponentRefs.push(linkComponentRef);
+        aTag.replaceWith(linkComponentRef.location.nativeElement);
+      }
     });
   }
 
