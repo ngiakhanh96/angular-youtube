@@ -117,6 +117,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   /** Audio URL for separate audio stream */
   audioUrl = input<string | undefined>(undefined);
 
+  continueToPlayWhenSwitchingTab = input<boolean>(false);
+
   ViewMode = ViewMode;
   screenMode = signal<ScreenMode>(ScreenMode.Default);
   ScreenMode = ScreenMode;
@@ -212,6 +214,10 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
           this.playAudio();
         });
         this.videoPlayer().addEventListener('pause', () => {
+          if (this.document.hidden && this.continueToPlayWhenSwitchingTab()) {
+            this.videoPlayer().play();
+            return;
+          }
           this.isVideoPlaying.set(false);
           this.synchronizeAudioWithVideo();
           this.audioPlayer().pause();
