@@ -334,7 +334,11 @@ export class VideoDetailsComponent
   }
 
   onNextVideo() {
-    if (this.recommendedVideos()[0]?.videoId) {
+    if (
+      (!this.document.pictureInPictureEnabled ||
+        !this.document.pictureInPictureElement) &&
+      this.recommendedVideos()[0]?.videoId
+    ) {
       this.router.navigate(['watch'], {
         queryParams: {
           v: this.recommendedVideos()[0].videoId,
