@@ -113,7 +113,7 @@ export class VideoDetailsComponent
           (format) => format.url !== '' && format.audioQuality != null,
         )
         .sort((a, b) => {
-          // Priority: lang%3Dvi > lang%3Den > others
+          // Priority: lang%3DlanguageCode > lang%3Den > others
           const getLangPriority = (url: string) => {
             if (
               url.includes(
