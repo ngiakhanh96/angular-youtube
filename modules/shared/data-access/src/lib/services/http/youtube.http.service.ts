@@ -17,13 +17,14 @@ export class YoutubeHttpService {
   private httpClient = inject(HttpClient);
   private appSettingsService = inject(AppSettingsService);
   private baseUrl = this.appSettingsService.appConfig()?.youtubeApiBaseUrl;
+  private regionCode = this.appSettingsService.appConfig()?.regionCode ?? 'US';
 
   getVideoCategories() {
     const url = `${this.baseUrl}videoCategories`;
     const params = new HttpParams({
       fromObject: {
         part: ['snippet'],
-        regionCode: 'VN',
+        regionCode: this.regionCode,
         key: this.apiKey,
       },
     });
@@ -44,7 +45,7 @@ export class YoutubeHttpService {
       fromObject: {
         part: ['snippet,contentDetails,statistics'],
         chart: 'mostPopular',
-        regionCode: 'VN',
+        regionCode: this.regionCode,
         key: this.apiKey,
         maxResults: maxResults,
       },

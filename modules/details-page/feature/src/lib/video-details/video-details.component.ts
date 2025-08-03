@@ -4,6 +4,7 @@ import {
 } from '@angular-youtube/details-page-data-access';
 import { VideosRecommendationInfoComponent } from '@angular-youtube/details-page-ui';
 import {
+  AppSettingsService,
   BaseWithSandBoxComponent,
   sharedEventGroup,
 } from '@angular-youtube/shared-data-access';
@@ -64,6 +65,7 @@ export class VideoDetailsComponent
   router = inject(Router);
   sidebarService = inject(SidebarService);
   loadingBarService = inject(LoadingBarService);
+  appSettingsService = inject(AppSettingsService);
   document = inject(DOCUMENT);
   customRouteReuseStrategy = inject(CustomRouteReuseStrategy);
   videoId = signal('');
@@ -113,7 +115,12 @@ export class VideoDetailsComponent
         .sort((a, b) => {
           // Priority: lang%3Dvi > lang%3Den > others
           const getLangPriority = (url: string) => {
-            if (url.includes('lang%3Dvi')) return 2;
+            if (
+              url.includes(
+                `lang%3D${this.appSettingsService.appConfig()?.languageCode ?? 'vi'}`,
+              )
+            )
+              return 2;
             if (url.includes('lang%3Den')) return 1;
             return 0;
           };

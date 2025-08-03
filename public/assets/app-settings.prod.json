@@ -3,6 +3,8 @@
   "invidiousApiBaseUrl": "https://inv.nadeko.net/api/v1/",
   "youtubeApiBaseUrl": "https://youtube.googleapis.com/youtube/v3/",
   "ytDlpApiBaseUrl": "https://localhost:7575/api/v1/",
+  "regionCode": "VN",
+  "languageCode": "vi",
   "supportedSocialMedias": {
     "www.twitch.com": "social_media/twitch_1x.png",
     "www.facebook.com": "social_media/facebook_1x.png",
