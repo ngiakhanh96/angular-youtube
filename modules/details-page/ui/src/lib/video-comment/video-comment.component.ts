@@ -163,6 +163,7 @@ export class VideoCommentComponent implements OnDestroy {
               attributeHref: aTag.getAttribute('href') ?? '',
               text: aTag.textContent,
               currentVideoId: this.commentViewModel().videoId,
+              forComment: true,
             },
           );
           this.linkComponentRefs.push(linkComponentRef);

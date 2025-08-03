@@ -37,6 +37,7 @@ export class LinkComponent {
   router = inject(Router);
   href = input.required<string>();
   attributeHref = input.required<string>();
+  forComment = input<boolean>(false);
   text = input<string>();
   currentVideoId = input<string | undefined>();
   isFromYoutube = computed(() => {
@@ -66,14 +67,11 @@ export class LinkComponent {
   shouldShowIcon = computed(() => {
     const isNonYoutubeSupportedSocialMedia =
       this.isNonYoutubeSupportedSocialMedia();
-    //TODO for youtube channel links in comment section not in video description,
-    // should not show icon
-    // /watch?v=CsCgX0Cm44g
     const isYoutubeChannelLink = this.isYoutubeChannelLink();
     const isOtherYoutubeVideo = this.isOtherYoutubeVideo();
     return (
       isNonYoutubeSupportedSocialMedia ||
-      isYoutubeChannelLink ||
+      (isYoutubeChannelLink && !this.forComment()) ||
       isOtherYoutubeVideo
     );
   });
