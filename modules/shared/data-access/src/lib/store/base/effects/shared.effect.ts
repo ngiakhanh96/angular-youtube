@@ -28,7 +28,7 @@ import {
 } from '../events/shared.event-group';
 import { ISharedState } from '../reducers/shared.reducer';
 
-export function withSharedEffects() {
+export function withSharedEffects<_>() {
   return signalStoreFeature(
     { state: type<ISharedState>() },
     withEffects(

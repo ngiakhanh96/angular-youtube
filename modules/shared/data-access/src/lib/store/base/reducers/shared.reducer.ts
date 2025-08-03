@@ -46,7 +46,7 @@ export const SharedStore = signalStore(
   withSharedReducer(),
 );
 
-export function withSharedReducer() {
+export function withSharedReducer<_>() {
   return signalStoreFeature(
     { state: type<ISharedState>() },
     withReducer(

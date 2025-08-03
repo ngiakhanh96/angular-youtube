@@ -22,7 +22,7 @@ export const HeaderStore = signalStore(
   withHeaderReducer(),
 );
 
-export function withHeaderReducer() {
+export function withHeaderReducer<_>() {
   return signalStoreFeature(
     { state: type<IHeaderState>() },
     withReducer(

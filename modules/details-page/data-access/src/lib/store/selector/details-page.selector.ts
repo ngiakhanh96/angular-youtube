@@ -3,7 +3,7 @@ import { signalStoreFeature, type, withProps } from '@ngrx/signals';
 import { map } from 'rxjs';
 import { IDetailsPageState } from '../reducers/details-page.reducer';
 
-export function withDetailsPageSelectors() {
+export function withDetailsPageSelectors<_>() {
   return signalStoreFeature(
     { state: type<IDetailsPageState>() },
     withProps(({ nestedVideoCommentsInfo }) => ({

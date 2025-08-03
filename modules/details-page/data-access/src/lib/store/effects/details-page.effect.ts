@@ -11,7 +11,7 @@ import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 import { detailsPageEventGroup } from '../events/details-page.event-group';
 import { IDetailsPageState } from '../reducers/details-page.reducer';
 
-export function withDetailsPageEffects() {
+export function withDetailsPageEffects<_>() {
   return signalStoreFeature(
     { state: type<IDetailsPageState>() },
     withEffects(

@@ -26,7 +26,7 @@ export const SearchPageStore = signalStore(
   withSearchPageReducer(),
 );
 
-export function withSearchPageReducer() {
+export function withSearchPageReducer<_>() {
   return signalStoreFeature(
     { state: type<ISearchPageState>() },
     withReducer(

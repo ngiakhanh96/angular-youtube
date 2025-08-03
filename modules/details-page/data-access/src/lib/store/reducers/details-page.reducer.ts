@@ -33,7 +33,7 @@ export const DetailsPageStore = signalStore(
   withDetailsPageSelectors(),
 );
 
-export function withDetailsPageReducer() {
+export function withDetailsPageReducer<_>() {
   return signalStoreFeature(
     { state: type<IDetailsPageState>() },
     withReducer(

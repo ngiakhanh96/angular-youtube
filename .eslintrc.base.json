@@ -2,10 +2,10 @@
   "root": true,
   "ignorePatterns": ["**/*"],
   "plugins": ["@nx", "@ngrx"],
-  "extends": ["@ngrx/signals"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "extends": ["plugin:@ngrx/signals"],
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",

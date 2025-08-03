@@ -10,7 +10,7 @@ import { EventInstance } from '@ngrx/signals/events';
 import { map } from 'rxjs';
 import { ISharedState } from '../reducers/shared.reducer';
 
-export function withSharedSelector() {
+export function withSharedSelector<_>() {
   return signalStoreFeature(
     { state: type<ISharedState>() },
     withComputed((state) => ({

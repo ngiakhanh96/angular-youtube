@@ -28,7 +28,7 @@ export const HomePageStore = signalStore(
   withHomePageReducer(),
 );
 
-export function withHomePageReducer() {
+export function withHomePageReducer<_>() {
   return signalStoreFeature(
     { state: type<IHomePageState>() },
     withReducer(

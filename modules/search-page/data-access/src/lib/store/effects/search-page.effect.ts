@@ -11,7 +11,7 @@ import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 import { searchPageEventGroup } from '../actions/search-page.event-group';
 import { ISearchPageState } from '../reducers/search-page.reducer';
 
-export function withSearchPageEffects() {
+export function withSearchPageEffects<_>() {
   return signalStoreFeature(
     { state: type<ISearchPageState>() },
     withEffects(

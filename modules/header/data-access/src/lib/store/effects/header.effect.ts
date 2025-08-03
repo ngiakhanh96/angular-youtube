@@ -7,7 +7,7 @@ import { map } from 'rxjs';
 import { headerEventGroup } from '../events/header.event-group';
 import { IHeaderState } from '../reducers/header.reducer';
 
-export function withHeaderEffects() {
+export function withHeaderEffects<_>() {
   return signalStoreFeature(
     { state: type<IHeaderState>() },
     withEffects(
