@@ -53,6 +53,8 @@ import {
     '[style.--details-page-container-margin-top]': 'marginTop()',
     '[style.--video-recommendations-margin-top]':
       'videoRecommendationMarginTop()',
+    '(document:keydown.arrowright)': 'onArrowKeydown(5)',
+    '(document:keydown.arrowleft)': 'onArrowKeydown(-5)',
   },
 })
 //TODO handle responsive design when the screen is <= 1016px
@@ -352,5 +354,9 @@ export class VideoDetailsComponent
         },
       });
     }
+  }
+
+  onArrowKeydown(seekByDuration: number) {
+    this.mainPlayer().seekBy(seekByDuration);
   }
 }
