@@ -373,11 +373,12 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       destroyElement,
     );
     if (this.document.pictureInPictureEnabled) {
+      const previousIsVideoPlaying = this.isVideoPlaying();
       this.videoPlayer()
         .requestPictureInPicture()
         .then(() => {
           {
-            this.isVideoPlaying() ? this.playVideo() : this.pauseVideo();
+            previousIsVideoPlaying ? this.playVideo() : this.pauseVideo();
             successCallback?.();
           }
         })

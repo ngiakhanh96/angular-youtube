@@ -19,6 +19,13 @@
 
     video {
       @apply w-full h-full rounded-[var(--border-radius)] bg-[var(--black-color)];
+
+      ::view-transition-group(disabled),
+      ::view-transition-old(disabled),
+      ::view-transition-new(disabled) {
+        @apply duration-0;
+      }
+      @apply view-transition-disabled;
     }
 
     .player_bottom {
