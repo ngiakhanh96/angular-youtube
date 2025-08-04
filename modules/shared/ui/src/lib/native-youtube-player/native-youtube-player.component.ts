@@ -360,8 +360,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.videoPlayer().currentTime = currentTime;
   }
 
-  seekBy(seekByDuration: number) {
-    this.videoPlayer().currentTime += seekByDuration;
+  seekBy(duration: number) {
+    this.videoPlayer().currentTime += duration;
   }
 
   requestPictureInPicture(

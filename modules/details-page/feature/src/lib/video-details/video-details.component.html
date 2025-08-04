@@ -17,6 +17,9 @@
       (nextVideo)="onNextVideo()"
       (canPlay)="onCanPlay()"
       (leavePictureInPicture)="onLeavePictureInPicture($event)"
+      tabindex="0"
+      (keydown.arrowright)="onArrowKeydown(5)"
+      (keydown.arrowleft)="onArrowKeydown(-5)"
     >
     </ay-native-youtube-player>
   </div>
