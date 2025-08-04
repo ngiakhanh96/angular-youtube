@@ -35,6 +35,7 @@ import {
   RouteReuseStrategy,
   withInMemoryScrolling,
   withPreloading,
+  withViewTransitions,
 } from '@angular/router';
 import { GlobalErrorHandler } from './global-error-handler';
 import { mainRoutes } from './routes';
@@ -64,6 +65,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(
       mainRoutes,
       withPreloading(PreloadAllModules),
+      withViewTransitions(),
       withInMemoryScrolling({
         scrollPositionRestoration: 'top',
       }),
