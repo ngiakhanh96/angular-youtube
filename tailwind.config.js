@@ -10,12 +10,6 @@ module.exports = {
         '.view-transition-none': {
           'view-transition-name': 'none',
         },
-        '.view-transition-disabled': {
-          'view-transition-name': 'disabled',
-        },
-        '.view-transition-auto': {
-          'view-transition-name': 'auto',
-        },
       };
       addUtilities(newUtilities);
     },
