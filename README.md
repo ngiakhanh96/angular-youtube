@@ -1,47 +1,295 @@
-# Angular Youtube
+# Angular YouTube Clone
 
-## Wiki
+A modern YouTube clone built with Angular 20, featuring server-side rendering, modular architecture, and modern Angular best practices.
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ngiakhanh96/angular-youtube)
+## 🚀 Features
 
-## Tutorial
+- **Modern Angular**: Built with Angular 20 and standalone components
+- **Server-Side Rendering**: Full SSR support with Angular Universal
+- **Modular Architecture**: Domain-driven design with Nx workspace
+- **State Management**: NgRx Signals for reactive state management
+- **Material Design**: Angular Material UI components
+- **Type Safety**: Full TypeScript support with strict type checking
+- **Testing**: Comprehensive testing setup with Jest and Cypress
 
-[Code2tutorial](https://code2tutorial.com/tutorial/4400c614-c8a2-4aa8-8078-ea3157683b12/08_http_services_.md)
+## 📁 Project Structure
 
-## Run fe
+The application follows a modular, domain-driven architecture:
 
-To run the dev server for your app, use:
+```text
+modules/
+├── details-page/       # Video details and player functionality
+│   ├── data-access/    # State management and data services
+│   ├── feature/        # Smart components and routing
+│   └── ui/             # Presentational components
+├── header/             # Application header and navigation
+├── home-page/          # Main landing page with video grid
+├── search-page/        # Search functionality and results
+├── shared/             # Shared components, services, and utilities
+├── shell/              # Application shell and layout
+└── sidebar/            # Sidebar navigation and menu
+```
 
-```sh
+Each feature module is organized with:
+
+- **`feature/`** - Smart components, containers, and routing
+- **`ui/`** - Presentational components and UI elements
+- **`data-access/`** - State management, services, and data models
+
+## 🛠️ Technology Stack
+
+- **Framework**: Angular 20.1.3
+- **Build Tool**: Nx 21.3.11 monorepo
+- **State Management**: NgRx Signals
+- **UI Library**: Angular Material 20.1.3
+- **Styling**: TailwindCSS 3.4.17
+- **Testing**: Jest 30.0.5 + Cypress 14.2.1
+- **Server**: Express.js for SSR
+- **Language**: TypeScript 5.8.3
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm 8+
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/ngiakhanh96/angular-youtube.git
+cd angular-youtube
+
+# Install dependencies
+npm install
+```
+
+### Development Server
+
+**Client-Side Rendering (CSR):**
+
+```bash
 npm run start-csr
 ```
 
-or server side rendering
+**Server-Side Rendering (SSR):**
 
-```sh
+```bash
 npm run start
 ```
 
-To create a production bundle:
+The application will be available at `http://localhost:4200/`
 
-```sh
+### Building for Production
+
+**Client-Side Rendering:**
+
+```bash
 npm run build-csr
 ```
 
-or server side rendering
+**Server-Side Rendering:**
 
-```sh
+```bash
 npm run build
 ```
 
-To see all available targets to run for a project, run:
+**GitHub Pages (with base href):**
 
-```sh
+```bash
+npm run build-ghp
+```
+
+### Testing
+
+**Run all tests:**
+
+```bash
+npm run test
+```
+
+**Run tests for specific projects:**
+
+```bash
+npx nx test [project-name]
+```
+
+**Run E2E tests:**
+
+```bash
+npx nx e2e angular-youtube-e2e
+```
+
+## 🔧 Development Tools
+
+**View available commands:**
+
+```bash
 npx nx show project angular-youtube
 ```
 
-## Run invidious be
+**Run specific targets:**
 
-[Installation](https://docs.invidious.io/installation/#docker-compose-method-production)
+```bash
+npx nx [target] [project-name]
+```
 
-Can use 8ZgJw6m0V4xFZ1m9D2n8 as hmac_key
+**Lint the codebase:**
+
+```bash
+npx nx lint angular-youtube
+```
+
+## 🎥 Backend Integration
+
+This application can integrate with Invidious as a privacy-friendly YouTube backend proxy.
+
+### Invidious Setup
+
+Follow the [official Invidious installation guide](https://docs.invidious.io/installation/#docker-compose-method-production).
+
+**Quick setup with Docker Compose:**
+
+```yaml
+# docker-compose.yml
+version: '3'
+services:
+  invidious:
+    image: quay.io/invidious/invidious:latest
+    # image: quay.io/invidious/invidious:latest-arm64 # ARM64/AArch64 devices
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:3000:3000'
+    environment:
+      # Please read the following file for a comprehensive list of all available
+      # configuration options and their associated syntax:
+      # https://github.com/iv-org/invidious/blob/master/config/config.example.yml
+      INVIDIOUS_CONFIG: |
+        db:
+          dbname: invidious
+          user: kemal
+          password: kemal
+          host: invidious-db
+          port: 5432
+        check_tables: true
+        signature_server: inv_sig_helper:12999
+        visitor_data: "CgtFVlRVeTZJOUFoMCjs8eXCBjIKCgJTRxIEGgAgPg%3D%3D"
+        po_token: "MnQXWuCy5oyaWRdik8YpLpzCafw6c6wWr10wr_slCmjoLs6fyzJTpnmoiCqNf3rLYgaS7kovouBgLRpILtI7mL0GLNSCLS67BJMchUMpzJ2em5FQ6LzQH4o1vW_Eij_rnB70xE92wv5yZ2H4mKa2ECVq2LduZQ=="
+        # external_port:
+        # domain:
+        # https_only: false
+        # statistics_enabled: false
+        hmac_key: "8ZgJw6m0V4xFZ1m9D2n8"
+    healthcheck:
+      test: wget -nv --tries=1 --spider http://127.0.0.1:3000/api/v1/trending || exit 1
+      interval: 30s
+      timeout: 5s
+      retries: 2
+    logging:
+      options:
+        max-size: '1G'
+        max-file: '4'
+    depends_on:
+      - invidious-db
+
+  inv_sig_helper:
+    image: quay.io/invidious/inv-sig-helper:latest
+    init: true
+    command: ['--tcp', '0.0.0.0:12999']
+    environment:
+      - RUST_LOG=info
+    restart: unless-stopped
+    cap_drop:
+      - ALL
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+
+  invidious-db:
+    image: docker.io/library/postgres:14
+    restart: unless-stopped
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+      - ./config/sql:/config/sql
+      - ./docker/init-invidious-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh
+    environment:
+      POSTGRES_DB: invidious
+      POSTGRES_USER: kemal
+      POSTGRES_PASSWORD: kemal
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
+
+volumes:
+  postgresdata:
+```
+
+## 📚 Documentation and Learning
+
+### Wiki
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ngiakhanh96/angular-youtube)
+
+### Tutorial
+
+Comprehensive tutorial available at [Code2tutorial](https://code2tutorial.com/tutorial/4400c614-c8a2-4aa8-8078-ea3157683b12/08_http_services_.md)
+
+## 🏗️ Architecture Principles
+
+This project follows modern Angular best practices:
+
+- **Standalone Components**: No NgModules, using standalone components
+- **Signal-based State**: Reactive state management with NgRx Signals
+- **OnPush Change Detection**: Optimized performance
+- **Functional Guards**: Router guards using functional approach
+- **Native Control Flow**: Using `@if`, `@for`, `@switch` instead of structural directives
+- **Reactive Forms**: Form handling with reactive patterns
+
+## 📦 Key Dependencies
+
+- `@angular/core` - Angular framework
+- `@angular/material` - Material Design components
+- `@angular/ssr` - Server-side rendering
+- `@ngrx/signals` - State management
+- `@nx/angular` - Nx workspace tooling
+- `tailwindcss` - Utility-first CSS framework
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is available under a **dual licensing model**:
+
+- **AGPL-3.0 License** - For open source, educational, and non-commercial use
+- **Commercial License** - For commercial use (requires payment)
+
+### Open Source Use (AGPL-3.0)
+
+✅ Educational projects  
+✅ Personal learning  
+✅ Open source contributions  
+✅ Non-commercial use
+
+### Commercial Use (Paid License Required)
+
+💰 Commercial products or services  
+💰 SaaS applications  
+💰 Proprietary/closed-source integration  
+💰 Reselling or distributing for profit
+
+**Need a commercial license?** Contact us for pricing and terms.
+
+See the [LICENSE](LICENSE) file for complete details.
+
+## 🙏 Acknowledgments
+
+- Built with [Angular](https://angular.io/)
+- Powered by [Nx](https://nx.dev/)
+- UI components from [Angular Material](https://material.angular.io/)
+- Backend proxy support via [Invidious](https://invidious.io/)

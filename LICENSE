@@ -1,0 +1,82 @@
+Angular YouTube Clone - Dual License
+
+This project is available under a dual licensing model:
+
+1. AGPL-3.0 License for Open Source Use
+2. Commercial License for Commercial Use
+
+================================================================================
+OPEN SOURCE LICENSE (AGPL-3.0)
+================================================================================
+
+For open source projects, educational use, and non-commercial use, this software
+is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0).
+
+The AGPL-3.0 license requires that:
+
+- Any modifications must be released under the same license
+- If you run this software on a server/SaaS, you must make the source code
+  available to users
+- You must include the original copyright notice
+
+Full AGPL-3.0 license text: https://www.gnu.org/licenses/agpl-3.0.html
+
+================================================================================
+COMMERCIAL LICENSE
+================================================================================
+
+For commercial use, including but not limited to:
+
+- Commercial products or services
+- Integration into proprietary software
+- SaaS applications
+- Reselling or distributing for profit
+- Use in closed-source projects
+
+A separate commercial license is required. This commercial license:
+
+- Removes the AGPL-3.0 copyleft requirements
+- Allows proprietary use and modifications
+- Provides commercial support options
+- Includes liability protection
+
+Contact Information for Commercial Licensing:
+
+- Email: [YOUR_EMAIL]
+- Website: [YOUR_WEBSITE]
+- License Fee: [TO_BE_DETERMINED_BASED_ON_USE_CASE]
+
+================================================================================
+COPYRIGHT NOTICE
+================================================================================
+
+Copyright (c) 2025 ngiakhanh96
+
+Permission is hereby granted to use this software under the terms of either:
+
+1. The AGPL-3.0 license for open source use, OR
+2. A commercial license for commercial use (contact for pricing)
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+================================================================================
+FREQUENTLY ASKED QUESTIONS
+================================================================================
+
+Q: What constitutes "commercial use"?
+A: Commercial use includes any use of this software in a commercial product,
+service, or environment, including SaaS applications, commercial websites,
+or any use where revenue is generated.
+
+Q: Can I use this for learning/education?
+A: Yes! Educational and personal learning use is covered under the AGPL-3.0
+license at no cost.
+
+Q: What if I want to contribute back?
+A: Contributions are welcome! Contributors grant rights to use their
+contributions under both licenses.
+
+Q: How much does the commercial license cost?
+A: Contact us for pricing based on your specific use case and requirements.
