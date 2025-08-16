@@ -126,7 +126,6 @@ export class GoogleLoginProvider extends BaseLoginProvider {
                 },
               });
             }
-
             resolve();
           },
         );
