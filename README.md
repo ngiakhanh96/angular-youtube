@@ -245,15 +245,6 @@ This project follows modern Angular best practices:
 - **Native Control Flow**: Using `@if`, `@for`, `@switch` instead of structural directives
 - **Reactive Forms**: Form handling with reactive patterns
 
-## 📦 Key Dependencies
-
-- `@angular/core` - Angular framework
-- `@angular/material` - Material Design components
-- `@angular/ssr` - Server-side rendering
-- `@ngrx/signals` - State management
-- `@nx/angular` - Nx workspace tooling
-- `tailwindcss` - Utility-first CSS framework
-
 ## 🤝 Contributing
 
 1. Fork the repository
