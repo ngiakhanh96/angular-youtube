@@ -150,7 +150,6 @@ export class VideoDetailsComponent
   defaultModeContainerElement = viewChild.required<ElementRef<HTMLElement>>(
     'defaultModeContainer',
   );
-  player = viewChild.required<NativeYouTubePlayerComponent>('youtubePlayer');
   ViewMode = ViewMode;
   videoInfo = this.detailsPageStore.videoInfo;
   videoCommentsInfo = this.detailsPageStore.videoCommentsInfo;
@@ -262,7 +261,7 @@ export class VideoDetailsComponent
     });
     afterRenderEffect({
       write: () => {
-        this.player().seekTo(this.currentTime());
+        this.mainPlayer().seekTo(this.currentTime());
       },
     });
   }
