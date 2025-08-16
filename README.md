@@ -143,7 +143,7 @@ npx nx lint angular-youtube
 
 ## 🎥 Backend Integration
 
-This application can integrate with Invidious as a privacy-friendly YouTube backend proxy.
+This application integrates with Invidious as a privacy-friendly YouTube backend proxy.
 
 ### Invidious Setup
 
