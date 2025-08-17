@@ -278,6 +278,11 @@ export class VideoDetailsComponent
         this.currentTime.set(params['t'] ?? 0);
         this.loadingBarService.load(25);
         this.currentUrl = this.router.url;
+
+        // Focus after route change with small delay to ensure rendering is complete
+        setTimeout(() => {
+          this.videoElement().nativeElement.focus();
+        });
       });
     NativeYouTubePlayerComponent.exitPictureInPicture(this.document, true);
     this.onRetrieveByRouteReuseStrategy();
@@ -304,7 +309,8 @@ export class VideoDetailsComponent
     });
   }
 
-  onLeavePictureInPicture(event: PictureInPictureEvent) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onLeavePictureInPicture(_event: PictureInPictureEvent) {
     const originalVideoUrl =
       this.customRouteReuseStrategy.getOriginalVideoUrl();
     if (!originalVideoUrl) {
