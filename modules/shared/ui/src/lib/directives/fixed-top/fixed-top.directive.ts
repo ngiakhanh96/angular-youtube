@@ -18,6 +18,7 @@ import {
     '[style.height]': 'height()',
     '[style.backgroundColor]': "'var(--white-color-trans)'",
     '[style.backdropFilter]': 'backdropFilterBlurString()',
+    '[style.width]': "'100%'",
     '(window:resize)': 'resize()',
   },
 })
@@ -42,7 +43,7 @@ export class FixedTopDirective implements OnDestroy {
       }
     });
 
-    //This resize must run before afterNextRender resize function of overlay directive run
+    // This resize must run before afterNextRender resize function of overlay directive run
     afterNextRender({
       write: () => {
         this.resize();
