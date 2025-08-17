@@ -143,6 +143,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     const duration = this.duration();
     return this.formatTime(duration);
   });
+  hostElementRef = inject(ElementRef);
 
   private progressUpdateInterval: ReturnType<typeof setInterval> | null = null;
   private isDragging = false;
@@ -163,6 +164,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   onMouseMove() {
     this.onMouseEnter();
   }
+
   onMouseUp() {
     if (this.isDragging) {
       this.isDragging = false;
@@ -388,6 +390,10 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     } else {
       console.warn('Picture-in-Picture is not supported by this browser.');
     }
+  }
+
+  onButtonsContainerClick() {
+    this.hostElementRef.nativeElement.focus();
   }
 
   static exitPictureInPicture(document: Document, destroyElement = false) {

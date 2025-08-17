@@ -42,7 +42,10 @@
           ></div>
         </div>
       </div>
-      <div class="player_bottom_buttons-container">
+      <div
+        class="player_bottom_buttons-container"
+        (click)="onButtonsContainerClick()"
+      >
         <div class="player_bottom_buttons-left">
           <div class="player_bottom_button" (click)="toggleVideo()">
             @if (isVideoPlaying()) {

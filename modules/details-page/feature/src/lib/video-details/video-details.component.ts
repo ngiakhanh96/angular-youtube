@@ -140,14 +140,10 @@ export class VideoDetailsComponent
   mainPlayer = viewChild.required<NativeYouTubePlayerComponent>(
     NativeYouTubePlayerComponent,
   );
-  videoElement = viewChild.required<
-    NativeYouTubePlayerComponent,
-    ElementRef<HTMLElement>
-  >(NativeYouTubePlayerComponent, { read: ElementRef });
-  theaterModeContainerElement = viewChild.required<ElementRef<HTMLElement>>(
+  theaterModeContainerElementRef = viewChild.required<ElementRef<HTMLElement>>(
     'theaterModeContainer',
   );
-  defaultModeContainerElement = viewChild.required<ElementRef<HTMLElement>>(
+  defaultModeContainerElementRef = viewChild.required<ElementRef<HTMLElement>>(
     'defaultModeContainer',
   );
   ViewMode = ViewMode;
@@ -281,7 +277,7 @@ export class VideoDetailsComponent
 
         // Focus after route change with small delay to ensure rendering is complete
         setTimeout(() => {
-          this.videoElement().nativeElement.focus();
+          this.mainPlayer().hostElementRef.nativeElement.focus();
         });
       });
     NativeYouTubePlayerComponent.exitPictureInPicture(this.document, true);
@@ -330,16 +326,18 @@ export class VideoDetailsComponent
   }
 
   onViewModeChange(viewMode: ViewMode) {
-    const video = this.videoElement().nativeElement;
-    const theaterContainer = this.theaterModeContainerElement().nativeElement;
-    const defaultContainer = this.defaultModeContainerElement().nativeElement;
+    const mainPlayerElement = this.mainPlayer().hostElementRef.nativeElement;
+    const theaterContainerElement =
+      this.theaterModeContainerElementRef().nativeElement;
+    const defaultContainerElement =
+      this.defaultModeContainerElementRef().nativeElement;
     if (viewMode === ViewMode.Default) {
-      const adoptedVideo = theaterContainer.removeChild(video);
-      defaultContainer.appendChild(adoptedVideo);
+      theaterContainerElement.removeChild(mainPlayerElement);
+      defaultContainerElement.appendChild(mainPlayerElement);
       this.videoRecommendationMarginTop.set('0px');
     } else {
-      const adoptedVideo = defaultContainer.removeChild(video);
-      theaterContainer.appendChild(adoptedVideo);
+      defaultContainerElement.removeChild(mainPlayerElement);
+      theaterContainerElement.appendChild(mainPlayerElement);
       this.videoRecommendationMarginTop.set('44px');
     }
     this.viewMode.set(viewMode);

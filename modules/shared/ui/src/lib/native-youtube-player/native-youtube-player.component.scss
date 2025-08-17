@@ -10,6 +10,9 @@
 
 :host {
   @apply block w-full h-full aspect-video;
+  &:focus {
+    @apply outline-none;
+  }
 }
 
 .player-container {
