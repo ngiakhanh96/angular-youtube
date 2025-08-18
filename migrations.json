@@ -1,0 +1,10 @@
+{
+  "nx-console": {
+    "initialGitRef": {
+      "ref": "6db698ee2d204677b3d3906333f22ef7db3aa6cb",
+      "subject": "fix: specify NgRx Signals version in README"
+    },
+    "targetVersion": "latest",
+    "confirmedPackageUpdates": true
+  }
+}
