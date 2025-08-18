@@ -4,13 +4,66 @@ A modern YouTube clone built with Angular 20, featuring server-side rendering, m
 
 ## 🚀 Features
 
-- **Modern Angular**: Built with Angular 20 and standalone components
-- **Server-Side Rendering**: Full SSR support with Angular Universal
-- **Modular Architecture**: Domain-driven design with Nx workspace
-- **State Management**: NgRx Signals for reactive state management
-- **Material Design**: Angular Material UI components
-- **Type Safety**: Full TypeScript support with strict type checking
-- **Testing**: Comprehensive testing setup with Jest and Cypress
+### 🎥 **Video Player**
+
+- **Custom Video Player**: Native HTML5 video player with YouTube-like controls
+- **Theater & Default View Modes**: Toggle between regular and theater (wide) viewing modes
+- **Picture-in-Picture**: Built-in PiP support for multitasking
+- **Keyboard Controls**: Arrow keys for seeking, spacebar for play/pause
+- **Auto-Next**: Automatic video progression with toggle control
+- **Audio & Video Sync**: Separate audio/video streams with perfect synchronization
+- **Volume Control**: Mute/unmute with visual feedback
+- **Progress Bar**: Interactive seeking with visual progress indicators
+- **Fullscreen Support**: Native fullscreen mode with custom controls
+
+### 🏗️ **Architecture & Performance**
+
+- **Modern Angular 20**: Built with latest Angular features and standalone components
+- **Modular Design**: Domain-driven architecture using Nx workspace
+- **Signal-based State**: Reactive state management with NgRx Signals
+- **Lazy Loading**: Route-based code splitting for optimal performance
+- **SSR Support**: Server-side rendering with hydration (optional)
+- **Type Safety**: Full TypeScript with strict type checking
+
+### 🎨 **User Interface**
+
+- **Material Design**: Angular Material components with custom styling
+- **Responsive Layout**: Adaptive design for desktop and mobile
+- **Sidebar Navigation**: Collapsible sidebar with mini-sidebar mode
+- **Fixed Header**: Sticky header with blur backdrop effect
+- **Dark Theme**: YouTube-inspired dark color scheme
+- **Loading States**: Skeleton screens and loading indicators
+
+### 🔍 **Content Features**
+
+- **Video Details Page**: Comprehensive video information display
+- **Video Recommendations**: Related videos and suggestions
+- **Search Functionality**: Video search with suggestions
+- **Home Page**: Grid layout for video browsing
+- **Video Categories**: Organized content categorization
+- **External Navigation**: Safe external link handling
+
+### 🔐 **Authentication**
+
+- **Social Login**: Google OAuth integration
+- **User Profiles**: Social user management
+- **Session Handling**: Secure authentication state management
+
+### 🛠️ **Developer Experience**
+
+- **Nx Monorepo**: Scalable workspace with multiple applications
+- **Testing Suite**: Comprehensive testing with Jest and Cypress
+- **Code Quality**: ESLint, Prettier, and TypeScript strict mode
+- **Build Optimization**: Multiple build targets (CSR, SSR, GitHub Pages)
+- **Hot Reload**: Fast development with live reloading
+
+### 📱 **Technical Features**
+
+- **Invidious Backend**: Privacy-focused YouTube API alternative
+- **Custom Directives**: Reusable UI behaviors (FixedTop, etc.)
+- **Route Management**: Advanced routing with reuse strategies
+- **Error Handling**: Global error handling and user feedback
+- **Performance Optimized**: OnPush change detection and optimized renders
 
 ## 📁 Project Structure
 
