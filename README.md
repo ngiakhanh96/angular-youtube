@@ -16,15 +16,6 @@ A modern YouTube clone built with Angular 20, featuring server-side rendering, m
 - **Progress Bar**: Interactive seeking with visual progress indicators
 - **Fullscreen Support**: Native fullscreen mode with custom controls
 
-### 🏗️ **Architecture & Performance**
-
-- **Modern Angular 20**: Built with latest Angular features and standalone components
-- **Modular Design**: Domain-driven architecture using Nx workspace
-- **Signal-based State**: Reactive state management with NgRx Signals
-- **Lazy Loading**: Route-based code splitting for optimal performance
-- **SSR Support**: Server-side rendering with hydration (optional)
-- **Type Safety**: Full TypeScript with strict type checking
-
 ### 🎨 **User Interface**
 
 - **Material Design**: Angular Material components with custom styling
@@ -48,22 +39,6 @@ A modern YouTube clone built with Angular 20, featuring server-side rendering, m
 - **Social Login**: Google OAuth integration
 - **User Profiles**: Social user management
 - **Session Handling**: Secure authentication state management
-
-### 🛠️ **Developer Experience**
-
-- **Nx Monorepo**: Scalable workspace with multiple applications
-- **Testing Suite**: Comprehensive testing with Jest and Cypress
-- **Code Quality**: ESLint, Prettier, and TypeScript strict mode
-- **Build Optimization**: Multiple build targets (CSR, SSR, GitHub Pages)
-- **Hot Reload**: Fast development with live reloading
-
-### 📱 **Technical Features**
-
-- **Invidious Backend**: Privacy-focused YouTube API alternative
-- **Custom Directives**: Reusable UI behaviors (FixedTop, etc.)
-- **Route Management**: Advanced routing with reuse strategies
-- **Error Handling**: Global error handling and user feedback
-- **Performance Optimized**: OnPush change detection and optimized renders
 
 ## 📁 Project Structure
 
@@ -287,19 +262,15 @@ Comprehensive tutorial available at [Code2tutorial](https://code2tutorial.com/tu
 This project follows modern Angular best practices:
 
 - **Standalone Components**: No NgModules, using standalone components
+- **Modular Design**: Domain-driven architecture using Nx workspace
+- **Lazy Loading**: Route-based code splitting for optimal performance
 - **Signal-based State**: Reactive state management with NgRx Signals
 - **OnPush Change Detection**: Optimized performance
 - **Functional Guards**: Router guards using functional approach
 - **Native Control Flow**: Using `@if`, `@for`, `@switch` instead of structural directives
 - **Reactive Forms**: Form handling with reactive patterns
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+- **Signal-based State**: Reactive state management with NgRx Signals
+- **SSR Support**: Server-side rendering with hydration (optional)
 
 ## 📄 License
 
