@@ -113,7 +113,7 @@ npx nx test [project-name]
 **Run E2E tests:**
 
 ```bash
-npx nx run e2e:e2e
+npx nx e2e e2e
 ```
 
 ## 🔧 Development Tools
