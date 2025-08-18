@@ -36,7 +36,7 @@ Experience YouTube reimagined with modern web technologies! This project showcas
 - **Video Categories**: Organized content categorization
 - **External Navigation**: Safe external link handling
 
-### 🎥 **Video Player**
+### 🎬 **Video Player**
 
 - **Custom Video Player**: Native HTML5 video player with YouTube-like controls
 - **Theater & Default View Modes**: Toggle between regular and theater (wide) viewing modes
@@ -183,7 +183,7 @@ npx nx [target] [project-name]
 npx nx lint angular-youtube
 ```
 
-## 🎥 Backend Setup
+## 🔧 Backend Setup
 
 This application integrates with Invidious as a privacy-friendly YouTube backend proxy.
 
