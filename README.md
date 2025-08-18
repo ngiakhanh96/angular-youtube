@@ -63,7 +63,7 @@ Experience YouTube reimagined with modern web technologies! This project showcas
 - **User Profiles**: Social user management
 - **Session Handling**: Secure authentication state management
 
-## �️ Technology Stack
+## ⚡ Technology Stack
 
 - **Framework**: Angular 20.1.3 with standalone components
 - **Build Tool**: Nx 21.4.0 monorepo workspace
@@ -75,7 +75,7 @@ Experience YouTube reimagined with modern web technologies! This project showcas
 - **Language**: TypeScript 5.8.3 with strict mode
 - **Backend**: Invidious API integration
 
-## �📁 Project Structure
+## 📁 Project Structure
 
 The application follows a modular, domain-driven architecture:
 
