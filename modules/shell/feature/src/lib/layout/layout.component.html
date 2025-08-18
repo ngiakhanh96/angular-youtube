@@ -9,8 +9,10 @@
     <ay-sidebar></ay-sidebar>
   </mat-sidenav>
   <mat-sidenav-content>
+    <!-- 15px is the width of the scrollbar -->
     <ay-master-header
       [ayFixedTop]="56"
+      [ayFixedTopWidth]="'calc(100% + 15px)'"
       [showStartHeader]="showStartHeader()"
     ></ay-master-header>
     <div class="layout_body">

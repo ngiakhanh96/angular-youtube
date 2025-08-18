@@ -7,6 +7,7 @@ import {
   ElementRef,
   inject,
   input,
+  linkedSignal,
   OnDestroy,
 } from '@angular/core';
 
@@ -18,7 +19,7 @@ import {
     '[style.height]': 'height()',
     '[style.backgroundColor]': "'var(--white-color-trans)'",
     '[style.backdropFilter]': 'backdropFilterBlurString()',
-    '[style.width]': "'100%'",
+    '[style.width]': 'calculatedWidth()',
     '(window:resize)': 'resize()',
   },
 })
@@ -29,6 +30,9 @@ export class FixedTopDirective implements OnDestroy {
   backdropFilterBlurString = computed(
     () => `blur(${this.backdropFilterBlurPx()}px)`,
   );
+
+  width = input<string>('100%', { alias: 'ayFixedTopWidth' });
+  calculatedWidth = linkedSignal(() => this.width());
   element: HTMLElement = inject(ElementRef).nativeElement;
   document = inject(DOCUMENT);
   resizeObserver: ResizeObserver | undefined;
@@ -62,7 +66,14 @@ export class FixedTopDirective implements OnDestroy {
   resize() {
     const parent = this.element.parentElement;
     if (parent) {
-      this.element.style.width = `${parseFloat(getComputedStyle(parent).width) - parseFloat(getComputedStyle(parent).paddingLeft) - parseFloat(getComputedStyle(parent).paddingRight)}px`;
+      parent.style.position = 'relative'; // Ensure parent is positioned relative
+      this.calculatedWidth.set(
+        `${
+          parseFloat(getComputedStyle(parent).width) -
+          parseFloat(getComputedStyle(parent).paddingLeft) -
+          parseFloat(getComputedStyle(parent).paddingRight)
+        }px`,
+      );
     }
   }
 }
