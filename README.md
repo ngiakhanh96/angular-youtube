@@ -286,7 +286,6 @@ Comprehensive tutorial available at [Code2tutorial](https://code2tutorial.com/tu
 - Server-side rendering (SSR) with Angular Universal
 - Custom video player implementation
 - Social authentication patterns
-- Modern testing strategies with Jest and Cypress
 
 ## 📄 License
 
