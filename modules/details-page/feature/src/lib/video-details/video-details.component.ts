@@ -157,7 +157,9 @@ export class VideoDetailsComponent
         title: videoInfo.title,
         authorLogoUrl: videoInfo.authorThumbnails[1]?.url ?? '',
         author: videoInfo.author,
-        subscriberCountText: videoInfo.subCountText,
+        subscriberCountText: this.convertToSubscriberCountText(
+          videoInfo.subCountText,
+        ),
         likeCount: videoInfo.likeCount,
         dislikeCount: videoInfo.dislikeCount,
         viewCount: videoInfo.viewCount,
@@ -359,5 +361,13 @@ export class VideoDetailsComponent
 
   onArrowKeydown(duration: number) {
     this.mainPlayer().seekBy(duration);
+  }
+
+  private convertToSubscriberCountText(subCountText: string) {
+    let subCount = parseInt(subCountText);
+    if (isNaN(subCount)) {
+      subCount = 0;
+    }
+    return `${subCount} subscriber${subCount > 1 ? 's' : ''}`;
   }
 }
