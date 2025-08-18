@@ -19,7 +19,7 @@ A modern YouTube clone built with Angular 20, featuring server-side rendering, m
 ### 🎨 **User Interface**
 
 - **Material Design**: Angular Material components with custom styling
-- **Responsive Layout**: Adaptive design for desktop and mobile
+- **Responsive Layout**: Adaptive design for desktop and laptop
 - **Sidebar Navigation**: Collapsible sidebar with mini-sidebar mode
 - **Fixed Header**: Sticky header with blur backdrop effect
 - **Dark Theme**: YouTube-inspired dark color scheme
