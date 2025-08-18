@@ -4,6 +4,15 @@ A modern YouTube clone built with Angular 20, featuring server-side rendering, m
 
 ## 🚀 Features
 
+### 🔍 **Content Features**
+
+- **Video Details Page**: Comprehensive video information display
+- **Video Recommendations**: Related videos and suggestions
+- **Search Functionality**: Video search with suggestions
+- **Home Page**: Grid layout for video browsing
+- **Video Categories**: Organized content categorization
+- **External Navigation**: Safe external link handling
+
 ### 🎥 **Video Player**
 
 - **Custom Video Player**: Native HTML5 video player with YouTube-like controls
@@ -24,15 +33,6 @@ A modern YouTube clone built with Angular 20, featuring server-side rendering, m
 - **Fixed Header**: Sticky header with blur backdrop effect
 - **Dark Theme**: YouTube-inspired dark color scheme
 - **Loading States**: Skeleton screens and loading indicators
-
-### 🔍 **Content Features**
-
-- **Video Details Page**: Comprehensive video information display
-- **Video Recommendations**: Related videos and suggestions
-- **Search Functionality**: Video search with suggestions
-- **Home Page**: Grid layout for video browsing
-- **Video Categories**: Organized content categorization
-- **External Navigation**: Safe external link handling
 
 ### 🔐 **Authentication**
 
