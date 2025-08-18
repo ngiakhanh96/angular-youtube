@@ -1,6 +1,29 @@
 # Angular YouTube Clone
 
-A modern YouTube clone built with Angular 20, featuring server-side rendering, modular architecture, and modern Angular best practices.
+[![Angular](https://img.shields.io/badge/Angular-20.1.3-dd0031.svg?style=flat&logo=angular)](https://angular.io/)
+[![Nx](https://img.shields.io/badge/Nx-21.4.0-143055.svg?style=flat&logo=nx)](https://nx.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-007acc.svg?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+
+> A modern, feature-rich YouTube clone built with cutting-edge Angular technologies
+
+[📖 Tutorial](https://code2tutorial.com/tutorial/4400c614-c8a2-4aa8-8078-ea3157683b12/08_http_services_.md) • [📄 License](#-license)
+
+---
+
+## ✨ Overview
+
+Experience YouTube reimagined with modern web technologies! This project showcases a full-featured video platform built with Angular 20, featuring server-side rendering, modular architecture, and enterprise-grade development practices. Perfect for learning modern Angular patterns or building your own video platform.
+
+## 🎯 Key Highlights
+
+- 🚀 **Latest Angular 20** with standalone components and signals
+- 🏗️ **Enterprise Architecture** using Nx monorepo and domain-driven design
+- 🎥 **Custom Video Player** with theater mode, PiP, and keyboard controls
+- 🔐 **Social Authentication** with Google OAuth integration
+- 🌐 **SSR Support** for better SEO and performance
+- 📱 **Responsive Design** with Angular Material and TailwindCSS
+- 🔒 **Privacy-Focused** using Invidious backend proxy
 
 ## 🚀 Features
 
@@ -40,7 +63,19 @@ A modern YouTube clone built with Angular 20, featuring server-side rendering, m
 - **User Profiles**: Social user management
 - **Session Handling**: Secure authentication state management
 
-## 📁 Project Structure
+## �️ Technology Stack
+
+- **Framework**: Angular 20.1.3 with standalone components
+- **Build Tool**: Nx 21.4.0 monorepo workspace
+- **State Management**: NgRx Signals 20.0.0
+- **UI Library**: Angular Material 20.1.3
+- **Styling**: TailwindCSS 3.4.17
+- **Testing**: Jest 30.0.5 + Cypress 14.2.1
+- **Server**: Express.js for SSR
+- **Language**: TypeScript 5.8.3 with strict mode
+- **Backend**: Invidious API integration
+
+## �📁 Project Structure
 
 The application follows a modular, domain-driven architecture:
 
@@ -64,18 +99,21 @@ Each feature module is organized with:
 - **`ui/`** - Presentational components and UI elements
 - **`data-access/`** - State management, services, and data models
 
-## 🛠️ Technology Stack
+## 🏗️ Architecture Principles
 
-- **Framework**: Angular 20.1.3
-- **Build Tool**: Nx 21.4.0 monorepo
-- **State Management**: NgRx Signals 20.0.0
-- **UI Library**: Angular Material 20.1.3
-- **Styling**: TailwindCSS 3.4.17
-- **Testing**: Jest 30.0.5 + Cypress 14.2.1
-- **Server**: Express.js for SSR
-- **Language**: TypeScript 5.8.3
+This project follows modern Angular best practices:
 
-## 🚀 Getting Started
+- **Standalone Components**: No NgModules, using standalone components
+- **Modular Design**: Domain-driven architecture using Nx workspace
+- **Lazy Loading**: Route-based code splitting for optimal performance
+- **Signal-based State**: Reactive state management with NgRx Signals
+- **OnPush Change Detection**: Optimized performance
+- **Functional Guards**: Router guards using functional approach
+- **Native Control Flow**: Using `@if`, `@for`, `@switch` instead of structural directives
+- **Reactive Forms**: Form handling with reactive patterns
+- **SSR Support**: Server-side rendering with hydration (optional)
+
+## 🚀 Quick Start
 
 ### Installation
 
@@ -90,13 +128,13 @@ npm install --legacy-peer-deps
 
 ### Development Server
 
-**Client-Side Rendering (CSR):**
+**Client-Side Rendering (Recommended for development):**
 
 ```bash
 npm run start-csr
 ```
 
-**Server-Side Rendering (SSR):**
+**Server-Side Rendering:**
 
 ```bash
 npm run start
@@ -106,65 +144,46 @@ The application will be available at `http://localhost:4200/`
 
 ### Building for Production
 
-**Client-Side Rendering:**
-
 ```bash
+# Client-Side Rendering (Recommended)
 npm run build-csr
-```
 
-**Server-Side Rendering:**
-
-```bash
+# Server-Side Rendering
 npm run build
-```
 
-**GitHub Pages (with base href):**
-
-```bash
+# GitHub Pages (with base href)
 npm run build-ghp
 ```
 
-### Testing
+## 🧪 Testing & Quality
 
-**Run all tests:**
+### Running Tests
 
 ```bash
+# Run all tests
 npm run test
-```
 
-**Run tests for specific projects:**
-
-```bash
+# Run tests for specific projects
 npx nx test [project-name]
-```
 
-**Run E2E tests:**
-
-```bash
+# Run E2E tests
 npx nx e2e e2e
 ```
 
-## 🔧 Development Tools
-
-**View available commands:**
+### Development Tools
 
 ```bash
+# View available commands
 npx nx show project angular-youtube
-```
 
-**Run specific targets:**
-
-```bash
+# Run specific targets
 npx nx [target] [project-name]
-```
 
-**Lint the codebase:**
-
-```bash
+# Lint the codebase
 npx nx lint angular-youtube
 ```
 
-## 🎥 Backend Integration
+## 🎥 Backend Setup
 
 This application integrates with Invidious as a privacy-friendly YouTube backend proxy.
 
@@ -247,30 +266,27 @@ volumes:
   postgresdata:
 ```
 
-## 📚 Documentation and Learning
+## 📚 Learning Resources
 
-### Wiki
+This project is designed for learning modern Angular development patterns:
+
+### Official Documentation
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ngiakhanh96/angular-youtube)
 
-### Tutorial
+### Step-by-Step Tutorial
 
 Comprehensive tutorial available at [Code2tutorial](https://code2tutorial.com/tutorial/4400c614-c8a2-4aa8-8078-ea3157683b12/08_http_services_.md)
 
-## 🏗️ Architecture Principles
+### What You'll Learn
 
-This project follows modern Angular best practices:
-
-- **Standalone Components**: No NgModules, using standalone components
-- **Modular Design**: Domain-driven architecture using Nx workspace
-- **Lazy Loading**: Route-based code splitting for optimal performance
-- **Signal-based State**: Reactive state management with NgRx Signals
-- **OnPush Change Detection**: Optimized performance
-- **Functional Guards**: Router guards using functional approach
-- **Native Control Flow**: Using `@if`, `@for`, `@switch` instead of structural directives
-- **Reactive Forms**: Form handling with reactive patterns
-- **Signal-based State**: Reactive state management with NgRx Signals
-- **SSR Support**: Server-side rendering with hydration (optional)
+- Angular 20 standalone components and signals
+- Nx monorepo architecture and domain-driven design
+- NgRx Signals for state management
+- Server-side rendering (SSR) with Angular Universal
+- Custom video player implementation
+- Social authentication patterns
+- Modern testing strategies with Jest and Cypress
 
 ## 📄 License
 
@@ -299,7 +315,17 @@ See the [LICENSE](LICENSE) file for complete details.
 
 ## 🙏 Acknowledgments
 
-- Built with [Angular](https://angular.io/)
-- Powered by [Nx](https://nx.dev/)
-- UI components from [Angular Material](https://material.angular.io/)
-- Backend proxy support via [Invidious](https://invidious.io/)
+Special thanks to the amazing open-source community:
+
+- **[Angular Team](https://angular.io/)** - For the incredible framework
+- **[Nx Team](https://nx.dev/)** - For the powerful development tools
+- **[Angular Material](https://material.angular.io/)** - For beautiful UI components
+- **[Invidious Project](https://invidious.io/)** - For privacy-focused YouTube API alternative
+- **[TailwindCSS](https://tailwindcss.com/)** - For utility-first CSS framework
+
+### Built With Love Using
+
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Nx](https://img.shields.io/badge/Nx-143055?style=for-the-badge&logo=nx&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
