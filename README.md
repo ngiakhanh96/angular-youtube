@@ -49,11 +49,6 @@ Each feature module is organized with:
 
 ## 🚀 Getting Started
 
-### Prerequisites
-
-- Node.js 18+
-- npm 8+
-
 ### Installation
 
 ```bash
