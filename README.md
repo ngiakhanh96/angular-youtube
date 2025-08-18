@@ -39,7 +39,7 @@ Each feature module is organized with:
 ## 🛠️ Technology Stack
 
 - **Framework**: Angular 20.1.3
-- **Build Tool**: Nx 21.3.11 monorepo
+- **Build Tool**: Nx 21.4.0 monorepo
 - **State Management**: NgRx Signals 20.0.0
 - **UI Library**: Angular Material 20.1.3
 - **Styling**: TailwindCSS 3.4.17
