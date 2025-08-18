@@ -5,9 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-007acc.svg?style=flat&logo=typescript)](https://www.typescriptlang.org/)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
-> A modern, feature-rich YouTube clone built with cutting-edge Angular technologies
-
-[📖 Tutorial](https://code2tutorial.com/tutorial/4400c614-c8a2-4aa8-8078-ea3157683b12/08_http_services_.md) • [📄 License](#-license)
+> A modern, feature-rich YouTube clone built with latest Angular 20
 
 ---
 
