@@ -113,7 +113,7 @@ npx nx test [project-name]
 **Run E2E tests:**
 
 ```bash
-npx nx e2e angular-youtube-e2e
+npx nx run e2e:e2e
 ```
 
 ## 🔧 Development Tools
