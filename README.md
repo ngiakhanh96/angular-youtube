@@ -57,7 +57,7 @@ git clone https://github.com/ngiakhanh96/angular-youtube.git
 cd angular-youtube
 
 # Install dependencies
-npm install
+npm install --legacy-peer-deps
 ```
 
 ### Development Server
