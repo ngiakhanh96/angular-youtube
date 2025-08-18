@@ -278,15 +278,6 @@ This project is designed for learning modern Angular development patterns:
 
 Comprehensive tutorial available at [Code2tutorial](https://code2tutorial.com/tutorial/4400c614-c8a2-4aa8-8078-ea3157683b12/08_http_services_.md)
 
-### What You'll Learn
-
-- Angular 20 standalone components and signals
-- Nx monorepo architecture and domain-driven design
-- NgRx Signals for state management
-- Server-side rendering (SSR) with Angular Universal
-- Custom video player implementation
-- Social authentication patterns
-
 ## 📄 License
 
 This project is available under a **dual licensing model**:
