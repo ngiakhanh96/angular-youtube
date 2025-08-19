@@ -7,7 +7,7 @@ import {
   ElementRef,
   inject,
   input,
-  linkedSignal,
+  model,
   OnDestroy,
 } from '@angular/core';
 
@@ -19,7 +19,7 @@ import {
     '[style.height]': 'height()',
     '[style.backgroundColor]': "'var(--white-color-trans)'",
     '[style.backdropFilter]': 'backdropFilterBlurString()',
-    '[style.width]': 'calculatedWidth()',
+    '[style.width]': 'width()',
     '(window:resize)': 'resize()',
   },
 })
@@ -30,9 +30,7 @@ export class FixedTopDirective implements OnDestroy {
   backdropFilterBlurString = computed(
     () => `blur(${this.backdropFilterBlurPx()}px)`,
   );
-
-  width = input<string>('100%', { alias: 'ayFixedTopWidth' });
-  calculatedWidth = linkedSignal(() => this.width());
+  width = model<string>('100%');
   element: HTMLElement = inject(ElementRef).nativeElement;
   document = inject(DOCUMENT);
   resizeObserver: ResizeObserver | undefined;
@@ -66,7 +64,7 @@ export class FixedTopDirective implements OnDestroy {
   resize() {
     const parent = this.element.parentElement;
     if (parent) {
-      this.calculatedWidth.set(
+      this.width.set(
         `${
           parseFloat(getComputedStyle(parent).width) -
           parseFloat(getComputedStyle(parent).paddingLeft) -
