@@ -66,7 +66,6 @@ export class FixedTopDirective implements OnDestroy {
   resize() {
     const parent = this.element.parentElement;
     if (parent) {
-      parent.style.position = 'relative'; // Ensure parent is positioned relative
       this.calculatedWidth.set(
         `${
           parseFloat(getComputedStyle(parent).width) -
