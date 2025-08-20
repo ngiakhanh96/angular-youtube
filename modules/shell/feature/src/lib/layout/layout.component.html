@@ -17,9 +17,9 @@
       [width]="'100vw'"
     ></ay-master-header>
     <div class="layout_body">
-      @if (showMiniSidebar()) {
-        <ay-sidebar-mini></ay-sidebar-mini>
-      }
+      <ay-sidebar-mini
+        [style.display]="showMiniSidebar() ? 'block' : 'none'"
+      ></ay-sidebar-mini>
       <div class="layout_body_content">
         <router-outlet></router-outlet>
       </div>

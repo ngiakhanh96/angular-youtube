@@ -19,12 +19,14 @@ mat-sidenav-container {
         @apply flex flex-row;
         ay-sidebar-mini {
           @apply w-[var(--sidebar-mini-width)] flex-shrink-0 flex-grow-0;
+          transition: display 0.1s;
         }
 
         .layout_body_content {
           @apply w-[var(--sidenav-content-width)];
           // Smooth transition for sidebar content width change
-          transition: width 0.3s;
+          // Wait after ay-sidebar-mini finish transition
+          transition: width 0.2s 0.1s;
         }
       }
     }
