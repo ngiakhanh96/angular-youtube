@@ -12,8 +12,9 @@
     <!-- 15px is the width of the scrollbar -->
     <ay-master-header
       [ayFixedTop]="56"
-      [width]="'calc(100% + 15px)'"
-      [showStartHeader]="showStartHeader()"
+      [left]="'0'"
+      [calculateWidthByParent]="false"
+      [width]="'100vw'"
     ></ay-master-header>
     <div class="layout_body">
       @if (showMiniSidebar()) {

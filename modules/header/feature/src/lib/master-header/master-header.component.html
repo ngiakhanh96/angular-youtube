@@ -1,11 +1,7 @@
 <div class="master_header">
-  @if (showStartHeader()) {
-    <div class="master_header_start">
-      <ay-logo-menu></ay-logo-menu>
-    </div>
-  } @else {
-    <div class="master_header_start-placeholder"></div>
-  }
+  <div class="master_header_start">
+    <ay-logo-menu></ay-logo-menu>
+  </div>
   <div class="master_header_center">
     <ay-center-header
       [searchSuggestions]="searchSuggestions()"

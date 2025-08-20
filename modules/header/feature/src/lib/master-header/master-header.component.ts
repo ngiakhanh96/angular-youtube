@@ -13,7 +13,6 @@ import {
   Component,
   computed,
   inject,
-  input,
 } from '@angular/core';
 
 @Component({
@@ -25,7 +24,6 @@ import {
 })
 export class MasterHeaderComponent extends BaseWithSandBoxComponent {
   headerStore = inject(HeaderStore);
-  showStartHeader = input.required();
   user = this.sandbox.sharedStore.myChannelInfo;
   searchSuggestions = computed(
     () => this.headerStore.searchSuggestions()?.suggestions ?? [],

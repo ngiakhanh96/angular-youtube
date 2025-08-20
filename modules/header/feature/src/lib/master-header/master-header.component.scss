@@ -17,10 +17,6 @@
     }
   }
 
-  > .master_header_start-placeholder {
-    @apply flex-grow-0 flex-shrink-0;
-  }
-
   > .master_header_center {
     @apply flex-grow-0 flex-shrink items-center basis-[700px];
   }

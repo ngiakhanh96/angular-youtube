@@ -20,6 +20,7 @@ import {
     '[style.backgroundColor]': "'var(--white-color-trans)'",
     '[style.backdropFilter]': 'backdropFilterBlurString()',
     '[style.width]': 'width()',
+    '[style.left]': 'left()',
     '(window:resize)': 'resize()',
   },
 })
@@ -31,6 +32,8 @@ export class FixedTopDirective implements OnDestroy {
     () => `blur(${this.backdropFilterBlurPx()}px)`,
   );
   width = model<string>('100%');
+  calculateWidthByParent = input<boolean>(true);
+  left = input<string>('unset');
   element: HTMLElement = inject(ElementRef).nativeElement;
   document = inject(DOCUMENT);
   resizeObserver: ResizeObserver | undefined;
@@ -62,15 +65,17 @@ export class FixedTopDirective implements OnDestroy {
   }
 
   resize() {
-    const parent = this.element.parentElement;
-    if (parent) {
-      this.width.set(
-        `${
-          parseFloat(getComputedStyle(parent).width) -
-          parseFloat(getComputedStyle(parent).paddingLeft) -
-          parseFloat(getComputedStyle(parent).paddingRight)
-        }px`,
-      );
+    if (this.calculateWidthByParent()) {
+      const parent = this.element.parentElement;
+      if (parent) {
+        this.width.set(
+          `${
+            parseFloat(getComputedStyle(parent).width) -
+            parseFloat(getComputedStyle(parent).paddingLeft) -
+            parseFloat(getComputedStyle(parent).paddingRight)
+          }px`,
+        );
+      }
     }
   }
 }
