@@ -25,33 +25,23 @@ export abstract class BaseWithSandBoxComponent {
   protected dispatchEvent(
     event: EventInstance<string, any>,
     successfulCallBack?: () => void,
-    config?: {
-      injector: Injector;
-    },
   ) {
-    effect(
-      () => {
-        this.sandbox.dispatchEvent(event);
-        setTimeout(() => {
-          const responseDetails = this.sandbox.getResponseDetailsSignal(event);
-          responseDetails
-            .pipe(
-              first(
-                (details) =>
-                  !details || details.status !== HttpResponseStatus.Pending,
-              ),
-            )
-            .subscribe((details) => {
-              if (!details || details.status === HttpResponseStatus.Success) {
-                successfulCallBack?.();
-              }
-            });
+    this.sandbox.dispatchEvent(event);
+    setTimeout(() => {
+      const responseDetails = this.sandbox.getResponseDetailsSignal(event);
+      responseDetails
+        .pipe(
+          first(
+            (details) =>
+              !details || details.status !== HttpResponseStatus.Pending,
+          ),
+        )
+        .subscribe((details) => {
+          if (!details || details.status === HttpResponseStatus.Success) {
+            successfulCallBack?.();
+          }
         });
-      },
-      {
-        injector: config?.injector ?? this.injector,
-      },
-    );
+    });
   }
 
   protected dispatchEventFromSignal(
