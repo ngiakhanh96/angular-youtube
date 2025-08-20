@@ -1,4 +1,11 @@
-import { DestroyRef, effect, inject, Injector, Signal } from '@angular/core';
+import {
+  DestroyRef,
+  effect,
+  inject,
+  Injector,
+  Signal,
+  untracked,
+} from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { EventInstance } from '@ngrx/signals/events';
@@ -54,21 +61,24 @@ export abstract class BaseWithSandBoxComponent {
     effect(
       () => {
         const event: EventInstance<string, any> = eventSignal();
-        this.sandbox.dispatchEvent(event);
-        setTimeout(() => {
-          const responseDetails = this.sandbox.getResponseDetailsSignal(event);
-          responseDetails
-            .pipe(
-              first(
-                (details) =>
-                  !details || details.status !== HttpResponseStatus.Pending,
-              ),
-            )
-            .subscribe((details) => {
-              if (!details || details.status === HttpResponseStatus.Success) {
-                successfulCallBack?.();
-              }
-            });
+        untracked(() => {
+          this.sandbox.dispatchEvent(event);
+          setTimeout(() => {
+            const responseDetails =
+              this.sandbox.getResponseDetailsSignal(event);
+            responseDetails
+              .pipe(
+                first(
+                  (details) =>
+                    !details || details.status !== HttpResponseStatus.Pending,
+                ),
+              )
+              .subscribe((details) => {
+                if (!details || details.status === HttpResponseStatus.Success) {
+                  successfulCallBack?.();
+                }
+              });
+          });
         });
       },
       {
