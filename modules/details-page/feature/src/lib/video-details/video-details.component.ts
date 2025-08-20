@@ -364,10 +364,9 @@ export class VideoDetailsComponent
   }
 
   private convertToSubscriberCountText(subCountText: string) {
-    let subCount = parseInt(subCountText);
-    if (isNaN(subCount)) {
-      subCount = 0;
-    }
-    return `${subCount} subscriber${subCount > 1 ? 's' : ''}`;
+    subCountText = subCountText.trim();
+    subCountText =
+      subCountText === '' || subCountText === '-' ? '0' : subCountText;
+    return `${subCountText} subscriber${!isNaN(parseInt(subCountText)) && parseInt(subCountText) <= 1 ? '' : 's'}`;
   }
 }
