@@ -39,8 +39,6 @@ import {
   VideoDetailsInfoComponent,
 } from '../video-details-info/video-details-info.component';
 
-import { fromEvent } from 'rxjs';
-
 @Component({
   selector: 'ay-video-details',
   templateUrl: './video-details.component.html',
@@ -55,6 +53,7 @@ import { fromEvent } from 'rxjs';
     '[style.--details-page-container-margin-top]': 'marginTop()',
     '[style.--video-recommendations-margin-top]':
       'videoRecommendationMarginTop()',
+    '(document:keydown)': 'onKeydown($event)',
   },
 })
 //TODO handle responsive design when the screen is <= 1016px
@@ -264,18 +263,6 @@ export class VideoDetailsComponent
         this.mainPlayer().seekTo(this.currentTime());
       },
     });
-
-    fromEvent<KeyboardEvent>(this.document, 'keydown')
-      .pipe(this.takeUntilDestroyed())
-      .subscribe((event) => {
-        if (this.document.fullscreenElement) {
-          if (event.key === 'ArrowRight') {
-            this.onArrowKeydown(5);
-          } else if (event.key === 'ArrowLeft') {
-            this.onArrowKeydown(-5);
-          }
-        }
-      });
   }
 
   ngOnInit() {
@@ -301,6 +288,16 @@ export class VideoDetailsComponent
     this.customRouteReuseStrategy.registerCachedComponentName(
       this.constructor.name,
     );
+  }
+
+  onKeydown(event: KeyboardEvent) {
+    if (this.document.fullscreenElement) {
+      if (event.key === 'ArrowRight') {
+        this.onArrowKeydown(5);
+      } else if (event.key === 'ArrowLeft') {
+        this.onArrowKeydown(-5);
+      }
+    }
   }
 
   shouldAttachByRouteReuseStrategy(route: ActivatedRouteSnapshot): boolean {
