@@ -4,6 +4,9 @@ import { fileURLToPath } from 'url';
 import js from '@eslint/js';
 import nxEslintPlugin from '@nx/eslint-plugin';
 import ngrxEslintPlugin from '@ngrx/eslint-plugin';
+import tsEslintPlugin from '@typescript-eslint/eslint-plugin';
+import prettierConfig from 'eslint-config-prettier';
+import cypressPlugin from 'eslint-plugin-cypress';
 
 const compat = new FlatCompat({
   baseDirectory: dirname(fileURLToPath(import.meta.url)),
@@ -18,6 +21,12 @@ export default [
     plugins: {
       '@nx': nxEslintPlugin,
       '@ngrx': ngrxEslintPlugin,
+    },
+  },
+  {
+    files: ['src/**/*.ts', 'modules/**/*.ts'],
+    rules: {
+      ...tsEslintPlugin.configs.recommended.rules,
     },
   },
   ...compat
@@ -207,4 +216,6 @@ export default [
         ...config.rules,
       },
     })),
+  cypressPlugin.configs.recommended,
+  prettierConfig,
 ];
