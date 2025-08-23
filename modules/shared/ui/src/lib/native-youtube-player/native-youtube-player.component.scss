@@ -114,3 +114,27 @@
     }
   }
 }
+
+.player_bottom_button.volume-container {
+  @apply flex items-center w-auto;
+
+  .volume-slider-container {
+    @apply w-0 h-[12px] flex items-center transition-[width] duration-200 ease-in-out ml-0 overflow-hidden;
+  }
+
+  &:hover .volume-slider-container {
+    @apply w-[52px] ml-2;
+  }
+
+  .volume-slider {
+    @apply relative w-full h-[3px] bg-[rgba(255,255,255,0.3)] cursor-pointer;
+
+    .volume-slider-level {
+      @apply absolute left-0 top-0 h-full bg-white;
+    }
+
+    .volume-slider-handle {
+      @apply absolute w-[12px] h-[12px] rounded-full bg-white cursor-pointer top-1/2 -translate-y-1/2 -translate-x-1/2;
+    }
+  }
+}
