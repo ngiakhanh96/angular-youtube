@@ -39,6 +39,8 @@ import {
   VideoDetailsInfoComponent,
 } from '../video-details-info/video-details-info.component';
 
+import { fromEvent } from 'rxjs';
+
 @Component({
   selector: 'ay-video-details',
   templateUrl: './video-details.component.html',
@@ -262,6 +264,18 @@ export class VideoDetailsComponent
         this.mainPlayer().seekTo(this.currentTime());
       },
     });
+
+    fromEvent<KeyboardEvent>(this.document, 'keydown')
+      .pipe(this.takeUntilDestroyed())
+      .subscribe((event) => {
+        if (this.document.fullscreenElement) {
+          if (event.key === 'ArrowRight') {
+            this.onArrowKeydown(5);
+          } else if (event.key === 'ArrowLeft') {
+            this.onArrowKeydown(-5);
+          }
+        }
+      });
   }
 
   ngOnInit() {
