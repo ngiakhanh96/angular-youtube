@@ -8,6 +8,7 @@ import {
   afterRenderEffect,
   booleanAttribute,
   computed,
+  effect,
   inject,
   input,
   model,
@@ -47,6 +48,7 @@ export enum ScreenMode {
   host: {
     '[style.--border-radius]': 'borderRadius()',
     '[style.--player-buttons-display]': 'playerButtonsDisplay()',
+    '[style.--volume-slider-width]': 'volumeSliderWidth()',
     '(document:fullscreenchange)': 'onFullScreenChange()',
     '(document:webkitfullscreenchange)': 'onFullScreenChange()',
     '(document:mozfullscreenchange)': 'onFullScreenChange()',
@@ -98,6 +100,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   );
 
   progressBar = viewChild.required<ElementRef<HTMLElement>>('progressBar');
+  volumeSlider = viewChild.required<ElementRef<HTMLElement>>('volumeSlider');
   loadedProgress = signal(0);
   playedProgress = signal(0);
 
@@ -112,7 +115,11 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   autoPlay = input<boolean>(false);
   mini = input<boolean>(true);
   viewMode = model<ViewMode>(ViewMode.Theater);
-  isMuted = model(false);
+  volume = model<number>(1);
+  muted = model<boolean>(false);
+  volumeSliderWidth = computed(() => {
+    return `${this.muted() ? 0 : this.volume() * 100}%`;
+  });
 
   /** Audio URL for separate audio stream */
   audioUrl = input<string | undefined>(undefined);
@@ -146,7 +153,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   hostElementRef = inject(ElementRef);
 
   private progressUpdateInterval: ReturnType<typeof setInterval> | null = null;
-  private isDragging = false;
+  private isDraggingProgressBar = false;
+  private isDraggingVolume = false;
   private isSeeking = false;
   private readonly document = inject(DOCUMENT);
 
@@ -166,8 +174,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   onMouseUp() {
-    if (this.isDragging) {
-      this.isDragging = false;
+    if (this.isDraggingProgressBar) {
+      this.isDraggingProgressBar = false;
       const isVideoJustEnded = this.isVideoEnded();
       const isVideoEnded = this.videoPlayer().currentTime === this.duration();
       this.isVideoEnded.set(isVideoEnded);
@@ -177,11 +185,17 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       return;
     }
     this.isVideoEnded.set(false);
+    if (this.isDraggingVolume) {
+      this.isDraggingVolume = false;
+    }
   }
 
   onDocumentMouseMove(event: MouseEvent) {
-    if (this.isDragging) {
-      this.seekToPosition(event);
+    if (this.isDraggingProgressBar) {
+      this.seekToFromEvent(event);
+    }
+    if (this.isDraggingVolume) {
+      this.setVolumeFromEvent(event);
     }
   }
 
@@ -207,7 +221,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         });
         this.videoPlayer().addEventListener('volumechange', () => {
           this.audioPlayer().muted = this.videoPlayer().muted;
-          this.synchronizeAudioWithVideo();
+          this.audioPlayer().volume = this.videoPlayer().volume;
         });
         this.videoPlayer().addEventListener('play', () => {
           this.isVideoEnded.set(false);
@@ -264,17 +278,26 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       write: () => {
         this.videoUrl();
         this.videoPlayer()?.load();
-        if (this.autoPlay()) {
-          this.playVideo();
-          this.videoPlayer().muted = untracked(() => this.isMuted());
-        } else {
-          this.videoPlayer().muted = true;
-          this.isMuted.set(true);
-        }
-        if (!this.mini()) {
-          this.startProgressTracking();
-        }
+        untracked(() => {
+          if (this.autoPlay()) {
+            this.playVideo();
+            this.muted.set(false);
+          } else {
+            this.muted.set(true);
+          }
+          if (!this.mini()) {
+            this.startProgressTracking();
+          }
+        });
       },
+    });
+
+    effect(() => {
+      this.setVolume(this.volume());
+    });
+
+    effect(() => {
+      this.setMuted(this.muted());
     });
   }
 
@@ -341,8 +364,11 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   toggleMute() {
-    this.isMuted.update((v) => !v);
-    this.videoPlayer().muted = this.isMuted();
+    if (!this.muted() && this.volume() === 0) {
+      this.volume.set(1);
+    } else {
+      this.muted.update((v) => !v);
+    }
   }
 
   toggleViewMode() {
@@ -352,10 +378,15 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   onProgressBarMouseDown(event: MouseEvent) {
-    this.isDragging = true;
+    this.isDraggingProgressBar = true;
     this.isVideoPlayedLastTime.set(this.isVideoPlaying());
     this.pauseVideo();
-    this.seekToPosition(event);
+    this.seekToFromEvent(event);
+  }
+
+  onVolumeSliderMouseDown(event: MouseEvent) {
+    this.isDraggingVolume = true;
+    this.setVolumeFromEvent(event);
   }
 
   seekTo(currentTime: number) {
@@ -380,7 +411,11 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         .requestPictureInPicture()
         .then(() => {
           {
-            previousIsVideoPlaying ? this.playVideo() : this.pauseVideo();
+            if (previousIsVideoPlaying) {
+              this.playVideo();
+            } else {
+              this.pauseVideo();
+            }
             successCallback?.();
           }
         })
@@ -421,6 +456,24 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     } else {
       console.warn('Not currently in Picture-in-Picture mode.');
     }
+  }
+
+  private setVolume(volume: number) {
+    this.videoPlayer().volume = volume;
+  }
+
+  private setMuted(muted: boolean) {
+    this.videoPlayer().muted = muted;
+  }
+
+  private setVolumeFromEvent(event: MouseEvent) {
+    const volumeSlider = this.volumeSlider().nativeElement;
+    const rect = volumeSlider.getBoundingClientRect();
+    const newVolume = Math.max(
+      0,
+      Math.min(1, (event.clientX - rect.left) / rect.width),
+    );
+    this.volume.set(newVolume);
   }
 
   private playAudio() {
@@ -477,7 +530,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     }
   }
 
-  private seekToPosition(event: MouseEvent) {
+  private seekToFromEvent(event: MouseEvent) {
     const progressBar = this.progressBar().nativeElement;
     const rect = progressBar.getBoundingClientRect();
     const position = Math.max(

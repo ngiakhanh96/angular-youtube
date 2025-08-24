@@ -18,5 +18,8 @@
         "ohdpktv",
         "soundcloud",
         "Volumn"
-    ]
+    ],
+    "files.associations": {
+        "*.scss": "tailwindcss"
+    }
 }

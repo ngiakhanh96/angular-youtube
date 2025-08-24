@@ -4,6 +4,7 @@
 [![Nx](https://img.shields.io/badge/Nx-21.4.0-143055.svg?style=flat&logo=nx)](https://nx.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-007acc.svg?style=flat&logo=typescript)](https://www.typescriptlang.org/)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 > A modern, feature-rich YouTube clone built with latest Angular 20
 
