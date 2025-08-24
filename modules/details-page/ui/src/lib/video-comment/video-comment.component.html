@@ -57,9 +57,7 @@
             color="var(--blue-color)"
             backgroundColor="transparent"
             hoverBackgroundColor="rgb(222,241,255)"
-            [transform]="
-              this.repliesCollapsed() ? 'rotate(0deg)' : 'rotate(180deg)'
-            "
+            [transform]="repliesCollapsed() ? 'rotate(0deg)' : 'rotate(180deg)'"
             (click)="onClickReplies()"
           >
           </ay-text-icon-button>

@@ -116,10 +116,11 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   mini = input<boolean>(true);
   viewMode = model<ViewMode>(ViewMode.Theater);
   volume = model<number>(1);
-  muted = model<boolean>(false);
   volumeSliderWidth = computed(() => {
     return `${this.muted() ? 0 : this.volume() * 100}%`;
   });
+  muted = model<boolean>(false);
+  isMuted = computed(() => this.muted() || this.volume() === 0);
 
   /** Audio URL for separate audio stream */
   audioUrl = input<string | undefined>(undefined);
