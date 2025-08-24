@@ -46,7 +46,7 @@
         }
 
         .progress-bar-handle {
-          @apply absolute w-[13px] h-[13px] rounded-full bg-[rgb(255,0,0)] cursor-pointer translate-x-[-50%] translate-y-[calc(-50%+3px/2)];
+          @apply absolute w-[13px] h-[13px] rounded-full bg-[rgb(255,0,0)] translate-x-[-50%] translate-y-[calc(-50%+3px/2)];
         }
 
         &:hover {
@@ -120,10 +120,10 @@
           @apply flex items-center w-auto cursor-pointer;
 
           .volume_slider_container {
-            @apply relative w-0 h-[12px] flex items-center transition-[width] duration-200 ease-in-out overflow-hidden;
+            @apply relative w-0 h-[12px] flex items-center transition-[width] duration-200 overflow-hidden;
 
             .volume_slider {
-              @apply absolute w-full h-[3px] bg-[rgba(255,255,255,0.3)] cursor-pointer;
+              @apply absolute w-full h-[3px] bg-[rgba(255,255,255,0.3)];
             }
 
             .volume_slider_level {
