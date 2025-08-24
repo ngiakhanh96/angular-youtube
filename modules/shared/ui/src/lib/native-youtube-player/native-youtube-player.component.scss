@@ -38,15 +38,15 @@
         @apply relative h-[3px] bg-[rgba(255,255,255,0.2)] my-[1px];
 
         .progress-bar-loaded {
-          @apply absolute left-0 top-0 h-[3px] bg-[rgba(255,255,255,0.4)];
+          @apply absolute h-[3px] bg-[rgba(255,255,255,0.4)];
         }
 
         .progress-bar-played {
-          @apply absolute left-0 top-0 h-[3px] bg-[#ff0000];
+          @apply absolute h-[3px] bg-[rgb(255,0,0)];
         }
 
         .progress-bar-handle {
-          @apply absolute w-[13px] h-[13px] rounded-full bg-[#ff0000] cursor-pointer translate-x-[-50%] translate-y-[calc(-50%+3px/2)];
+          @apply absolute w-[13px] h-[13px] rounded-full bg-[rgb(255,0,0)] cursor-pointer translate-x-[-50%] translate-y-[calc(-50%+3px/2)];
         }
 
         &:hover {
