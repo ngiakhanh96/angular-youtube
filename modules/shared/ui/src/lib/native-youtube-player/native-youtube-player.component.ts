@@ -8,6 +8,7 @@ import {
   afterRenderEffect,
   booleanAttribute,
   computed,
+  effect,
   inject,
   input,
   model,
@@ -47,6 +48,7 @@ export enum ScreenMode {
   host: {
     '[style.--border-radius]': 'borderRadius()',
     '[style.--player-buttons-display]': 'playerButtonsDisplay()',
+    '[style.--volume-slider-width]': 'volumeSliderWidth()',
     '(document:fullscreenchange)': 'onFullScreenChange()',
     '(document:webkitfullscreenchange)': 'onFullScreenChange()',
     '(document:mozfullscreenchange)': 'onFullScreenChange()',
@@ -113,17 +115,10 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   autoPlay = input<boolean>(false);
   mini = input<boolean>(true);
   viewMode = model<ViewMode>(ViewMode.Theater);
-  isMuted = model(false);
-  volume = signal(1);
-  volumeIconPath = computed(() => {
-    const vol = this.volume();
-    if (this.isMuted() || vol === 0) {
-      return 'm 21.48,17.98 c 0,-1.77 -1.02,-3.29 -2.5,-4.03 v 2.21 l 2.45,2.45 c .03,-0.2 .05,-0.41 .05,-0.63 z m 2.5,0 c 0,.94 -0.2,1.82 -0.54,2.64 l 1.51,1.51 c .66,-1.24 1.03,-2.65 1.03,-4.15 0,-4.28 -2.99,-7.86 -7,-8.76 v 2.05 c 2.89,.86 5,3.54 5,6.71 z M 9.25,8.98 l -1.27,1.26 4.72,4.73 H 7.98 v 6 H 11.98 l 5,5 v -6.73 l 4.25,4.25 c -0.67,.52 -1.42,.93 -2.25,1.18 v 2.06 c 1.38,-0.31 2.63,-0.95 3.69,-1.81 l 2.04,2.05 1.27,-1.27 -9,-9 -7.72,-7.72 z m 7.72,.99 -2.09,2.08 2.09,2.09 V 9.98 z';
-    }
-    if (vol > 0 && vol <= 0.5) {
-      return 'M8,21 L12,21 L17,26 L17,10 L12,15 L8,15 L8,21 Z M19,14 L19,22 C20.48,21.32 21.5,19.77 21.5,18 C21.5,16.26 20.48,14.74 19,14 Z';
-    }
-    return 'M8,21 L12,21 L17,26 L17,10 L12,15 L8,15 L8,21 Z M19,14 L19,22 C20.48,21.32 21.5,19.77 21.5,18 C21.5,16.26 20.48,14.74 19,14 ZM19,11.29 C21.89,12.15 24,14.83 24,18 C24,21.17 21.89,23.85 19,24.71 L19,26.77 C23.01,25.86 26,22.28 26,18 C26,13.72 23.01,10.14 19,9.23 L19,11.29 Z';
+  volume = model<number>(1);
+  muted = model<boolean>(false);
+  volumeSliderWidth = computed(() => {
+    return `${this.muted() ? 0 : this.volume() * 100}%`;
   });
 
   /** Audio URL for separate audio stream */
@@ -158,7 +153,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   hostElementRef = inject(ElementRef);
 
   private progressUpdateInterval: ReturnType<typeof setInterval> | null = null;
-  private isDragging = false;
+  private isDraggingProgressBar = false;
   private isDraggingVolume = false;
   private isSeeking = false;
   private readonly document = inject(DOCUMENT);
@@ -179,8 +174,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   onMouseUp() {
-    if (this.isDragging) {
-      this.isDragging = false;
+    if (this.isDraggingProgressBar) {
+      this.isDraggingProgressBar = false;
       const isVideoJustEnded = this.isVideoEnded();
       const isVideoEnded = this.videoPlayer().currentTime === this.duration();
       this.isVideoEnded.set(isVideoEnded);
@@ -190,12 +185,14 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       return;
     }
     this.isVideoEnded.set(false);
-    this.isDraggingVolume = false;
+    if (this.isDraggingVolume) {
+      this.isDraggingVolume = false;
+    }
   }
 
   onDocumentMouseMove(event: MouseEvent) {
-    if (this.isDragging) {
-      this.seekToPosition(event);
+    if (this.isDraggingProgressBar) {
+      this.seekToFromEvent(event);
     }
     if (this.isDraggingVolume) {
       this.setVolumeFromEvent(event);
@@ -225,7 +222,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         this.videoPlayer().addEventListener('volumechange', () => {
           this.audioPlayer().muted = this.videoPlayer().muted;
           this.audioPlayer().volume = this.videoPlayer().volume;
-          this.synchronizeAudioWithVideo();
         });
         this.videoPlayer().addEventListener('play', () => {
           this.isVideoEnded.set(false);
@@ -282,25 +278,26 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       write: () => {
         this.videoUrl();
         this.videoPlayer()?.load();
-        if (this.autoPlay()) {
-          this.playVideo();
-          this.videoPlayer().muted = untracked(() => this.isMuted());
-        } else {
-          this.videoPlayer().muted = true;
-          this.isMuted.set(true);
-        }
-        if (!this.mini()) {
-          this.startProgressTracking();
-        }
-
-        if (untracked(this.isMuted)) {
-          this.volume.set(0);
-        } else {
-          this.volume.set(1);
-        }
-        this.videoPlayer().volume = this.volume();
-        this.audioPlayer().volume = this.volume();
+        untracked(() => {
+          if (this.autoPlay()) {
+            this.playVideo();
+            this.muted.set(false);
+          } else {
+            this.muted.set(true);
+          }
+          if (!this.mini()) {
+            this.startProgressTracking();
+          }
+        });
       },
+    });
+
+    effect(() => {
+      this.setVolume(this.volume());
+    });
+
+    effect(() => {
+      this.setMuted(this.muted());
     });
   }
 
@@ -367,11 +364,10 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   toggleMute() {
-    this.isMuted.update((v) => !v);
-    this.videoPlayer().muted = this.isMuted();
-
-    if (!this.isMuted() && this.volume() === 0) {
-      this.setVolume(1);
+    if (!this.muted() && this.volume() === 0) {
+      this.volume.set(1);
+    } else {
+      this.muted.update((v) => !v);
     }
   }
 
@@ -382,10 +378,10 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   onProgressBarMouseDown(event: MouseEvent) {
-    this.isDragging = true;
+    this.isDraggingProgressBar = true;
     this.isVideoPlayedLastTime.set(this.isVideoPlaying());
     this.pauseVideo();
-    this.seekToPosition(event);
+    this.seekToFromEvent(event);
   }
 
   onVolumeSliderMouseDown(event: MouseEvent) {
@@ -415,7 +411,11 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         .requestPictureInPicture()
         .then(() => {
           {
-            previousIsVideoPlaying ? this.playVideo() : this.pauseVideo();
+            if (previousIsVideoPlaying) {
+              this.playVideo();
+            } else {
+              this.pauseVideo();
+            }
             successCallback?.();
           }
         })
@@ -459,9 +459,11 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   private setVolume(volume: number) {
-    this.volume.set(volume);
     this.videoPlayer().volume = volume;
-    this.audioPlayer().volume = volume;
+  }
+
+  private setMuted(muted: boolean) {
+    this.videoPlayer().muted = muted;
   }
 
   private setVolumeFromEvent(event: MouseEvent) {
@@ -471,15 +473,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       0,
       Math.min(1, (event.clientX - rect.left) / rect.width),
     );
-    this.setVolume(newVolume);
-
-    if (newVolume > 0 && this.isMuted()) {
-      this.isMuted.set(false);
-      this.videoPlayer().muted = false;
-    } else if (newVolume === 0 && !this.isMuted()) {
-      this.isMuted.set(true);
-      this.videoPlayer().muted = true;
-    }
+    this.volume.set(newVolume);
   }
 
   private playAudio() {
@@ -536,7 +530,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     }
   }
 
-  private seekToPosition(event: MouseEvent) {
+  private seekToFromEvent(event: MouseEvent) {
     const progressBar = this.progressBar().nativeElement;
     const rect = progressBar.getBoundingClientRect();
     const position = Math.max(
