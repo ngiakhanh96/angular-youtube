@@ -3,17 +3,15 @@
 }
 
 .one-line {
-  @apply overflow-hidden text-ellipsis whitespace-nowrap leading-[var(--line-height)];
-  font-weight: var(--font-weight);
+  @apply overflow-hidden text-ellipsis whitespace-nowrap leading-[var(--line-height)] font-[var(--font-weight)];
 }
 
 .multi-line {
-  @apply overflow-hidden text-ellipsis leading-[var(--line-height)];
+  @apply overflow-hidden text-ellipsis leading-[var(--line-height)] font-[var(--font-weight)];
   display: -webkit-box;
   -webkit-box-orient: vertical;
   line-clamp: var(--line-clamp);
   -webkit-line-clamp: var(--line-clamp);
-  font-weight: var(--font-weight);
 }
 
 .video-title-overview {

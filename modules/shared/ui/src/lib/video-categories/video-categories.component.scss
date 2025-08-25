@@ -29,19 +29,17 @@
     @apply w-full;
     ::ng-deep {
       .mdc-evolution-chip-set__chips {
-        @apply flex-nowrap gap-x-[12px] ml-0;
+        @apply flex-nowrap gap-x-[12px] ml-0 overflow-auto;
         scroll-snap-type: x mandatory;
         scroll-behavior: smooth;
         scrollbar-width: none;
-        overflow: auto;
 
         &::-webkit-scrollbar {
-          display: none;
+          @apply hidden;
         }
 
         mat-chip {
-          @apply m-0;
-          scroll-snap-align: center;
+          @apply m-0 snap-center;
 
           .mdc-evolution-chip__action {
             @apply cursor-pointer;
