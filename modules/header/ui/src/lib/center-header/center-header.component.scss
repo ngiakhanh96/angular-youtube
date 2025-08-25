@@ -3,24 +3,12 @@
 }
 
 .center-header {
-  height: 40px;
-  @apply flex items-center;
+  @apply flex items-center h-[40px];
   > .search-box {
-    flex-basis: 1e-9px;
-    flex-grow: 1;
-    flex-shrink: 1;
-    height: 40px;
-    padding-left: 4px;
-    padding-right: 4px;
+    @apply flex-1 h-[40px] px-[4px];
   }
 
   > .voice-search {
-    width: 40px;
-    height: 100%;
-    @apply ml-[12px] rounded-[100px];
-    background-color: rgba(0, 0, 0, 0.05);
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.15);
-    }
+    @apply w-[40px] h-full ml-[12px] rounded-full bg-black/5 hover:bg-black/15;
   }
 }

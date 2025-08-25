@@ -11,17 +11,17 @@
   }
 
   > .master_header_start {
-    @apply flex-grow-0 flex-shrink-0 w-[var(--logo-menu-width)];
+    @apply grow-0 shrink-0 w-[var(--logo-menu-width)];
     ay-logo-menu {
       @apply w-[169px];
     }
   }
 
   > .master_header_center {
-    @apply flex-grow-0 flex-shrink items-center basis-[700px];
+    @apply grow-0 shrink items-center basis-[700px];
   }
 
   > .master_header_end {
-    @apply flex-grow-0 flex-shrink-0 items-center justify-end basis-[225px];
+    @apply grow-0 shrink-0 items-center justify-end basis-[225px];
   }
 }

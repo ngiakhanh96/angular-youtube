@@ -6,44 +6,22 @@
   @apply h-full flex;
 
   .search-box-container {
-    @apply h-full flex-grow flex-shrink ml-[32px];
-    border-color: rgb(204, 204, 204);
-    border-style: solid;
-    border-width: 1px;
-    box-shadow: rgb(238, 238, 238) 0px 1px 2px 0px inset;
-    padding: 0 4px 0 var(--search-box-container-padding-left);
-    border-top-left-radius: 2px;
-    border-bottom-left-radius: 2px;
-    border-radius: 40px 0 0 40px;
+    @apply h-full grow shrink ml-[32px] rounded-l-[40px] border border-solid border-gray-300 py-0 pr-[4px] pl-[var(--search-box-container-padding-left)] shadow-[inset_0px_1px_2px_0px_rgb(238,238,238)];
 
     .search-box {
       @apply h-full flex items-center;
       ::placeholder {
-        color: black;
-        opacity: 0.7; /* Firefox */
+        @apply text-[var(--black-color)] opacity-70;
       }
       .search-input {
-        outline: none;
-        @apply h-full w-full bg-transparent;
-        padding: 1px 0px;
-        font-size: 16px;
+        @apply h-full w-full bg-transparent py-px text-base outline-none;
       }
     }
   }
   .search-button-container {
     @apply cursor-pointer;
     .search-icon-legacy {
-      background-color: var(--search-icon-legacy-bg-color);
-      width: 65px;
-      border-color: rgb(204, 204, 204);
-      border-style: solid;
-      border-right-width: 1px;
-      border-bottom-width: 1px;
-      border-top-width: 1px;
-      box-shadow: rgb(237, 237, 237) 0px 1px 2px 0px inset;
-      padding: 1px 6px;
-      border-radius: 0 40px 40px 0;
-      color: rgb(0, 0, 0);
+      @apply w-[65px] rounded-r-[40px] border-t border-r border-b border-solid border-gray-300 bg-[var(--search-icon-legacy-bg-color)] py-px px-[6px] text-[var(--black-color)] shadow-[inset_0px_1px_2px_0px_rgb(237,237,237)];
     }
   }
 }

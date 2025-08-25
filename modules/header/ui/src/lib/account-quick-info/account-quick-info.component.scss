@@ -8,7 +8,7 @@
 .account-quick-info {
   @apply flex p-[16px];
   .account-quick-info-avatar {
-    @apply w-[40px] flex-grow-0 flex-shrink-0 mr-[16px];
+    @apply w-[40px] grow-0 shrink-0 mr-[16px];
     ay-account-avatar {
       @apply w-full;
     }

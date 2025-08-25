@@ -1,6 +1,5 @@
 :host {
-  min-height: 100%;
-  @apply flex-row w-full h-full relative block;
+  @apply flex-row w-full h-full relative block min-h-full;
 }
 mat-sidenav-container {
   @apply flex;
@@ -18,7 +17,7 @@ mat-sidenav-container {
       .layout_body {
         @apply flex flex-row;
         ay-sidebar-mini {
-          @apply w-[var(--sidebar-mini-width)] flex-shrink-0 flex-grow-0;
+          @apply w-[var(--sidebar-mini-width)] shrink-0 grow-0;
         }
 
         .layout_body_content {

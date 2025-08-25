@@ -16,7 +16,7 @@
     @apply flex flex-row relative aspect-video;
 
     &--horizontal {
-      @apply max-w-[var(--horizontal-max-width)] min-w-[var(--horizontal-min-width)] flex-shrink flex-grow mr-[var(--horizontal-thumbnail-margin-right)];
+      @apply max-w-[var(--horizontal-max-width)] min-w-[var(--horizontal-min-width)] shrink grow mr-[var(--horizontal-thumbnail-margin-right)];
     }
 
     &--vertical {
@@ -28,15 +28,7 @@
     }
 
     .thumbnail__duration {
-      @apply absolute bg-[rgba(0,0,0,0.6)] right-[var(--thumbnail-duration-right-bottom)] bottom-[var(--thumbnail-duration-right-bottom)] text-[var(--white-color)] flex-row items-center;
-      border-radius: 2px;
-      padding-left: 4px;
-      padding-right: 4px;
-      font-size: 12px;
-      line-height: 20px;
-      font-weight: 500;
-      border-radius: 4px;
-      height: 20px;
+      @apply absolute h-[20px] items-center rounded bg-black/60 px-[4px] text-xs font-medium leading-[20px] right-[var(--thumbnail-duration-right-bottom)] bottom-[var(--thumbnail-duration-right-bottom)] text-[var(--white-color)] flex-row;
     }
   }
 
@@ -44,19 +36,19 @@
     @apply flex flex-row;
 
     &--horizontal {
-      @apply flex-shrink flex-grow w-0;
+      @apply shrink grow w-0;
     }
 
     .thumbnail__channel-logo {
-      @apply mt-3 mr-3 h-9 flex-shrink-0;
+      @apply mt-3 mr-3 h-9 shrink-0;
 
       img {
-        @apply h-full rounded-[50%];
+        @apply h-full rounded-full;
       }
     }
 
     .thumbnail__video-info {
-      @apply flex flex-col flex-grow basis-0 flex-shrink mt-[12px];
+      @apply mt-[12px] flex flex-col grow basis-0 shrink;
       &--horizontal {
         @apply mt-0 w-full;
       }
@@ -70,7 +62,7 @@
       @apply flex w-[30px] mt-[var(--thumbnail-settings-button-margin-top)];
 
       .thumbnail__settings-button {
-        @apply flex-[0_0_40px];
+        @apply flex-none basis-[40px];
         ay-dropdown-button {
           @apply h-[40px];
         }

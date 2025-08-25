@@ -23,8 +23,7 @@
         @apply w-full border-b py-[4px] outline-none focus:border-black;
 
         &::placeholder {
-          color: var(--black-color);
-          opacity: 0.7;
+          @apply text-[var(--black-color)] opacity-70;
         }
       }
 

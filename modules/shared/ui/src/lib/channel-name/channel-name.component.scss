@@ -9,7 +9,7 @@
   }
 
   .channel-name-verified {
-    @apply w-[18px] flex-grow-0 flex-shrink-0 flex items-center text-[rgb(96,96,96)];
+    @apply w-[18px] grow-0 shrink-0 flex items-center text-[rgb(96,96,96)];
     mat-icon {
       @apply w-[14px] h-[14px] ml-[4px];
     }
