@@ -19,13 +19,11 @@ mat-sidenav-container {
         @apply flex flex-row;
         ay-sidebar-mini {
           @apply w-[var(--sidebar-mini-width)] flex-shrink-0 flex-grow-0;
-          @apply transition-[display] duration-200;
         }
 
         .layout_body_content {
           @apply w-[var(--sidenav-content-width)];
           /* Smooth transition for sidebar content width change */
-          /* Wait after ay-sidebar-mini finish transition */
           @apply transition-[width] duration-400 delay-200;
         }
       }
