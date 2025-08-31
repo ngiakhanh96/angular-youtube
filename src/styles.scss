@@ -42,3 +42,30 @@ body {
 .mdc-list-list-item-one-line-container-height-36px {
   --mat-list-list-item-one-line-container-height: 36px;
 }
+
+/* View Transitions */
+::view-transition-old(root) {
+  animation: fade-out 0.3s ease-in-out 0.1s both;
+}
+
+::view-transition-new(root) {
+  animation: fade-in 0.3s ease-in-out 0.1s both;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
