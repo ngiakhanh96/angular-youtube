@@ -293,9 +293,13 @@ export class VideoDetailsComponent
   onKeydown(event: KeyboardEvent) {
     if (this.document.fullscreenElement) {
       if (event.key === 'ArrowRight') {
-        this.onArrowKeydown(5);
+        this.seekBy(event, 5);
       } else if (event.key === 'ArrowLeft') {
-        this.onArrowKeydown(-5);
+        this.seekBy(event, -5);
+      } else if (event.key === 'ArrowUp') {
+        this.setVolumeBy(event, 0.05);
+      } else if (event.key === 'ArrowDown') {
+        this.setVolumeBy(event, -0.05);
       }
     }
   }
@@ -370,8 +374,14 @@ export class VideoDetailsComponent
     }
   }
 
-  onArrowKeydown(duration: number) {
+  seekBy(event: Event, duration: number) {
     this.mainPlayer().seekBy(duration);
+    event.preventDefault();
+  }
+
+  setVolumeBy(event: Event, volume: number) {
+    this.mainPlayer().setVolumeBy(volume);
+    event.preventDefault();
   }
 
   private convertToSubscriberCountText(subCountText: string) {

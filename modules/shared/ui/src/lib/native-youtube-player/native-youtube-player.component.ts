@@ -459,6 +459,14 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     }
   }
 
+  setVolumeBy(volume: number) {
+    const newVolume = Math.max(
+      0,
+      Math.min(1, +(this.volume() + volume).toFixed(2)),
+    );
+    this.volume.set(newVolume);
+  }
+
   private setVolume(volume: number) {
     this.videoPlayer().volume = volume;
   }

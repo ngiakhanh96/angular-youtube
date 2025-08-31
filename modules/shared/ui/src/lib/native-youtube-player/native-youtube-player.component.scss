@@ -135,8 +135,10 @@
             }
           }
 
-          &:hover .volume_slider_container {
-            @apply w-[52px] ml-2;
+          &:hover {
+            .volume_slider_container {
+              @apply w-[52px] ml-2;
+            }
           }
         }
       }
