@@ -6,7 +6,8 @@
 :root {
   --white-color: rgb(255, 255, 255);
   --white-color-trans: rgba(255, 255, 255, 0.94);
-  --black-color: rgb(15, 15, 15);
+  --black-color: rgb(0, 0, 0);
+  --black-color-trans: rgba(0, 0, 0, 0.1);
   --blue-color: rgb(6, 95, 212);
   --layer-1: 10;
   --layer-2: 2000;
@@ -23,7 +24,7 @@ body {
 
 body {
   @apply m-0 font-[Roboto];
-  text-shadow: 0 0 6px rgba(0, 0, 0, 0);
+  text-shadow: 0 0 6px var(--black-color-trans);
   pre {
     @apply font-[Roboto];
   }
