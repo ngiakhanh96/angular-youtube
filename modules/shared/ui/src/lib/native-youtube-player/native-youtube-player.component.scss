@@ -131,13 +131,17 @@
             }
 
             .volume_slider_handle {
-              @apply absolute -translate-x-1/2 left-[var(--volume-slider-width)] w-[12px] h-[12px] rounded-full bg-white top-0;
+              @apply absolute hidden -translate-x-1/2 left-[var(--volume-slider-width)] w-[12px] h-[12px] rounded-full bg-white top-0;
             }
           }
 
           &:hover {
             .volume_slider_container {
               @apply w-[52px] mx-[8px];
+
+              .volume_slider_handle {
+                @apply block;
+              }
             }
           }
         }
