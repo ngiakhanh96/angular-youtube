@@ -16,7 +16,7 @@
     @include calculate-details_page_player_container-height();
   }
   .details_page_info_container {
-    @apply flex ml-[24px] mr-[42px] justify-center;
+    @apply flex ml-[42px] mr-[42px] justify-center;
     .details_page_info_details {
       @apply flex flex-col mr-[24px] basis-[642px] grow shrink-0 max-w-[1235px];
     }
