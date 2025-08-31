@@ -22,11 +22,10 @@ body {
 }
 
 body {
-  margin: 0;
-  font-family: 'Roboto', 'Arial', sans-serif;
+  @apply m-0 font-[Roboto];
   text-shadow: 0 0 6px rgba(0, 0, 0, 0);
   pre {
-    font-family: 'Roboto', 'Arial', sans-serif;
+    @apply font-[Roboto];
   }
 }
 
