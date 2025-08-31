@@ -117,6 +117,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   viewMode = model<ViewMode>(ViewMode.Theater);
   volume = model<number>(1);
   volumeSliderWidth = computed(() => {
+    console.log(`${this.muted() ? 0 : this.volume() * 100}%`);
     return `${this.muted() ? 0 : this.volume() * 100}%`;
   });
   muted = model<boolean>(false);
@@ -464,6 +465,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       0,
       Math.min(1, +(this.volume() + volume).toFixed(2)),
     );
+    console.log('Volume changed:', newVolume);
     this.volume.set(newVolume);
   }
 

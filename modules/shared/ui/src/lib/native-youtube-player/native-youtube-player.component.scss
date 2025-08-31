@@ -120,7 +120,7 @@
           @apply flex items-center w-auto cursor-pointer;
 
           .volume_slider_container {
-            @apply relative w-0 h-[12px] flex items-center transition-[width] duration-200 overflow-hidden;
+            @apply relative w-0 h-[12px] flex items-center transition-[width] duration-200;
 
             .volume_slider {
               @apply absolute w-full h-[3px] bg-[rgba(255,255,255,0.3)];
@@ -131,13 +131,13 @@
             }
 
             .volume_slider_handle {
-              @apply absolute left-[min(var(--volume-slider-width),calc(100%-12px))] w-[12px] h-[12px] rounded-full bg-white top-0;
+              @apply absolute -translate-x-1/2 left-[var(--volume-slider-width)] w-[12px] h-[12px] rounded-full bg-white top-0;
             }
           }
 
           &:hover {
             .volume_slider_container {
-              @apply w-[52px] ml-2;
+              @apply w-[52px] mx-[8px];
             }
           }
         }
