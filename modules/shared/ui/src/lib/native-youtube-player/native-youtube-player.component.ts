@@ -49,7 +49,7 @@ export enum ScreenMode {
     '[style.--border-radius]': 'borderRadius()',
     '[style.--player-buttons-display]': 'playerButtonsDisplay()',
     '[style.--volume-slider-width]': 'volumeSliderWidth()',
-    '[attr.data-volume-slider-visible]': 'isVolumeSliderVisible()',
+    '[class.volume-slider-visible]': 'isVolumeSliderVisible()',
     '(document:fullscreenchange)': 'onFullScreenChange()',
     '(document:webkitfullscreenchange)': 'onFullScreenChange()',
     '(document:mozfullscreenchange)': 'onFullScreenChange()',
@@ -161,13 +161,14 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   private isSeeking = false;
   private readonly document = inject(DOCUMENT);
 
-  private hoverTimer: ReturnType<typeof setTimeout> | null = null;
   private keyboardVolumeTimeout?: number;
-  isKeyboardVolumeActive = signal(false);
-  isVolumeHovered = signal(false);
-  isVolumeSliderVisible = computed(
-    () => this.isKeyboardVolumeActive() || this.isVolumeHovered(),
-  );
+  private isKeyboardVolumeActive = signal(false);
+  private isVolumeHovered = signal(false);
+  private isVolumeSliderVisible = computed(() => {
+    return this.isKeyboardVolumeActive() || this.isVolumeHovered();
+  });
+
+  private hoverTimer: ReturnType<typeof setTimeout> | null = null;
   private static hoverAndRestTimeoutMs = 5000;
 
   onFullScreenChange() {
@@ -481,7 +482,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       0,
       Math.min(1, +(this.volume() + volume).toFixed(2)),
     );
-    console.log('Volume changed:', newVolume);
     this.volume.set(newVolume);
 
     // Set keyboard volume active state immediately

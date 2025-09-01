@@ -140,15 +140,13 @@
   }
 }
 
-:host([data-volume-slider-visible='true']) {
+:host(.volume-slider-visible) {
   .volume_container {
     .volume_slider_container {
-      width: 52px !important;
-      margin-left: 8px !important;
-      margin-right: 8px !important;
-
+      @apply w-[52px] #{!important};
+      @apply mx-[8px] #{!important};
       .volume_slider_handle {
-        opacity: 1 !important;
+        @apply opacity-100 #{!important};
       }
     }
   }
