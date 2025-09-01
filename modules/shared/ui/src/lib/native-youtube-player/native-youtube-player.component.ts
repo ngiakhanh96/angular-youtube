@@ -484,6 +484,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     );
     this.volume.set(newVolume);
 
+    this.onMouseEnter();
+
     // Set keyboard volume active state immediately
     this.isKeyboardVolumeActive.set(true);
     this.clearVolumeKeyboardTimer();
