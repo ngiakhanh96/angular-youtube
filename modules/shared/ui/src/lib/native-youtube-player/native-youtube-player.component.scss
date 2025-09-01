@@ -127,7 +127,7 @@
             }
 
             .volume_slider_level {
-              @apply absolute transition-[width] duration-0 h-[3px] bg-[var(--white-color)] w-[var(--volume-slider-width)];
+              @apply absolute transition-[width] duration-75 h-[3px] bg-[var(--white-color)] w-[var(--volume-slider-width)];
             }
 
             .volume_slider_handle {

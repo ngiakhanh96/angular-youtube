@@ -336,6 +336,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.isHovered.set(false);
     this.clearHoverTimer();
     this.document.body.style.cursor = '';
+    this.isKeyboardVolumeActive.set(false);
+    this.clearVolumeKeyboardTimer();
   }
 
   playVideo() {
