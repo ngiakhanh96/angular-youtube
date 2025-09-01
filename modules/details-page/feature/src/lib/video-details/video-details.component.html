@@ -17,10 +17,7 @@
       (canPlay)="onCanPlay()"
       (leavePictureInPicture)="onLeavePictureInPicture($event)"
       tabindex="0"
-      (keydown.arrowright)="seekBy($event, 5)"
-      (keydown.arrowleft)="seekBy($event, -5)"
-      (keydown.arrowup)="setVolumeBy($event, 0.05)"
-      (keydown.arrowdown)="setVolumeBy($event, -0.05)"
+      (keydown)="onKeydown($event)"
     >
     </ay-native-youtube-player>
   </div>

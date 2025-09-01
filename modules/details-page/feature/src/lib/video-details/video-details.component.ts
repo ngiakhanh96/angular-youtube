@@ -53,7 +53,7 @@ import {
     '[style.--details-page-container-margin-top]': 'marginTop()',
     '[style.--video-recommendations-margin-top]':
       'videoRecommendationMarginTop()',
-    '(document:keydown)': 'onKeydown($event)',
+    '(document:keydown)': 'onKeydown($event, true)',
   },
 })
 //TODO handle responsive design when the screen is <= 1016px
@@ -290,16 +290,20 @@ export class VideoDetailsComponent
     );
   }
 
-  onKeydown(event: KeyboardEvent) {
-    if (this.document.fullscreenElement) {
+  onKeydown(event: KeyboardEvent, onlyOnFullscreen = false) {
+    if (!onlyOnFullscreen || this.document.fullscreenElement) {
       if (event.key === 'ArrowRight') {
-        this.seekBy(event, 5);
+        this.seekBy(5);
+        event.preventDefault();
       } else if (event.key === 'ArrowLeft') {
-        this.seekBy(event, -5);
+        this.seekBy(-5);
+        event.preventDefault();
       } else if (event.key === 'ArrowUp') {
-        this.setVolumeBy(event, 0.05);
+        this.setVolumeBy(0.05);
+        event.preventDefault();
       } else if (event.key === 'ArrowDown') {
-        this.setVolumeBy(event, -0.05);
+        this.setVolumeBy(-0.05);
+        event.preventDefault();
       }
     }
   }
@@ -374,14 +378,12 @@ export class VideoDetailsComponent
     }
   }
 
-  seekBy(event: Event, duration: number) {
+  seekBy(duration: number) {
     this.mainPlayer().seekBy(duration);
-    event.preventDefault();
   }
 
-  setVolumeBy(event: Event, volume: number) {
+  setVolumeBy(volume: number) {
     this.mainPlayer().setVolumeBy(volume);
-    event.preventDefault();
   }
 
   private convertToSubscriberCountText(subCountText: string) {
