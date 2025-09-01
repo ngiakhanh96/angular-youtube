@@ -56,9 +56,10 @@ export class TextIconButtonComponent {
   fontWeight = input<string>('500');
   fontSize = input<string>('14px');
   disabled = input<boolean>(false);
-  disabledRipple = input<boolean>(true);
+  disabledRipple = input<boolean>(false);
   disabledInteractive = input<boolean>(false);
   rippleColor = input('rgba(0, 0, 0, 0.2)');
+  rippleUnbounded = input<boolean>(false);
 
   borderLeftRadius = computed(() => {
     const borderRadiusForLeft = this.borderRadiusForLeft();
