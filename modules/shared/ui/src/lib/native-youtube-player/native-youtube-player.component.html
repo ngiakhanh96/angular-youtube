@@ -88,7 +88,11 @@
             </ay-svg-button-renderer>
           </div>
 
-          <div class="player_bottom_button volume_container">
+          <div
+            class="player_bottom_button volume_container"
+            (mouseenter)="onVolumeContainerMouseEnter()"
+            (mouseleave)="onVolumeContainerMouseLeave()"
+          >
             <ay-svg-button-renderer
               [ariaLabel]="isMuted() ? 'VolumeDisabled' : 'VolumeEnabled'"
               viewBox="0 0 36 36"

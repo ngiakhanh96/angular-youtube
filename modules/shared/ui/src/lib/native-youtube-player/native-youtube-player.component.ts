@@ -49,6 +49,7 @@ export enum ScreenMode {
     '[style.--border-radius]': 'borderRadius()',
     '[style.--player-buttons-display]': 'playerButtonsDisplay()',
     '[style.--volume-slider-width]': 'volumeSliderWidth()',
+    '[attr.data-volume-slider-visible]': 'isVolumeSliderVisible()',
     '(document:fullscreenchange)': 'onFullScreenChange()',
     '(document:webkitfullscreenchange)': 'onFullScreenChange()',
     '(document:mozfullscreenchange)': 'onFullScreenChange()',
@@ -161,6 +162,12 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   private readonly document = inject(DOCUMENT);
 
   private hoverTimer: ReturnType<typeof setTimeout> | null = null;
+  private keyboardVolumeTimeout?: number;
+  isKeyboardVolumeActive = signal(false);
+  isVolumeHovered = signal(false);
+  isVolumeSliderVisible = computed(
+    () => this.isKeyboardVolumeActive() || this.isVolumeHovered(),
+  );
   private static hoverAndRestTimeoutMs = 5000;
 
   onFullScreenChange() {
@@ -305,6 +312,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.clearHoverTimer();
+    this.clearVolumeKeyboardTimer();
     this.stopProgressTracking();
   }
 
@@ -391,6 +399,14 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.setVolumeFromEvent(event);
   }
 
+  onVolumeContainerMouseEnter() {
+    this.isVolumeHovered.set(true);
+  }
+
+  onVolumeContainerMouseLeave() {
+    this.isVolumeHovered.set(false);
+  }
+
   seekTo(currentTime: number) {
     this.videoPlayer().currentTime = currentTime;
   }
@@ -467,6 +483,15 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     );
     console.log('Volume changed:', newVolume);
     this.volume.set(newVolume);
+
+    // Set keyboard volume active state immediately
+    this.isKeyboardVolumeActive.set(true);
+    this.clearVolumeKeyboardTimer();
+
+    // Hide slider after 3 seconds of no keyboard activity
+    this.keyboardVolumeTimeout = this.document.defaultView!.setTimeout(() => {
+      this.isKeyboardVolumeActive.set(false);
+    }, 3000);
   }
 
   private setVolume(volume: number) {
@@ -557,5 +582,12 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       this.hoverTimer = null;
     }
     this.document.body.style.cursor = '';
+  }
+
+  private clearVolumeKeyboardTimer() {
+    if (this.keyboardVolumeTimeout) {
+      clearTimeout(this.keyboardVolumeTimeout);
+      this.keyboardVolumeTimeout = undefined;
+    }
   }
 }
