@@ -250,6 +250,7 @@ export class VideoDetailsComponent
   ]);
   isFirstTime = true;
   currentUrl = this.router.url;
+  static volumeStep = 0.05;
 
   constructor() {
     super();
@@ -299,13 +300,22 @@ export class VideoDetailsComponent
         this.seekBy(-5);
         event.preventDefault();
       } else if (event.key === 'ArrowUp') {
-        this.setVolumeBy(0.05);
+        this.setVolumeBy(VideoDetailsComponent.volumeStep);
         event.preventDefault();
       } else if (event.key === 'ArrowDown') {
-        this.setVolumeBy(-0.05);
+        this.setVolumeBy(-VideoDetailsComponent.volumeStep);
         event.preventDefault();
       }
     }
+  }
+
+  onPlayerWheel(event: WheelEvent) {
+    // Normalize wheel delta across browsers and devices
+    const delta = Math.sign(event.deltaY);
+    const volumeChange = delta * -VideoDetailsComponent.volumeStep; // Inverted: scroll up = volume up
+
+    this.setVolumeBy(volumeChange);
+    event.preventDefault();
   }
 
   shouldAttachByRouteReuseStrategy(route: ActivatedRouteSnapshot): boolean {
