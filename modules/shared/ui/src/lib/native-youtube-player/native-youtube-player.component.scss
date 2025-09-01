@@ -120,14 +120,14 @@
           @apply flex items-center w-auto cursor-pointer;
 
           .volume_slider_container {
-            @apply relative w-0 h-[12px] flex items-center transition-[width] duration-300;
+            @apply relative w-0 h-[12px] transition-[width] duration-300 flex items-center;
 
             .volume_slider {
               @apply absolute w-full h-[3px] bg-[rgba(255,255,255,0.3)];
             }
 
             .volume_slider_level {
-              @apply absolute h-[3px] bg-[var(--white-color)] w-[var(--volume-slider-width)];
+              @apply absolute transition-[width] duration-0 h-[3px] bg-[var(--white-color)] w-[var(--volume-slider-width)];
             }
 
             .volume_slider_handle {
