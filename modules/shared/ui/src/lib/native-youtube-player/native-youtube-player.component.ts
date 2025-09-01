@@ -161,7 +161,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   private isSeeking = false;
   private readonly document = inject(DOCUMENT);
 
-  private keyboardVolumeTimeout?: number;
+  private keyboardVolumeTimeout: ReturnType<typeof setTimeout> | null = null;
   private isKeyboardVolumeActive = signal(false);
   private isVolumeHovered = signal(false);
   private isVolumeSliderVisible = computed(() => {
@@ -489,7 +489,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.clearVolumeKeyboardTimer();
 
     // Hide slider after 3 seconds of no keyboard activity
-    this.keyboardVolumeTimeout = this.document.defaultView!.setTimeout(() => {
+    this.keyboardVolumeTimeout = setTimeout(() => {
       this.isKeyboardVolumeActive.set(false);
     }, 3000);
   }
@@ -587,7 +587,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   private clearVolumeKeyboardTimer() {
     if (this.keyboardVolumeTimeout) {
       clearTimeout(this.keyboardVolumeTimeout);
-      this.keyboardVolumeTimeout = undefined;
+      this.keyboardVolumeTimeout = null;
     }
   }
 }
