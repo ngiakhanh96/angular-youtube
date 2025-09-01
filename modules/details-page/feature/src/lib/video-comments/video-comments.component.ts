@@ -119,7 +119,12 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
     return repliesCount + ' ' + (repliesCount > 1 ? 'replies' : 'reply');
   }
 
-  cancelCommentFocused() {
+  cancelComment() {
+    this.isCommentFocused.set(false);
+    this.commentInput.setValue('');
+  }
+
+  submitComment() {
     this.isCommentFocused.set(false);
     this.commentInput.setValue('');
   }
