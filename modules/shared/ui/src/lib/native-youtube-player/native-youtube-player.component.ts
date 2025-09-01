@@ -144,6 +144,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   nextVideo = output<void>();
   canPlay = output<void>();
   leavePictureInPicture = output<PictureInPictureEvent>();
+  volumeSliderWheel = output<WheelEvent>();
 
   currentTime = signal<number>(0);
   currentTimeString = computed(() => this.formatTime(this.currentTime()));
@@ -169,6 +170,10 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   private hoverTimer: ReturnType<typeof setTimeout> | null = null;
   private static hoverAndRestTimeoutMs = 5000;
+
+  onVolumeSliderWheel(event: WheelEvent) {
+    this.volumeSliderWheel.emit(event);
+  }
 
   onFullScreenChange() {
     if (!this.document.fullscreenElement) {

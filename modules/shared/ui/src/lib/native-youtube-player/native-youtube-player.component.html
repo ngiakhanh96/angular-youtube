@@ -90,6 +90,7 @@
 
           <div
             class="player_bottom_button volume_container"
+            (wheel)="onVolumeSliderWheel($event)"
             (mouseenter)="onVolumeContainerMouseEnter()"
             (mouseleave)="onVolumeContainerMouseLeave()"
           >
