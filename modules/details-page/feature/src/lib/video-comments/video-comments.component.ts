@@ -16,6 +16,7 @@ import {
 import {
   ImageDirective,
   TextIconButtonComponent,
+  Utilities,
 } from '@angular-youtube/shared-ui';
 import {
   ChangeDetectionStrategy,
@@ -90,7 +91,7 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
   });
   totalCommentsString = computed(() => {
     const totalComments = this.commentsInfo()?.commentCount ?? 0;
-    return `${totalComments} Comment${totalComments > 1 ? 's' : ''}`;
+    return `${Utilities.numberToStringWithCommas(totalComments)} Comment${totalComments > 1 ? 's' : ''}`;
   });
   //TODO implement comment posting and sorting feature
   commentInput = new FormControl('');
