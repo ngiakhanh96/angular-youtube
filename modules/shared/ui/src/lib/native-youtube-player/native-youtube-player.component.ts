@@ -145,6 +145,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   playerClick = output<HTMLMediaElement>();
   nextVideo = output<void>();
   canPlay = output<void>();
+  showMiniPlayer = output<void>();
   leavePictureInPicture = output<PictureInPictureEvent>();
   volumeSliderWheel = output<WheelEvent>();
 

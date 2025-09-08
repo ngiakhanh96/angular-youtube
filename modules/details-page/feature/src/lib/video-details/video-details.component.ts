@@ -396,6 +396,10 @@ export class VideoDetailsComponent
     this.mainPlayer().setVolumeBy(volume);
   }
 
+  onShowMiniPlayer() {
+    this.router.navigate(['/']);
+  }
+
   private convertToSubscriberCountText(subCountText: string) {
     subCountText = subCountText.trim();
     subCountText =

@@ -169,7 +169,7 @@
             ></ay-text-icon-button>
           </div>
 
-          <div class="player_bottom_button">
+          <div class="player_bottom_button" (click)="showMiniPlayer.emit()">
             <ay-text-icon-button
               [svgIcon]="'player-mini'"
               color="var(--white-color)"
