@@ -157,6 +157,28 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   });
   hostElementRef = inject(ElementRef);
 
+  playButtonIcon = computed(() => {
+    const isVideoPlaying = this.isVideoPlaying();
+    const isVideoEnded = this.isVideoEnded();
+    if (isVideoPlaying) {
+      return 'pause';
+    }
+
+    if (isVideoEnded) {
+      return 'replay';
+    }
+
+    return 'play';
+  });
+  muteButtonIcon = computed(() => {
+    return this.isMuted() ? 'volume-muted' : 'volume';
+  });
+  viewModeIcon = computed(() => {
+    return this.viewMode() === ViewMode.Theater
+      ? 'player-theater-view-mode'
+      : 'player-default-view-mode';
+  });
+
   private progressUpdateInterval: ReturnType<typeof setInterval> | null = null;
   private isDraggingProgressBar = false;
   private isDraggingVolume = false;
