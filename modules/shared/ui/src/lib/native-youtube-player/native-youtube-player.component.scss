@@ -73,10 +73,13 @@
       .player_bottom_buttons-left,
       .player_bottom_buttons-right {
         @apply flex items-center;
+        > * {
+          @apply h-full;
+        }
       }
 
       .time-display {
-        @apply select-none text-[rgb(221,221,221)] ml-2 text-[13px];
+        @apply flex items-center select-none text-[rgb(221,221,221)] ml-2 text-[13px];
       }
 
       .player_bottom_button {
@@ -119,15 +122,19 @@
         &.volume_container {
           @apply flex items-center w-auto cursor-pointer;
 
+          .volume_icon {
+            @apply w-[48px];
+          }
+
           .volume_slider_container {
-            @apply relative w-0 h-[12px] transition-[width] duration-300 flex items-center;
+            @apply w-0 h-[12px] relative transition-[width] duration-300 flex items-center;
 
             .volume_slider {
               @apply absolute w-full h-[3px] bg-[rgba(255,255,255,0.3)];
             }
 
             .volume_slider_level {
-              @apply absolute transition-[width] duration-75 h-[3px] bg-[var(--white-color)] w-[var(--volume-slider-width)];
+              @apply absolute h-[3px] bg-[var(--white-color)] w-[var(--volume-slider-width)];
             }
 
             .volume_slider_handle {
@@ -144,7 +151,7 @@
   .volume_container {
     .volume_slider_container {
       @apply w-[52px] #{!important};
-      @apply mx-[8px] #{!important};
+      @apply mr-[8px] #{!important};
       .volume_slider_handle {
         @apply opacity-100 #{!important};
       }

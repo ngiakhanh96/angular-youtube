@@ -33,6 +33,7 @@ import { IconDirective } from '../directives/icon/icon.directive';
     '[style.--font-size]': 'fontSize()',
     '[style.--disabled-color]': 'disabledColor()',
     '[style.--disabled-background-color]': 'disabledBackgroundColor()',
+    '[style.--icon-width-height]': 'iconWidthHeight()',
   },
 })
 export class TextIconButtonComponent {
@@ -52,6 +53,7 @@ export class TextIconButtonComponent {
   borderRadiusForRight = input<boolean>(true);
   iconPaddingLeft = input<string>('15px');
   iconPaddingRight = input<string>('15px');
+  iconWidthHeight = input<string>('24px');
   transform = input<string | undefined>(undefined);
   fontWeight = input<string>('500');
   fontSize = input<string>('14px');
@@ -60,6 +62,7 @@ export class TextIconButtonComponent {
   disabledInteractive = input<boolean>(false);
   rippleColor = input('rgba(0, 0, 0, 0.2)');
   rippleUnbounded = input<boolean>(false);
+  viewBox = input<string | undefined>(undefined);
 
   borderLeftRadius = computed(() => {
     const borderRadiusForLeft = this.borderRadiusForLeft();

@@ -37,7 +37,7 @@
     @apply rounded-l-[var(--border-left-radius)] rounded-r-[var(--border-right-radius)] w-full h-full pl-[var(--icon-padding-left)] pr-[var(--icon-padding-right)] flex justify-between place-items-center;
 
     mat-icon {
-      @apply w-[24px] h-[24px] mr-[var(--icon-margin-right)] ml-[var(--icon-margin-left)];
+      @apply w-[var(--icon-width-height)] h-[--icon-width-height] mr-[var(--icon-margin-right)] ml-[var(--icon-margin-left)];
     }
   }
 

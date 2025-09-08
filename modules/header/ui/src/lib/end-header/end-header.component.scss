@@ -14,8 +14,13 @@
 
   > .notifications,
   .settings {
-    @apply w-[40px] mr-[10px];
+    @apply w-[40px];
   }
+
+  > .settings {
+    @apply mr-[10px];
+  }
+
   > .signin-button-container {
     @apply w-[98.2px] text-[var(--blue-color)] flex items-center;
     .signin-button {

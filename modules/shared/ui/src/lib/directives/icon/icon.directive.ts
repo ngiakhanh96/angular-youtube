@@ -1,4 +1,4 @@
-import { afterRenderEffect, Directive, inject, input } from '@angular/core';
+import { afterEveryRender, Directive, inject, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 
 //TODO convert all icon to use mat-icon
@@ -18,12 +18,12 @@ export class IconDirective {
   transform = input<string | undefined>(undefined);
 
   constructor() {
-    afterRenderEffect({
+    afterEveryRender({
       write: () => {
         if (this.viewBox() != null) {
           this.host._elementRef.nativeElement
             .getElementsByTagName('svg')[0]
-            .setAttribute('viewBox', this.viewBox() as string);
+            ?.setAttribute('viewBox', this.viewBox() as string);
         }
         if (this.transform() != null) {
           this.host._elementRef.nativeElement.style.transform =

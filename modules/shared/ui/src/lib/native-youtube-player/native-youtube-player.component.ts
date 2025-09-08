@@ -21,6 +21,7 @@ import {
   SvgButtonRendererComponent,
   SvgButtonTemplateDirective,
 } from '../svg-button-renderer/svg-button-renderer.component';
+import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
 import {
   PlaceholderImageQuality,
   YouTubePlayerPlaceholderComponent,
@@ -42,6 +43,7 @@ export enum ScreenMode {
     YouTubePlayerPlaceholderComponent,
     SvgButtonRendererComponent,
     SvgButtonTemplateDirective,
+    TextIconButtonComponent,
   ],
   templateUrl: './native-youtube-player.component.html',
   styleUrls: ['./native-youtube-player.component.scss'],
