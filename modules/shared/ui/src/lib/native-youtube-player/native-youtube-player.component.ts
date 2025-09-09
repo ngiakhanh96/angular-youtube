@@ -517,7 +517,9 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       Math.min(1, +(this.volume() + volume).toFixed(2)),
     );
     this.volume.set(newVolume);
-
+    if (newVolume > 0) {
+      this.muted.set(false);
+    }
     this.onMouseEnter();
 
     // Set keyboard volume active state immediately
@@ -546,6 +548,9 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       Math.min(1, (event.clientX - rect.left) / rect.width),
     );
     this.volume.set(newVolume);
+    if (newVolume > 0) {
+      this.muted.set(false);
+    }
   }
 
   private playAudio() {
