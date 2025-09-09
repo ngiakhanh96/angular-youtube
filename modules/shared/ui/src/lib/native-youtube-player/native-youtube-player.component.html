@@ -77,14 +77,13 @@
             (mouseenter)="onVolumeContainerMouseEnter()"
             (mouseleave)="onVolumeContainerMouseLeave()"
           >
-            <div class="volume_icon">
+            <div class="volume_icon" (click)="toggleMute()">
               <ng-container
                 *ngTemplateOutlet="
                   button;
                   context: {
                     viewBox: '6 6 24 24',
                     buttonIcon: muteButtonIcon(),
-                    clickCallBack: toggleMute.bind(this),
                   }
                 "
               />
@@ -187,12 +186,7 @@
   </div>
 </div>
 
-<ng-template
-  #button
-  let-viewBox="viewBox"
-  let-buttonIcon="buttonIcon"
-  let-clickCallBack="clickCallBack"
->
+<ng-template #button let-viewBox="viewBox" let-buttonIcon="buttonIcon">
   <ay-text-icon-button
     [svgIcon]="buttonIcon"
     color="var(--white-color)"
@@ -205,6 +199,5 @@
     [iconPaddingLeft]="'0px'"
     [iconPaddingRight]="'0px'"
     [viewBox]="viewBox"
-    (click)="clickCallBack?.()"
   />
 </ng-template>

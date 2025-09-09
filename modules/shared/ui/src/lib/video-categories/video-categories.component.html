@@ -1,13 +1,12 @@
 <div class="video-categories">
   @if (shouldShowScrollLeftButton()) {
     <div class="video-categories-button-container__left">
-      <div class="video-categories-button">
+      <div class="video-categories-button" (click)="onScrollLeft()">
         <ng-container
           *ngTemplateOutlet="
             button;
             context: {
               buttonIcon: 'arrow-left',
-              clickCallBack: onScrollLeft.bind(this),
             }
           "
         />
@@ -26,13 +25,12 @@
   </mat-chip-set>
   @if (shouldShowScrollRightButton()) {
     <div class="video-categories-button-container__right">
-      <div class="video-categories-button">
+      <div class="video-categories-button" (click)="onScrollRight()">
         <ng-container
           *ngTemplateOutlet="
             button;
             context: {
               buttonIcon: 'arrow-right',
-              clickCallBack: onScrollRight.bind(this),
             }
           "
         />
@@ -40,11 +38,7 @@
     </div>
   }
 </div>
-<ng-template
-  #button
-  let-buttonIcon="buttonIcon"
-  let-clickCallBack="clickCallBack"
->
+<ng-template #button let-buttonIcon="buttonIcon">
   <ay-text-icon-button
     [svgIcon]="buttonIcon"
     color="var(--black-color)"
@@ -61,6 +55,5 @@
     [rippleCentered]="true"
     [rippleRadius]="20"
     [rippleOnHover]="true"
-    (click)="clickCallBack?.()"
   />
 </ng-template>
