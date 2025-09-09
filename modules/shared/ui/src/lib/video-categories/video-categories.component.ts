@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   afterNextRender,
   ChangeDetectionStrategy,
@@ -9,7 +10,7 @@ import {
   signal,
 } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
-import { SvgButtonRendererComponent } from '../svg-button-renderer/svg-button-renderer.component';
+import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
 
 export interface IVideoCategory {
   title: string;
@@ -18,7 +19,7 @@ export interface IVideoCategory {
 
 @Component({
   selector: 'ay-video-categories',
-  imports: [MatChipsModule, SvgButtonRendererComponent],
+  imports: [MatChipsModule, TextIconButtonComponent, NgTemplateOutlet],
   templateUrl: './video-categories.component.html',
   styleUrls: ['./video-categories.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,10 +39,6 @@ export class VideoCategoriesComponent {
         this.videoCategoryList = hostNativeElement.getElementsByClassName(
           'mdc-evolution-chip-set__chips',
         )[0];
-        if (this.videoCategoryList instanceof HTMLElement) {
-          this.videoCategoryList.onscrollend = (event: Event) =>
-            this.onScrollEnd(event);
-        }
       },
     });
   }
@@ -50,23 +47,15 @@ export class VideoCategoriesComponent {
     this.selectedVideoCategory.set(videoCategory);
   }
 
-  onScrollEnd(event: Event) {
-    if (event.target instanceof Element && event.target.scrollLeft === 0) {
-      this.shouldShowScrollLeftButton.set(false);
-    } else if (
-      this.videoCategoryList &&
-      event.target instanceof Element &&
-      event.target.scrollLeft ===
-        this.videoCategoryList.scrollWidth - this.videoCategoryList.clientWidth
-    ) {
-      this.shouldShowScrollRightButton.set(false);
-    }
-  }
-
   onScrollLeft() {
     if (this.videoCategoryList) {
       this.shouldShowScrollRightButton.set(true);
       this.videoCategoryList.scrollLeft -= this.scrollingWidth();
+      setTimeout(() => {
+        if (this.videoCategoryList!.scrollLeft <= 0) {
+          this.shouldShowScrollLeftButton.set(false);
+        }
+      }, 500);
     }
   }
 
@@ -74,6 +63,16 @@ export class VideoCategoriesComponent {
     if (this.videoCategoryList) {
       this.shouldShowScrollLeftButton.set(true);
       this.videoCategoryList.scrollLeft += this.scrollingWidth();
+      setTimeout(() => {
+        if (
+          this.videoCategoryList!.scrollLeft >=
+          this.videoCategoryList!.scrollWidth -
+            this.videoCategoryList!.clientWidth -
+            2
+        ) {
+          this.shouldShowScrollRightButton.set(false);
+        }
+      }, 500);
     }
   }
 }

@@ -84,7 +84,7 @@
                   context: {
                     viewBox: '6 6 24 24',
                     buttonIcon: muteButtonIcon(),
-                    clickCallback: toggleMute.bind(this),
+                    clickCallBack: toggleMute.bind(this),
                   }
                 "
               />
@@ -191,7 +191,7 @@
   #button
   let-viewBox="viewBox"
   let-buttonIcon="buttonIcon"
-  let-clickCallBack="clickCallback"
+  let-clickCallBack="clickCallBack"
 >
   <ay-text-icon-button
     [svgIcon]="buttonIcon"
@@ -200,7 +200,6 @@
     hoverBackgroundColor="transparent"
     borderRadius="0px"
     [disabledRipple]="true"
-    borderRadius="0px"
     [svgIconMarginLeft]="'0px'"
     [svgIconMarginRight]="'0px'"
     [iconPaddingLeft]="'0px'"

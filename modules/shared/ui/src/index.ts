@@ -8,6 +8,7 @@ export * from './lib/directives/image/image.directive';
 export * from './lib/directives/infinite-scroll/infinite-scroll.directive';
 export * from './lib/directives/infinite-scroll/scroll-state.model';
 export * from './lib/directives/overlay/overlay.directive';
+export * from './lib/directives/ripple-on-hover/ripple-on-hover.directive';
 export * from './lib/directives/section-item/section-item.directive';
 export * from './lib/directives/skeleton/skeleton.directive';
 export * from './lib/dropdown-button/dropdown-button.component';

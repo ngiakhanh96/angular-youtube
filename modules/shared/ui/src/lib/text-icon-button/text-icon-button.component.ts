@@ -8,12 +8,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { IconDirective } from '../directives/icon/icon.directive';
+import { RippleOnHoverDirective } from '../directives/ripple-on-hover/ripple-on-hover.directive';
 
 @Component({
   selector: 'ay-text-icon-button',
   templateUrl: './text-icon-button.component.html',
   styleUrls: ['./text-icon-button.component.scss'],
-  imports: [MatButtonModule, MatIconModule, IconDirective, MatRippleModule],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    IconDirective,
+    MatRippleModule,
+    RippleOnHoverDirective,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.width]': 'widthHeight()',
@@ -62,6 +69,9 @@ export class TextIconButtonComponent {
   disabledInteractive = input<boolean>(false);
   rippleColor = input('rgba(0, 0, 0, 0.2)');
   rippleUnbounded = input<boolean>(false);
+  rippleRadius = input<number>(0);
+  rippleCentered = input<boolean>(false);
+  rippleOnHover = input<boolean>(false);
   viewBox = input<string | undefined>(undefined);
 
   borderLeftRadius = computed(() => {

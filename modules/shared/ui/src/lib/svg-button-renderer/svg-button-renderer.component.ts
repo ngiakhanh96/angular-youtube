@@ -3,47 +3,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   Directive,
-  ElementRef,
   TemplateRef,
   contentChild,
   inject,
   input,
 } from '@angular/core';
-import { MatRipple, MatRippleModule, RippleRef } from '@angular/material/core';
+import { MatRippleModule } from '@angular/material/core';
+import { RippleOnHoverDirective } from '../directives/ripple-on-hover/ripple-on-hover.directive';
 
 @Directive({ selector: '[aySvgButtonTmp]' })
 export class SvgButtonTemplateDirective {
   template = inject<TemplateRef<unknown>>(TemplateRef);
-}
-
-@Directive({
-  selector: '[ayRippleOnHover]',
-  host: {
-    '(mouseenter)': 'onMouseEnter()',
-    '(mouseleave)': 'onMouseLeave()',
-  },
-})
-export class RippleOnHoverDirective {
-  elementRef = inject(ElementRef);
-  ripple = inject(MatRipple);
-  rippleRef: RippleRef | undefined;
-
-  onMouseEnter(): void {
-    if (!this.ripple.disabled) {
-      this.rippleRef = this.ripple.launch({
-        ...this.ripple.rippleConfig,
-        persistent: true,
-        animation: {
-          enterDuration: 0,
-          exitDuration: 0,
-        },
-      });
-    }
-  }
-
-  onMouseLeave(): void {
-    this.rippleRef?.fadeOut();
-  }
 }
 
 /**

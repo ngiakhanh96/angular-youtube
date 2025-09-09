@@ -3,7 +3,7 @@
 }
 
 .button-container {
-  @apply rounded-l-[var(--border-left-radius)] rounded-r-[var(--border-right-radius)] overflow-hidden;
+  @apply rounded-l-[var(--border-left-radius)] rounded-r-[var(--border-right-radius)];
   .text-icon-button,
   .text-or-icon-button {
     & {

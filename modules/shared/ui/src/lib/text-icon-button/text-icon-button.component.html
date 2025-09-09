@@ -2,9 +2,14 @@
   class="button-container"
   [style.width]="widthHeight()"
   [style.height]="widthHeight()"
-  mat-ripple
+  [style.overflow]="rippleUnbounded() ? 'visible' : 'hidden'"
+  matRipple
+  [ayRippleOnHover]="rippleOnHover()"
   [matRippleColor]="rippleColor()"
   [matRippleDisabled]="disabledRipple()"
+  [matRippleRadius]="rippleRadius()"
+  [matRippleUnbounded]="rippleUnbounded()"
+  [matRippleCentered]="rippleCentered()"
 >
   <button
     [class]="
