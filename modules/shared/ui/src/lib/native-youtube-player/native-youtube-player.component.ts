@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,10 +18,6 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import {
-  SvgButtonRendererComponent,
-  SvgButtonTemplateDirective,
-} from '../svg-button-renderer/svg-button-renderer.component';
 import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
 import {
   PlaceholderImageQuality,
@@ -41,9 +38,8 @@ export enum ScreenMode {
   selector: 'ay-native-youtube-player',
   imports: [
     YouTubePlayerPlaceholderComponent,
-    SvgButtonRendererComponent,
-    SvgButtonTemplateDirective,
     TextIconButtonComponent,
+    NgTemplateOutlet,
   ],
   templateUrl: './native-youtube-player.component.html',
   styleUrls: ['./native-youtube-player.component.scss'],
@@ -178,6 +174,11 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     return this.viewMode() === ViewMode.Theater
       ? 'player-default-view-mode'
       : 'player-theater-view-mode';
+  });
+  playerScreenIcon = computed(() => {
+    return this.screenMode() === ScreenMode.Default
+      ? 'player-fullscreen'
+      : 'player-inline';
   });
 
   private progressUpdateInterval: ReturnType<typeof setInterval> | null = null;

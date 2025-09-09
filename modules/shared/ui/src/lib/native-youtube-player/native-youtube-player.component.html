@@ -48,37 +48,27 @@
       >
         <div class="player_bottom_buttons-left">
           <div class="player_bottom_button" (click)="toggleVideo()">
-            <ay-text-icon-button
-              [svgIcon]="playButtonIcon()"
-              color="var(--white-color)"
-              backgroundColor="transparent"
-              hoverBackgroundColor="transparent"
-              borderRadius="0px"
-              [disabledRipple]="true"
-              borderRadius="0px"
-              [svgIconMarginLeft]="'0px'"
-              [svgIconMarginRight]="'0px'"
-              [iconPaddingLeft]="'0px'"
-              [iconPaddingRight]="'0px'"
-              [viewBox]="'8 8 20 20'"
-            ></ay-text-icon-button>
+            <ng-container
+              *ngTemplateOutlet="
+                button;
+                context: {
+                  viewBox: '8 8 20 20',
+                  buttonIcon: playButtonIcon(),
+                }
+              "
+            />
           </div>
 
           <div class="player_bottom_button" (click)="nextVideo.emit()">
-            <ay-text-icon-button
-              [svgIcon]="'next'"
-              color="var(--white-color)"
-              backgroundColor="transparent"
-              hoverBackgroundColor="transparent"
-              borderRadius="0px"
-              [disabledRipple]="true"
-              borderRadius="0px"
-              [svgIconMarginLeft]="'0px'"
-              [svgIconMarginRight]="'0px'"
-              [iconPaddingLeft]="'0px'"
-              [iconPaddingRight]="'0px'"
-              [viewBox]="'8 8 20 20'"
-            ></ay-text-icon-button>
+            <ng-container
+              *ngTemplateOutlet="
+                button;
+                context: {
+                  viewBox: '8 8 20 20',
+                  buttonIcon: 'next',
+                }
+              "
+            />
           </div>
 
           <div
@@ -88,22 +78,17 @@
             (mouseleave)="onVolumeContainerMouseLeave()"
           >
             <div class="volume_icon">
-              <ay-text-icon-button
-                [svgIcon]="muteButtonIcon()"
-                color="var(--white-color)"
-                backgroundColor="transparent"
-                hoverBackgroundColor="transparent"
-                borderRadius="0px"
-                [disabledRipple]="true"
-                borderRadius="0px"
-                [svgIconMarginLeft]="'0px'"
-                [svgIconMarginRight]="'0px'"
-                [iconPaddingLeft]="'0px'"
-                [iconPaddingRight]="'0px'"
-                [viewBox]="'6 6 24 24'"
-                (click)="toggleMute()"
-              ></ay-text-icon-button
-            ></div>
+              <ng-container
+                *ngTemplateOutlet="
+                  button;
+                  context: {
+                    viewBox: '6 6 24 24',
+                    buttonIcon: muteButtonIcon(),
+                    clickCallback: toggleMute.bind(this),
+                  }
+                "
+              />
+            </div>
             <div
               class="volume_slider_container"
               (mousedown)="onVolumeSliderMouseDown($event)"
@@ -136,152 +121,91 @@
           </div>
 
           <div class="player_bottom_button">
-            <ay-text-icon-button
-              [svgIcon]="'subtitle'"
-              color="var(--white-color)"
-              backgroundColor="transparent"
-              hoverBackgroundColor="transparent"
-              borderRadius="0px"
-              [disabledRipple]="true"
-              borderRadius="0px"
-              [svgIconMarginLeft]="'0px'"
-              [svgIconMarginRight]="'0px'"
-              [iconPaddingLeft]="'0px'"
-              [iconPaddingRight]="'0px'"
-              [viewBox]="'8 8 20 20'"
-            ></ay-text-icon-button>
+            <ng-container
+              *ngTemplateOutlet="
+                button;
+                context: {
+                  viewBox: '8 8 20 20',
+                  buttonIcon: 'subtitle',
+                }
+              "
+            />
           </div>
 
           <div class="player_bottom_button">
-            <ay-text-icon-button
-              [svgIcon]="'player-settings'"
-              color="var(--white-color)"
-              backgroundColor="transparent"
-              hoverBackgroundColor="transparent"
-              borderRadius="0px"
-              [disabledRipple]="true"
-              borderRadius="0px"
-              [svgIconMarginLeft]="'0px'"
-              [svgIconMarginRight]="'0px'"
-              [iconPaddingLeft]="'0px'"
-              [iconPaddingRight]="'0px'"
-              [viewBox]="'8 8 20 20'"
-            ></ay-text-icon-button>
+            <ng-container
+              *ngTemplateOutlet="
+                button;
+                context: {
+                  viewBox: '8 8 20 20',
+                  buttonIcon: 'player-settings',
+                }
+              "
+            />
           </div>
 
           <div class="player_bottom_button" (click)="showMiniPlayer.emit()">
-            <ay-text-icon-button
-              [svgIcon]="'player-mini'"
-              color="var(--white-color)"
-              backgroundColor="transparent"
-              hoverBackgroundColor="transparent"
-              borderRadius="0px"
-              [disabledRipple]="true"
-              borderRadius="0px"
-              [svgIconMarginLeft]="'0px'"
-              [svgIconMarginRight]="'0px'"
-              [iconPaddingLeft]="'0px'"
-              [iconPaddingRight]="'0px'"
-              [viewBox]="'6 6 24 24'"
-            ></ay-text-icon-button>
+            <ng-container
+              *ngTemplateOutlet="
+                button;
+                context: {
+                  viewBox: '6 6 24 24',
+                  buttonIcon: 'player-mini',
+                }
+              "
+            />
           </div>
 
           @if (screenMode() === ScreenMode.Default) {
             <div class="player_bottom_button" (click)="toggleViewMode()">
-              <ay-text-icon-button
-                [svgIcon]="viewModeIcon()"
-                color="var(--white-color)"
-                backgroundColor="transparent"
-                hoverBackgroundColor="transparent"
-                borderRadius="0px"
-                [disabledRipple]="true"
-                borderRadius="0px"
-                [svgIconMarginLeft]="'0px'"
-                [svgIconMarginRight]="'0px'"
-                [iconPaddingLeft]="'0px'"
-                [iconPaddingRight]="'0px'"
-                [viewBox]="'8 8 20 20'"
-              ></ay-text-icon-button>
+              <ng-container
+                *ngTemplateOutlet="
+                  button;
+                  context: {
+                    viewBox: '8 8 20 20',
+                    buttonIcon: viewModeIcon(),
+                  }
+                "
+              />
             </div>
           }
 
           <div class="player_bottom_button" (click)="toggleScreenMode()">
-            @if (screenMode() === ScreenMode.Default) {
-              <ay-svg-button-renderer>
-                <ng-template aySvgButtonTmp>
-                  <svg
-                    viewBox="0 0 36 36"
-                    preserveAspectRatio="xMidYMid meet"
-                    focusable="false"
-                    class="pointer-events-none block w-[42px]"
-                  >
-                    <g class="ytp-fullscreen-button-corner-0">
-                      <path
-                        d="m 10,16 2,0 0,-4 4,0 0,-2 L 10,10 l 0,6 0,0 z"
-                        [style.fill]="'white'"
-                      ></path>
-                    </g>
-                    <g class="ytp-fullscreen-button-corner-1">
-                      <path
-                        d="m 20,10 0,2 4,0 0,4 2,0 L 26,10 l -6,0 0,0 z"
-                        [style.fill]="'white'"
-                      ></path>
-                    </g>
-                    <g class="ytp-fullscreen-button-corner-2">
-                      <path
-                        d="m 24,24 -4,0 0,2 L 26,26 l 0,-6 -2,0 0,4 0,0 z"
-                        [style.fill]="'white'"
-                      ></path>
-                    </g>
-                    <g class="ytp-fullscreen-button-corner-3">
-                      <path
-                        d="M 12,20 10,20 10,26 l 6,0 0,-2 -4,0 0,-4 0,0 z"
-                        [style.fill]="'white'"
-                      ></path>
-                    </g>
-                  </svg>
-                </ng-template>
-              </ay-svg-button-renderer>
-            } @else {
-              <ay-svg-button-renderer>
-                <ng-template aySvgButtonTmp>
-                  <svg
-                    viewBox="0 0 36 36"
-                    preserveAspectRatio="xMidYMid meet"
-                    focusable="false"
-                    class="pointer-events-none block w-[42px]"
-                  >
-                    <g class="ytp-fullscreen-button-corner-0">
-                      <path
-                        d="m 14,14 -4,0 0,2 6,0 0,-6 -2,0 0,4 0,0 z"
-                        [style.fill]="'white'"
-                      ></path>
-                    </g>
-                    <g class="ytp-fullscreen-button-corner-1">
-                      <path
-                        d="m 22,14 0,-4 -2,0 0,6 6,0 0,-2 -4,0 0,0 z"
-                        [style.fill]="'white'"
-                      ></path>
-                    </g>
-                    <g class="ytp-fullscreen-button-corner-2">
-                      <path
-                        d="m 20,26 2,0 0,-4 4,0 0,-2 -6,0 0,6 0,0 z"
-                        [style.fill]="'white'"
-                      ></path>
-                    </g>
-                    <g class="ytp-fullscreen-button-corner-3">
-                      <path
-                        d="m 10,22 4,0 0,4 2,0 0,-6 -6,0 0,2 0,0 z"
-                        [style.fill]="'white'"
-                      ></path>
-                    </g>
-                  </svg>
-                </ng-template>
-              </ay-svg-button-renderer>
-            }
+            <ng-container
+              *ngTemplateOutlet="
+                button;
+                context: {
+                  viewBox: '8 8 20 20',
+                  buttonIcon: playerScreenIcon(),
+                }
+              "
+            />
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template
+  #button
+  let-viewBox="viewBox"
+  let-buttonIcon="buttonIcon"
+  let-clickCallBack="clickCallback"
+>
+  <ay-text-icon-button
+    [svgIcon]="buttonIcon"
+    color="var(--white-color)"
+    backgroundColor="transparent"
+    hoverBackgroundColor="transparent"
+    borderRadius="0px"
+    [disabledRipple]="true"
+    borderRadius="0px"
+    [svgIconMarginLeft]="'0px'"
+    [svgIconMarginRight]="'0px'"
+    [iconPaddingLeft]="'0px'"
+    [iconPaddingRight]="'0px'"
+    [viewBox]="viewBox"
+    (click)="clickCallBack?.()"
+  />
+</ng-template>
