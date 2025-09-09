@@ -77,7 +77,7 @@
             (mouseenter)="onVolumeContainerMouseEnter()"
             (mouseleave)="onVolumeContainerMouseLeave()"
           >
-            <div class="volume_icon" (click)="toggleMute()">
+            <div class="volume_icon" (click)="toggleMute($event)">
               <ng-container
                 *ngTemplateOutlet="
                   button;

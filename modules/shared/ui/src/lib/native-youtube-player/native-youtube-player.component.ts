@@ -408,12 +408,13 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.autoNext.update((v) => !v);
   }
 
-  toggleMute() {
+  toggleMute(event: MouseEvent) {
     if (!this.muted() && this.volume() === 0) {
       this.volume.set(1);
     } else {
       this.muted.update((v) => !v);
     }
+    event.stopPropagation();
   }
 
   toggleViewMode() {
