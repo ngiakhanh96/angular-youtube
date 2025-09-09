@@ -1,6 +1,7 @@
 <div class="details_page_container">
   <div class="details_page_player_container--horizontal" #theaterModeContainer>
     <ay-native-youtube-player
+      tabindex="0"
       [videoId]="videoId()"
       [videoUrl]="videoUrl()!"
       [audioUrl]="audioUrl()!"
@@ -18,7 +19,6 @@
       (showMiniPlayer)="onShowMiniPlayer()"
       (leavePictureInPicture)="onLeavePictureInPicture($event)"
       (volumeSliderWheel)="onPlayerWheel($event)"
-      tabindex="0"
       (keydown)="onKeydown($event)"
     >
     </ay-native-youtube-player>

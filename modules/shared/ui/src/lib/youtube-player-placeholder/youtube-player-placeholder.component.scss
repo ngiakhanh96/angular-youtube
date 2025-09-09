@@ -1,39 +1,19 @@
 :host {
-  @apply w-full h-full;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  cursor: pointer;
-  background-color: var(--black-color);
-  background-position: center center;
-  background-size: cover;
-  transition: box-shadow 300ms ease;
+  @apply w-full h-full flex items-center justify-center bg-[var(--black-color)] overflow-hidden cursor-pointer bg-center bg-cover transition-shadow duration-300 ease-linear;
 
-  // YouTube has a slight drop shadow on the preview that we try to imitate here.
-  // Note that they use a base64 image, likely for performance reasons. We can't use the
-  // image, because it can break users with a CSP that doesn't allow `data:` URLs.
+  /* YouTube has a slight drop shadow on the preview that we try to imitate here.
+  Note that they use a base64 image, likely for performance reasons. We can't use the
+  image, because it can break users with a CSP that doesn't allow `data:` URLs. */
 }
 
 .youtube-player-placeholder-button {
-  transition: opacity 300ms ease;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  background: none;
-  border: none;
-  padding: 0;
-  display: flex;
-
-  svg {
-    width: 68px;
-    height: 48px;
-  }
+  @apply flex transition-opacity duration-300 ease-linear appearance-none bg-transparent border-0 p-0;
 }
 
 .youtube-player-placeholder-loading {
-  box-shadow: none;
+  @apply shadow-none;
 
   .youtube-player-placeholder-button {
-    opacity: 0;
+    @apply opacity-0;
   }
 }

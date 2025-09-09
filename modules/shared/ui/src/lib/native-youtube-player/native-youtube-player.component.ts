@@ -107,6 +107,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   audioPlayer = computed(() => this.audioPlayerRef().nativeElement);
 
   showPlayButton = input(false);
+  playButtonIconWidthHeight = input('48px');
+  playButtonIconViewBox = input('0 0 68 48');
   boxShadow = input<string>('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
   isVideoPlaying = signal(false);
   isVideoPlayedLastTime = signal(false);

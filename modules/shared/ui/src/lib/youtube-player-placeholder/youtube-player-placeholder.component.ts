@@ -4,10 +4,7 @@ import {
   computed,
   input,
 } from '@angular/core';
-import {
-  SvgButtonRendererComponent,
-  SvgButtonTemplateDirective,
-} from '../svg-button-renderer/svg-button-renderer.component';
+import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
 
 /**  Quality of the placeholder image.  */
 export type PlaceholderImageQuality = 'high' | 'standard' | 'low';
@@ -16,7 +13,7 @@ export type PlaceholderImageQuality = 'high' | 'standard' | 'low';
   selector: 'ay-youtube-player-placeholder',
   templateUrl: './youtube-player-placeholder.component.html',
   styleUrls: ['./youtube-player-placeholder.component.scss'],
-  imports: [SvgButtonRendererComponent, SvgButtonTemplateDirective],
+  imports: [TextIconButtonComponent],
   host: {
     '[class.youtube-player-placeholder-loading]': 'isLoading()',
     '[style.background-image]': 'backgroundImageUrl()',
@@ -26,8 +23,14 @@ export type PlaceholderImageQuality = 'high' | 'standard' | 'low';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class YouTubePlayerPlaceholderComponent {
+  showPlayButton = input(true);
+  playButtonIconWidthHeight = input('48px');
+  playButtonIconViewBox = input('0 0 68 48');
+
   /** ID of the video for which to show the placeholder. */
   videoId = input.required<string>();
+
+  boxShadow = input<string>('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
 
   borderRadius = input<string>('12px');
 
@@ -39,8 +42,6 @@ export class YouTubePlayerPlaceholderComponent {
 
   /** Quality of the placeholder image. */
   quality = input.required<PlaceholderImageQuality>();
-
-  boxShadow = input<string>('inset 0 120px 90px -90px rgba(0, 0, 0, 0.8)');
 
   /** Gets the background image showing the placeholder. */
   backgroundImageUrl = computed(() => {
@@ -55,6 +56,4 @@ export class YouTubePlayerPlaceholderComponent {
 
     return `url(${url})`;
   });
-
-  showPlayButton = input(true);
 }
