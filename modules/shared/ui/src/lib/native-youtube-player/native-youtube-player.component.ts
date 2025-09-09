@@ -176,8 +176,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   });
   viewModeIcon = computed(() => {
     return this.viewMode() === ViewMode.Theater
-      ? 'player-theater-view-mode'
-      : 'player-default-view-mode';
+      ? 'player-default-view-mode'
+      : 'player-theater-view-mode';
   });
 
   private progressUpdateInterval: ReturnType<typeof setInterval> | null = null;
