@@ -414,4 +414,7 @@
         ></path>
         <path d="M 45,24 27,14 27,34" fill="#fff"></path>
     </symbol>
+    <symbol id="hamburger">
+        <path d="M21 6H3V5h18v1zm0 5H3v1h18v-1zm0 6H3v1h18v-1z"></path>
+    </symbol>
 </svg>

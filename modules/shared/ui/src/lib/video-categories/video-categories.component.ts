@@ -48,6 +48,7 @@ export class VideoCategoriesComponent {
         }
       },
     });
+    //For initial state
     afterEveryRender({
       read: () => {
         if (this.videoCategoryList) {
