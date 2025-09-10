@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  afterEveryRender,
   afterNextRender,
   ChangeDetectionStrategy,
   Component,
@@ -27,10 +28,11 @@ export interface IVideoCategory {
 export class VideoCategoriesComponent {
   videoCategories = input.required<IVideoCategory[]>();
   shouldShowScrollLeftButton = signal(false);
-  shouldShowScrollRightButton = signal(true);
+  shouldShowScrollRightButton = signal(false);
   scrollingWidth = input.required<number>();
   selectedVideoCategory = linkedSignal(() => this.videoCategories()[0]);
   private videoCategoryList?: Element;
+
   constructor() {
     const hostNativeElement =
       inject<ElementRef<Element>>(ElementRef).nativeElement;
@@ -39,8 +41,34 @@ export class VideoCategoriesComponent {
         this.videoCategoryList = hostNativeElement.getElementsByClassName(
           'mdc-evolution-chip-set__chips',
         )[0];
+        if (this.videoCategoryList) {
+          this.videoCategoryList.addEventListener('scroll', () =>
+            this.onListScroll(),
+          );
+        }
       },
     });
+    afterEveryRender({
+      read: () => {
+        if (this.videoCategoryList) {
+          this.onListScroll();
+        }
+      },
+    });
+  }
+
+  onListScroll() {
+    if (this.videoCategoryList) {
+      this.shouldShowScrollLeftButton.set(
+        this.videoCategoryList.scrollLeft > 0,
+      );
+      this.shouldShowScrollRightButton.set(
+        this.videoCategoryList.scrollLeft <
+          this.videoCategoryList.scrollWidth -
+            this.videoCategoryList.clientWidth -
+            2,
+      );
+    }
   }
 
   selectVideoCategory(videoCategory: IVideoCategory) {
@@ -49,30 +77,13 @@ export class VideoCategoriesComponent {
 
   onScrollLeft() {
     if (this.videoCategoryList) {
-      this.shouldShowScrollRightButton.set(true);
       this.videoCategoryList.scrollLeft -= this.scrollingWidth();
-      setTimeout(() => {
-        if (this.videoCategoryList!.scrollLeft <= 0) {
-          this.shouldShowScrollLeftButton.set(false);
-        }
-      }, 500);
     }
   }
 
   onScrollRight() {
     if (this.videoCategoryList) {
-      this.shouldShowScrollLeftButton.set(true);
       this.videoCategoryList.scrollLeft += this.scrollingWidth();
-      setTimeout(() => {
-        if (
-          this.videoCategoryList!.scrollLeft >=
-          this.videoCategoryList!.scrollWidth -
-            this.videoCategoryList!.clientWidth -
-            2
-        ) {
-          this.shouldShowScrollRightButton.set(false);
-        }
-      }, 500);
     }
   }
 }
