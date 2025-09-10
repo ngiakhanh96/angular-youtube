@@ -3,7 +3,7 @@ import {
   ISectionItem,
   MenuComponent,
   OverlayDirective,
-  SvgButtonRendererComponent,
+  TextIconButtonComponent,
 } from '@angular-youtube/shared-ui';
 import { OverlayModule } from '@angular/cdk/overlay';
 
@@ -13,6 +13,7 @@ import {
   Component,
   computed,
   DestroyRef,
+  DOCUMENT,
   effect,
   ElementRef,
   inject,
@@ -22,7 +23,6 @@ import {
   output,
   signal,
   viewChild,
-  DOCUMENT
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -39,11 +39,11 @@ import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs';
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss'],
   imports: [
-    SvgButtonRendererComponent,
     ReactiveFormsModule,
     OverlayDirective,
     OverlayModule,
     MenuComponent,
+    TextIconButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

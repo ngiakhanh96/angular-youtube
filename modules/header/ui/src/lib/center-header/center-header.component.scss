@@ -9,6 +9,6 @@
   }
 
   > .voice-search {
-    @apply w-[40px] h-full ml-[12px] rounded-full bg-black/5 hover:bg-black/15;
+    @apply w-[40px] h-full ml-[12px] overflow-hidden rounded-full bg-black/5 hover:bg-black/15;
   }
 }

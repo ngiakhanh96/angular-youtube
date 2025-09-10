@@ -1,4 +1,4 @@
-import { SvgButtonRendererComponent } from '@angular-youtube/shared-ui';
+import { TextIconButtonComponent } from '@angular-youtube/shared-ui';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,7 +11,7 @@ import { SearchBoxComponent } from '../search-box/search-box.component';
   selector: 'ay-center-header',
   templateUrl: './center-header.component.html',
   styleUrls: ['./center-header.component.scss'],
-  imports: [SearchBoxComponent, SvgButtonRendererComponent],
+  imports: [SearchBoxComponent, TextIconButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CenterHeaderComponent {

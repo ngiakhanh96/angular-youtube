@@ -19,9 +19,9 @@
     }
   }
   .search-button-container {
-    @apply cursor-pointer;
-    .search-icon-legacy {
+    @apply w-[65px] rounded-r-[40px] border-t border-r border-b border-solid border-gray-300 bg-[var(--search-icon-legacy-bg-color)] py-px px-[6px] text-[var(--black-color)] shadow-[inset_0px_1px_2px_0px_rgb(237,237,237)] cursor-pointer;
+    /* .search-icon-legacy {
       @apply w-[65px] rounded-r-[40px] border-t border-r border-b border-solid border-gray-300 bg-[var(--search-icon-legacy-bg-color)] py-px px-[6px] text-[var(--black-color)] shadow-[inset_0px_1px_2px_0px_rgb(237,237,237)];
-    }
+    } */
   }
 }
