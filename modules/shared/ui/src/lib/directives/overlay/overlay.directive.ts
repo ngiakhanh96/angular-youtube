@@ -92,8 +92,10 @@ export class OverlayDirective {
           const element: Element | null = (<any>(
             this.cdkConnectedOverlay
           ))._getOriginElement();
-          element?.addEventListener('click', () => {
+          element?.addEventListener('click', (event) => {
             this.connectedOverlayOpen.update((v) => !v);
+            event.stopPropagation();
+            event.preventDefault();
           });
         }
         this.resize();
