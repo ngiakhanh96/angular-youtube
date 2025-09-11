@@ -47,6 +47,7 @@ export enum ScreenMode {
     '[style.--border-radius]': 'borderRadius()',
     '[style.--player-buttons-display]': 'playerButtonsDisplay()',
     '[style.--volume-slider-width]': 'volumeSliderWidth()',
+    '[style.view-transition-name]': 'viewTransitionName()',
     '[class.volume-slider-visible]': 'isVolumeSliderVisible()',
     '(document:fullscreenchange)': 'onFullScreenChange()',
     '(document:webkitfullscreenchange)': 'onFullScreenChange()',
@@ -87,6 +88,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
    * because not all video have a high-quality placeholder.
    */
   placeholderImageQuality = input<PlaceholderImageQuality>('low');
+
+  viewTransitionName = computed(() => this.videoId());
 
   videoPlayerRef =
     viewChild.required<ElementRef<HTMLVideoElement>>('videoPlayer');
