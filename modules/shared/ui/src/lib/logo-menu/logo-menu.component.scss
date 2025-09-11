@@ -5,11 +5,15 @@
 .logo_menu {
   @apply flex items-center h-full;
 
-  ay-hamburger-button {
-    @apply mr-[18px] ml-[2px];
+  > * {
+    @apply h-full;
+  }
+
+  .hamburger-button-container {
+    @apply mr-[24px] ml-[8px];
   }
 
   .logo-container {
-    @apply mb-[2px] w-[75.15%];
+    @apply mb-[2px];
   }
 }

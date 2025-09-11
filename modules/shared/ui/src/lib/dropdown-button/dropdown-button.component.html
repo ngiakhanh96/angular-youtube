@@ -1,22 +1,16 @@
-@if (mode() === 'horizontal') {
-  <ay-svg-button-renderer
-    ariaLabel="Settings"
-    viewBox="-8 0 40 24"
-    path="M12 16.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zM10.5 12c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5zm0-6c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5z"
-    cdkOverlayOrigin
-    #settings="cdkOverlayOrigin"
-  >
-  </ay-svg-button-renderer>
-} @else {
-  <ay-svg-button-renderer
-    ariaLabel="Settings"
-    viewBox="-6 -6 36 36"
-    path="M7.5 12c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5zm4.5-1.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm6 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"
-    cdkOverlayOrigin
-    #settings="cdkOverlayOrigin"
-  >
-  </ay-svg-button-renderer>
-}
+<ay-text-icon-button
+  [svgIcon]="dropDownButtonIcon()"
+  color="var(--black-color)"
+  backgroundColor="transparent"
+  hoverBackgroundColor="transparent"
+  [disabledRipple]="false"
+  [svgIconMarginLeft]="'0px'"
+  [svgIconMarginRight]="'0px'"
+  [iconPaddingLeft]="'0px'"
+  [iconPaddingRight]="'0px'"
+  cdkOverlayOrigin
+  #settings="cdkOverlayOrigin"
+/>
 
 <ng-template
   ayOverlay

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { OverlayDirective } from '../directives/overlay/overlay.directive';
 import { ISection, MenuComponent } from '../menu/menu.component';
-import { SvgButtonRendererComponent } from '../svg-button-renderer/svg-button-renderer.component';
+import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
 
 export type DropdownMode = 'horizontal' | 'vertical';
 
@@ -18,10 +18,10 @@ export type DropdownMode = 'horizontal' | 'vertical';
   templateUrl: './dropdown-button.component.html',
   styleUrls: ['./dropdown-button.component.scss'],
   imports: [
-    SvgButtonRendererComponent,
     OverlayModule,
     MenuComponent,
     OverlayDirective,
+    TextIconButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -39,9 +39,15 @@ export class DropdownButtonComponent {
   );
   selectedIconName = signal('');
   buttonRenderer = viewChild.required<
-    SvgButtonRendererComponent,
+    TextIconButtonComponent,
     CdkOverlayOrigin
-  >(SvgButtonRendererComponent, { read: CdkOverlayOrigin });
+  >(TextIconButtonComponent, { read: CdkOverlayOrigin });
   backgroundColor = input('unset');
   dropDownWidth = input('254px');
+
+  dropDownButtonIcon = computed(() =>
+    this.mode() === 'horizontal'
+      ? 'more-options-horizontal'
+      : 'more-options-vertical',
+  );
 }
