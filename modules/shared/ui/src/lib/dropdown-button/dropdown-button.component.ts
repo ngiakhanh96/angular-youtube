@@ -1,11 +1,10 @@
-import { CdkOverlayOrigin, OverlayModule } from '@angular/cdk/overlay';
+import { OverlayModule } from '@angular/cdk/overlay';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
   input,
   signal,
-  viewChild,
 } from '@angular/core';
 import { OverlayDirective } from '../directives/overlay/overlay.directive';
 import { ISection, MenuComponent } from '../menu/menu.component';
@@ -38,10 +37,6 @@ export class DropdownButtonComponent {
       : ['mdc-list-list-item-one-line-container-height-40px'],
   );
   selectedIconName = signal('');
-  buttonRenderer = viewChild.required<
-    TextIconButtonComponent,
-    CdkOverlayOrigin
-  >(TextIconButtonComponent, { read: CdkOverlayOrigin });
   backgroundColor = input('unset');
   dropDownWidth = input('254px');
 

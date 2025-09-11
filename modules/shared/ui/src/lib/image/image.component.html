@@ -1,0 +1,20 @@
+<button
+  id="button"
+  [attr.aria-label]="ariaLabel()"
+  matRipple
+  [ayRippleOnHover]="true"
+  [matRippleCentered]="true"
+  [matRippleUnbounded]="true"
+  [matRippleColor]="rippleColor()"
+  [matRippleRadius]="radius()"
+  [matRippleDisabled]="disabled()"
+>
+  <img
+    id="img"
+    alt="Avatar image"
+    [height]="height()"
+    [width]="width()"
+    class="rounded-full"
+    [ayImgSrc]="imgSrc() ?? ''"
+  />
+</button>

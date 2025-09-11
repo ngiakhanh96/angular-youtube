@@ -1,17 +1,9 @@
-import {
-  ImageDirective,
-  SvgButtonRendererComponent,
-  SvgButtonTemplateDirective,
-} from '@angular-youtube/shared-ui';
+import { ImageComponent } from '@angular-youtube/shared-ui';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'ay-account-avatar',
-  imports: [
-    SvgButtonRendererComponent,
-    SvgButtonTemplateDirective,
-    ImageDirective,
-  ],
+  imports: [ImageComponent],
   templateUrl: './account-avatar.component.html',
   styleUrl: './account-avatar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -28,6 +28,6 @@
     }
   }
   > .account-profile {
-    @apply w-[60px];
+    @apply w-[60px] flex items-center;
   }
 }

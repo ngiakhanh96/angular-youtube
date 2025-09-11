@@ -19,23 +19,13 @@
       />
     </div>
     <div class="account-profile">
-      <ay-svg-button-renderer
-        ariaLabel="Account profile avatar"
-        viewBox="-8 0 40 24"
+      <ay-account-avatar
+        [userThumbnail]="userThumbnail()"
+        [height]="32"
+        [width]="32"
         cdkOverlayOrigin
         #avatar="cdkOverlayOrigin"
-      >
-        <ng-template aySvgButtonTmp>
-          <img
-            id="img"
-            alt="Avatar image"
-            height="32"
-            width="32"
-            style="border-radius: 50%"
-            [ayImgSrc]="userThumbnail()"
-          />
-        </ng-template>
-      </ay-svg-button-renderer>
+      ></ay-account-avatar>
       <ng-template
         ayOverlay
         [connectedOverlayOrigin]="avatar"

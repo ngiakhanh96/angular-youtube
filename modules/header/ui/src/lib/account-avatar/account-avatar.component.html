@@ -1,16 +1,2 @@
-<ay-svg-button-renderer
-  ariaLabel="Account profile photo that opens list of alternate accounts"
-  viewBox="-8 0 40 24"
->
-  <ng-template aySvgButtonTmp>
-    <img
-      id="img"
-      alt="Avatar image"
-      [height]="height()"
-      [width]="width()"
-      class="rounded-[50%]"
-      [ayImgSrc]="userThumbnail() ?? ''"
-      priority
-    />
-  </ng-template>
-</ay-svg-button-renderer>
+<ay-img [height]="height()" [width]="width()" [imgSrc]="userThumbnail()">
+</ay-img>

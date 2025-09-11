@@ -1,11 +1,8 @@
 import { Auth, IMyChannelInfo } from '@angular-youtube/shared-data-access';
 import {
   DropdownButtonComponent,
-  ImageDirective,
   ISection,
   OverlayDirective,
-  SvgButtonRendererComponent,
-  SvgButtonTemplateDirective,
   TextIconButtonComponent,
 } from '@angular-youtube/shared-ui';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -17,6 +14,7 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { AccountAvatarComponent } from '../account-avatar/account-avatar.component';
 import { AccountMenuComponent } from '../account-menu/account-menu.component';
 import { LoginButtonComponent } from '../login-button/login-button.component';
 
@@ -25,15 +23,13 @@ import { LoginButtonComponent } from '../login-button/login-button.component';
   templateUrl: './end-header.component.html',
   styleUrls: ['./end-header.component.scss'],
   imports: [
-    SvgButtonRendererComponent,
-    SvgButtonTemplateDirective,
-    ImageDirective,
     DropdownButtonComponent,
     LoginButtonComponent,
     OverlayModule,
     AccountMenuComponent,
     OverlayDirective,
     TextIconButtonComponent,
+    AccountAvatarComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
