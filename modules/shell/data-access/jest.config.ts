@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'shell-data-access',
   preset: '../../../jest.preset.js',

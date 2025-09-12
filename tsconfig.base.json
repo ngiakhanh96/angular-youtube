@@ -1,18 +1,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "rootDir": ".",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
+    "moduleResolution": "bundler",
+    "emitDecoratorMetadata": false,
     "target": "es2022",
-    "module": "esnext",
+    "module": "preserve",
     "lib": ["es2020", "dom"],
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@angular-youtube/details-page-data-access": [
@@ -37,7 +30,6 @@
       "@angular-youtube/home-page-feature": [
         "modules/home-page/feature/src/index.ts"
       ],
-      "@angular-youtube/home-page-ui": ["modules/home-page/ui/src/index.ts"],
       "@angular-youtube/search-page-data-access": [
         "modules/search-page/data-access/src/index.ts"
       ],
@@ -50,19 +42,14 @@
       "@angular-youtube/shared-data-access": [
         "modules/shared/data-access/src/index.ts"
       ],
-      "@angular-youtube/shared-feature": [
-        "modules/shared/feature/src/index.ts"
-      ],
       "@angular-youtube/shared-ui": ["modules/shared/ui/src/index.ts"],
       "@angular-youtube/shell-data-access": [
         "modules/shell/data-access/src/index.ts"
       ],
       "@angular-youtube/shell-feature": ["modules/shell/feature/src/index.ts"],
-      "@angular-youtube/shell-ui": ["modules/shell/ui/src/index.ts"],
       "@angular-youtube/sidebar-feature": [
         "modules/sidebar/feature/src/index.ts"
-      ],
-      "@angular-youtube/sidebar-ui": ["modules/sidebar/ui/src/index.ts"]
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

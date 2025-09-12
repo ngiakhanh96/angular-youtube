@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'details-page-feature',
   preset: '../../../jest.preset.js',

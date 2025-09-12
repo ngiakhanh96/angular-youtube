@@ -8,14 +8,13 @@
   "tags": ["scope:master"],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
+      "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": {
           "base": "docs",
           "browser": "angular-youtube"
         },
-        "index": "./src/index.html",
         "browser": "./src/main.ts",
         "tsConfig": "tsconfig.app.json",
         "inlineStyleLanguage": "scss",
@@ -29,15 +28,11 @@
           "@angular/material/prebuilt-themes/azure-blue.css",
           "./src/styles.scss"
         ],
-        "scripts": [],
         "server": "src/main.server.ts",
-        "prerender": true,
         "ssr": {
-          "entry": "server.ts"
+          "entry": "src/server.ts"
         },
-        "stylePreprocessorOptions": {
-          "includePaths": ["src", "modules"]
-        }
+        "outputMode": "server"
       },
       "configurations": {
         "production": {
@@ -49,8 +44,8 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
             }
           ],
           "outputHashing": "all"
@@ -64,7 +59,8 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "continuous": true,
+      "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "angular-youtube:build:production"
@@ -73,18 +69,16 @@
           "buildTarget": "angular-youtube:build:development"
         }
       },
-      "defaultConfiguration": "development",
-      "continuous": true
+      "defaultConfiguration": "development"
     },
     "build-csr": {
-      "executor": "@angular-devkit/build-angular:application",
+      "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": {
           "base": "docs",
           "browser": ""
         },
-        "index": "./src/index.html",
         "browser": "./src/main.ts",
         "tsConfig": "tsconfig.app.json",
         "inlineStyleLanguage": "scss",
@@ -97,11 +91,7 @@
         "styles": [
           "@angular/material/prebuilt-themes/azure-blue.css",
           "./src/styles.scss"
-        ],
-        "scripts": [],
-        "stylePreprocessorOptions": {
-          "includePaths": ["src", "modules"]
-        }
+        ]
       },
       "configurations": {
         "production": {
@@ -113,14 +103,8 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
-            }
-          ],
-          "fileReplacements": [
-            {
-              "replace": "public/assets/app-settings.json",
-              "with": "public/assets/app-settings.prod.json"
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
             }
           ],
           "outputHashing": "all"
@@ -134,7 +118,8 @@
       "defaultConfiguration": "production"
     },
     "serve-csr": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "continuous": true,
+      "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "angular-youtube:build-csr:production"
@@ -143,11 +128,10 @@
           "buildTarget": "angular-youtube:build-csr:development"
         }
       },
-      "defaultConfiguration": "development",
-      "continuous": true
+      "defaultConfiguration": "development"
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "angular-youtube:build"
       }
@@ -159,13 +143,14 @@
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectName}"],
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "jestConfig": "jest.config.app.ts"
+        "reportsDirectory": "coverage/angular-youtube"
       }
     },
     "serve-static": {
+      "continuous": true,
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "angular-youtube:build",

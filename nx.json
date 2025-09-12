@@ -6,22 +6,18 @@
     "production": [
       "default",
       "!{projectRoot}/.eslintrc.json",
-      "!{projectRoot}/eslint.config.js",
+      "!{projectRoot}/eslint.config.mjs",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/src/test-setup.[jt]s",
-      "!{projectRoot}/test-setup.[jt]s",
-      "!{projectRoot}/cypress/**/*",
-      "!{projectRoot}/**/*.cy.[jt]s?(x)",
-      "!{projectRoot}/cypress.config.[jt]s",
-      "!{projectRoot}/eslint.config.mjs"
+      "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/test-setup.[jt]s"
     ],
-    "sharedGlobals": []
+    "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
   },
-  "nxCloudAccessToken": "MDgxNmViN2QtNmJiZi00ZmNhLTg4NDEtM2FlMDYwMjMyNDM1fHJlYWQtd3JpdGU=",
+  "nxCloudId": "68c426f8a041424f04c08c31",
   "targetDefaults": {
-    "@angular-devkit/build-angular:application": {
+    "@angular/build:application": {
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
@@ -32,9 +28,17 @@
         "default",
         "{workspaceRoot}/.eslintrc.json",
         "{workspaceRoot}/.eslintignore",
-        "{workspaceRoot}/eslint.config.js",
         "{workspaceRoot}/eslint.config.mjs"
       ]
+    },
+    "@nx/vite:test": {
+      "cache": true,
+      "inputs": ["default", "^production"]
+    },
+    "@nx/angular:ng-packagr-lite": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     },
     "@nx/jest:jest": {
       "cache": true,
@@ -48,19 +52,13 @@
           "codeCoverage": true
         }
       }
-    },
-    "e2e-ci--**/*": {
-      "dependsOn": ["^build"]
     }
   },
   "plugins": [
     {
-      "plugin": "@nx/cypress/plugin",
+      "plugin": "@nx/playwright/plugin",
       "options": {
-        "targetName": "e2e",
-        "openTargetName": "open-cypress",
-        "componentTestingTargetName": "component-test",
-        "ciTargetName": "e2e-ci"
+        "targetName": "e2e"
       }
     },
     {
@@ -72,69 +70,17 @@
   ],
   "generators": {
     "@nx/angular:application": {
-      "e2eTestRunner": "cypress",
+      "e2eTestRunner": "playwright",
       "linter": "eslint",
       "style": "scss",
-      "unitTestRunner": "jest"
+      "unitTestRunner": "vitest"
     },
     "@nx/angular:library": {
       "linter": "eslint",
       "unitTestRunner": "jest"
     },
     "@nx/angular:component": {
-      "style": "css",
-      "type": "component"
-    },
-    "@schematics/angular:component": {
-      "type": "component"
-    },
-    "@nx/angular:directive": {
-      "type": "directive"
-    },
-    "@schematics/angular:directive": {
-      "type": "directive"
-    },
-    "@nx/angular:service": {
-      "type": "service"
-    },
-    "@schematics/angular:service": {
-      "type": "service"
-    },
-    "@nx/angular:scam": {
-      "type": "component"
-    },
-    "@nx/angular:scam-directive": {
-      "type": "directive"
-    },
-    "@nx/angular:guard": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:guard": {
-      "typeSeparator": "."
-    },
-    "@nx/angular:interceptor": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:interceptor": {
-      "typeSeparator": "."
-    },
-    "@nx/angular:module": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:module": {
-      "typeSeparator": "."
-    },
-    "@nx/angular:pipe": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:pipe": {
-      "typeSeparator": "."
-    },
-    "@nx/angular:resolver": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:resolver": {
-      "typeSeparator": "."
+      "style": "scss"
     }
   },
   "defaultProject": "angular-youtube"
