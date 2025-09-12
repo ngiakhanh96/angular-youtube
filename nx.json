@@ -39,19 +39,10 @@
     "@nx/jest:jest": {
       "cache": true,
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
+      "options": { "passWithNoTests": true },
+      "configurations": { "ci": { "ci": true, "codeCoverage": true } }
     },
-    "e2e-ci--**/*": {
-      "dependsOn": ["^build"]
-    }
+    "e2e-ci--**/*": { "dependsOn": ["^build"] }
   },
   "plugins": [
     {
@@ -63,12 +54,7 @@
         "ciTargetName": "e2e-ci"
       }
     },
-    {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint"
-      }
-    }
+    { "plugin": "@nx/eslint/plugin", "options": { "targetName": "lint" } }
   ],
   "generators": {
     "@nx/angular:application": {
@@ -77,65 +63,26 @@
       "style": "scss",
       "unitTestRunner": "jest"
     },
-    "@nx/angular:library": {
-      "linter": "eslint",
-      "unitTestRunner": "jest"
-    },
-    "@nx/angular:component": {
-      "style": "css",
-      "type": "component"
-    },
-    "@schematics/angular:component": {
-      "type": "component"
-    },
-    "@nx/angular:directive": {
-      "type": "directive"
-    },
-    "@schematics/angular:directive": {
-      "type": "directive"
-    },
-    "@nx/angular:service": {
-      "type": "service"
-    },
-    "@schematics/angular:service": {
-      "type": "service"
-    },
-    "@nx/angular:scam": {
-      "type": "component"
-    },
-    "@nx/angular:scam-directive": {
-      "type": "directive"
-    },
-    "@nx/angular:guard": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:guard": {
-      "typeSeparator": "."
-    },
-    "@nx/angular:interceptor": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:interceptor": {
-      "typeSeparator": "."
-    },
-    "@nx/angular:module": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:module": {
-      "typeSeparator": "."
-    },
-    "@nx/angular:pipe": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:pipe": {
-      "typeSeparator": "."
-    },
-    "@nx/angular:resolver": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:resolver": {
-      "typeSeparator": "."
-    }
+    "@nx/angular:library": { "linter": "eslint", "unitTestRunner": "jest" },
+    "@nx/angular:component": { "style": "css", "type": "component" },
+    "@schematics/angular:component": { "type": "component" },
+    "@nx/angular:directive": { "type": "directive" },
+    "@schematics/angular:directive": { "type": "directive" },
+    "@nx/angular:service": { "type": "service" },
+    "@schematics/angular:service": { "type": "service" },
+    "@nx/angular:scam": { "type": "component" },
+    "@nx/angular:scam-directive": { "type": "directive" },
+    "@nx/angular:guard": { "typeSeparator": "." },
+    "@schematics/angular:guard": { "typeSeparator": "." },
+    "@nx/angular:interceptor": { "typeSeparator": "." },
+    "@schematics/angular:interceptor": { "typeSeparator": "." },
+    "@nx/angular:module": { "typeSeparator": "." },
+    "@schematics/angular:module": { "typeSeparator": "." },
+    "@nx/angular:pipe": { "typeSeparator": "." },
+    "@schematics/angular:pipe": { "typeSeparator": "." },
+    "@nx/angular:resolver": { "typeSeparator": "." },
+    "@schematics/angular:resolver": { "typeSeparator": "." }
   },
-  "defaultProject": "angular-youtube"
+  "defaultProject": "angular-youtube",
+  "nxCloudId": "68c425c70605317a77993946"
 }
