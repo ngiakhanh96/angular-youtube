@@ -1,82 +1,320 @@
-# AngularYoutube
+# Angular YouTube Clone
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+[![Angular](https://img.shields.io/badge/Angular-20.2.0-dd0031.svg?style=flat&logo=angular)](https://angular.io/)
+[![Nx](https://img.shields.io/badge/Nx-21.5.2-143055.svg?style=flat&logo=nx)](https://nx.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-007acc.svg?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+> A modern, feature-rich YouTube clone built with latest Angular 20
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-standalone-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+---
 
-## Finish your CI setup
+## ✨ Overview
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/QUln3Aiq2I)
+Experience YouTube reimagined with modern web technologies! This project showcases a full-featured video platform built with Angular 20, featuring server-side rendering, modular architecture, and enterprise-grade development practices. Perfect for learning modern Angular patterns or building your own video platform.
 
+## 🎯 Key Highlights
 
-## Run tasks
+- 🚀 **Latest Angular 20** with standalone components and signals
+- 🏗️ **Enterprise Architecture** using Nx monorepo and domain-driven design
+- 🎥 **Custom Video Player** with theater mode, PiP, and keyboard controls
+- 🔐 **Social Authentication** with Google OAuth integration
+- 🌐 **SSR Support** for better SEO and performance
+- 📱 **Responsive Design** with Angular Material and TailwindCSS
+- 🔒 **Privacy-Focused** using Invidious backend proxy
 
-To run the dev server for your app, use:
+## 🚀 Features
 
-```sh
-npx nx serve angular-youtube
+### 🔍 **Content Features**
+
+- **Video Details Page**: Comprehensive video information display
+- **Video Recommendations**: Related videos and suggestions
+- **Search Functionality**: Video search with suggestions
+- **Home Page**: Grid layout for video browsing
+- **Video Categories**: Organized content categorization
+- **External Navigation**: Safe external link handling
+
+### 🎬 **Video Player**
+
+- **Custom Video Player**: Native HTML5 video player with YouTube-like controls
+- **Theater & Default View Modes**: Toggle between regular and theater (wide) viewing modes
+- **Picture-in-Picture**: Built-in PiP support for multitasking
+- **Keyboard Controls**: Arrow keys for seeking, spacebar for play/pause
+- **Auto-Next**: Automatic video progression with toggle control
+- **Audio & Video Sync**: Separate audio/video streams with perfect synchronization
+- **Volume Control**: Mute/unmute with visual feedback
+- **Progress Bar**: Interactive seeking with visual progress indicators
+- **Fullscreen Support**: Native fullscreen mode with custom controls
+
+### 🎨 **User Interface**
+
+- **Material Design**: Angular Material components with custom styling
+- **Responsive Layout**: Adaptive design for desktop and laptop
+- **Sidebar Navigation**: Collapsible sidebar with mini-sidebar mode
+- **Fixed Header**: Sticky header with blur backdrop effect
+- **Dark Theme**: YouTube-inspired dark color scheme
+- **Loading States**: Skeleton screens and loading indicators
+
+### 🔐 **Authentication**
+
+- **Social Login**: Google OAuth integration
+- **User Profiles**: Social user management
+- **Session Handling**: Secure authentication state management
+
+## ⚡ Technology Stack
+
+- **Framework**: Angular 20 with standalone components
+- **Build Tool**: Nx 21 monorepo workspace
+- **State Management**: NgRx Signals 20
+- **UI Library**: Angular Material 20
+- **Styling**: TailwindCSS
+- **Testing**: Jest + Playwright
+- **Server**: Express.js for SSR
+- **Language**: TypeScript 5.9 with strict mode
+- **Backend**: Invidious API integration
+
+## 📁 Project Structure
+
+The application follows a modular, domain-driven architecture:
+
+```text
+modules/
+├── details-page/       # Video details and player functionality
+│   ├── data-access/    # State management and data services
+│   ├── feature/        # Smart components and routing
+│   └── ui/             # Presentational components
+├── header/             # Application header and navigation
+├── home-page/          # Main landing page with video grid
+├── search-page/        # Search functionality and results
+├── shared/             # Shared components, services, and utilities
+├── shell/              # Application shell and layout
+└── sidebar/            # Sidebar navigation and menu
 ```
 
-To create a production bundle:
+Each feature module is organized with:
 
-```sh
-npx nx build angular-youtube
+- **`feature/`** - Smart components, containers, and routing
+- **`ui/`** - Presentational components and UI elements
+- **`data-access/`** - State management, services, and data models
+
+## 🏗️ Architecture Principles
+
+This project follows modern Angular best practices:
+
+- **Standalone Components**: No NgModules, using standalone components
+- **Modular Design**: Domain-driven architecture using Nx workspace
+- **Lazy Loading**: Route-based code splitting for optimal performance
+- **Signal-based State**: Reactive state management with NgRx Signals
+- **OnPush Change Detection**: Optimized performance
+- **Functional Guards**: Router guards using functional approach
+- **Native Control Flow**: Using `@if`, `@for`, `@switch` instead of structural directives
+- **Reactive Forms**: Form handling with reactive patterns
+- **SSR Support**: Server-side rendering with hydration (optional)
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/ngiakhanh96/angular-youtube.git
+cd angular-youtube
+
+# Install dependencies
+npm install --legacy-peer-deps
 ```
 
-To see all available targets to run for a project, run:
+### Development Server
 
-```sh
+**Client-Side Rendering (Recommended for development):**
+
+```bash
+npm run start-csr
+```
+
+**Server-Side Rendering:**
+
+```bash
+npm run start
+```
+
+The application will be available at `http://localhost:4200/`
+
+### Building for Production
+
+```bash
+# Client-Side Rendering (Recommended)
+npm run build-csr
+
+# Server-Side Rendering
+npm run build
+
+# GitHub Pages (with base href)
+npm run build-ghp
+```
+
+## 🧪 Testing & Quality
+
+### Running Tests
+
+```bash
+# Run all tests
+npm run test
+
+# Run tests for specific projects
+npx nx test [project-name]
+
+# Run E2E tests
+npx nx e2e e2e
+```
+
+### Development Tools
+
+```bash
+# View available commands
 npx nx show project angular-youtube
+
+# Run specific targets
+npx nx [target] [project-name]
+
+# Lint the codebase
+npx nx lint angular-youtube
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+## 🔧 Backend Setup
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+This application integrates with Invidious as a privacy-friendly YouTube backend proxy.
 
-## Add new projects
+### Invidious Setup
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+Follow the [official Invidious installation guide](https://docs.invidious.io/installation/#docker-compose-method-production).
 
-Use the plugin's generator to create new projects.
+**Quick setup with Docker Compose:**
 
-To generate a new application, use:
+```yaml
+# docker-compose.yml
+version: '3'
+services:
+  invidious:
+    image: quay.io/invidious/invidious:latest
+    # image: quay.io/invidious/invidious:latest-arm64 # ARM64/AArch64 devices
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:3000:3000'
+    environment:
+      # Please read the following file for a comprehensive list of all available
+      # configuration options and their associated syntax:
+      # https://github.com/iv-org/invidious/blob/master/config/config.example.yml
+      INVIDIOUS_CONFIG: |
+        db:
+          dbname: invidious
+          user: kemal
+          password: kemal
+          host: invidious-db
+          port: 5432
+        check_tables: true
+        signature_server: inv_sig_helper:12999
+        visitor_data: "CgtFVlRVeTZJOUFoMCjs8eXCBjIKCgJTRxIEGgAgPg%3D%3D"
+        po_token: "MnQXWuCy5oyaWRdik8YpLpzCafw6c6wWr10wr_slCmjoLs6fyzJTpnmoiCqNf3rLYgaS7kovouBgLRpILtI7mL0GLNSCLS67BJMchUMpzJ2em5FQ6LzQH4o1vW_Eij_rnB70xE92wv5yZ2H4mKa2ECVq2LduZQ=="
+        # external_port:
+        # domain:
+        # https_only: false
+        # statistics_enabled: false
+        hmac_key: "8ZgJw6m0V4xFZ1m9D2n8"
+    healthcheck:
+      test: wget -nv --tries=1 --spider http://127.0.0.1:3000/api/v1/trending || exit 1
+      interval: 30s
+      timeout: 5s
+      retries: 2
+    logging:
+      options:
+        max-size: '1G'
+        max-file: '4'
+    depends_on:
+      - invidious-db
 
-```sh
-npx nx g @nx/angular:app demo
+  inv_sig_helper:
+    image: quay.io/invidious/inv-sig-helper:latest
+    init: true
+    command: ['--tcp', '0.0.0.0:12999']
+    environment:
+      - RUST_LOG=info
+    restart: unless-stopped
+    cap_drop:
+      - ALL
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+
+  invidious-db:
+    image: docker.io/library/postgres:14
+    restart: unless-stopped
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+      - ./config/sql:/config/sql
+      - ./docker/init-invidious-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh
+    environment:
+      POSTGRES_DB: invidious
+      POSTGRES_USER: kemal
+      POSTGRES_PASSWORD: kemal
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
+
+volumes:
+  postgresdata:
 ```
 
-To generate a new library, use:
+## 📚 Learning Resources
 
-```sh
-npx nx g @nx/angular:lib mylib
-```
+This project is designed for learning modern Angular development patterns:
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### Official Documentation
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ngiakhanh96/angular-youtube)
 
+### Step-by-Step Tutorial
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Comprehensive tutorial available at [Code2tutorial](https://code2tutorial.com/tutorial/4400c614-c8a2-4aa8-8078-ea3157683b12/08_http_services_.md)
 
-## Install Nx Console
+## 📄 License
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+This project is available under a **dual licensing model**:
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- **AGPL-3.0 License** - For open source, educational, and non-commercial use
+- **Commercial License** - For commercial use (requires payment)
 
-## Useful links
+### Open Source Use (AGPL-3.0)
 
-Learn more:
+✅ Educational projects  
+✅ Personal learning  
+✅ Open source contributions  
+✅ Non-commercial use
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/angular-standalone-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Commercial Use (Paid License Required)
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+💰 Commercial products or services  
+💰 SaaS applications  
+💰 Proprietary/closed-source integration  
+💰 Reselling or distributing for profit
+
+**Need a commercial license?** Contact us for pricing and terms.
+
+See the [LICENSE](LICENSE) file for complete details.
+
+## 🙏 Acknowledgments
+
+Special thanks to the amazing open-source community:
+
+- **[Angular Team](https://angular.io/)** - For the incredible framework
+- **[Nx Team](https://nx.dev/)** - For the powerful development tools
+- **[Angular Material](https://material.angular.io/)** - For beautiful UI components
+- **[Invidious Project](https://invidious.io/)** - For privacy-focused YouTube API alternative
+- **[TailwindCSS](https://tailwindcss.com/)** - For utility-first CSS framework
+
+### Built With Love Using
+
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Nx](https://img.shields.io/badge/Nx-143055?style=for-the-badge&logo=nx&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
