@@ -215,8 +215,8 @@ services:
           port: 5432
         check_tables: true
         signature_server: inv_sig_helper:12999
-        visitor_data: "CgtFVlRVeTZJOUFoMCjs8eXCBjIKCgJTRxIEGgAgPg%3D%3D"
-        po_token: "MnQXWuCy5oyaWRdik8YpLpzCafw6c6wWr10wr_slCmjoLs6fyzJTpnmoiCqNf3rLYgaS7kovouBgLRpILtI7mL0GLNSCLS67BJMchUMpzJ2em5FQ6LzQH4o1vW_Eij_rnB70xE92wv5yZ2H4mKa2ECVq2LduZQ=="
+        visitor_data: "[your_visitor_data]"
+        po_token: "[your_po_token]"
         # external_port:
         # domain:
         # https_only: false
