@@ -34,6 +34,7 @@ export enum ScreenMode {
   Full,
 }
 
+//TODO explore to support youtube DASH streaming URL (dashUrl) with Dash.js
 @Component({
   selector: 'ay-native-youtube-player',
   imports: [
