@@ -6,21 +6,6 @@
   "projectType": "library",
   "tags": ["scope:shell-data-access"],
   "targets": {
-    "build": {
-      "executor": "@nx/angular:ng-packagr-lite",
-      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
-      "options": {
-        "project": "modules/shell/data-access/ng-package.json",
-        "tsConfig": "modules/shell/data-access/tsconfig.lib.json"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "modules/shell/data-access/tsconfig.lib.prod.json"
-        },
-        "development": {}
-      },
-      "defaultConfiguration": "production"
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
