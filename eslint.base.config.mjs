@@ -6,16 +6,15 @@ import nxEslintPlugin from '@nx/eslint-plugin';
 import ngrxEslintPlugin from '@ngrx/eslint-plugin';
 import tsEslintPlugin from '@typescript-eslint/eslint-plugin';
 import prettierConfig from 'eslint-config-prettier';
+import tsEslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
 
 const compat = new FlatCompat({
   baseDirectory: dirname(fileURLToPath(import.meta.url)),
   recommendedConfig: js.configs.recommended,
 });
 
-export default [
-  ...nxEslintPlugin.configs['flat/base'],
-  ...nxEslintPlugin.configs['flat/typescript'],
-  ...nxEslintPlugin.configs['flat/javascript'],
+export default defineConfig([
   {
     ignores: ['**/dist'],
   },
@@ -25,8 +24,23 @@ export default [
       '@ngrx': ngrxEslintPlugin,
     },
   },
+  ...tsEslint.configs.recommendedTypeChecked.map((config) => ({
+    ...config,
+    files: ['**/*.ts'], // We use TS config only for TS files
+  })),
   {
     files: ['**/*.ts'],
+
+    // This is required, see the docs
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname, // or import.meta.dirname for ESM
+      },
+    },
+  },
+  {
+    files: ['src/**/*.ts', 'modules/**/*.ts'],
     rules: {
       ...tsEslintPlugin.configs.recommended.rules,
     },
@@ -183,5 +197,44 @@ export default [
         ],
       },
     })),
+  ...compat
+    .config({
+      extends: ['plugin:@nx/typescript'],
+    })
+    .map((config) => ({
+      ...config,
+      files: ['**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts'],
+      rules: {
+        ...config.rules,
+      },
+    })),
+  ...compat
+    .config({
+      extends: ['plugin:@nx/javascript'],
+    })
+    .map((config) => ({
+      ...config,
+      files: ['**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
+      rules: {
+        ...config.rules,
+      },
+    })),
+  ...compat
+    .config({
+      env: {
+        jest: true,
+      },
+    })
+    .map((config) => ({
+      ...config,
+      files: ['**/*.spec.ts', '**/*.spec.tsx', '**/*.spec.js', '**/*.spec.jsx'],
+      rules: {
+        ...config.rules,
+      },
+    })),
   prettierConfig,
-];
+  {
+    files: ['**/*.js'],
+    extends: [tsEslint.configs.disableTypeChecked],
+  },
+]);
