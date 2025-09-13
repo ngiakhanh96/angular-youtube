@@ -1,4 +1,3 @@
-import { SpinnerService } from '@angular-youtube/shared-data-access';
 import { ExternalNavigationService } from '@angular-youtube/shared-ui';
 import { inject } from '@angular/core';
 import { CanActivateFn, Route, Router } from '@angular/router';
@@ -6,11 +5,9 @@ import { ExternalComponent } from './external.component';
 
 const canNavigateToExternalPage: CanActivateFn = () => {
   const router = inject(Router);
-  const spinner = inject(SpinnerService);
   const externalNavigationService = inject(ExternalNavigationService);
-  spinner.loadingOn();
   const externalUrl = router.currentNavigation()?.extras.state?.['externalUrl'];
-  externalNavigationService.navigateByCurrentWindow(externalUrl);
+  externalNavigationService.navigateByOpeningNewWindow(externalUrl);
   return false;
 };
 export const mainRoutes: Route[] = [
