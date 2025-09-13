@@ -1,3 +1,7 @@
+import {
+  searchPageEventGroup,
+  SearchPageStore,
+} from '@angular-youtube/search-page-data-access';
 import { VideosSearchComponent } from '@angular-youtube/search-page-ui';
 import {
   BaseWithSandBoxComponent,
@@ -21,8 +25,6 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { searchPageEventGroup } from 'modules/search-page/data-access/src/lib/store/actions/search-page.event-group';
-import { SearchPageStore } from 'modules/search-page/data-access/src/lib/store/reducers/search-page.reducer';
 
 @Component({
   selector: 'ay-search',
@@ -72,7 +74,7 @@ export class SearchComponent
     searchPageEventGroup.searchYoutubeVideos({
       searchTerm: this.searchQuery() ?? '',
       page: this.page(),
-    }),
+    })
   );
   private titleService = inject(Title);
   private sidebarService = inject(SidebarService);
@@ -88,7 +90,7 @@ export class SearchComponent
     this.dispatchEventFromSignal(this.searchYoutubeVideosInfo);
     effect(() => {
       this.titleService.setTitle(
-        `${this.searchQuery() ?? ''} - Angular Youtube`,
+        `${this.searchQuery() ?? ''} - Angular Youtube`
       );
     });
     effect(() => {

@@ -146,7 +146,8 @@
       "executor": "@nx/vite:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "reportsDirectory": "coverage/angular-youtube"
+        "reportsDirectory": "coverage/angular-youtube",
+        "passWithNoTests": true
       }
     },
     "serve-static": {

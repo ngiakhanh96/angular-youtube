@@ -1,3 +1,4 @@
+import { AppSettingsService } from '@angular-youtube/shared-data-access';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,7 +9,6 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppSettingsService } from 'modules/shared/data-access/src/lib/services/app-settings.service';
 import { ImageDirective } from '../directives/image/image.directive';
 import { ExternalNavigationService } from '../services/external-navigation.service';
 
@@ -32,7 +32,7 @@ export class LinkComponent {
     Object.entries({
       ...(this.appSettingsService.appConfig()?.supportedSocialMedias ?? {}),
       [this.currentHostName]: 'yt_favicon_ringo2.png',
-    }),
+    })
   );
   router = inject(Router);
   href = input.required<string>();
@@ -91,7 +91,9 @@ export class LinkComponent {
       : `\u00a0${text}\u00a0\u00a0`;
   });
   imgSource = computed(() => {
-    return `https://www.gstatic.com/youtube/img/watch/${this.getSupportedSocialMediaIconUrl(new URL(this.href()).hostname)}`;
+    return `https://www.gstatic.com/youtube/img/watch/${this.getSupportedSocialMediaIconUrl(
+      new URL(this.href()).hostname
+    )}`;
   });
   formattedText = computed(() => {
     const attributeHref = this.attributeHref();
@@ -142,7 +144,7 @@ export class LinkComponent {
   }
 
   private convertQueryStringToParams(
-    queryString: string,
+    queryString: string
   ): Record<string, string> {
     return queryString
       .split('&')
