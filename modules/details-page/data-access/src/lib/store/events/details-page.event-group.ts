@@ -1,7 +1,9 @@
-import { IInvidiousVideoInfo } from '@angular-youtube/shared-data-access';
+import {
+  IInvidiousVideoCommentsInfo,
+  IInvidiousVideoInfo,
+} from '@angular-youtube/shared-data-access';
 import { type } from '@ngrx/signals';
 import { eventGroup } from '@ngrx/signals/events';
-import { IInvidiousVideoCommentsInfo } from 'modules/shared/data-access/src/lib/models/http-response/invidious-video-comments.model';
 
 export const detailsPageEventGroup = eventGroup({
   source: 'HomePage',
