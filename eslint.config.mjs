@@ -33,7 +33,7 @@ export default [
         'error',
         {
           type: 'attribute',
-          prefix: 'app',
+          prefix: 'ay',
           style: 'camelCase',
         },
       ],
@@ -41,7 +41,7 @@ export default [
         'error',
         {
           type: 'element',
-          prefix: 'app',
+          prefix: 'ay',
           style: 'kebab-case',
         },
       ],
