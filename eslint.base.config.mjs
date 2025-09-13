@@ -9,12 +9,6 @@ export default [
     ignores: ['**/dist'],
   },
   {
-    plugins: {
-      '@nx': nx,
-      '@ngrx': ngrxEslintPlugin,
-    },
-  },
-  {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     rules: {
       '@nx/enforce-module-boundaries': [
@@ -162,7 +156,7 @@ export default [
   },
   {
     files: ['**/*.ts'],
-    extends: ['plugin:@ngrx/signals'],
+    extends: [...ngrxEslintPlugin.configs.signals],
     rules: {},
   },
   {
