@@ -6,6 +6,14 @@
   "projectType": "library",
   "tags": ["scope:sidebar-feature"],
   "targets": {
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../../coverage/modules/sidebar/feature",
+        "passWithNoTests": true
+      }
+    },
     "lint": {
       "executor": "@nx/eslint:lint"
     }

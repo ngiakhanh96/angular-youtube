@@ -69,7 +69,7 @@ Experience YouTube reimagined with modern web technologies! This project showcas
 - **State Management**: NgRx Signals 20
 - **UI Library**: Angular Material 20
 - **Styling**: TailwindCSS
-- **Testing**: Jest + Playwright
+- **Testing**: Vitest + Playwright
 - **Server**: Express.js for SSR
 - **Language**: TypeScript 5.9 with strict mode
 - **Backend**: Invidious API integration

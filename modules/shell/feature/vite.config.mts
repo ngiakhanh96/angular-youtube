@@ -6,14 +6,14 @@ import { defineConfig } from 'vite';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: './node_modules/.vite/angular-youtube',
+  cacheDir: '../../../node_modules/.vite/modules/shell/feature',
   plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [ nxViteTsPaths() ],
   // },
   test: {
-    name: 'angular-youtube',
+    name: 'shell-feature',
     watch: false,
     globals: true,
     environment: 'jsdom',
@@ -21,9 +21,8 @@ export default defineConfig(() => ({
     setupFiles: ['src/test-setup.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: './coverage/angular-youtube',
+      reportsDirectory: '../../../coverage/modules/shell/feature',
       provider: 'v8' as const,
     },
-    projects: ['modules/**/vite.config.mts'],
   },
 }));
