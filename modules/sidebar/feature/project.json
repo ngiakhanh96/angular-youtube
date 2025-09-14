@@ -6,14 +6,6 @@
   "projectType": "library",
   "tags": ["scope:sidebar-feature"],
   "targets": {
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "modules/sidebar/feature/jest.config.ts",
-        "tsConfig": "modules/sidebar/feature/tsconfig.spec.json"
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint"
     }

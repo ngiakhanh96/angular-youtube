@@ -6,14 +6,6 @@
   "projectType": "library",
   "tags": ["scope:shell-data-access"],
   "targets": {
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "modules/shell/data-access/jest.config.ts",
-        "tsConfig": "modules/shell/data-access/tsconfig.spec.json"
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint"
     }

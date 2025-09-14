@@ -6,14 +6,6 @@
   "projectType": "library",
   "tags": ["scope:details-page-feature"],
   "targets": {
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "modules/details-page/feature/jest.config.ts",
-        "tsConfig": "modules/details-page/feature/tsconfig.spec.json"
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint"
     }

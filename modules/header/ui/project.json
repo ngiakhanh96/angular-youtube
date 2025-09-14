@@ -6,14 +6,6 @@
   "projectType": "library",
   "tags": ["scope:header-ui"],
   "targets": {
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "modules/header/ui/jest.config.ts",
-        "tsConfig": "modules/header/ui/tsconfig.spec.json"
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint"
     }
