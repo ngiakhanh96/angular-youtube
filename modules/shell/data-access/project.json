@@ -6,6 +6,14 @@
   "projectType": "library",
   "tags": ["scope:shell-data-access"],
   "targets": {
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../../coverage/modules/shell/data-access",
+        "passWithNoTests": true
+      }
+    },
     "lint": {
       "executor": "@nx/eslint:lint"
     }
