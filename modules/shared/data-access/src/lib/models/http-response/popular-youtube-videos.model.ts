@@ -1,12 +1,8 @@
 import {
-  IDefault,
-  IHigh,
   IItem,
   ILocalized,
-  IMaxres,
-  IMedium,
   IPageInfo,
-  IStandard,
+  IThumbnailsInfo,
   IYoutubeResponse,
 } from './common.model';
 
@@ -38,11 +34,11 @@ export interface IVideoSnippet {
 }
 
 export interface IVideoThumbnails {
-  default: IDefault;
-  medium: IMedium;
-  high: IHigh;
-  standard: IStandard;
-  maxres?: IMaxres;
+  default: IThumbnailsInfo;
+  medium: IThumbnailsInfo;
+  high: IThumbnailsInfo;
+  standard: IThumbnailsInfo;
+  maxres?: IThumbnailsInfo;
 }
 
 export interface IVideoContentDetails {

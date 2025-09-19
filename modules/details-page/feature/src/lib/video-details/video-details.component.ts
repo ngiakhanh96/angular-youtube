@@ -95,7 +95,7 @@ export class VideoDetailsComponent
     ) {
       return this.videoInfo()
         ?.adaptiveFormats.filter(
-          (format) => format.url !== '' && format.fps != null,
+          (format) => format.url !== '' && format.fps != null
         )
         .sort((a, b) => +b.bitrate - +a.bitrate)[0]?.url;
     } else if (this.videoInfo()?.formatStreams) {
@@ -111,14 +111,16 @@ export class VideoDetailsComponent
     ) {
       return this.videoInfo()
         ?.adaptiveFormats.filter(
-          (format) => format.url !== '' && format.audioQuality != null,
+          (format) => format.url !== '' && format.audioQuality != null
         )
         .sort((a, b) => {
           // Priority: lang%3DlanguageCode > lang%3Den > others
           const getLangPriority = (url: string) => {
             if (
               url.includes(
-                `lang%3D${this.appSettingsService.appConfig()?.languageCode ?? 'vi'}`,
+                `lang%3D${
+                  this.appSettingsService.appConfig()?.languageCode ?? 'vi'
+                }`
               )
             )
               return 2;
@@ -139,13 +141,13 @@ export class VideoDetailsComponent
 
   viewMode = signal(ViewMode.Theater);
   mainPlayer = viewChild.required<NativeYouTubePlayerComponent>(
-    NativeYouTubePlayerComponent,
+    NativeYouTubePlayerComponent
   );
   theaterModeContainerElementRef = viewChild.required<ElementRef<HTMLElement>>(
-    'theaterModeContainer',
+    'theaterModeContainer'
   );
   defaultModeContainerElementRef = viewChild.required<ElementRef<HTMLElement>>(
-    'defaultModeContainer',
+    'defaultModeContainer'
   );
   ViewMode = ViewMode;
   videoInfo = this.detailsPageStore.videoInfo;
@@ -159,7 +161,7 @@ export class VideoDetailsComponent
         authorLogoUrl: videoInfo.authorThumbnails[1]?.url ?? '',
         author: videoInfo.author,
         subscriberCountText: this.convertToSubscriberCountText(
-          videoInfo.subCountText,
+          videoInfo.subCountText
         ),
         likeCount: videoInfo.likeCount,
         dislikeCount: videoInfo.dislikeCount,
@@ -192,10 +194,10 @@ export class VideoDetailsComponent
       }));
   });
   mainPlayerBorderRadius = computed(() =>
-    this.viewMode() === ViewMode.Theater ? '0px' : '12px',
+    this.viewMode() === ViewMode.Theater ? '0px' : '12px'
   );
   marginTop = computed(() =>
-    this.viewMode() === ViewMode.Theater ? '0px' : '24px',
+    this.viewMode() === ViewMode.Theater ? '0px' : '24px'
   );
   //TODO Need to find an api to get this
   videoCategories = signal<IVideoCategory[]>([
@@ -274,10 +276,19 @@ export class VideoDetailsComponent
           this.dispatchEvent(detailsPageEventGroup.reset());
           this.isFirstTime = false;
         }
-        this.videoId.set(params['v']);
-        this.currentTime.set(params['t'] ?? 0);
-        this.loadingBarService.load(25);
-        this.currentUrl = this.router.url;
+        const playlistId = params['list'] as string | undefined;
+        if (playlistId != null && playlistId !== '') {
+          this.dispatchEvent(
+            detailsPageEventGroup.loadYoutubePlaylistInfo({
+              playlistId: playlistId,
+            })
+          );
+        } else {
+          this.videoId.set(params['v']);
+          this.currentTime.set(params['t'] ?? 0);
+          this.loadingBarService.load(25);
+          this.currentUrl = this.router.url;
+        }
 
         // Focus after route change with small delay to ensure rendering is complete
         setTimeout(() => {
@@ -287,7 +298,7 @@ export class VideoDetailsComponent
     NativeYouTubePlayerComponent.exitPictureInPicture(this.document, true);
     this.onRetrieveByRouteReuseStrategy();
     this.customRouteReuseStrategy.registerCachedComponentName(
-      this.constructor.name,
+      this.constructor.name
     );
   }
 
@@ -404,6 +415,8 @@ export class VideoDetailsComponent
     subCountText = subCountText.trim();
     subCountText =
       subCountText === '' || subCountText === '-' ? '0' : subCountText;
-    return `${subCountText} subscriber${!isNaN(parseInt(subCountText)) && parseInt(subCountText) <= 1 ? '' : 's'}`;
+    return `${subCountText} subscriber${
+      !isNaN(parseInt(subCountText)) && parseInt(subCountText) <= 1 ? '' : 's'
+    }`;
   }
 }
