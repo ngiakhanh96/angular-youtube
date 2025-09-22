@@ -20,7 +20,7 @@ export function withDetailsPageEffects<_>() {
         store,
         events = inject(Events),
         invidiousService = inject(InvidiousHttpService),
-        youtubeService = inject(YoutubeHttpService)
+        youtubeService = inject(YoutubeHttpService),
       ) => ({
         loadYoutubeVideoInfo$: createHttpEffectAndUpdateResponse(
           events,
@@ -37,8 +37,8 @@ export function withDetailsPageEffects<_>() {
                           videoId: p.videoId,
                           formatStreams: [],
                         }));
-                      })
-                    )
+                      }),
+                    ),
                   ),
                 ]).pipe(
                   map((recommendedVideosInfo) => {
@@ -46,18 +46,18 @@ export function withDetailsPageEffects<_>() {
                       videoInfo,
                       ...recommendedVideosInfo.filter((p) => p != null),
                     ] as const;
-                  })
-                )
+                  }),
+                ),
               ),
               map(([videoInfo, ...recommendedVideosInfo]) => {
                 return detailsPageEventGroup.loadYoutubeVideoSuccess({
                   videoInfo: videoInfo,
                   recommendedVideosInfo: recommendedVideosInfo,
                 });
-              })
+              }),
             );
           },
-          false
+          false,
         ),
         loadYoutubeVideoCommentsInfo$: createHttpEffectAndUpdateResponse(
           events,
@@ -67,7 +67,7 @@ export function withDetailsPageEffects<_>() {
               .getVideoCommentsInfo(
                 event.payload.videoId,
                 event.payload.sortBy,
-                event.payload.continuation
+                event.payload.continuation,
               )
               .pipe(
                 map((commentsInfo) => {
@@ -88,23 +88,23 @@ export function withDetailsPageEffects<_>() {
                         comments: [],
                         continuation: undefined,
                       },
-                    })
+                    }),
                   );
-                })
+                }),
               );
           },
-          false
+          false,
         ),
         loadYoutubePlaylistInfo$: createHttpEffectAndUpdateResponse(
           events,
           detailsPageEventGroup.loadYoutubePlaylistInfo,
           (event) => {
             return youtubeService
-              .getPlaylistInfo(
+              .getPlaylistItemsInfo(
                 event.payload.playlistId,
                 event.payload.nextPage
                   ? store.playlistInfo()?.nextPageToken
-                  : undefined
+                  : undefined,
               )
               .pipe(
                 map((playlistInfo) => {
@@ -112,12 +112,12 @@ export function withDetailsPageEffects<_>() {
                     playlistInfo: playlistInfo,
                     nextPage: event.payload.nextPage,
                   });
-                })
+                }),
               );
           },
-          false
+          false,
         ),
-      })
-    )
+      }),
+    ),
   );
 }

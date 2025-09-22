@@ -11,6 +11,7 @@ export * from './lib/models/http-response/invidious-video-comments.model';
 export * from './lib/models/http-response/invidious-video-info.model';
 export * from './lib/models/http-response/my-channel-info.model';
 export * from './lib/models/http-response/playlist-info.model';
+export * from './lib/models/http-response/playlist-items-info.model';
 export * from './lib/models/http-response/popular-youtube-videos.model';
 export * from './lib/models/http-response/video-categories-model';
 export * from './lib/models/http-response/yt-dlp-videos.response.model';

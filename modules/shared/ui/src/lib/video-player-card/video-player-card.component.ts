@@ -23,12 +23,13 @@ export interface IVideoPlayerCardInfo {
   videoUrl: string;
   title: string;
   channelName: string;
-  viewCount: number;
-  publishedDate: Date;
+  viewCount?: number;
+  publishedDate?: Date;
   duration?: string;
   lengthSeconds?: number;
   channelLogoUrl?: string;
   isVerified: boolean;
+  hideThumbnailSettingsButton?: boolean;
 }
 
 export enum PlayerPosition {
@@ -96,6 +97,7 @@ export class VideoPlayerCardComponent {
   thumbnailSettingsButtonMarginTop = input('6px');
   thumbnailDurationRightBottom = input('8px');
   showChannelNameFirst = input(false);
+  onPlayOnHover = input(true);
   thumbnailContainerFlexDirection = computed(() =>
     this.playerPosition().toString(),
   );
@@ -183,17 +185,24 @@ export class VideoPlayerCardComponent {
   channelName = computed(() => this.videoPlayerCardInfo()?.channelName);
   viewCount = computed(() => this.videoPlayerCardInfo()?.viewCount);
   viewCountString = computed(() =>
-    Utilities.numberToString(this.viewCount(), 'view', 'No'),
+    this.viewCount() != null
+      ? Utilities.numberToString(this.viewCount()!, 'view', 'No')
+      : undefined,
   );
   publishedDate = computed(() => this.videoPlayerCardInfo()?.publishedDate);
   publishedDateString = computed(() =>
-    Utilities.publishedDateToString(this.publishedDate()),
+    this.publishedDate() != null
+      ? Utilities.publishedDateToString(this.publishedDate()!)
+      : undefined,
   );
   duration = computed(() => this.videoPlayerCardInfo()?.duration);
   lengthSeconds = computed(() => this.videoPlayerCardInfo()?.lengthSeconds);
   durationString = computed(() => {
     const duration = this.duration();
     const lengthSeconds = this.lengthSeconds();
+    if (duration == null && lengthSeconds == null) {
+      return undefined;
+    }
     return duration
       ? Utilities.iso8601DurationToString(duration)
       : Utilities.iso8601DurationToString(
@@ -215,12 +224,16 @@ export class VideoPlayerCardComponent {
   }
 
   onMouseEnter() {
-    this.player()?.playVideo();
-    this.thumbnailDurationDisplay.set('none');
+    if (this.onPlayOnHover()) {
+      this.player()?.playVideo();
+      this.thumbnailDurationDisplay.set('none');
+    }
   }
 
   onMouseLeave() {
-    this.player()?.pauseVideo();
-    this.thumbnailDurationDisplay.set('flex');
+    if (this.onPlayOnHover()) {
+      this.player()?.pauseVideo();
+      this.thumbnailDurationDisplay.set('flex');
+    }
   }
 }

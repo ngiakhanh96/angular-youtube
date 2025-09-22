@@ -1,0 +1,32 @@
+<div class="videos-playlist-container">
+  <div class="video-playlist-info"> </div>
+  <div class="video-playlist-list">
+    <ng-template #videoCard let-video="video">
+      <div class="video-playlist-item">
+        <ay-video-player-card
+          [videoPlayerCardInfo]="video"
+          [playerPosition]="PlayerPosition.Horizontal"
+          [titleFontSize]="'14px'"
+          [titleLineHeight]="'20px'"
+          [channelNameFontSize]="'12px'"
+          [channelInfoHeight]="'18px'"
+          [videoStatisticFontSize]="'12px'"
+          [titleMarginBottom]="'4px'"
+          [playerBorderRadius]="'8px'"
+          [boxShadow]="'unset'"
+          [thumbnailSettingsButtonMarginTop]="'0px'"
+          [thumbnailDurationRightBottom]="'4px'"
+          [horizontalMaxWidth]="'100px'"
+          [horizontalMinWidth]="'100px'"
+          [onPlayOnHover]="false"
+          (selected)="onSelect($event)"
+        />
+      </div>
+    </ng-template>
+    @for (video of videosPlaylist(); track video.videoId) {
+      <ng-container
+        *ngTemplateOutlet="videoCard; context: { video: video }"
+      ></ng-container>
+    }
+  </div>
+</div>

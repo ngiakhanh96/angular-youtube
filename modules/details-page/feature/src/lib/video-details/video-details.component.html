@@ -35,10 +35,19 @@
       ></ay-video-details-info>
     </div>
     <div class="details_page_info_others">
-      <ay-videos-recommendation
-        [videoCategories]="videoCategories()"
-        [videos]="recommendedVideos()"
-      ></ay-videos-recommendation>
+      @if (playlistId() !== '') {
+        <div class="details_page_info_playlist">
+          <ay-videos-playlist
+            [videosPlaylist]="videosPlaylist()"
+          ></ay-videos-playlist>
+        </div>
+      }
+      <div class="details_page_info_recommendation">
+        <ay-videos-recommendation
+          [videoCategories]="videoCategories()"
+          [videos]="recommendedVideos()"
+        ></ay-videos-recommendation>
+      </div>
     </div>
   </div>
 </div>

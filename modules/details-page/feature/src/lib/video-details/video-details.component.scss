@@ -16,12 +16,15 @@
     @include calculate-details_page_player_container-height();
   }
   .details_page_info_container {
-    @apply flex mx-[24px] justify-center;
+    @apply flex mx-[120px] justify-center;
     .details_page_info_details {
-      @apply flex flex-col mr-[24px] basis-[642px] grow shrink-0 max-w-[850px];
+      @apply flex flex-col mr-[24px] basis-[642px] grow shrink-0;
     }
     .details_page_info_others {
-      @apply flex flex-col w-[402px] grow-0 shrink-0 mt-[var(--video-recommendations-margin-top)];
+      @apply flex flex-col gap-y-[24px] w-[402px] grow-0 shrink-0 mt-[var(--video-recommendations-margin-top)];
+      .details_page_info_playlist {
+        @apply max-h-[560px] overflow-y-auto border rounded-[12px];
+      }
     }
   }
 }

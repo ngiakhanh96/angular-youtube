@@ -2,7 +2,10 @@ import {
   detailsPageEventGroup,
   DetailsPageStore,
 } from '@angular-youtube/details-page-data-access';
-import { VideosRecommendationInfoComponent } from '@angular-youtube/details-page-ui';
+import {
+  VideosPlaylistComponent,
+  VideosRecommendationInfoComponent,
+} from '@angular-youtube/details-page-ui';
 import {
   AppSettingsService,
   BaseWithSandBoxComponent,
@@ -33,7 +36,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Params, Router } from '@angular/router';
 import {
   IVideoDetailsInfo,
   VideoDetailsInfoComponent,
@@ -47,6 +50,7 @@ import {
     NativeYouTubePlayerComponent,
     VideoDetailsInfoComponent,
     VideosRecommendationInfoComponent,
+    VideosPlaylistComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -95,7 +99,7 @@ export class VideoDetailsComponent
     ) {
       return this.videoInfo()
         ?.adaptiveFormats.filter(
-          (format) => format.url !== '' && format.fps != null
+          (format) => format.url !== '' && format.fps != null,
         )
         .sort((a, b) => +b.bitrate - +a.bitrate)[0]?.url;
     } else if (this.videoInfo()?.formatStreams) {
@@ -111,7 +115,7 @@ export class VideoDetailsComponent
     ) {
       return this.videoInfo()
         ?.adaptiveFormats.filter(
-          (format) => format.url !== '' && format.audioQuality != null
+          (format) => format.url !== '' && format.audioQuality != null,
         )
         .sort((a, b) => {
           // Priority: lang%3DlanguageCode > lang%3Den > others
@@ -120,7 +124,7 @@ export class VideoDetailsComponent
               url.includes(
                 `lang%3D${
                   this.appSettingsService.appConfig()?.languageCode ?? 'vi'
-                }`
+                }`,
               )
             )
               return 2;
@@ -141,13 +145,13 @@ export class VideoDetailsComponent
 
   viewMode = signal(ViewMode.Theater);
   mainPlayer = viewChild.required<NativeYouTubePlayerComponent>(
-    NativeYouTubePlayerComponent
+    NativeYouTubePlayerComponent,
   );
   theaterModeContainerElementRef = viewChild.required<ElementRef<HTMLElement>>(
-    'theaterModeContainer'
+    'theaterModeContainer',
   );
   defaultModeContainerElementRef = viewChild.required<ElementRef<HTMLElement>>(
-    'defaultModeContainer'
+    'defaultModeContainer',
   );
   ViewMode = ViewMode;
   videoInfo = this.detailsPageStore.videoInfo;
@@ -161,7 +165,7 @@ export class VideoDetailsComponent
         authorLogoUrl: videoInfo.authorThumbnails[1]?.url ?? '',
         author: videoInfo.author,
         subscriberCountText: this.convertToSubscriberCountText(
-          videoInfo.subCountText
+          videoInfo.subCountText,
         ),
         likeCount: videoInfo.likeCount,
         dislikeCount: videoInfo.dislikeCount,
@@ -194,10 +198,10 @@ export class VideoDetailsComponent
       }));
   });
   mainPlayerBorderRadius = computed(() =>
-    this.viewMode() === ViewMode.Theater ? '0px' : '12px'
+    this.viewMode() === ViewMode.Theater ? '0px' : '12px',
   );
   marginTop = computed(() =>
-    this.viewMode() === ViewMode.Theater ? '0px' : '24px'
+    this.viewMode() === ViewMode.Theater ? '0px' : '24px',
   );
   //TODO Need to find an api to get this
   videoCategories = signal<IVideoCategory[]>([
@@ -252,14 +256,60 @@ export class VideoDetailsComponent
   ]);
   isFirstTime = true;
   currentUrl = this.router.url;
+  playlistInfo = this.detailsPageStore.playlistInfo;
+  playlistId = signal<string>('');
+  loadNextPlaylistPage = signal<void>(undefined, { equal: () => false });
+  getPlaylistInfo = computed(() => {
+    this.loadNextPlaylistPage();
+    if (this.playlistId() !== '') {
+      return detailsPageEventGroup.loadYoutubePlaylistInfo({
+        playlistId: this.playlistId(),
+      });
+    }
+    return sharedEventGroup.empty();
+  });
+  videosPlaylist = computed<IVideoPlayerCardInfo[]>(() => {
+    const videosPlaylistInfo =
+      this.detailsPageStore.playlistInfo()?.items ?? [];
+    return videosPlaylistInfo.map(
+      (p) =>
+        <IVideoPlayerCardInfo>{
+          isSkeleton: false,
+          videoId: p.contentDetails.videoId ?? '',
+          title: p.snippet.title ?? '',
+          channelName: p.snippet.videoOwnerChannelTitle ?? '',
+          viewCount: undefined,
+          publishedDate: undefined,
+          lengthSeconds: undefined,
+          channelLogoUrl: undefined,
+          videoUrl: '',
+          isVerified: false,
+          hideThumbnailSettingsButton: false,
+        },
+    );
+  });
+  currentVideoId = '';
   static volumeStep = 0.05;
 
   constructor() {
     super();
     this.dispatchEventFromSignal(this.getVideoInfo);
     this.dispatchEventFromSignal(this.getVideoCommentsInfo);
+    this.dispatchEventFromSignal(this.getPlaylistInfo);
     effect(() => {
       this.titleService.setTitle(this.videoInfo()?.title ?? 'Angular Youtube');
+    });
+    effect(() => {
+      if (this.playlistInfo() != null) {
+        const video = this.playlistInfo()?.items.find(
+          (p) => p.contentDetails.videoId === this.currentVideoId,
+        );
+        if (video == null) {
+          this.loadNextPlaylistPage.set();
+        } else {
+          this.videoId.set(this.currentVideoId);
+        }
+      }
     });
     afterRenderEffect({
       write: () => {
@@ -276,30 +326,34 @@ export class VideoDetailsComponent
           this.dispatchEvent(detailsPageEventGroup.reset());
           this.isFirstTime = false;
         }
-        const playlistId = params['list'] as string | undefined;
-        if (playlistId != null && playlistId !== '') {
-          this.dispatchEvent(
-            detailsPageEventGroup.loadYoutubePlaylistInfo({
-              playlistId: playlistId,
-            })
-          );
-        } else {
-          this.videoId.set(params['v']);
-          this.currentTime.set(params['t'] ?? 0);
-          this.loadingBarService.load(25);
-          this.currentUrl = this.router.url;
-        }
+
+        this.load(params);
 
         // Focus after route change with small delay to ensure rendering is complete
         setTimeout(() => {
-          this.mainPlayer().hostElementRef.nativeElement.focus();
+          (
+            this.mainPlayer().hostElementRef.nativeElement as HTMLElement
+          ).focus();
         });
       });
     NativeYouTubePlayerComponent.exitPictureInPicture(this.document, true);
     this.onRetrieveByRouteReuseStrategy();
     this.customRouteReuseStrategy.registerCachedComponentName(
-      this.constructor.name
+      this.constructor.name,
     );
+  }
+
+  load(params: Params) {
+    this.currentVideoId = params['v'] as string;
+    const playlistId = params['list'] as string | undefined;
+    if (playlistId != null && playlistId !== '') {
+      this.playlistId.set(playlistId);
+    } else {
+      this.videoId.set(this.currentVideoId);
+    }
+    this.currentTime.set((params['t'] as number) ?? 0);
+    this.loadingBarService.load(25);
+    this.currentUrl = this.router.url;
   }
 
   onKeydown(event: KeyboardEvent, onlyOnFullscreen = false) {

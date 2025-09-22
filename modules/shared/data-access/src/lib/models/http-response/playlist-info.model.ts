@@ -1,12 +1,12 @@
 import {
   IItem,
+  ILocalized,
   IPageInfo,
   IThumbnailsInfo,
   IYoutubeResponse,
 } from './common.model';
 
 export interface IPlaylistInfo extends IYoutubeResponse<IPlaylistItem> {
-  nextPageToken: string;
   pageInfo: IPageInfo;
 }
 
@@ -14,6 +14,7 @@ export interface IPlaylistItem extends IItem {
   snippet: IPlaylistSnippet;
   contentDetails: IPlaylistContentDetails;
   status: IPlaylistStatus;
+  player: IPlaylistPlayer;
 }
 
 export interface IPlaylistSnippet {
@@ -23,11 +24,7 @@ export interface IPlaylistSnippet {
   description: string;
   thumbnails: IPlaylistThumbnails;
   channelTitle: string;
-  playlistId: string;
-  position: number;
-  resourceId: IPlaylistResourceId;
-  videoOwnerChannelTitle: string;
-  videoOwnerChannelId: string;
+  localized: ILocalized;
 }
 
 export interface IPlaylistThumbnails {
@@ -35,17 +32,14 @@ export interface IPlaylistThumbnails {
   medium: IThumbnailsInfo;
   high: IThumbnailsInfo;
   standard: IThumbnailsInfo;
-  maxres?: IThumbnailsInfo;
-}
-
-export interface IPlaylistResourceId {
-  kind: string;
-  videoId: string;
 }
 
 export interface IPlaylistContentDetails {
-  videoId: string;
-  videoPublishedAt: string;
+  itemCount: number;
+}
+
+export interface IPlaylistPlayer {
+  embedHtml: string;
 }
 
 export interface IPlaylistStatus {

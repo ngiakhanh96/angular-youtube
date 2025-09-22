@@ -1,4 +1,6 @@
 @let isSkeleton = videoPlayerCardInfo().isSkeleton;
+@let hideThumbnailSettingsButton =
+  videoPlayerCardInfo().hideThumbnailSettingsButton ?? false;
 <div class="thumbnail__container" [class]="thumbnailContainerClass()">
   <div
     class="thumbnail__player-container"
@@ -22,11 +24,13 @@
         [borderRadius]="playerBorderRadius()"
         [boxShadow]="boxShadow()"
       />
-      <div
-        class="thumbnail__duration"
-        [style.display]="thumbnailDurationDisplay()"
-        >{{ durationString() }}</div
-      >
+      @if (durationString()) {
+        <div
+          class="thumbnail__duration"
+          [style.display]="thumbnailDurationDisplay()"
+          >{{ durationString() }}</div
+        >
+      }
     </ng-container>
   </div>
 
@@ -74,7 +78,7 @@
         [titleMarginBottom]="titleMarginBottom()"
       ></ay-overview-video-info>
     </div>
-    @if (!isSkeleton) {
+    @if (!isSkeleton && !hideThumbnailSettingsButton) {
       <div class="thumbnail__settings">
         <div class="thumbnail__settings-button">
           <ay-dropdown-button

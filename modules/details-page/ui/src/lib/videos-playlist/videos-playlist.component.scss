@@ -1,0 +1,16 @@
+:host {
+  @apply block w-full h-full;
+}
+
+.videos-playlist-container {
+  @apply flex flex-col;
+  .video-playlist-info {
+  }
+
+  .video-playlist-list {
+    @apply flex flex-col ml-[24px];
+    .video-playlist-item {
+      @apply flex h-[62px] mt-[8px];
+    }
+  }
+}

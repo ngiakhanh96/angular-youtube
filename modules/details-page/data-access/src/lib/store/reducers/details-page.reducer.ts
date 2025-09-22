@@ -1,7 +1,7 @@
 import {
   IInvidiousVideoCommentsInfo,
   IInvidiousVideoInfo,
-  IPlaylistInfo,
+  IPlaylistItemsInfo,
 } from '@angular-youtube/shared-data-access';
 import {
   signalStore,
@@ -19,7 +19,7 @@ export interface IDetailsPageState {
   recommendedVideosInfo: IInvidiousVideoInfo[];
   videoCommentsInfo: IInvidiousVideoCommentsInfo | undefined;
   nestedVideoCommentsInfo: Record<string, IInvidiousVideoCommentsInfo>;
-  playlistInfo: IPlaylistInfo | undefined;
+  playlistInfo: IPlaylistItemsInfo | undefined;
 }
 export const initialDetailsPageState: IDetailsPageState = {
   videoInfo: undefined,
@@ -33,7 +33,7 @@ export const DetailsPageStore = signalStore(
   withState<IDetailsPageState>(initialDetailsPageState),
   withDetailsPageEffects(),
   withDetailsPageReducer(),
-  withDetailsPageSelectors()
+  withDetailsPageSelectors(),
 );
 
 export function withDetailsPageReducer<_>() {
@@ -45,7 +45,7 @@ export function withDetailsPageReducer<_>() {
         ({ payload: { videoInfo, recommendedVideosInfo } }, state) => ({
           videoInfo: videoInfo,
           recommendedVideosInfo: recommendedVideosInfo,
-        })
+        }),
       ),
       on(
         detailsPageEventGroup.loadYoutubeVideoCommentsSuccess,
@@ -54,15 +54,15 @@ export function withDetailsPageReducer<_>() {
           videoCommentsInfo: commentId
             ? state.videoCommentsInfo
             : continuation
-            ? {
-                ...(state.videoCommentsInfo ?? commentsInfo),
-                comments: [
-                  ...(state.videoCommentsInfo?.comments ?? []),
-                  ...commentsInfo.comments,
-                ],
-                continuation: commentsInfo.continuation,
-              }
-            : commentsInfo,
+              ? {
+                  ...(state.videoCommentsInfo ?? commentsInfo),
+                  comments: [
+                    ...(state.videoCommentsInfo?.comments ?? []),
+                    ...commentsInfo.comments,
+                  ],
+                  continuation: commentsInfo.continuation,
+                }
+              : commentsInfo,
           nestedVideoCommentsInfo: commentId
             ? {
                 ...state.nestedVideoCommentsInfo,
@@ -79,7 +79,7 @@ export function withDetailsPageReducer<_>() {
                   : commentsInfo,
               }
             : state.nestedVideoCommentsInfo,
-        })
+        }),
       ),
       on(
         detailsPageEventGroup.loadYoutubePlaylistInfoSuccess,
@@ -91,9 +91,9 @@ export function withDetailsPageReducer<_>() {
               ? [...(state.playlistInfo?.items ?? []), ...playlistInfo.items]
               : playlistInfo.items,
           },
-        })
+        }),
       ),
-      on(detailsPageEventGroup.reset, () => initialDetailsPageState)
-    )
+      on(detailsPageEventGroup.reset, () => initialDetailsPageState),
+    ),
   );
 }
