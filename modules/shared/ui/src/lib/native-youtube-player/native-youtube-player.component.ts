@@ -99,7 +99,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     viewChild.required<ElementRef<HTMLAudioElement>>('audioPlayer');
 
   videoPlayerContainerRef = viewChild.required<ElementRef<HTMLDivElement>>(
-    'videoPlayerContainer'
+    'videoPlayerContainer',
   );
 
   progressBar = viewChild.required<ElementRef<HTMLElement>>('progressBar');
@@ -141,7 +141,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   playerButtonsDisplay = computed(() =>
     !this.mini() && (this.isHovered() || !this.isVideoPlaying())
       ? 'flex'
-      : 'none'
+      : 'none',
   );
 
   playerClick = output<HTMLMediaElement>();
@@ -315,7 +315,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
           'leavepictureinpicture',
           (event) => {
             this.leavePictureInPicture.emit(event);
-          }
+          },
         );
       },
     });
@@ -391,12 +391,18 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     }
   }
 
-  toggleVideo() {
+  toggleVideo(event?: MouseEvent) {
     if (this.isVideoPlaying()) {
       this.pauseVideo();
     } else {
       this.playVideo();
     }
+    event?.stopPropagation();
+  }
+
+  onNextVideo(event: MouseEvent) {
+    this.nextVideo.emit();
+    event.stopPropagation();
   }
 
   toggleScreenMode() {
@@ -423,7 +429,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   toggleViewMode() {
     this.viewMode.update((v) =>
-      v === ViewMode.Default ? ViewMode.Theater : ViewMode.Default
+      v === ViewMode.Default ? ViewMode.Theater : ViewMode.Default,
     );
   }
 
@@ -457,11 +463,11 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   requestPictureInPicture(
     destroyElement = false,
-    successCallback?: () => void
+    successCallback?: () => void,
   ) {
     NativeYouTubePlayerComponent.exitPictureInPicture(
       this.document,
-      destroyElement
+      destroyElement,
     );
     if (this.document.pictureInPictureEnabled) {
       const previousIsVideoPlaying = this.isVideoPlaying();
@@ -519,7 +525,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   setVolumeBy(volume: number) {
     const newVolume = Math.max(
       0,
-      Math.min(1, +(this.volume() + volume).toFixed(2))
+      Math.min(1, +(this.volume() + volume).toFixed(2)),
     );
     this.volume.set(newVolume);
     if (newVolume > 0) {
@@ -550,7 +556,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     const rect = volumeSlider.getBoundingClientRect();
     const newVolume = Math.max(
       0,
-      Math.min(1, (event.clientX - rect.left) / rect.width)
+      Math.min(1, (event.clientX - rect.left) / rect.width),
     );
     this.volume.set(newVolume);
     if (newVolume > 0) {
@@ -617,7 +623,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     const rect = progressBar.getBoundingClientRect();
     const position = Math.max(
       0,
-      Math.min(1, (event.clientX - rect.left) / rect.width)
+      Math.min(1, (event.clientX - rect.left) / rect.width),
     );
     this.seekTo(position * this.duration());
   }

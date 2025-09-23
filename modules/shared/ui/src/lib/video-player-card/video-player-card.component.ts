@@ -98,6 +98,7 @@ export class VideoPlayerCardComponent {
   thumbnailDurationRightBottom = input('8px');
   showChannelNameFirst = input(false);
   onPlayOnHover = input(true);
+  thumbnailSettingButtonCentered = input(false);
   thumbnailContainerFlexDirection = computed(() =>
     this.playerPosition().toString(),
   );

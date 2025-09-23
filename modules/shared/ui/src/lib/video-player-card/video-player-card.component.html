@@ -80,7 +80,12 @@
     </div>
     @if (!isSkeleton && !hideThumbnailSettingsButton) {
       <div class="thumbnail__settings">
-        <div class="thumbnail__settings-button">
+        <div
+          class="thumbnail__settings-button"
+          [style.justify-content]="
+            thumbnailSettingButtonCentered() ? 'center' : 'flex-start'
+          "
+        >
           <ay-dropdown-button
             [items]="settingItems()"
             [mini]="true"
