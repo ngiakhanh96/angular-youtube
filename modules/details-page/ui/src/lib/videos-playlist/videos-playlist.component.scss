@@ -3,14 +3,45 @@
 }
 
 .videos-playlist-container {
-  @apply flex flex-col;
-  .video-playlist-info {
+  @apply flex flex-col w-full h-full;
+  .videos-playlist-header {
+    @apply flex-shrink-0 flex-grow-0 flex flex-col h-[88px] border-b mt-[12px] pl-[16px] pr-[6px];
+    .video-playlist-info {
+      @apply flex justify-between h-[46px];
+      .video-playlist-overview {
+        @apply flex flex-col justify-center;
+        .video-playlist-title {
+          @apply text-[18px] font-bold overflow-hidden text-ellipsis whitespace-nowrap;
+        }
+
+        .video-playlist-channel {
+          @apply text-[12px] text-gray-600 mt-[4px];
+        }
+      }
+      .video-playlist-close {
+        @apply w-[40px];
+      }
+    }
+
+    .video-playlist-controls {
+      @apply flex justify-between h-[40px];
+      .video-playlist-left-controls {
+        @apply flex gap-x-[16px];
+      }
+
+      .video-playlist-right-controls {
+        @apply w-[40px];
+      }
+    }
   }
 
   .video-playlist-list {
-    @apply flex flex-col ml-[24px];
+    @apply flex-grow flex flex-col ml-[24px] overflow-y-auto;
     .video-playlist-item {
-      @apply flex h-[62px] mt-[8px];
+      @apply mt-[8px] flex h-[62px] items-center;
+      ay-video-player-card {
+        @apply h-full;
+      }
     }
   }
 }

@@ -38,7 +38,8 @@
       @if (playlistId() !== '') {
         <div class="details_page_info_playlist">
           <ay-videos-playlist
-            [videosPlaylist]="videosPlaylist()"
+            [playlistItemsInfo]="playlistItemsInfo()"
+            [playlistInfo]="playlistDetailsInfo()"
           ></ay-videos-playlist>
         </div>
       }

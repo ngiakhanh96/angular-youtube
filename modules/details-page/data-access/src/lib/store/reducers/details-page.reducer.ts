@@ -1,6 +1,7 @@
 import {
   IInvidiousVideoCommentsInfo,
   IInvidiousVideoInfo,
+  IPlaylistInfo,
   IPlaylistItemsInfo,
 } from '@angular-youtube/shared-data-access';
 import {
@@ -19,14 +20,20 @@ export interface IDetailsPageState {
   recommendedVideosInfo: IInvidiousVideoInfo[];
   videoCommentsInfo: IInvidiousVideoCommentsInfo | undefined;
   nestedVideoCommentsInfo: Record<string, IInvidiousVideoCommentsInfo>;
-  playlistInfo: IPlaylistItemsInfo | undefined;
+  playlist: {
+    info: IPlaylistInfo | undefined;
+    itemsInfo: IPlaylistItemsInfo | undefined;
+  };
 }
 export const initialDetailsPageState: IDetailsPageState = {
   videoInfo: undefined,
   recommendedVideosInfo: [],
   videoCommentsInfo: undefined,
   nestedVideoCommentsInfo: {},
-  playlistInfo: undefined,
+  playlist: {
+    info: undefined,
+    itemsInfo: undefined,
+  },
 };
 
 export const DetailsPageStore = signalStore(
@@ -83,13 +90,22 @@ export function withDetailsPageReducer<_>() {
       ),
       on(
         detailsPageEventGroup.loadYoutubePlaylistInfoSuccess,
-        ({ payload: { playlistInfo, nextPage } }, state) => ({
+        (
+          { payload: { playlistItemsInfo, playlistInfo, nextPage } },
+          state,
+        ) => ({
           ...state,
-          playlistInfo: {
-            ...playlistInfo,
-            items: nextPage
-              ? [...(state.playlistInfo?.items ?? []), ...playlistInfo.items]
-              : playlistInfo.items,
+          playlist: {
+            info: playlistInfo,
+            itemsInfo: {
+              ...playlistItemsInfo,
+              items: nextPage
+                ? [
+                    ...(state.playlist.itemsInfo?.items ?? []),
+                    ...playlistItemsInfo.items,
+                  ]
+                : playlistItemsInfo.items,
+            },
           },
         }),
       ),

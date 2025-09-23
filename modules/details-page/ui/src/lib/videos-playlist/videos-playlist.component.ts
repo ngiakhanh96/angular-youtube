@@ -1,6 +1,8 @@
 import {
+  DropdownButtonComponent,
   IVideoPlayerCardInfo,
   PlayerPosition,
+  TextIconButtonComponent,
   VideoPlayerCardComponent,
 } from '@angular-youtube/shared-ui';
 import { NgTemplateOutlet } from '@angular/common';
@@ -12,15 +14,27 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 
+export interface IVideoPlaylistInfo {
+  title: string;
+  channelName: string;
+  totalVideoCount: number;
+}
+
 @Component({
   selector: 'ay-videos-playlist',
   templateUrl: './videos-playlist.component.html',
   styleUrls: ['./videos-playlist.component.scss'],
-  imports: [VideoPlayerCardComponent, NgTemplateOutlet],
+  imports: [
+    VideoPlayerCardComponent,
+    NgTemplateOutlet,
+    TextIconButtonComponent,
+    DropdownButtonComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideosPlaylistComponent {
-  videosPlaylist = input.required<IVideoPlayerCardInfo[]>();
+  playlistItemsInfo = input.required<IVideoPlayerCardInfo[]>();
+  playlistInfo = input.required<IVideoPlaylistInfo>();
   PlayerPosition: typeof PlayerPosition = PlayerPosition;
   private router = inject(Router);
 

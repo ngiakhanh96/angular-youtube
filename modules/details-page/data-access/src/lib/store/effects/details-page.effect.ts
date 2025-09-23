@@ -99,21 +99,23 @@ export function withDetailsPageEffects<_>() {
           events,
           detailsPageEventGroup.loadYoutubePlaylistInfo,
           (event) => {
-            return youtubeService
-              .getPlaylistItemsInfo(
+            return combineLatest([
+              youtubeService.getPlaylistItemsInfo(
                 event.payload.playlistId,
                 event.payload.nextPage
-                  ? store.playlistInfo()?.nextPageToken
+                  ? store.playlist().itemsInfo?.nextPageToken
                   : undefined,
-              )
-              .pipe(
-                map((playlistInfo) => {
-                  return detailsPageEventGroup.loadYoutubePlaylistInfoSuccess({
-                    playlistInfo: playlistInfo,
-                    nextPage: event.payload.nextPage,
-                  });
-                }),
-              );
+              ),
+              youtubeService.getPlaylistInfo(event.payload.playlistId),
+            ]).pipe(
+              map(([playlistItemsInfo, playlistInfo]) => {
+                return detailsPageEventGroup.loadYoutubePlaylistInfoSuccess({
+                  playlistItemsInfo: playlistItemsInfo,
+                  playlistInfo: playlistInfo,
+                  nextPage: event.payload.nextPage,
+                });
+              }),
+            );
           },
           false,
         ),

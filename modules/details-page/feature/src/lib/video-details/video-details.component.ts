@@ -3,6 +3,7 @@ import {
   DetailsPageStore,
 } from '@angular-youtube/details-page-data-access';
 import {
+  IVideoPlaylistInfo,
   VideosPlaylistComponent,
   VideosRecommendationInfoComponent,
 } from '@angular-youtube/details-page-ui';
@@ -256,7 +257,7 @@ export class VideoDetailsComponent
   ]);
   isFirstTime = true;
   currentUrl = this.router.url;
-  playlistInfo = this.detailsPageStore.playlistInfo;
+  playlistInfo = this.detailsPageStore.playlist;
   playlistId = signal<string>('');
   loadNextPlaylistPage = signal<void>(undefined, { equal: () => false });
   getPlaylistInfo = computed(() => {
@@ -268,9 +269,9 @@ export class VideoDetailsComponent
     }
     return sharedEventGroup.empty();
   });
-  videosPlaylist = computed<IVideoPlayerCardInfo[]>(() => {
+  playlistItemsInfo = computed<IVideoPlayerCardInfo[]>(() => {
     const videosPlaylistInfo =
-      this.detailsPageStore.playlistInfo()?.items ?? [];
+      this.detailsPageStore.playlist().itemsInfo?.items ?? [];
     return videosPlaylistInfo.map(
       (p) =>
         <IVideoPlayerCardInfo>{
@@ -288,6 +289,14 @@ export class VideoDetailsComponent
         },
     );
   });
+  playlistDetailsInfo = computed<IVideoPlaylistInfo>(() => {
+    const playlistInfo = this.playlistInfo().info;
+    return {
+      title: playlistInfo?.items[0]?.snippet.title ?? '',
+      channelName: playlistInfo?.items[0]?.snippet.channelTitle ?? '',
+      totalVideoCount: playlistInfo?.items[0]?.contentDetails.itemCount ?? 0,
+    };
+  });
   currentVideoId = '';
   static volumeStep = 0.05;
 
@@ -300,8 +309,8 @@ export class VideoDetailsComponent
       this.titleService.setTitle(this.videoInfo()?.title ?? 'Angular Youtube');
     });
     effect(() => {
-      if (this.playlistInfo() != null) {
-        const video = this.playlistInfo()?.items.find(
+      if (this.playlistInfo().itemsInfo != null) {
+        const video = this.playlistInfo().itemsInfo!.items.find(
           (p) => p.contentDetails.videoId === this.currentVideoId,
         );
         if (video == null) {
@@ -402,14 +411,14 @@ export class VideoDetailsComponent
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onLeavePictureInPicture(_event: PictureInPictureEvent) {
+  async onLeavePictureInPicture(_event: PictureInPictureEvent) {
     const originalVideoUrl =
       this.customRouteReuseStrategy.getOriginalVideoUrl();
     if (!originalVideoUrl) {
       return;
     }
     if (!this.router.url.includes('/watch') && originalVideoUrl) {
-      this.router.navigateByUrl(originalVideoUrl);
+      await this.router.navigateByUrl(originalVideoUrl);
     }
   }
 
@@ -422,7 +431,8 @@ export class VideoDetailsComponent
   }
 
   onViewModeChange(viewMode: ViewMode) {
-    const mainPlayerElement = this.mainPlayer().hostElementRef.nativeElement;
+    const mainPlayerElement = this.mainPlayer().hostElementRef
+      .nativeElement as HTMLElement;
     const theaterContainerElement =
       this.theaterModeContainerElementRef().nativeElement;
     const defaultContainerElement =
@@ -439,13 +449,13 @@ export class VideoDetailsComponent
     this.viewMode.set(viewMode);
   }
 
-  onNextVideo() {
+  async onNextVideo() {
     if (
       (!this.document.pictureInPictureEnabled ||
         !this.document.pictureInPictureElement) &&
       this.recommendedVideos()[0]?.videoId
     ) {
-      this.router.navigate(['watch'], {
+      await this.router.navigate(['watch'], {
         queryParams: {
           v: this.recommendedVideos()[0].videoId,
         },
@@ -461,8 +471,8 @@ export class VideoDetailsComponent
     this.mainPlayer().setVolumeBy(volume);
   }
 
-  onShowMiniPlayer() {
-    this.router.navigate(['/']);
+  async onShowMiniPlayer() {
+    await this.router.navigate(['/']);
   }
 
   private convertToSubscriberCountText(subCountText: string) {

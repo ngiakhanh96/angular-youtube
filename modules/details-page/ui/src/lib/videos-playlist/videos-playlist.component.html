@@ -1,5 +1,60 @@
 <div class="videos-playlist-container">
-  <div class="video-playlist-info"> </div>
+  <div class="videos-playlist-header">
+    <div class="video-playlist-info">
+      <div class="video-playlist-overview">
+        <div class="video-playlist-title">
+          {{ playlistInfo().title }}
+        </div>
+        <div class="video-playlist-channel">
+          {{ playlistInfo().channelName }} - 1 /
+          {{ playlistInfo().totalVideoCount }}
+        </div>
+      </div>
+      <div class="video-playlist-close">
+        <ay-text-icon-button
+          [svgIcon]="'clear'"
+          color="var(--black-color)"
+          backgroundColor="transparent"
+          hoverBackgroundColor="transparent"
+          [disabledRipple]="true"
+          [svgIconMarginLeft]="'0px'"
+          [svgIconMarginRight]="'0px'"
+          [iconPaddingLeft]="'0px'"
+          [iconPaddingRight]="'0px'"
+        />
+      </div>
+    </div>
+    <div class="video-playlist-controls">
+      <div class="video-playlist-left-controls">
+        <ay-text-icon-button
+          [svgIcon]="'repeat'"
+          color="var(--black-color)"
+          backgroundColor="transparent"
+          hoverBackgroundColor="transparent"
+          [disabledRipple]="true"
+          [svgIconMarginLeft]="'0px'"
+          [svgIconMarginRight]="'0px'"
+          [iconPaddingLeft]="'0px'"
+          [iconPaddingRight]="'0px'"
+        />
+        <ay-text-icon-button
+          [svgIcon]="'shuffle'"
+          color="var(--black-color)"
+          backgroundColor="transparent"
+          hoverBackgroundColor="transparent"
+          [disabledRipple]="true"
+          [svgIconMarginLeft]="'0px'"
+          [svgIconMarginRight]="'0px'"
+          [iconPaddingLeft]="'0px'"
+          [iconPaddingRight]="'0px'"
+        />
+      </div>
+      <div class="video-playlist-right-controls">
+        <ay-dropdown-button [items]="[]" [mini]="true"></ay-dropdown-button>
+      </div>
+    </div>
+  </div>
+
   <div class="video-playlist-list">
     <ng-template #videoCard let-video="video">
       <div class="video-playlist-item">
@@ -23,7 +78,7 @@
         />
       </div>
     </ng-template>
-    @for (video of videosPlaylist(); track video.videoId) {
+    @for (video of playlistItemsInfo(); track video.videoId) {
       <ng-container
         *ngTemplateOutlet="videoCard; context: { video: video }"
       ></ng-container>

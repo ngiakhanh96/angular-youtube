@@ -1,6 +1,7 @@
 import {
   IInvidiousVideoCommentsInfo,
   IInvidiousVideoInfo,
+  IPlaylistInfo,
   IPlaylistItemsInfo,
 } from '@angular-youtube/shared-data-access';
 import { type } from '@ngrx/signals';
@@ -32,7 +33,8 @@ export const detailsPageEventGroup = eventGroup({
       nextPage?: boolean;
     }>(),
     loadYoutubePlaylistInfoSuccess: type<{
-      playlistInfo: IPlaylistItemsInfo;
+      playlistItemsInfo: IPlaylistItemsInfo;
+      playlistInfo: IPlaylistInfo;
       nextPage?: boolean;
     }>(),
     reset: type<void>(),
