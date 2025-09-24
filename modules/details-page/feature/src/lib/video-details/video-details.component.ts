@@ -289,6 +289,12 @@ export class VideoDetailsComponent
         },
     );
   });
+  playlistItemVideoIdToIndexMapping = computed(() =>
+    this.playlistItemsInfo().reduce((acc, video, index) => {
+      acc.set(video.videoId, index);
+      return acc;
+    }, new Map<string, number>()),
+  );
   playlistDetailsInfo = computed<IVideoPlaylistInfo>(() => {
     const playlistInfo = this.playlistInfo().info;
     return {
@@ -324,6 +330,10 @@ export class VideoDetailsComponent
       write: () => {
         this.mainPlayer().seekTo(this.currentTime());
       },
+    });
+    effect(() => {
+      this.videoId();
+      this.loadingBarService.load(25);
     });
   }
 
@@ -361,7 +371,6 @@ export class VideoDetailsComponent
       this.videoId.set(this.currentVideoId);
     }
     this.currentTime.set((params['t'] as number) ?? 0);
-    this.loadingBarService.load(25);
     this.currentUrl = this.router.url;
   }
 
@@ -451,15 +460,29 @@ export class VideoDetailsComponent
 
   async onNextVideo() {
     if (
-      (!this.document.pictureInPictureEnabled ||
-        !this.document.pictureInPictureElement) &&
-      this.recommendedVideos()[0]?.videoId
+      !this.document.pictureInPictureEnabled ||
+      !this.document.pictureInPictureElement
     ) {
-      await this.router.navigate(['watch'], {
-        queryParams: {
-          v: this.recommendedVideos()[0].videoId,
-        },
-      });
+      if (this.playlistId() === '') {
+        if (this.recommendedVideos()[0]?.videoId) {
+          await this.router.navigate(['watch'], {
+            queryParams: {
+              v: this.recommendedVideos()[0].videoId,
+            },
+          });
+        }
+      } else {
+        const currentIndex = this.playlistItemVideoIdToIndexMapping().get(
+          this.videoId(),
+        );
+        if (currentIndex != null) {
+          const nextIndex = currentIndex + 1;
+          if (nextIndex < this.playlistItemsInfo().length) {
+            const nextVideo = this.playlistItemsInfo()[nextIndex];
+            this.videoId.set(nextVideo.videoId);
+          }
+        }
+      }
     }
   }
 

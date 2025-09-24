@@ -36,9 +36,21 @@
   }
 
   .video-playlist-list {
-    @apply flex-grow flex flex-col ml-[24px] overflow-y-auto;
+    @apply flex-grow flex flex-col overflow-y-auto;
     .video-playlist-item {
-      @apply mt-[8px] flex h-[62px] items-center;
+      @apply flex h-[74px] items-center pt-[6px] pb-[6px];
+      &:hover {
+        @apply bg-[rgba(0,0,0,0.05)];
+      }
+      &.selected {
+        @apply bg-[rgba(235,225,221,0.949)];
+      }
+      .video-playlist-item-index-container {
+        @apply w-[24px] flex flex-shrink-0 items-center;
+        .video-playlist-item-index {
+          @apply w-full text-[12px] text-[rgba(122,90,79,1)] text-center;
+        }
+      }
       ay-video-player-card {
         @apply h-full;
       }

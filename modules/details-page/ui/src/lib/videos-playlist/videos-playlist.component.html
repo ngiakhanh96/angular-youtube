@@ -57,7 +57,19 @@
 
   <div class="video-playlist-list">
     <ng-template #videoCard let-video="video">
-      <div class="video-playlist-item">
+      <div
+        class="video-playlist-item"
+        [class.selected]="video.videoId === selectedVideoId()"
+      >
+        <div class="video-playlist-item-index-container">
+          <div
+            class="video-playlist-item-index"
+            [style.display]="
+              video.videoId === selectedVideoId() ? 'block' : 'none'
+            "
+            >▶</div
+          >
+        </div>
         <ay-video-player-card
           [videoPlayerCardInfo]="video"
           [playerPosition]="PlayerPosition.Horizontal"
@@ -75,7 +87,7 @@
           [horizontalMinWidth]="'100px'"
           [onPlayOnHover]="false"
           [thumbnailSettingButtonCentered]="true"
-          (selected)="onSelect($event)"
+          (selected)="selectedVideoId.set($event)"
         />
       </div>
     </ng-template>

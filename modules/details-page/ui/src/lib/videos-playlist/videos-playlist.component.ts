@@ -11,6 +11,7 @@ import {
   Component,
   inject,
   input,
+  model,
 } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -35,14 +36,7 @@ export interface IVideoPlaylistInfo {
 export class VideosPlaylistComponent {
   playlistItemsInfo = input.required<IVideoPlayerCardInfo[]>();
   playlistInfo = input.required<IVideoPlaylistInfo>();
+  selectedVideoId = model.required<string>();
   PlayerPosition: typeof PlayerPosition = PlayerPosition;
   private router = inject(Router);
-
-  async onSelect(videoId: string) {
-    await this.router.navigate(['watch'], {
-      queryParams: {
-        v: videoId,
-      },
-    });
-  }
 }
