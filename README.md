@@ -200,6 +200,7 @@ services:
     image: quay.io/invidious/invidious:latest
     # image: quay.io/invidious/invidious:latest-arm64 # ARM64/AArch64 devices
     restart: unless-stopped
+    # Remove "127.0.0.1:" if used from an external IP
     ports:
       - '127.0.0.1:3000:3000'
     environment:
@@ -214,14 +215,19 @@ services:
           host: invidious-db
           port: 5432
         check_tables: true
-        signature_server: inv_sig_helper:12999
-        visitor_data: "[your_visitor_data]"
-        po_token: "[your_po_token]"
+        invidious_companion:
+        # URL used for the internal communication between invidious and invidious companion
+        # There is no need to change that except if Invidious companion does not run on the same docker compose file.
+        - private_url: "http://companion:8282/companion"
+        # IT is NOT recommended to use the same key as HMAC KEY. Generate a new key!
+        # Use the key generated in the 2nd step
+        invidious_companion_key: "aePh1eiNghoht7Oh"
         # external_port:
         # domain:
         # https_only: false
         # statistics_enabled: false
-        hmac_key: "8ZgJw6m0V4xFZ1m9D2n8"
+        # Use the key generated in the 2nd step
+        hmac_key: "MooXae4pu3Vaedai"
     healthcheck:
       test: wget -nv --tries=1 --spider http://127.0.0.1:3000/api/v1/trending || exit 1
       interval: 30s
@@ -234,16 +240,27 @@ services:
     depends_on:
       - invidious-db
 
-  inv_sig_helper:
-    image: quay.io/invidious/inv-sig-helper:latest
-    init: true
-    command: ['--tcp', '0.0.0.0:12999']
+  companion:
+    image: quay.io/invidious/invidious-companion:latest
     environment:
-      - RUST_LOG=info
+      # Use the key generated in the 2nd step
+      - SERVER_SECRET_KEY=aePh1eiNghoht7Oh
     restart: unless-stopped
+    # Uncomment only if you have configured "public_url" for Invidious companion
+    # Or if you want to use Invidious companion as an API in your program.
+    # Remove "127.0.0.1:" if used from an external IP
+    #ports:
+    #  - "127.0.0.1:8282:8282"
+    logging:
+      options:
+        max-size: '1G'
+        max-file: '4'
     cap_drop:
       - ALL
     read_only: true
+    # cache for youtube library
+    volumes:
+      - companioncache:/var/tmp/youtubei.js:rw
     security_opt:
       - no-new-privileges:true
 
@@ -263,6 +280,7 @@ services:
 
 volumes:
   postgresdata:
+  companioncache:
 ```
 
 ## 📚 Learning Resources
