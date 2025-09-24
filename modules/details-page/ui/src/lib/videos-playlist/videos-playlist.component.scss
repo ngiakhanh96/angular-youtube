@@ -9,7 +9,7 @@
     .video-playlist-info {
       @apply flex justify-between h-[46px];
       .video-playlist-overview {
-        @apply flex flex-col justify-center;
+        @apply flex flex-col justify-center w-[calc(100%-40px)];
         .video-playlist-title {
           @apply text-[18px] font-bold overflow-hidden text-ellipsis whitespace-nowrap;
         }
