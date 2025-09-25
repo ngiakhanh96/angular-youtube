@@ -330,7 +330,7 @@ export class VideoDetailsComponent
       this.titleService.setTitle(this.videoInfo()?.title ?? 'Angular Youtube');
     });
     effect(() => {
-      if (this.playlistInfo().itemsInfo != null) {
+      if (this.playlistInfo().itemsInfo != null && this.videoId() === '') {
         const video = this.playlistInfo().itemsInfo!.items.find(
           (p) => p.contentDetails.videoId === this.currentVideoId,
         );
