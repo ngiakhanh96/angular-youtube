@@ -55,10 +55,12 @@
     </div>
   </div>
 
-  <div class="video-playlist-list">
+  <div class="video-playlist-list" #playlistContainer>
     <ng-template #videoCard let-video="video">
       <div
         class="video-playlist-item"
+        #playlistItem
+        [attr.data-video-id]="video.videoId"
         [class.selected]="video.videoId === selectedVideoId()"
       >
         <div class="video-playlist-item-index-container">

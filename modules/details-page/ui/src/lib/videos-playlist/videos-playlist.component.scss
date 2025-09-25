@@ -36,7 +36,7 @@
   }
 
   .video-playlist-list {
-    @apply flex-grow flex flex-col overflow-y-auto;
+    @apply flex-grow flex flex-col overflow-y-auto scroll-smooth;
     .video-playlist-item {
       @apply flex h-[74px] items-center pt-[6px] pb-[6px];
       &:hover {
