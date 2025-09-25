@@ -22,12 +22,16 @@
           }
         "
       >
-        <div class="overview-video-info__video-view-count">{{
-          viewCountString()
-        }}</div>
-        <div class="overview-video-info__video-publish-date">
-          • {{ publishedDateString() }}</div
-        >
+        @if (viewCountString()) {
+          <div class="overview-video-info__video-view-count">{{
+            viewCountString()
+          }}</div>
+        }
+        @if (publishedDateString()) {
+          <div class="overview-video-info__video-publish-date">
+            • {{ publishedDateString() }}</div
+          >
+        }
       </ng-container>
     </div>
     <div class="overview-video-info__channel">
@@ -98,12 +102,16 @@
           }
         "
       >
-        <div class="overview-video-info__video-view-count">{{
-          viewCountString()
-        }}</div>
-        <div class="overview-video-info__video-publish-date">
-          • {{ publishedDateString() }}</div
-        >
+        @if (viewCountString()) {
+          <div class="overview-video-info__video-view-count">{{
+            viewCountString()
+          }}</div>
+        }
+        @if (publishedDateString()) {
+          <div class="overview-video-info__video-publish-date">
+            • {{ publishedDateString() }}</div
+          >
+        }
       </ng-container>
     </div>
   }

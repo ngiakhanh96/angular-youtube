@@ -1,0 +1,59 @@
+:host {
+  @apply block w-full h-full;
+}
+
+.videos-playlist-container {
+  @apply flex flex-col w-full h-full;
+  .videos-playlist-header {
+    @apply flex-shrink-0 flex-grow-0 flex flex-col h-[88px] border-b mt-[12px] pl-[16px] pr-[6px];
+    .video-playlist-info {
+      @apply flex justify-between h-[46px];
+      .video-playlist-overview {
+        @apply flex flex-col justify-center w-[calc(100%-40px)];
+        .video-playlist-title {
+          @apply text-[18px] font-bold overflow-hidden text-ellipsis whitespace-nowrap;
+        }
+
+        .video-playlist-channel {
+          @apply text-[12px] text-gray-600 mt-[4px];
+        }
+      }
+      .video-playlist-close {
+        @apply w-[40px];
+      }
+    }
+
+    .video-playlist-controls {
+      @apply flex justify-between h-[40px];
+      .video-playlist-left-controls {
+        @apply flex gap-x-[16px];
+      }
+
+      .video-playlist-right-controls {
+        @apply w-[40px];
+      }
+    }
+  }
+
+  .video-playlist-list {
+    @apply flex-grow flex flex-col overflow-y-auto scroll-smooth;
+    .video-playlist-item {
+      @apply flex h-[74px] items-center pt-[6px] pb-[6px];
+      &:hover {
+        @apply bg-[rgba(0,0,0,0.05)];
+      }
+      &.selected {
+        @apply bg-[rgba(235,225,221,0.949)];
+      }
+      .video-playlist-item-index-container {
+        @apply w-[24px] flex flex-shrink-0 items-center;
+        .video-playlist-item-index {
+          @apply w-full text-[12px] text-[rgba(122,90,79,1)] text-center;
+        }
+      }
+      ay-video-player-card {
+        @apply h-full;
+      }
+    }
+  }
+}

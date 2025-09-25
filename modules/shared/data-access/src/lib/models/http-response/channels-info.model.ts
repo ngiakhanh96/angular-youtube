@@ -1,9 +1,7 @@
 import {
-  IDefault,
-  IHigh,
   IItem,
-  IMedium,
   IPageInfo,
+  IThumbnailsInfo,
   IYoutubeResponse,
 } from './common.model';
 import { IMyChannelSnippet } from './my-channel-info.model';
@@ -23,9 +21,9 @@ export interface IChannelSnippet extends IMyChannelSnippet {
 }
 
 export interface IChannelThumbnails {
-  default: IDefault;
-  medium: IMedium;
-  high: IHigh;
+  default: IThumbnailsInfo;
+  medium: IThumbnailsInfo;
+  high: IThumbnailsInfo;
 }
 
 export interface IChannelContentDetails {

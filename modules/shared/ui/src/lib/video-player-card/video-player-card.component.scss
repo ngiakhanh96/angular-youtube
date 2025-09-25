@@ -1,5 +1,5 @@
 :host {
-  @apply min-h-full flex-row w-full relative block pr-[10px] cursor-pointer;
+  @apply flex-row min-h-full w-full relative block pr-[10px] cursor-pointer;
 }
 
 .thumbnail__container {
@@ -62,9 +62,9 @@
       @apply flex w-[30px] mt-[var(--thumbnail-settings-button-margin-top)];
 
       .thumbnail__settings-button {
-        @apply flex-none basis-[40px];
+        @apply flex-none flex flex-col;
         ay-dropdown-button {
-          @apply h-[40px];
+          @apply h-[40px] w-[40px];
         }
       }
     }

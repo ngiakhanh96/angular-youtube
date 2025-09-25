@@ -5,6 +5,8 @@ import { AUTHORIZED } from '../../http-context-tokens/authorized.http-context-to
 import { YoutubeApiKey } from '../../injection-tokens/youtube-api-key.injection-token';
 import { IYoutubeChannelsInfo } from '../../models/http-response/channels-info.model';
 import { IMyChannelInfo } from '../../models/http-response/my-channel-info.model';
+import { IPlaylistInfo } from '../../models/http-response/playlist-info.model';
+import { IPlaylistItemsInfo } from '../../models/http-response/playlist-items-info.model';
 import { IPopularYoutubeVideos } from '../../models/http-response/popular-youtube-videos.model';
 import { IVideoCategories } from '../../models/http-response/video-categories-model';
 import { AppSettingsService } from '../app-settings.service';
@@ -93,6 +95,44 @@ export class YoutubeHttpService {
     });
 
     return this.httpClient.get<IMyChannelInfo>(url, {
+      params: params,
+      context: new HttpContext().set(AUTHORIZED, true),
+    });
+  }
+
+  getPlaylistItemsInfo(
+    playlistId: string,
+    pageToken?: string,
+    maxResults = 200,
+  ) {
+    const url = `${this.baseUrl}playlistItems`;
+    let params = new HttpParams({
+      fromObject: {
+        part: ['snippet,contentDetails,status,id'],
+        playlistId: playlistId,
+        maxResults: maxResults,
+        key: this.apiKey,
+      },
+    });
+    if (pageToken) {
+      params = params.append('pageToken', pageToken);
+    }
+    return this.httpClient.get<IPlaylistItemsInfo>(url, {
+      params: params,
+      context: new HttpContext().set(AUTHORIZED, true),
+    });
+  }
+
+  getPlaylistInfo(playlistId: string) {
+    const url = `${this.baseUrl}playlists`;
+    const params = new HttpParams({
+      fromObject: {
+        part: ['snippet,contentDetails,status,id,localizations,player'],
+        id: playlistId,
+        key: this.apiKey,
+      },
+    });
+    return this.httpClient.get<IPlaylistInfo>(url, {
       params: params,
       context: new HttpContext().set(AUTHORIZED, true),
     });

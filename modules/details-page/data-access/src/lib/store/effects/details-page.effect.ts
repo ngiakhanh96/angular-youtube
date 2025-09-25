@@ -2,6 +2,7 @@ import {
   createHttpEffectAndUpdateResponse,
   IInvidiousVideoInfo,
   InvidiousHttpService,
+  YoutubeHttpService,
 } from '@angular-youtube/shared-data-access';
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
@@ -19,6 +20,7 @@ export function withDetailsPageEffects<_>() {
         store,
         events = inject(Events),
         invidiousService = inject(InvidiousHttpService),
+        youtubeService = inject(YoutubeHttpService),
       ) => ({
         loadYoutubeVideoInfo$: createHttpEffectAndUpdateResponse(
           events,
@@ -87,6 +89,46 @@ export function withDetailsPageEffects<_>() {
                         continuation: undefined,
                       },
                     }),
+                  );
+                }),
+              );
+          },
+          false,
+        ),
+        loadYoutubePlaylistInfo$: createHttpEffectAndUpdateResponse(
+          events,
+          detailsPageEventGroup.loadYoutubePlaylistInfo,
+          (event) => {
+            return youtubeService
+              .getPlaylistInfo(event.payload.playlistId)
+              .pipe(
+                map((playlistInfo) => {
+                  return detailsPageEventGroup.loadYoutubePlaylistInfoSuccess({
+                    playlistInfo: playlistInfo,
+                  });
+                }),
+              );
+          },
+          false,
+        ),
+        loadYoutubePlaylistItemsInfo$: createHttpEffectAndUpdateResponse(
+          events,
+          detailsPageEventGroup.loadYoutubePlaylistItemsInfo,
+          (event) => {
+            return youtubeService
+              .getPlaylistItemsInfo(
+                event.payload.playlistId,
+                event.payload.nextPage
+                  ? store.playlist().itemsInfo?.nextPageToken
+                  : undefined,
+              )
+              .pipe(
+                map((playlistItemsInfo) => {
+                  return detailsPageEventGroup.loadYoutubePlaylistItemsInfoSuccess(
+                    {
+                      playlistItemsInfo: playlistItemsInfo,
+                      nextPage: event.payload.nextPage,
+                    },
                   );
                 }),
               );

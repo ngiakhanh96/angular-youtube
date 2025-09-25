@@ -2,7 +2,11 @@ import {
   detailsPageEventGroup,
   DetailsPageStore,
 } from '@angular-youtube/details-page-data-access';
-import { VideosRecommendationInfoComponent } from '@angular-youtube/details-page-ui';
+import {
+  IVideoPlaylistInfo,
+  VideosPlaylistComponent,
+  VideosRecommendationInfoComponent,
+} from '@angular-youtube/details-page-ui';
 import {
   AppSettingsService,
   BaseWithSandBoxComponent,
@@ -30,10 +34,11 @@ import {
   inject,
   OnInit,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Params, Router } from '@angular/router';
 import {
   IVideoDetailsInfo,
   VideoDetailsInfoComponent,
@@ -47,6 +52,7 @@ import {
     NativeYouTubePlayerComponent,
     VideoDetailsInfoComponent,
     VideosRecommendationInfoComponent,
+    VideosPlaylistComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -118,7 +124,9 @@ export class VideoDetailsComponent
           const getLangPriority = (url: string) => {
             if (
               url.includes(
-                `lang%3D${this.appSettingsService.appConfig()?.languageCode ?? 'vi'}`,
+                `lang%3D${
+                  this.appSettingsService.appConfig()?.languageCode ?? 'vi'
+                }`,
               )
             )
               return 2;
@@ -250,19 +258,123 @@ export class VideoDetailsComponent
   ]);
   isFirstTime = true;
   currentUrl = this.router.url;
+  playlistInfo = this.detailsPageStore.playlist;
+  playlistId = signal<string>('');
+  loadNextPlaylistPage = signal<boolean>(false, { equal: () => false });
+  getPlaylistInfo = computed(() => {
+    if (this.playlistId() !== '') {
+      return detailsPageEventGroup.loadYoutubePlaylistInfo({
+        playlistId: this.playlistId(),
+      });
+    }
+    return sharedEventGroup.empty();
+  });
+  getPlaylistItemsInfo = computed(() => {
+    this.loadNextPlaylistPage();
+    if (this.playlistId() !== '') {
+      return detailsPageEventGroup.loadYoutubePlaylistItemsInfo({
+        playlistId: this.playlistId(),
+        nextPage: this.loadNextPlaylistPage(),
+      });
+    }
+    return sharedEventGroup.empty();
+  });
+  playlistItemsInfo = computed<IVideoPlayerCardInfo[]>(() => {
+    const videosPlaylistInfo =
+      this.detailsPageStore.playlist().itemsInfo?.items ?? [];
+    return videosPlaylistInfo.map(
+      (p) =>
+        <IVideoPlayerCardInfo>{
+          isSkeleton: false,
+          videoId: p.contentDetails.videoId ?? '',
+          title: p.snippet.title ?? '',
+          channelName: p.snippet.videoOwnerChannelTitle ?? '',
+          viewCount: undefined,
+          publishedDate: undefined,
+          lengthSeconds: undefined,
+          channelLogoUrl: undefined,
+          videoUrl: '',
+          isVerified: false,
+          hideThumbnailSettingsButton: false,
+        },
+    );
+  });
+  playlistItemVideoIdToIndexMapping = computed(() =>
+    this.playlistItemsInfo().reduce((acc, video, index) => {
+      acc.set(video.videoId, index);
+      return acc;
+    }, new Map<string, number>()),
+  );
+  playlistDetailsInfo = computed<IVideoPlaylistInfo>(() => {
+    const playlistInfo = this.playlistInfo().info;
+    return {
+      title: playlistInfo?.items[0]?.snippet.title ?? '',
+      channelName: playlistInfo?.items[0]?.snippet.channelTitle ?? '',
+      //not sure why for playlist created by youtube the itemCount is diff from result from playlistitems api
+      totalVideoCount: Math.max(
+        playlistInfo?.items[0]?.contentDetails.itemCount ?? 0,
+        this.playlistItemsInfo().length,
+      ),
+    };
+  });
+  currentVideoId = '';
+  currentPlaylistItemPosition = signal(1);
   static volumeStep = 0.05;
 
   constructor() {
     super();
     this.dispatchEventFromSignal(this.getVideoInfo);
     this.dispatchEventFromSignal(this.getVideoCommentsInfo);
+    this.dispatchEventFromSignal(this.getPlaylistInfo);
+    this.dispatchEventFromSignal(this.getPlaylistItemsInfo);
     effect(() => {
       this.titleService.setTitle(this.videoInfo()?.title ?? 'Angular Youtube');
+    });
+    effect(() => {
+      if (this.playlistInfo().itemsInfo != null && this.videoId() === '') {
+        const video = this.playlistInfo().itemsInfo!.items.find(
+          (p) => p.contentDetails.videoId === this.currentVideoId,
+        );
+        if (video == null) {
+          this.loadNextPlaylistPage.set(true);
+        } else {
+          this.videoId.set(this.currentVideoId);
+        }
+      }
     });
     afterRenderEffect({
       write: () => {
         this.mainPlayer().seekTo(this.currentTime());
       },
+    });
+
+    effect(() => {
+      const videoId = this.videoId();
+      const playlistId = this.playlistId();
+      const playlistItemVideoIdToIndexMapping = untracked(() =>
+        this.playlistItemVideoIdToIndexMapping(),
+      );
+      const playlistDetailsInfo = untracked(() => this.playlistDetailsInfo());
+      const playlistItemsInfo = untracked(() => this.playlistItemsInfo());
+
+      this.loadingBarService.load(25);
+      if (playlistId !== '' && videoId !== '') {
+        const currentPlaylistItemPosition =
+          (playlistItemVideoIdToIndexMapping.get(videoId) ?? 0) + 1;
+        this.currentPlaylistItemPosition.set(currentPlaylistItemPosition);
+        if (
+          currentPlaylistItemPosition < playlistDetailsInfo.totalVideoCount &&
+          currentPlaylistItemPosition > playlistItemsInfo.length - 5
+        ) {
+          this.loadNextPlaylistPage.set(true);
+        }
+        void this.router.navigate(['watch'], {
+          queryParams: {
+            v: videoId,
+            list: playlistId,
+          },
+        });
+      }
     });
   }
 
@@ -274,14 +386,14 @@ export class VideoDetailsComponent
           this.dispatchEvent(detailsPageEventGroup.reset());
           this.isFirstTime = false;
         }
-        this.videoId.set(params['v']);
-        this.currentTime.set(params['t'] ?? 0);
-        this.loadingBarService.load(25);
-        this.currentUrl = this.router.url;
+
+        this.load(params);
 
         // Focus after route change with small delay to ensure rendering is complete
         setTimeout(() => {
-          this.mainPlayer().hostElementRef.nativeElement.focus();
+          (
+            this.mainPlayer().hostElementRef.nativeElement as HTMLElement
+          ).focus();
         });
       });
     NativeYouTubePlayerComponent.exitPictureInPicture(this.document, true);
@@ -289,6 +401,18 @@ export class VideoDetailsComponent
     this.customRouteReuseStrategy.registerCachedComponentName(
       this.constructor.name,
     );
+  }
+
+  load(params: Params) {
+    this.currentVideoId = params['v'] as string;
+    const playlistId = params['list'] as string | undefined;
+    if (playlistId != null && playlistId !== '') {
+      this.playlistId.set(playlistId);
+    } else {
+      this.videoId.set(this.currentVideoId);
+    }
+    this.currentTime.set((params['t'] as number) ?? 0);
+    this.currentUrl = this.router.url;
   }
 
   onKeydown(event: KeyboardEvent, onlyOnFullscreen = false) {
@@ -319,7 +443,11 @@ export class VideoDetailsComponent
   }
 
   shouldAttachByRouteReuseStrategy(route: ActivatedRouteSnapshot): boolean {
-    return this.videoId() === route.queryParams['v'];
+    return (
+      this.videoId() === route.queryParams['v'] &&
+      (this.playlistId() === route.queryParams['list'] ||
+        (this.playlistId() === '' && !route.queryParams['list']))
+    );
   }
 
   onRetrieveByRouteReuseStrategy() {
@@ -337,14 +465,14 @@ export class VideoDetailsComponent
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onLeavePictureInPicture(_event: PictureInPictureEvent) {
+  async onLeavePictureInPicture(_event: PictureInPictureEvent) {
     const originalVideoUrl =
       this.customRouteReuseStrategy.getOriginalVideoUrl();
     if (!originalVideoUrl) {
       return;
     }
     if (!this.router.url.includes('/watch') && originalVideoUrl) {
-      this.router.navigateByUrl(originalVideoUrl);
+      await this.router.navigateByUrl(originalVideoUrl);
     }
   }
 
@@ -357,7 +485,8 @@ export class VideoDetailsComponent
   }
 
   onViewModeChange(viewMode: ViewMode) {
-    const mainPlayerElement = this.mainPlayer().hostElementRef.nativeElement;
+    const mainPlayerElement = this.mainPlayer().hostElementRef
+      .nativeElement as HTMLElement;
     const theaterContainerElement =
       this.theaterModeContainerElementRef().nativeElement;
     const defaultContainerElement =
@@ -374,18 +503,42 @@ export class VideoDetailsComponent
     this.viewMode.set(viewMode);
   }
 
-  onNextVideo() {
+  async onNextVideo() {
     if (
-      (!this.document.pictureInPictureEnabled ||
-        !this.document.pictureInPictureElement) &&
-      this.recommendedVideos()[0]?.videoId
+      !this.document.pictureInPictureEnabled ||
+      !this.document.pictureInPictureElement
     ) {
-      this.router.navigate(['watch'], {
-        queryParams: {
-          v: this.recommendedVideos()[0].videoId,
-        },
-      });
+      if (this.playlistId() === '') {
+        if (this.recommendedVideos()[0]?.videoId) {
+          this.playlistId.set('');
+          await this.router.navigate(['watch'], {
+            queryParams: {
+              v: this.recommendedVideos()[0].videoId,
+            },
+          });
+        }
+      } else {
+        const currentIndex = this.playlistItemVideoIdToIndexMapping().get(
+          this.videoId(),
+        );
+        if (currentIndex != null) {
+          const nextIndex = currentIndex + 1;
+          if (nextIndex < this.playlistItemsInfo().length) {
+            const nextVideo = this.playlistItemsInfo()[nextIndex];
+            this.videoId.set(nextVideo.videoId);
+          }
+        }
+      }
     }
+  }
+
+  async onSelectRecommendedVideo(videoId: string) {
+    this.playlistId.set('');
+    await this.router.navigate(['watch'], {
+      queryParams: {
+        v: videoId,
+      },
+    });
   }
 
   seekBy(duration: number) {
@@ -396,14 +549,16 @@ export class VideoDetailsComponent
     this.mainPlayer().setVolumeBy(volume);
   }
 
-  onShowMiniPlayer() {
-    this.router.navigate(['/']);
+  async onShowMiniPlayer() {
+    await this.router.navigate(['/']);
   }
 
   private convertToSubscriberCountText(subCountText: string) {
     subCountText = subCountText.trim();
     subCountText =
       subCountText === '' || subCountText === '-' ? '0' : subCountText;
-    return `${subCountText} subscriber${!isNaN(parseInt(subCountText)) && parseInt(subCountText) <= 1 ? '' : 's'}`;
+    return `${subCountText} subscriber${
+      !isNaN(parseInt(subCountText)) && parseInt(subCountText) <= 1 ? '' : 's'
+    }`;
   }
 }

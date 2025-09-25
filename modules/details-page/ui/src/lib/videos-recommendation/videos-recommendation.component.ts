@@ -11,10 +11,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  inject,
   input,
+  output,
 } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'ay-videos-recommendation',
@@ -32,14 +31,10 @@ export class VideosRecommendationInfoComponent {
   videos = input.required<IVideoPlayerCardInfo[]>();
   PlayerPosition: typeof PlayerPosition = PlayerPosition;
   Utilities = Utilities;
-  private router = inject(Router);
+  selectVideo = output<string>();
 
   onSelect(videoId: string) {
-    this.router.navigate(['watch'], {
-      queryParams: {
-        v: videoId,
-      },
-    });
+    this.selectVideo.emit(videoId);
   }
 
   displayedVideos = computed(() => {

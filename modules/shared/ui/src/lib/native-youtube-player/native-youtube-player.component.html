@@ -47,7 +47,7 @@
         (click)="onButtonsContainerClick()"
       >
         <div class="player_bottom_buttons-left">
-          <div class="player_bottom_button" (click)="toggleVideo()">
+          <div class="player_bottom_button" (click)="toggleVideo($event)">
             <ng-container
               *ngTemplateOutlet="
                 button;
@@ -59,7 +59,7 @@
             />
           </div>
 
-          <div class="player_bottom_button" (click)="nextVideo.emit()">
+          <div class="player_bottom_button" (click)="onNextVideo($event)">
             <ng-container
               *ngTemplateOutlet="
                 button;

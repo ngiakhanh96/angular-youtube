@@ -1,6 +1,8 @@
 import {
   IInvidiousVideoCommentsInfo,
   IInvidiousVideoInfo,
+  IPlaylistInfo,
+  IPlaylistItemsInfo,
 } from '@angular-youtube/shared-data-access';
 import {
   signalStore,
@@ -18,12 +20,20 @@ export interface IDetailsPageState {
   recommendedVideosInfo: IInvidiousVideoInfo[];
   videoCommentsInfo: IInvidiousVideoCommentsInfo | undefined;
   nestedVideoCommentsInfo: Record<string, IInvidiousVideoCommentsInfo>;
+  playlist: {
+    info: IPlaylistInfo | undefined;
+    itemsInfo: IPlaylistItemsInfo | undefined;
+  };
 }
 export const initialDetailsPageState: IDetailsPageState = {
   videoInfo: undefined,
   recommendedVideosInfo: [],
   videoCommentsInfo: undefined,
   nestedVideoCommentsInfo: {},
+  playlist: {
+    info: undefined,
+    itemsInfo: undefined,
+  },
 };
 
 export const DetailsPageStore = signalStore(
@@ -76,6 +86,34 @@ export function withDetailsPageReducer<_>() {
                   : commentsInfo,
               }
             : state.nestedVideoCommentsInfo,
+        }),
+      ),
+      on(
+        detailsPageEventGroup.loadYoutubePlaylistInfoSuccess,
+        ({ payload: { playlistInfo } }, state) => ({
+          ...state,
+          playlist: {
+            ...state.playlist,
+            info: playlistInfo,
+          },
+        }),
+      ),
+      on(
+        detailsPageEventGroup.loadYoutubePlaylistItemsInfoSuccess,
+        ({ payload: { playlistItemsInfo, nextPage } }, state) => ({
+          ...state,
+          playlist: {
+            ...state.playlist,
+            itemsInfo: {
+              ...playlistItemsInfo,
+              items: nextPage
+                ? [
+                    ...(state.playlist.itemsInfo?.items ?? []),
+                    ...playlistItemsInfo.items,
+                  ]
+                : playlistItemsInfo.items,
+            },
+          },
         }),
       ),
       on(detailsPageEventGroup.reset, () => initialDetailsPageState),

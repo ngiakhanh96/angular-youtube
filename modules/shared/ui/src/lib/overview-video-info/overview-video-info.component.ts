@@ -36,12 +36,14 @@ export class OverviewVideoInfoComponent {
   channelName = input<string>('');
   showChannelNameFirst = input<boolean>(false);
   channelLogoUrl = input<string | undefined>(undefined);
-  viewCount = input<number>(0);
+  viewCount = input<number | undefined>(undefined);
   channelMarginTop = input('0px');
   viewCountString = computed(() =>
-    Utilities.numberToString(this.viewCount(), 'view', 'No'),
+    this.viewCount() != null
+      ? Utilities.numberToString(this.viewCount()!, 'view', 'No')
+      : undefined
   );
-  publishedDate = input.required<Date>();
+  publishedDate = input<Date | undefined>(undefined);
   isVerified = input(false);
   titleFontWeight = input('500');
   titleFontSize = input('16px');
@@ -50,7 +52,9 @@ export class OverviewVideoInfoComponent {
   videoStatisticFontSize = input('14px');
   titleMarginBottom = input('4px');
   publishedDateString = computed(() =>
-    Utilities.publishedDateToString(this.publishedDate()),
+    this.publishedDate() != null
+      ? Utilities.publishedDateToString(this.publishedDate()!)
+      : undefined
   );
   channelInfoHeight = input('24px');
 }

@@ -1,0 +1,106 @@
+<div class="videos-playlist-container">
+  <div class="videos-playlist-header">
+    <div class="video-playlist-info">
+      <div class="video-playlist-overview">
+        <div class="video-playlist-title">
+          {{ playlistInfo().title }}
+        </div>
+        <div class="video-playlist-channel">
+          {{ playlistInfo().channelName }} - {{ currentVideoPosition() }} /
+          {{ playlistInfo().totalVideoCount }}
+        </div>
+      </div>
+      <div class="video-playlist-close">
+        <ng-container
+          *ngTemplateOutlet="
+            button;
+            context: {
+              buttonIcon: 'clear',
+            }
+          "
+        />
+      </div>
+    </div>
+    <div class="video-playlist-controls">
+      <div class="video-playlist-left-controls">
+        <ng-container
+          *ngTemplateOutlet="
+            button;
+            context: {
+              buttonIcon: 'repeat',
+            }
+          "
+        />
+        <ng-container
+          *ngTemplateOutlet="
+            button;
+            context: {
+              buttonIcon: 'shuffle',
+            }
+          "
+        />
+      </div>
+      <div class="video-playlist-right-controls">
+        <ay-dropdown-button [items]="[]" [mini]="true"></ay-dropdown-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-playlist-list" #playlistContainer>
+    <ng-template #videoCard let-video="video">
+      <div
+        class="video-playlist-item"
+        #playlistItem
+        [attr.data-video-id]="video.videoId"
+        [class.selected]="video.videoId === selectedVideoId()"
+      >
+        <div class="video-playlist-item-index-container">
+          <div
+            class="video-playlist-item-index"
+            [style.display]="
+              video.videoId === selectedVideoId() ? 'block' : 'none'
+            "
+            >▶</div
+          >
+        </div>
+        <ay-video-player-card
+          [videoPlayerCardInfo]="video"
+          [playerPosition]="PlayerPosition.Horizontal"
+          [titleFontSize]="'14px'"
+          [titleLineHeight]="'20px'"
+          [channelNameFontSize]="'12px'"
+          [channelInfoHeight]="'18px'"
+          [videoStatisticFontSize]="'12px'"
+          [titleMarginBottom]="'4px'"
+          [playerBorderRadius]="'8px'"
+          [boxShadow]="'unset'"
+          [thumbnailSettingsButtonMarginTop]="'0px'"
+          [thumbnailDurationRightBottom]="'4px'"
+          [horizontalMaxWidth]="'100px'"
+          [horizontalMinWidth]="'100px'"
+          [onPlayOnHover]="false"
+          [thumbnailSettingButtonCentered]="true"
+          (selected)="selectedVideoId.set($event)"
+        />
+      </div>
+    </ng-template>
+    @for (video of playlistItemsInfo(); track video.videoId) {
+      <ng-container
+        *ngTemplateOutlet="videoCard; context: { video: video }"
+      ></ng-container>
+    }
+  </div>
+</div>
+<ng-template #button let-buttonIcon="buttonIcon">
+  <ay-text-icon-button
+    [svgIcon]="buttonIcon"
+    color="var(--black-color)"
+    backgroundColor="transparent"
+    hoverBackgroundColor="transparent"
+    [disabledRipple]="true"
+    [svgIconMarginLeft]="'0px'"
+    [svgIconMarginRight]="'0px'"
+    [iconPaddingLeft]="'0px'"
+    [iconPaddingRight]="'0px'"
+  />
+</ng-template>

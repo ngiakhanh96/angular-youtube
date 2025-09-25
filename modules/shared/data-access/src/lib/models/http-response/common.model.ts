@@ -4,31 +4,7 @@ export interface IYoutubeResponse<T extends IItem> {
   items: T[];
 }
 
-export interface IDefault {
-  url: string;
-  width: number;
-  height: number;
-}
-
-export interface IMedium {
-  url: string;
-  width: number;
-  height: number;
-}
-
-export interface IHigh {
-  url: string;
-  width: number;
-  height: number;
-}
-
-export interface IStandard {
-  url: string;
-  width: number;
-  height: number;
-}
-
-export interface IMaxres {
+export interface IThumbnailsInfo {
   url: string;
   width: number;
   height: number;
