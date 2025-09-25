@@ -11,42 +11,33 @@
         </div>
       </div>
       <div class="video-playlist-close">
-        <ay-text-icon-button
-          [svgIcon]="'clear'"
-          color="var(--black-color)"
-          backgroundColor="transparent"
-          hoverBackgroundColor="transparent"
-          [disabledRipple]="true"
-          [svgIconMarginLeft]="'0px'"
-          [svgIconMarginRight]="'0px'"
-          [iconPaddingLeft]="'0px'"
-          [iconPaddingRight]="'0px'"
+        <ng-container
+          *ngTemplateOutlet="
+            button;
+            context: {
+              buttonIcon: 'clear',
+            }
+          "
         />
       </div>
     </div>
     <div class="video-playlist-controls">
       <div class="video-playlist-left-controls">
-        <ay-text-icon-button
-          [svgIcon]="'repeat'"
-          color="var(--black-color)"
-          backgroundColor="transparent"
-          hoverBackgroundColor="transparent"
-          [disabledRipple]="true"
-          [svgIconMarginLeft]="'0px'"
-          [svgIconMarginRight]="'0px'"
-          [iconPaddingLeft]="'0px'"
-          [iconPaddingRight]="'0px'"
+        <ng-container
+          *ngTemplateOutlet="
+            button;
+            context: {
+              buttonIcon: 'repeat',
+            }
+          "
         />
-        <ay-text-icon-button
-          [svgIcon]="'shuffle'"
-          color="var(--black-color)"
-          backgroundColor="transparent"
-          hoverBackgroundColor="transparent"
-          [disabledRipple]="true"
-          [svgIconMarginLeft]="'0px'"
-          [svgIconMarginRight]="'0px'"
-          [iconPaddingLeft]="'0px'"
-          [iconPaddingRight]="'0px'"
+        <ng-container
+          *ngTemplateOutlet="
+            button;
+            context: {
+              buttonIcon: 'shuffle',
+            }
+          "
         />
       </div>
       <div class="video-playlist-right-controls">
@@ -100,3 +91,16 @@
     }
   </div>
 </div>
+<ng-template #button let-buttonIcon="buttonIcon">
+  <ay-text-icon-button
+    [svgIcon]="buttonIcon"
+    color="var(--black-color)"
+    backgroundColor="transparent"
+    hoverBackgroundColor="transparent"
+    [disabledRipple]="true"
+    [svgIconMarginLeft]="'0px'"
+    [svgIconMarginRight]="'0px'"
+    [iconPaddingLeft]="'0px'"
+    [iconPaddingRight]="'0px'"
+  />
+</ng-template>
