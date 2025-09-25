@@ -259,12 +259,21 @@ export class VideoDetailsComponent
   currentUrl = this.router.url;
   playlistInfo = this.detailsPageStore.playlist;
   playlistId = signal<string>('');
-  loadNextPlaylistPage = signal<void>(undefined, { equal: () => false });
+  loadNextPlaylistPage = signal<boolean>(false, { equal: () => false });
   getPlaylistInfo = computed(() => {
-    this.loadNextPlaylistPage();
     if (this.playlistId() !== '') {
       return detailsPageEventGroup.loadYoutubePlaylistInfo({
         playlistId: this.playlistId(),
+      });
+    }
+    return sharedEventGroup.empty();
+  });
+  getPlaylistItemsInfo = computed(() => {
+    this.loadNextPlaylistPage();
+    if (this.playlistId() !== '') {
+      return detailsPageEventGroup.loadYoutubePlaylistItemsInfo({
+        playlistId: this.playlistId(),
+        nextPage: this.loadNextPlaylistPage(),
       });
     }
     return sharedEventGroup.empty();
@@ -300,10 +309,15 @@ export class VideoDetailsComponent
     return {
       title: playlistInfo?.items[0]?.snippet.title ?? '',
       channelName: playlistInfo?.items[0]?.snippet.channelTitle ?? '',
-      totalVideoCount: playlistInfo?.items[0]?.contentDetails.itemCount ?? 0,
+      //not sure why for playlist created by youtube the itemCount is diff from result from playlistitems api
+      totalVideoCount: Math.max(
+        playlistInfo?.items[0]?.contentDetails.itemCount ?? 0,
+        this.playlistItemsInfo().length,
+      ),
     };
   });
   currentVideoId = '';
+  currentPlaylistItemPosition = signal(1);
   static volumeStep = 0.05;
 
   constructor() {
@@ -311,6 +325,7 @@ export class VideoDetailsComponent
     this.dispatchEventFromSignal(this.getVideoInfo);
     this.dispatchEventFromSignal(this.getVideoCommentsInfo);
     this.dispatchEventFromSignal(this.getPlaylistInfo);
+    this.dispatchEventFromSignal(this.getPlaylistItemsInfo);
     effect(() => {
       this.titleService.setTitle(this.videoInfo()?.title ?? 'Angular Youtube');
     });
@@ -320,7 +335,7 @@ export class VideoDetailsComponent
           (p) => p.contentDetails.videoId === this.currentVideoId,
         );
         if (video == null) {
-          this.loadNextPlaylistPage.set();
+          this.loadNextPlaylistPage.set(true);
         } else {
           this.videoId.set(this.currentVideoId);
         }
@@ -331,9 +346,29 @@ export class VideoDetailsComponent
         this.mainPlayer().seekTo(this.currentTime());
       },
     });
+
     effect(() => {
       this.videoId();
       this.loadingBarService.load(25);
+      if (this.playlistId() !== '' && this.videoId() !== '') {
+        const currentPlaylistItemPosition =
+          (this.playlistItemVideoIdToIndexMapping().get(this.videoId()) ?? 0) +
+          1;
+        this.currentPlaylistItemPosition.set(currentPlaylistItemPosition);
+        if (
+          currentPlaylistItemPosition <
+            this.playlistDetailsInfo().totalVideoCount &&
+          currentPlaylistItemPosition > this.playlistItemsInfo().length - 5
+        ) {
+          this.loadNextPlaylistPage.set(true);
+        }
+        void this.router.navigate(['watch'], {
+          queryParams: {
+            v: this.videoId(),
+            list: this.playlistId(),
+          },
+        });
+      }
     });
   }
 
@@ -465,6 +500,7 @@ export class VideoDetailsComponent
     ) {
       if (this.playlistId() === '') {
         if (this.recommendedVideos()[0]?.videoId) {
+          this.playlistId.set('');
           await this.router.navigate(['watch'], {
             queryParams: {
               v: this.recommendedVideos()[0].videoId,
@@ -484,6 +520,15 @@ export class VideoDetailsComponent
         }
       }
     }
+  }
+
+  async onSelectRecommendedVideo(videoId: string) {
+    this.playlistId.set('');
+    await this.router.navigate(['watch'], {
+      queryParams: {
+        v: videoId,
+      },
+    });
   }
 
   seekBy(duration: number) {

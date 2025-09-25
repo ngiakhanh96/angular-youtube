@@ -9,11 +9,9 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
   input,
   model,
 } from '@angular/core';
-import { Router } from '@angular/router';
 
 export interface IVideoPlaylistInfo {
   title: string;
@@ -37,6 +35,6 @@ export class VideosPlaylistComponent {
   playlistItemsInfo = input.required<IVideoPlayerCardInfo[]>();
   playlistInfo = input.required<IVideoPlaylistInfo>();
   selectedVideoId = model.required<string>();
+  currentVideoPosition = input(1);
   PlayerPosition: typeof PlayerPosition = PlayerPosition;
-  private router = inject(Router);
 }

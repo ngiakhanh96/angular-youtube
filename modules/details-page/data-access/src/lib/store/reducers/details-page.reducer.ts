@@ -90,13 +90,20 @@ export function withDetailsPageReducer<_>() {
       ),
       on(
         detailsPageEventGroup.loadYoutubePlaylistInfoSuccess,
-        (
-          { payload: { playlistItemsInfo, playlistInfo, nextPage } },
-          state,
-        ) => ({
+        ({ payload: { playlistInfo } }, state) => ({
           ...state,
           playlist: {
+            ...state.playlist,
             info: playlistInfo,
+          },
+        }),
+      ),
+      on(
+        detailsPageEventGroup.loadYoutubePlaylistItemsInfoSuccess,
+        ({ payload: { playlistItemsInfo, nextPage } }, state) => ({
+          ...state,
+          playlist: {
+            ...state.playlist,
             itemsInfo: {
               ...playlistItemsInfo,
               items: nextPage

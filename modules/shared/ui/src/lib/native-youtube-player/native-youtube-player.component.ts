@@ -377,12 +377,14 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   playVideo() {
-    this.videoPlayer()
-      .play()
-      .catch((error) => {
-        this.isVideoPlaying.set(false);
-        console.log('Error playing video:', error);
-      });
+    if (this.videoUrl() && this.videoUrl() !== '') {
+      this.videoPlayer()
+        .play()
+        .catch((error) => {
+          this.isVideoPlaying.set(false);
+          console.log('Error playing video:', error);
+        });
+    }
   }
 
   pauseVideo() {

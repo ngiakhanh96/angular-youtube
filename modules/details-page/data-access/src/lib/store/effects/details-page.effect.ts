@@ -99,23 +99,39 @@ export function withDetailsPageEffects<_>() {
           events,
           detailsPageEventGroup.loadYoutubePlaylistInfo,
           (event) => {
-            return combineLatest([
-              youtubeService.getPlaylistItemsInfo(
+            return youtubeService
+              .getPlaylistInfo(event.payload.playlistId)
+              .pipe(
+                map((playlistInfo) => {
+                  return detailsPageEventGroup.loadYoutubePlaylistInfoSuccess({
+                    playlistInfo: playlistInfo,
+                  });
+                }),
+              );
+          },
+          false,
+        ),
+        loadYoutubePlaylistItemsInfo$: createHttpEffectAndUpdateResponse(
+          events,
+          detailsPageEventGroup.loadYoutubePlaylistItemsInfo,
+          (event) => {
+            return youtubeService
+              .getPlaylistItemsInfo(
                 event.payload.playlistId,
                 event.payload.nextPage
                   ? store.playlist().itemsInfo?.nextPageToken
                   : undefined,
-              ),
-              youtubeService.getPlaylistInfo(event.payload.playlistId),
-            ]).pipe(
-              map(([playlistItemsInfo, playlistInfo]) => {
-                return detailsPageEventGroup.loadYoutubePlaylistInfoSuccess({
-                  playlistItemsInfo: playlistItemsInfo,
-                  playlistInfo: playlistInfo,
-                  nextPage: event.payload.nextPage,
-                });
-              }),
-            );
+              )
+              .pipe(
+                map((playlistItemsInfo) => {
+                  return detailsPageEventGroup.loadYoutubePlaylistItemsInfoSuccess(
+                    {
+                      playlistItemsInfo: playlistItemsInfo,
+                      nextPage: event.payload.nextPage,
+                    },
+                  );
+                }),
+              );
           },
           false,
         ),

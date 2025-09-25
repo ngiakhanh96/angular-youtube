@@ -30,11 +30,16 @@ export const detailsPageEventGroup = eventGroup({
     }>(),
     loadYoutubePlaylistInfo: type<{
       playlistId: string;
-      nextPage?: boolean;
     }>(),
     loadYoutubePlaylistInfoSuccess: type<{
-      playlistItemsInfo: IPlaylistItemsInfo;
       playlistInfo: IPlaylistInfo;
+    }>(),
+    loadYoutubePlaylistItemsInfo: type<{
+      playlistId: string;
+      nextPage?: boolean;
+    }>(),
+    loadYoutubePlaylistItemsInfoSuccess: type<{
+      playlistItemsInfo: IPlaylistItemsInfo;
       nextPage?: boolean;
     }>(),
     reset: type<void>(),

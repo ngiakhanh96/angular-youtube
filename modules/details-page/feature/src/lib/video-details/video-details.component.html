@@ -40,6 +40,7 @@
           <ay-videos-playlist
             [playlistItemsInfo]="playlistItemsInfo()"
             [playlistInfo]="playlistDetailsInfo()"
+            [currentVideoPosition]="currentPlaylistItemPosition()"
             [(selectedVideoId)]="videoId"
           ></ay-videos-playlist>
         </div>
@@ -48,6 +49,7 @@
         <ay-videos-recommendation
           [videoCategories]="videoCategories()"
           [videos]="recommendedVideos()"
+          (selectVideo)="onSelectRecommendedVideo($event)"
         ></ay-videos-recommendation>
       </div>
     </div>
