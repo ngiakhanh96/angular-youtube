@@ -34,6 +34,7 @@ import {
   inject,
   OnInit,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -348,24 +349,29 @@ export class VideoDetailsComponent
     });
 
     effect(() => {
-      this.videoId();
+      const videoId = this.videoId();
+      const playlistId = this.playlistId();
+      const playlistItemVideoIdToIndexMapping = untracked(() =>
+        this.playlistItemVideoIdToIndexMapping(),
+      );
+      const playlistDetailsInfo = untracked(() => this.playlistDetailsInfo());
+      const playlistItemsInfo = untracked(() => this.playlistItemsInfo());
+
       this.loadingBarService.load(25);
-      if (this.playlistId() !== '' && this.videoId() !== '') {
+      if (playlistId !== '' && videoId !== '') {
         const currentPlaylistItemPosition =
-          (this.playlistItemVideoIdToIndexMapping().get(this.videoId()) ?? 0) +
-          1;
+          (playlistItemVideoIdToIndexMapping.get(videoId) ?? 0) + 1;
         this.currentPlaylistItemPosition.set(currentPlaylistItemPosition);
         if (
-          currentPlaylistItemPosition <
-            this.playlistDetailsInfo().totalVideoCount &&
-          currentPlaylistItemPosition > this.playlistItemsInfo().length - 5
+          currentPlaylistItemPosition < playlistDetailsInfo.totalVideoCount &&
+          currentPlaylistItemPosition > playlistItemsInfo.length - 5
         ) {
           this.loadNextPlaylistPage.set(true);
         }
         void this.router.navigate(['watch'], {
           queryParams: {
-            v: this.videoId(),
-            list: this.playlistId(),
+            v: videoId,
+            list: playlistId,
           },
         });
       }
@@ -437,7 +443,11 @@ export class VideoDetailsComponent
   }
 
   shouldAttachByRouteReuseStrategy(route: ActivatedRouteSnapshot): boolean {
-    return this.videoId() === route.queryParams['v'];
+    return (
+      this.videoId() === route.queryParams['v'] &&
+      (this.playlistId() === route.queryParams['list'] ||
+        (this.playlistId() === '' && !route.queryParams['list']))
+    );
   }
 
   onRetrieveByRouteReuseStrategy() {
