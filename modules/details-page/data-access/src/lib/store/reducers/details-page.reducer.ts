@@ -23,6 +23,7 @@ export interface IDetailsPageState {
   playlist: {
     info: IPlaylistInfo | undefined;
     itemsInfo: IPlaylistItemsInfo | undefined;
+    uniqueVideoIds: Set<string>;
   };
 }
 export const initialDetailsPageState: IDetailsPageState = {
@@ -33,6 +34,7 @@ export const initialDetailsPageState: IDetailsPageState = {
   playlist: {
     info: undefined,
     itemsInfo: undefined,
+    uniqueVideoIds: new Set<string>(),
   },
 };
 
@@ -109,9 +111,19 @@ export function withDetailsPageReducer<_>() {
               items: nextPage
                 ? [
                     ...(state.playlist.itemsInfo?.items ?? []),
-                    ...playlistItemsInfo.items,
+                    ...playlistItemsInfo.items.filter(
+                      (p) =>
+                        !state.playlist.uniqueVideoIds.has(
+                          p.contentDetails.videoId,
+                        ),
+                    ),
                   ]
                 : playlistItemsInfo.items,
+              uniqueVideoIds:
+                (playlistItemsInfo.items
+                  .map((p) => p.contentDetails.videoId)
+                  .forEach((id) => state.playlist.uniqueVideoIds.add(id)),
+                state.playlist.uniqueVideoIds),
             },
           },
         }),

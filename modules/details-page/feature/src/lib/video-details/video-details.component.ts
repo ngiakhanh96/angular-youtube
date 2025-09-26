@@ -270,11 +270,11 @@ export class VideoDetailsComponent
     return sharedEventGroup.empty();
   });
   getPlaylistItemsInfo = computed(() => {
-    this.loadNextPlaylistPage();
-    if (this.playlistId() !== '') {
+    const loadNextPlaylistPage = this.loadNextPlaylistPage();
+    if (untracked(() => this.playlistId()) !== '') {
       return detailsPageEventGroup.loadYoutubePlaylistItemsInfo({
         playlistId: this.playlistId(),
-        nextPage: this.loadNextPlaylistPage(),
+        nextPage: loadNextPlaylistPage,
       });
     }
     return sharedEventGroup.empty();
@@ -356,14 +356,13 @@ export class VideoDetailsComponent
       );
       const playlistDetailsInfo = untracked(() => this.playlistDetailsInfo());
       const playlistItemsInfo = untracked(() => this.playlistItemsInfo());
-
       this.loadingBarService.load(25);
       if (playlistId !== '' && videoId !== '') {
         const currentPlaylistItemPosition =
           (playlistItemVideoIdToIndexMapping.get(videoId) ?? 0) + 1;
         this.currentPlaylistItemPosition.set(currentPlaylistItemPosition);
         if (
-          currentPlaylistItemPosition < playlistDetailsInfo.totalVideoCount &&
+          playlistItemsInfo.length < playlistDetailsInfo.totalVideoCount &&
           currentPlaylistItemPosition > playlistItemsInfo.length - 5
         ) {
           this.loadNextPlaylistPage.set(true);
