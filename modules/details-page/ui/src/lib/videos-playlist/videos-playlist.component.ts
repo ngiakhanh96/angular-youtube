@@ -57,7 +57,6 @@ export class VideosPlaylistComponent {
 
   private scrollToSelectedVideo() {
     const items = this.playlistItems();
-    // Find the item with class 'selected'
     const selectedItem = items.find((item) =>
       item.nativeElement.classList.contains('selected'),
     );
@@ -70,13 +69,19 @@ export class VideosPlaylistComponent {
       const containerRect = container.getBoundingClientRect();
       const elementRect = selectedElement.getBoundingClientRect();
 
+      // If the element is not fully visible in the container
       if (
         elementRect.bottom > containerRect.bottom ||
         elementRect.top < containerRect.top
       ) {
-        selectedElement.scrollIntoView({
+        // Calculate the new scroll position
+        const relativeTop = elementRect.top - containerRect.top;
+        const newScrollTop = container.scrollTop + relativeTop;
+
+        // Apply the scroll
+        container.scrollTo({
+          top: newScrollTop,
           behavior: 'smooth',
-          block: 'start',
         });
       }
     }
