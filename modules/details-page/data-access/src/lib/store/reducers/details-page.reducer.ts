@@ -119,11 +119,12 @@ export function withDetailsPageReducer<_>() {
                     ),
                   ]
                 : playlistItemsInfo.items,
-              uniqueVideoIds:
-                (playlistItemsInfo.items
-                  .map((p) => p.contentDetails.videoId)
-                  .forEach((id) => state.playlist.uniqueVideoIds.add(id)),
-                state.playlist.uniqueVideoIds),
+              uniqueVideoIds: nextPage
+                ? (playlistItemsInfo.items
+                    .map((p) => p.contentDetails.videoId)
+                    .forEach((id) => state.playlist.uniqueVideoIds.add(id)),
+                  state.playlist.uniqueVideoIds)
+                : new Set<string>(),
             },
           },
         }),

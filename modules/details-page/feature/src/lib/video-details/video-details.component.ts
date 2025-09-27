@@ -32,6 +32,7 @@ import {
   effect,
   ElementRef,
   inject,
+  linkedSignal,
   OnInit,
   signal,
   untracked,
@@ -260,7 +261,13 @@ export class VideoDetailsComponent
   currentUrl = this.router.url;
   playlistInfo = this.detailsPageStore.playlist;
   playlistId = signal<string>('');
-  loadNextPlaylistPage = signal<boolean>(false, { equal: () => false });
+  loadNextPlaylistPage = linkedSignal<boolean>(
+    () => {
+      this.playlistId();
+      return false;
+    },
+    { equal: () => false },
+  );
   getPlaylistInfo = computed(() => {
     if (this.playlistId() !== '') {
       return detailsPageEventGroup.loadYoutubePlaylistInfo({
@@ -271,9 +278,10 @@ export class VideoDetailsComponent
   });
   getPlaylistItemsInfo = computed(() => {
     const loadNextPlaylistPage = this.loadNextPlaylistPage();
-    if (untracked(() => this.playlistId()) !== '') {
+    const playlistId = untracked(() => this.playlistId());
+    if (playlistId !== '') {
       return detailsPageEventGroup.loadYoutubePlaylistItemsInfo({
-        playlistId: this.playlistId(),
+        playlistId: playlistId,
         nextPage: loadNextPlaylistPage,
       });
     }
