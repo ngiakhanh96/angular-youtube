@@ -343,17 +343,18 @@ export class VideoDetailsComponent
       const playlistDetailsInfo = this.playlistDetailsInfo();
       const videoId = this.videoId();
       const playlistId = this.playlistId();
+      const playlistItemVideoIdToIndexMapping =
+        this.playlistItemVideoIdToIndexMapping();
       // If we are loading the playlist and the current video is not set, try to set it
       if (playlistId !== '' && videoId === '' && playlistItemsInfo != null) {
-        const video = playlistItemsInfo.items.find(
-          (p) => p.contentDetails.videoId === this.currentVideoId,
-        );
+        const currentPlaylistItemPosition =
+          playlistItemVideoIdToIndexMapping.get(this.currentVideoId);
         if (
-          video == null &&
+          currentPlaylistItemPosition == null &&
           playlistItemsInfo.items.length < playlistDetailsInfo.totalVideoCount
         ) {
           this.loadNextPlaylistPage.set(true);
-        } else if (video != null) {
+        } else if (currentPlaylistItemPosition != null) {
           this.videoId.set(this.currentVideoId);
         }
       }

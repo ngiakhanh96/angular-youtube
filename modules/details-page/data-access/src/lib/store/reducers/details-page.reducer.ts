@@ -124,7 +124,11 @@ export function withDetailsPageReducer<_>() {
                     .map((p) => p.contentDetails.videoId)
                     .forEach((id) => state.playlist.uniqueVideoIds.add(id)),
                   state.playlist.uniqueVideoIds)
-                : new Set<string>(),
+                : (state.playlist.uniqueVideoIds.clear(),
+                  playlistItemsInfo.items
+                    .map((p) => p.contentDetails.videoId)
+                    .forEach((id) => state.playlist.uniqueVideoIds.add(id)),
+                  state.playlist.uniqueVideoIds),
             },
           },
         }),
