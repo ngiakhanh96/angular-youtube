@@ -339,7 +339,14 @@ export class VideoDetailsComponent
       this.titleService.setTitle(this.videoInfo()?.title ?? 'Angular Youtube');
     });
     effect(() => {
-      if (this.playlistInfo().itemsInfo != null && this.videoId() === '') {
+      const playlistItemsInfo = untracked(() => this.playlistItemsInfo());
+      const playlistDetailsInfo = untracked(() => this.playlistDetailsInfo());
+      // If we are loading the playlist and the current video is not set, try to set it
+      if (
+        this.playlistInfo().itemsInfo != null &&
+        this.videoId() === '' &&
+        playlistItemsInfo.length < playlistDetailsInfo.totalVideoCount
+      ) {
         const video = this.playlistInfo().itemsInfo!.items.find(
           (p) => p.contentDetails.videoId === this.currentVideoId,
         );
