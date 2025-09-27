@@ -35,6 +35,7 @@ export enum ScreenMode {
 }
 
 //TODO explore to support youtube DASH streaming URL (dashUrl) with Dash.js
+//TODO fix duplicate view-transition-name when navigating to details page
 @Component({
   selector: 'ay-native-youtube-player',
   imports: [
