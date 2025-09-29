@@ -318,11 +318,11 @@ export class VideoDetailsComponent
     return {
       title: playlistInfo?.items[0]?.snippet.title ?? '',
       channelName: playlistInfo?.items[0]?.snippet.channelTitle ?? '',
-      //not sure why for playlist created by youtube the itemCount is diff from result from playlistitems api
-      totalVideoCount: Math.max(
-        playlistInfo?.items[0]?.contentDetails.itemCount ?? 0,
-        this.playlistItemsInfo().length,
-      ),
+      totalVideoCount: playlistInfo
+        ? new Date(playlistInfo.items[0].snippet.publishedAt).getTime() === 0
+          ? this.playlistItemsInfo().length
+          : (playlistInfo?.items[0]?.contentDetails.itemCount ?? 0)
+        : 0,
     };
   });
   currentVideoId = '';
