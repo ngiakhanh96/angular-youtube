@@ -9,7 +9,7 @@
     .video-playlist-info {
       @apply flex justify-between h-[46px];
       .video-playlist-overview {
-        @apply flex flex-col justify-center w-[calc(100%-40px)];
+        @apply flex flex-col justify-center w-[calc(100%-48px)];
         .video-playlist-title {
           @apply text-[20px] font-[family-name:Youtube_Sans] font-semibold overflow-hidden text-ellipsis whitespace-nowrap;
         }

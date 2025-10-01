@@ -47,7 +47,7 @@
   </div>
 
   <div class="video-playlist-list" #playlistContainer>
-    <ng-template #videoCard let-video="video">
+    <ng-template #videoCard let-video="video" let-index="index">
       <div
         class="video-playlist-item"
         #playlistItem
@@ -55,13 +55,9 @@
         [class.selected]="video.videoId === selectedVideoId()"
       >
         <div class="video-playlist-item-index-container">
-          <div
-            class="video-playlist-item-index"
-            [style.display]="
-              video.videoId === selectedVideoId() ? 'block' : 'none'
-            "
-            >▶</div
-          >
+          <div class="video-playlist-item-index"
+            >{{ video.videoId === selectedVideoId() ? '▶' : index + 1 }}
+          </div>
         </div>
         <ay-video-player-card
           [videoPlayerCardInfo]="video"
@@ -84,9 +80,13 @@
         />
       </div>
     </ng-template>
-    @for (video of playlistItemsInfo(); track video.videoId) {
+    @for (
+      video of playlistItemsInfo();
+      track video.videoId;
+      let index = $index
+    ) {
       <ng-container
-        *ngTemplateOutlet="videoCard; context: { video: video }"
+        *ngTemplateOutlet="videoCard; context: { video: video, index: index }"
       ></ng-container>
     }
   </div>
