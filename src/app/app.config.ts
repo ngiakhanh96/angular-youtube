@@ -9,7 +9,10 @@ import {
   CustomRouteReuseStrategy,
   provideAySkeletonLoader,
 } from '@angular-youtube/shared-ui';
-import { authInterceptor } from '@angular-youtube/shell-data-access';
+import {
+  authInterceptor,
+  globalHttpErrorInterceptor,
+} from '@angular-youtube/shell-data-access';
 import {
   provideHttpClient,
   withFetch,
@@ -74,7 +77,10 @@ export const appConfig: ApplicationConfig = {
       provide: RouteReuseStrategy,
       useExisting: CustomRouteReuseStrategy,
     },
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([authInterceptor, globalHttpErrorInterceptor]),
+    ),
     provideSocialAuth({
       autoLogin: false,
       lang: 'en',
