@@ -32,7 +32,7 @@ export class LinkComponent {
     Object.entries({
       ...(this.appSettingsService.appConfig()?.supportedSocialMedias ?? {}),
       [this.currentHostName]: 'yt_favicon_ringo2.png',
-    })
+    }),
   );
   router = inject(Router);
   href = input.required<string>();
@@ -70,9 +70,10 @@ export class LinkComponent {
     const isYoutubeChannelLink = this.isYoutubeChannelLink();
     const isOtherYoutubeVideo = this.isOtherYoutubeVideo();
     return (
-      isNonYoutubeSupportedSocialMedia ||
-      (isYoutubeChannelLink && !this.forComment()) ||
-      isOtherYoutubeVideo
+      !this.forComment() &&
+      (isNonYoutubeSupportedSocialMedia ||
+        isYoutubeChannelLink ||
+        isOtherYoutubeVideo)
     );
   });
   prefix = signal('\u00a0');
@@ -92,7 +93,7 @@ export class LinkComponent {
   });
   imgSource = computed(() => {
     return `https://www.gstatic.com/youtube/img/watch/${this.getSupportedSocialMediaIconUrl(
-      new URL(this.href()).hostname
+      new URL(this.href()).hostname,
     )}`;
   });
   formattedText = computed(() => {
@@ -144,7 +145,7 @@ export class LinkComponent {
   }
 
   private convertQueryStringToParams(
-    queryString: string
+    queryString: string,
   ): Record<string, string> {
     return queryString
       .split('&')
