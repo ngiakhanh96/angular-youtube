@@ -7,15 +7,15 @@
   .videos-playlist-header {
     @apply flex-shrink-0 flex-grow-0 flex flex-col h-[88px] border-b mt-[12px] pl-[16px] pr-[6px];
     .video-playlist-info {
-      @apply flex justify-between h-[46px];
+      @apply flex justify-between h-[46px] mt-[4px];
       .video-playlist-overview {
         @apply flex flex-col justify-center w-[calc(100%-48px)];
         .video-playlist-title {
-          @apply text-[20px] leading-[20px] text-center font-[family-name:Youtube_Sans] font-semibold overflow-hidden text-ellipsis whitespace-nowrap;
+          @apply text-[20px] leading-[20px] h-full font-[family-name:Youtube_Sans] font-semibold overflow-hidden text-ellipsis whitespace-nowrap;
         }
 
         .video-playlist-channel {
-          @apply text-[12px] text-gray-600 mt-[4px];
+          @apply text-[12px] text-gray-600;
         }
       }
       .video-playlist-close {
