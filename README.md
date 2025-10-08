@@ -1,7 +1,7 @@
 # Angular YouTube Clone
 
-[![Angular](https://img.shields.io/badge/Angular-20.2.0-dd0031.svg?style=flat&logo=angular)](https://angular.io/)
-[![Nx](https://img.shields.io/badge/Nx-21.5.3-143055.svg?style=flat&logo=nx)](https://nx.dev/)
+[![Angular](https://img.shields.io/badge/Angular-20.3.0-dd0031.svg?style=flat&logo=angular)](https://angular.io/)
+[![Nx](https://img.shields.io/badge/Nx-21.6.3-143055.svg?style=flat&logo=nx)](https://nx.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-007acc.svg?style=flat&logo=typescript)](https://www.typescriptlang.org/)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
