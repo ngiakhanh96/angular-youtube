@@ -288,7 +288,7 @@ volumes:
 
 ## 📚 Learning Resources
 
-This project is designed for learning modern Angular development patterns:
+This project is designed for learning modern Angular development patterns.
 
 ### Official Documentation
 
