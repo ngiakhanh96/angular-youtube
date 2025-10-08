@@ -90,7 +90,7 @@ modules/
 ├── header/             # Application header and navigation
 ├── home-page/          # Main landing page with video grid
 ├── search-page/        # Search functionality and results
-├── shared/             # Shared components, services, and utilities
+├── shared/             # Shared components, services, and
 ├── shell/              # Application shell and layout
 └── sidebar/            # Sidebar navigation and menu
 ```
