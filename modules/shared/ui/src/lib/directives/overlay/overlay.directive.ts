@@ -41,7 +41,7 @@ export class OverlayDirective implements OnDestroy {
     inject(Overlay).scrollStrategies.reposition(),
   );
   private renderer = inject(Renderer2);
-  private originUnlisten: () => void = () => {};
+  private originUnlisten: (() => void) | null = null;
 
   constructor() {
     this.cdkConnectedOverlay.disposeOnNavigation = true;

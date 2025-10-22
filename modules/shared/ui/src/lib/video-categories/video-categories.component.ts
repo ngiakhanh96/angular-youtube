@@ -8,6 +8,8 @@ import {
   inject,
   input,
   linkedSignal,
+  OnDestroy,
+  Renderer2,
   signal,
 } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
@@ -25,13 +27,15 @@ export interface IVideoCategory {
   styleUrls: ['./video-categories.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VideoCategoriesComponent {
+export class VideoCategoriesComponent implements OnDestroy {
   videoCategories = input.required<IVideoCategory[]>();
   shouldShowScrollLeftButton = signal(false);
   shouldShowScrollRightButton = signal(false);
   scrollingWidth = input.required<number>();
   selectedVideoCategory = linkedSignal(() => this.videoCategories()[0]);
-  private videoCategoryList?: Element;
+  private videoCategoryList?: HTMLElement;
+  private renderer = inject(Renderer2);
+  private scrollUnlisten: (() => void) | null = null;
 
   constructor() {
     const hostNativeElement =
@@ -40,10 +44,13 @@ export class VideoCategoriesComponent {
       read: () => {
         this.videoCategoryList = hostNativeElement.getElementsByClassName(
           'mdc-evolution-chip-set__chips',
-        )[0];
+        )[0] as HTMLElement | undefined;
         if (this.videoCategoryList) {
-          this.videoCategoryList.addEventListener('scroll', () =>
-            this.onListScroll(),
+          // Use Renderer2.listen so we get an unlisten function we can call on destroy
+          this.scrollUnlisten = this.renderer.listen(
+            this.videoCategoryList,
+            'scroll',
+            () => this.onListScroll(),
           );
         }
       },
@@ -56,6 +63,10 @@ export class VideoCategoriesComponent {
         }
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.scrollUnlisten?.();
   }
 
   onListScroll() {
