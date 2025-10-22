@@ -18,7 +18,24 @@
     (mouseover)="onMouseEnter()"
     (mouseleave)="onMouseLeave()"
   >
-    <video preload="auto" #videoPlayer>
+    <video
+      preload="auto"
+      #videoPlayer
+      (click)="onVideoClick()"
+      (ended)="onVideoEnded()"
+      (loadedmetadata)="onLoadedMetadata()"
+      (volumechange)="onVolumeChange()"
+      (play)="onPlay()"
+      (pause)="onPause()"
+      (seeking)="onSeeking()"
+      (timeupdate)="onTimeUpdate()"
+      (seeked)="onSeeked()"
+      (waiting)="onWaiting()"
+      (playing)="onPlaying()"
+      (canplay)="onCanPlay()"
+      (canplaythrough)="onCanPlay()"
+      (leavepictureinpicture)="onLeavePictureInPicture($event)"
+    >
       <source [src]="videoUrl()" type="video/mp4" />
     </video>
     <audio #audioPlayer [src]="audioUrl()"></audio>

@@ -250,74 +250,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     afterNextRender({
       read: () => {
         (this.videoPlayer() as any).audioElement = this.audioPlayer();
-        this.videoPlayer().addEventListener('click', () => {
-          this.playerClick.emit(this.videoPlayer());
-        });
-
-        this.videoPlayer().addEventListener('ended', () => {
-          this.isVideoPlaying.set(false);
-          this.isVideoEnded.set(true);
-          if (this.autoNext()) {
-            this.nextVideo.emit();
-          }
-        });
-
-        this.videoPlayer().addEventListener('loadedmetadata', () => {
-          this.duration.set(this.videoPlayer().duration);
-          this.synchronizeAudioWithVideo();
-        });
-        this.videoPlayer().addEventListener('volumechange', () => {
-          this.audioPlayer().muted = this.videoPlayer().muted;
-          this.audioPlayer().volume = this.videoPlayer().volume;
-        });
-        this.videoPlayer().addEventListener('play', () => {
-          this.isVideoEnded.set(false);
-          this.isVideoPlaying.set(true);
-          this.synchronizeAudioWithVideo();
-          this.playAudio();
-        });
-        this.videoPlayer().addEventListener('pause', () => {
-          if (this.document.hidden && this.continueToPlayWhenSwitchingTab()) {
-            this.videoPlayer().play();
-            return;
-          }
-          this.isVideoPlaying.set(false);
-          this.synchronizeAudioWithVideo();
-          this.audioPlayer().pause();
-        });
-        this.videoPlayer().addEventListener('seeking', () => {
-          this.isSeeking = true;
-          this.audioPlayer().pause();
-        });
-        this.videoPlayer().addEventListener('timeupdate', () => {
-          if (this.isSeeking) {
-            this.synchronizeAudioWithVideo();
-          }
-        });
-        this.videoPlayer().addEventListener('seeked', () => {
-          this.isSeeking = false;
-          if (this.isVideoPlaying()) {
-            this.playAudio();
-          }
-        });
-        this.videoPlayer().addEventListener('waiting', () => {
-          this.audioPlayer().pause();
-        });
-        this.videoPlayer().addEventListener('playing', () => {
-          this.playAudio();
-        });
-        this.videoPlayer().addEventListener('canplay', () => {
-          this.canPlay.emit();
-        });
-        this.videoPlayer().addEventListener('canplaythrough', () => {
-          this.canPlay.emit();
-        });
-        this.videoPlayer().addEventListener(
-          'leavepictureinpicture',
-          (event) => {
-            this.leavePictureInPicture.emit(event);
-          },
-        );
       },
     });
 
@@ -406,6 +338,79 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   onNextVideo(event: MouseEvent) {
     this.nextVideo.emit();
     event.stopPropagation();
+  }
+
+  onVideoClick() {
+    this.playerClick.emit(this.videoPlayer());
+  }
+
+  onVideoEnded() {
+    this.isVideoPlaying.set(false);
+    this.isVideoEnded.set(true);
+    if (this.autoNext()) {
+      this.nextVideo.emit();
+    }
+  }
+
+  onLoadedMetadata() {
+    this.duration.set(this.videoPlayer().duration);
+    this.synchronizeAudioWithVideo();
+  }
+
+  onVolumeChange() {
+    this.audioPlayer().muted = this.videoPlayer().muted;
+    this.audioPlayer().volume = this.videoPlayer().volume;
+  }
+
+  onPlay() {
+    this.isVideoEnded.set(false);
+    this.isVideoPlaying.set(true);
+    this.synchronizeAudioWithVideo();
+    this.playAudio();
+  }
+
+  onPause() {
+    if (this.document.hidden && this.continueToPlayWhenSwitchingTab()) {
+      this.videoPlayer().play();
+      return;
+    }
+    this.isVideoPlaying.set(false);
+    this.synchronizeAudioWithVideo();
+    this.audioPlayer().pause();
+  }
+
+  onSeeking() {
+    this.isSeeking = true;
+    this.audioPlayer().pause();
+  }
+
+  onTimeUpdate() {
+    if (this.isSeeking) {
+      this.synchronizeAudioWithVideo();
+    }
+  }
+
+  onSeeked() {
+    this.isSeeking = false;
+    if (this.isVideoPlaying()) {
+      this.playAudio();
+    }
+  }
+
+  onWaiting() {
+    this.audioPlayer().pause();
+  }
+
+  onPlaying() {
+    this.playAudio();
+  }
+
+  onCanPlay() {
+    this.canPlay.emit();
+  }
+
+  onLeavePictureInPicture(event: PictureInPictureEvent) {
+    this.leavePictureInPicture.emit(event);
   }
 
   toggleScreenMode() {
