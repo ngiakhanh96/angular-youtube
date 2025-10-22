@@ -6,6 +6,8 @@ import {
   inject,
   input,
   model,
+  OnDestroy,
+  Renderer2,
   signal,
   SimpleChange,
 } from '@angular/core';
@@ -29,7 +31,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     '(window:resize)': 'resize()',
   },
 })
-export class OverlayDirective {
+export class OverlayDirective implements OnDestroy {
   panelClass = input<string[]>([]);
   connectedOverlayBoundedWidthElement = input<HTMLElement>();
   connectedOverlayOpen = model(false);
@@ -38,6 +40,8 @@ export class OverlayDirective {
   private scrollStrategy = signal(
     inject(Overlay).scrollStrategies.reposition(),
   );
+  private renderer = inject(Renderer2);
+  private originUnlisten: () => void = () => {};
 
   constructor() {
     this.cdkConnectedOverlay.disposeOnNavigation = true;
@@ -92,11 +96,18 @@ export class OverlayDirective {
           const element: Element | null = (<any>(
             this.cdkConnectedOverlay
           ))._getOriginElement();
-          element?.addEventListener('click', (event) => {
-            this.connectedOverlayOpen.update((v) => !v);
-            event.stopPropagation();
-            event.preventDefault();
-          });
+          if (element) {
+            // Use Renderer2.listen to get an unlisten function we can call on destroy
+            this.originUnlisten = this.renderer.listen(
+              element,
+              'click',
+              (event: MouseEvent) => {
+                this.connectedOverlayOpen.update((v) => !v);
+                event.stopPropagation();
+                event.preventDefault();
+              },
+            );
+          }
         }
         this.resize();
       },
@@ -120,6 +131,11 @@ export class OverlayDirective {
         ),
       });
     });
+  }
+
+  ngOnDestroy() {
+    // Remove the listener attached with Renderer2.listen to avoid leaks
+    this.originUnlisten?.();
   }
 
   resize() {
