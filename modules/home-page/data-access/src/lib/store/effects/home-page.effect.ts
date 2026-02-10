@@ -9,7 +9,7 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { signalStoreFeature, type } from '@ngrx/signals';
-import { Events, withEffects } from '@ngrx/signals/events';
+import { Events, withEventHandlers } from '@ngrx/signals/events';
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 import { homePageEventGroup } from '../events/home-page.event-group';
 import { IHomePageState } from '../reducers/home-page.reducer';
@@ -17,12 +17,12 @@ import { IHomePageState } from '../reducers/home-page.reducer';
 export function withHomePageEffects<_>() {
   return signalStoreFeature(
     { state: type<IHomePageState>() },
-    withEffects(
+    withEventHandlers(
       (
         store,
         events = inject(Events),
         invidiousService = inject(InvidiousHttpService),
-        youtubeService = inject(YoutubeHttpService)
+        youtubeService = inject(YoutubeHttpService),
       ) => ({
         loadYoutubePopularVideos$: createHttpEffectAndUpdateResponse(
           events,
@@ -38,14 +38,14 @@ export function withHomePageEffects<_>() {
                     event.payload.videoCategory,
                     event.payload.nextPage
                       ? store.videos()?.nextPageToken
-                      : undefined
+                      : undefined,
                   )
             ).pipe(
               switchMap((videosWithMetaData) =>
                 combineLatest([
                   youtubeService.getChannelsInfo(
                     videosWithMetaData.items.map((p) => p.snippet.channelId),
-                    event.payload.itemPerPage
+                    event.payload.itemPerPage,
                   ),
                   ...videosWithMetaData.items.map((p) =>
                     invidiousService.getVideoInfo(p.id).pipe(
@@ -55,8 +55,8 @@ export function withHomePageEffects<_>() {
                           videoId: p.id,
                           formatStreams: [],
                         }));
-                      })
-                    )
+                      }),
+                    ),
                   ),
                 ]).pipe(
                   map((channelsAndVideosInfo) => {
@@ -66,8 +66,8 @@ export function withHomePageEffects<_>() {
                       channelsInfo,
                       ...videosInfo.filter((p) => p != null),
                     ] as const;
-                  })
-                )
+                  }),
+                ),
               ),
               map(([videosWithMetaData, channelsInfo, ...videosInfo]) => {
                 const channelsInfoMap: Record<string, IChannelItem> = {};
@@ -78,7 +78,7 @@ export function withHomePageEffects<_>() {
                     videosInfoMap[p.videoId] = p.formatStreams[0];
                   } else {
                     videosWithMetaData.items = videosWithMetaData.items.filter(
-                      (a) => a.id !== p.videoId
+                      (a) => a.id !== p.videoId,
                     );
                   }
                 });
@@ -88,12 +88,12 @@ export function withHomePageEffects<_>() {
                   channelsInfo: channelsInfoMap,
                   videosInfo: videosInfoMap,
                 });
-              })
+              }),
             );
           },
-          false
+          false,
         ),
-      })
-    )
+      }),
+    ),
   );
 }

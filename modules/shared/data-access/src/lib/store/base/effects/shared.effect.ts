@@ -5,7 +5,7 @@ import {
   EventCreator,
   EventInstance,
   Events,
-  withEffects,
+  withEventHandlers,
 } from '@ngrx/signals/events';
 import {
   catchError,
@@ -31,7 +31,7 @@ import { ISharedState } from '../reducers/shared.reducer';
 export function withSharedEffects<_>() {
   return signalStoreFeature(
     { state: type<ISharedState>() },
-    withEffects(
+    withEventHandlers(
       (
         store,
         events = inject(Events),

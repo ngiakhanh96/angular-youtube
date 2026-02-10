@@ -6,7 +6,9 @@ import { ExternalComponent } from './external.component';
 const canNavigateToExternalPage: CanActivateFn = () => {
   const router = inject(Router);
   const externalNavigationService = inject(ExternalNavigationService);
-  const externalUrl = router.currentNavigation()?.extras.state?.['externalUrl'];
+  const externalUrl = router.currentNavigation()?.extras.state?.[
+    'externalUrl'
+  ] as string;
   externalNavigationService.navigateByOpeningNewWindow(externalUrl);
   return false;
 };

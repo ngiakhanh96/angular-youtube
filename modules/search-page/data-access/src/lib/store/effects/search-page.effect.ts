@@ -6,7 +6,7 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { signalStoreFeature, type } from '@ngrx/signals';
-import { Events, withEffects } from '@ngrx/signals/events';
+import { Events, withEventHandlers } from '@ngrx/signals/events';
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 import { searchPageEventGroup } from '../actions/search-page.event-group';
 import { ISearchPageState } from '../reducers/search-page.reducer';
@@ -14,7 +14,7 @@ import { ISearchPageState } from '../reducers/search-page.reducer';
 export function withSearchPageEffects<_>() {
   return signalStoreFeature(
     { state: type<ISearchPageState>() },
-    withEffects(
+    withEventHandlers(
       (
         store,
         events = inject(Events),
