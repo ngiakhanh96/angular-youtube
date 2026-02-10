@@ -20,8 +20,8 @@ Experience YouTube reimagined with modern web technologies! This project showcas
 - 🚀 **Latest Angular** with standalone components and signals
 - 🏗️ **Enterprise Architecture** using Nx monorepo and domain-driven design
 - 🎥 **Custom Video Player** with theater mode, PiP, and keyboard controls
-- � **Full Playlist Support** with YouTube playlist loading and management
-- �🔐 **Social Authentication** with Google OAuth integration
+- 🎞️ **Full Playlist Support** with YouTube playlist loading and management
+- 👤 **Social Authentication** with Google OAuth integration
 - 🌐 **SSR Support** for better SEO and performance
 - 📱 **Responsive Design** with Angular Material and TailwindCSS
 - 🔒 **Privacy-Focused** using Invidious backend proxy
