@@ -26,7 +26,7 @@ Experience YouTube reimagined with modern web technologies! This project showcas
 - 📱 **Responsive Design** with Angular Material and TailwindCSS
 - 🔒 **Privacy-Focused** using Invidious backend proxy
 
-## 🚀 Features
+## ⭐ Features
 
 ### 🔍 **Content Features**
 
