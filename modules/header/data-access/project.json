@@ -7,7 +7,7 @@
   "tags": ["scope:header-data-access"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
         "reportsDirectory": "../../../coverage/modules/header/data-access",

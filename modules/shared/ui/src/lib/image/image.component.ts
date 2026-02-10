@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { ImageDirective } from '../directives/image/image.directive';
@@ -9,11 +9,10 @@ import { RippleOnHoverDirective } from '../directives/ripple-on-hover/ripple-on-
   templateUrl: './image.component.html',
   styleUrls: ['./image.component.scss'],
   imports: [
-    CommonModule,
     MatRippleModule,
     RippleOnHoverDirective,
-    ImageDirective,
-  ],
+    ImageDirective
+],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageComponent {

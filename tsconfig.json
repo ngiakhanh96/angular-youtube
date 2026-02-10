@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "isolatedModules": true
+    "isolatedModules": true,
+    "lib": ["dom", "es2022"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

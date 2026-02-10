@@ -7,7 +7,7 @@
   "tags": ["scope:details-page-data-access"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
         "reportsDirectory": "../../../coverage/modules/details-page/data-access",
