@@ -1,22 +1,23 @@
-# Angular YouTube Clone
+# Angular YouTube
 
-[![Angular](https://img.shields.io/badge/Angular-20.3.0-dd0031.svg?style=flat&logo=angular)](https://angular.io/)
-[![Nx](https://img.shields.io/badge/Nx-21.6.3-143055.svg?style=flat&logo=nx)](https://nx.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-007acc.svg?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.io/)
+[![Nx](https://img.shields.io/badge/Nx-143055?style=for-the-badge&logo=nx&logoColor=white)](https://nx.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+
+[![Build Status](https://img.shields.io/github/actions/workflow/status/ngiakhanh96/angular-youtube/ci.yml?branch=main&style=flat-square)](https://github.com/ngiakhanh96/angular-youtube/actions/workflows/ci.yml?query=branch%3Amain)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-> A modern, feature-rich YouTube clone built with latest Angular 20
-
----
+> A modern, feature-rich YouTube clone built with latest Angular 21
 
 ## ✨ Overview
 
-Experience YouTube reimagined with modern web technologies! This project showcases a full-featured video platform built with Angular 20, featuring server-side rendering, modular architecture, and enterprise-grade development practices. Perfect for learning modern Angular patterns or building your own video platform.
+Experience YouTube reimagined with modern web technologies! This project showcases a full-featured video platform built with latest Angular, featuring server-side rendering, modular architecture, and enterprise-grade development practices. Perfect for learning modern Angular patterns or building your own video platform.
 
 ## 🎯 Key Highlights
 
-- 🚀 **Latest Angular 20** with standalone components and signals
+- 🚀 **Latest Angular** with standalone components and signals
 - 🏗️ **Enterprise Architecture** using Nx monorepo and domain-driven design
 - 🎥 **Custom Video Player** with theater mode, PiP, and keyboard controls
 - � **Full Playlist Support** with YouTube playlist loading and management
@@ -67,14 +68,14 @@ Experience YouTube reimagined with modern web technologies! This project showcas
 
 ## ⚡ Technology Stack
 
-- **Framework**: Angular 20 with standalone components
-- **Build Tool**: Nx 21 monorepo workspace
-- **State Management**: NgRx Signals 20
-- **UI Library**: Angular Material 20
+- **Framework**: Angular with standalone components
+- **Build Tool**: Nx monorepo workspace
+- **State Management**: NgRx Signals
+- **UI Library**: Angular Material
 - **Styling**: TailwindCSS
 - **Testing**: Vitest + Playwright
 - **Server**: Express.js for SSR
-- **Language**: TypeScript 5.9 with strict mode
+- **Language**: TypeScript with strict mode
 - **Backend**: Invidious API integration
 
 ## 📁 Project Structure
