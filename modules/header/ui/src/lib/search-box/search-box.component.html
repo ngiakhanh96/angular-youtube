@@ -16,6 +16,8 @@
         aria-haspopup="false"
         role="combobox"
         aria-autocomplete="list"
+        [attr.aria-controls]="'search-autocomplete'"
+        [attr.aria-expanded]="isOpenedSuggestionDropdown()"
         dir="ltr"
         formControlName="searchQuery"
         (keydown.enter)="onSubmit($event)"
