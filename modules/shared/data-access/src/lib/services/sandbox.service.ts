@@ -24,13 +24,13 @@ export class SandboxService implements OnDestroy {
     });
   }
 
-  getResponseDetailsSignal(event: EventInstance<string, any>) {
+  getResponseDetailsSignal(event: EventInstance<string, unknown>) {
     return this.sharedStore.getResponseDetails$(event, {
       injector: this.injector,
     });
   }
 
-  dispatchEvent(event: EventInstance<string, any>) {
+  dispatchEvent(event: EventInstance<string, unknown>) {
     this.dispatcher.dispatch(event);
   }
 
