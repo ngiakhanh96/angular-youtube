@@ -134,9 +134,9 @@ export function withSharedEffects<_>() {
                     accessToken: event.payload.accessToken,
                   });
                 }),
-                catchError((err) => {
+                catchError((error: HttpErrorResponse) => {
                   sessionStorageService.removeItem('Authorization');
-                  return throwError(() => err);
+                  return throwError(() => error);
                 }),
               );
           },

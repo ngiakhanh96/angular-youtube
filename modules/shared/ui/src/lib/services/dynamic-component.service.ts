@@ -53,8 +53,8 @@ export class DynamicComponentService {
     );
   }
 
-  createComponentFromComponentType(
-    componentType: Type<any>,
+  createComponentFromComponentType<T>(
+    componentType: Type<T>,
     inputs?: Record<string, unknown>,
     injector?: Injector,
     viewContainerRef?: ViewContainerRef,
