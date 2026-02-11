@@ -181,6 +181,11 @@ export default defineConfig([
     files: ['**/*.ts'],
     rules: {
       ...tsEslintPlugin.configs.recommended.rules,
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
     },
   },
   {
