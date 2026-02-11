@@ -30,6 +30,7 @@ export * from './lib/services/social-login/social-auth.service';
 export * from './lib/services/social-login/social-user';
 export * from './lib/services/spinner.service';
 export * from './lib/store/base/effects/shared.effect';
+export * from './lib/store/base/events/shared.event';
 export * from './lib/store/base/events/shared.event-group';
 export * from './lib/store/base/reducers/shared.reducer';
 export * from './lib/store/base/selectors/shared.selector';

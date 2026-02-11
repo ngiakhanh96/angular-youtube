@@ -22,10 +22,8 @@ import { HttpResponseStatus } from '../../../models/http-response/http-response.
 import { AuthHttpService } from '../../../services/http/auth.http.service';
 import { YoutubeHttpService } from '../../../services/http/youtube.http.service';
 import { SessionStorage } from '../../../services/session-storage.service';
-import {
-  EventForSuccessfulResponse,
-  sharedEventGroup,
-} from '../events/shared.event-group';
+import { EventForSuccessfulResponse } from '../events/shared.event';
+import { sharedEventGroup } from '../events/shared.event-group';
 import { ISharedState } from '../reducers/shared.reducer';
 
 export function withSharedEffects<_>() {
