@@ -2,6 +2,7 @@ import { ComponentRef, Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   DetachedRouteHandle,
+  Route,
   RouteReuseStrategy,
 } from '@angular/router';
 
@@ -105,6 +106,15 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
     const component: ICustomRouteReuseComponent = componentRef.instance;
     component.onRetrieveByRouteReuseStrategy?.();
     return handle;
+  }
+
+  retrieveStoredRouteHandles(): DetachedRouteHandle | null[] {
+    return Array.from(this._storedHandles.values());
+  }
+
+  shouldDestroyInjector(route: Route): boolean {
+    // Don't destroy if this route is stored
+    return !this._storedHandles.has(route.component?.name || '');
   }
 
   private getComponentRefFromHandle<T extends DetachedRouteHandle>(
