@@ -480,7 +480,6 @@ export class VideoDetailsComponent
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async onLeavePictureInPicture(_event: PictureInPictureEvent) {
     const originalVideoUrl =
       this.customRouteReuseStrategy.getOriginalVideoUrl();
