@@ -56,6 +56,8 @@ const getGoogleAccountsOrThrow = (): typeof google.accounts => {
 
 export class GoogleLoginProvider extends BaseLoginProvider {
   public static readonly PROVIDER_ID: string = 'GOOGLE';
+  public override readonly changeUser: any =
+    new EventEmitter<ISocialUser | null>();
   private readonly _socialUser = new BehaviorSubject<ISocialUser | null>(null);
   private readonly _accessToken = new BehaviorSubject<string | null>(null);
   private readonly _receivedAccessToken = new EventEmitter<string | null>();

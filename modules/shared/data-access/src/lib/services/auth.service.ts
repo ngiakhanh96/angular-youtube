@@ -9,6 +9,17 @@ import { SocialAuthService } from './social-login/social-auth.service';
 export class Auth {
   private authService = inject(SocialAuthService);
   private sessionStorageService = inject(SessionStorage);
+
+  constructor() {
+    this.authService.authState.subscribe((user) => {
+      if (user) {
+        this.login();
+      } else {
+        this.logout();
+      }
+    });
+  }
+
   public login() {
     this.authService
       .getAccessToken(GoogleLoginProvider.PROVIDER_ID)
