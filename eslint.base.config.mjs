@@ -3,6 +3,7 @@ import ngrxEslintPlugin from '@ngrx/eslint-plugin/v9';
 import tsEslintPlugin from '@typescript-eslint/eslint-plugin';
 import prettierConfig from 'eslint-config-prettier';
 import tsEslint from 'typescript-eslint';
+import nx from '@nx/eslint-plugin';
 import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
@@ -196,6 +197,17 @@ export default defineConfig([
   {
     files: ['**/*.js'],
     extends: [tsEslint.configs.disableTypeChecked],
+  },
+  ...nx.configs['flat/angular'],
+  ...nx.configs['flat/angular-template'],
+  {
+    files: ['**/*.html'],
+    // Override or add rules here
+    rules: {
+      '@angular-eslint/template/mouse-events-have-key-events': 'off',
+      '@angular-eslint/template/click-events-have-key-events': 'off',
+      '@angular-eslint/template/interactive-supports-focus': 'off',
+    },
   },
   prettierConfig,
 ]);

@@ -17,8 +17,6 @@ export default [
       parser: await import('jsonc-eslint-parser'),
     },
   },
-  ...nx.configs['flat/angular'],
-  ...nx.configs['flat/angular-template'],
   {
     files: ['**/*.ts'],
     rules: {
@@ -39,10 +37,5 @@ export default [
         },
       ],
     },
-  },
-  {
-    files: ['**/*.html'],
-    // Override or add rules here
-    rules: {},
   },
 ];
