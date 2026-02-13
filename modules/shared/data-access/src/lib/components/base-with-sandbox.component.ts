@@ -42,6 +42,7 @@ export abstract class BaseWithSandBoxComponent {
             (details) =>
               !details || details.status !== HttpResponseStatus.Pending,
           ),
+          this.takeUntilDestroyed(),
         )
         .subscribe((details) => {
           if (!details || details.status === HttpResponseStatus.Success) {
@@ -72,6 +73,7 @@ export abstract class BaseWithSandBoxComponent {
                   (details) =>
                     !details || details.status !== HttpResponseStatus.Pending,
                 ),
+                this.takeUntilDestroyed(),
               )
               .subscribe((details) => {
                 if (!details || details.status === HttpResponseStatus.Success) {
