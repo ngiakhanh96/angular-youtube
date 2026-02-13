@@ -36,9 +36,9 @@
       (canplaythrough)="onCanPlay()"
       (leavepictureinpicture)="onLeavePictureInPicture($event)"
     >
-      <source [src]="videoUrl()" type="video/mp4" />
+      <source [src]="videoUrl() ?? ''" type="video/mp4" />
     </video>
-    <audio #audioPlayer [src]="audioUrl()"></audio>
+    <audio #audioPlayer [src]="audioUrl() ?? ''"></audio>
     <div class="player_bottom" [style.display]="playerButtonsDisplay()">
       <div
         class="player_bottom_progress-bar-container"

@@ -129,7 +129,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   isMuted = computed(() => this.muted() || this.volume() === 0);
 
   /** Audio URL for separate audio stream */
-  audioUrl = input<string>('');
+  audioUrl = input<string | undefined>(undefined);
 
   continueToPlayWhenSwitchingTab = input<boolean>(false);
 
