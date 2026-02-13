@@ -25,7 +25,7 @@ import {
   },
 })
 export class FixedTopDirective implements OnDestroy {
-  zIndex = input<string>('var(--layer-1)');
+  zIndex = input<string>('var(--layer-2)');
   height = input.required<number>({ alias: 'ayFixedTop' });
   backdropFilterBlurPx = input<number>(16);
   backdropFilterBlurString = computed(
