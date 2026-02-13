@@ -291,13 +291,13 @@ volumes:
 
 This project is designed for learning modern Angular development patterns.
 
-### Official Documentation
+### Documentation
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ngiakhanh96/angular-youtube)
 
 ### Step-by-Step Tutorial
 
-Comprehensive tutorial available at [Code2tutorial](https://code2tutorial.com/tutorial/4400c614-c8a2-4aa8-8078-ea3157683b12/08_http_services_.md)
+Comprehensive tutorial available at [Code2tutorial](https://code2tutorial.com/tutorial/1f5f7573-a893-4fd2-b2a2-50aee3724d01/index.md)
 
 ## 📄 License
 
