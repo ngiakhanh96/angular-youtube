@@ -209,5 +209,26 @@ export default defineConfig([
       '@angular-eslint/template/interactive-supports-focus': 'off',
     },
   },
+  {
+    files: ['**/*.ts'],
+    rules: {
+      '@angular-eslint/directive-selector': [
+        'error',
+        {
+          type: 'attribute',
+          prefix: 'ay',
+          style: 'camelCase',
+        },
+      ],
+      '@angular-eslint/component-selector': [
+        'error',
+        {
+          type: 'element',
+          prefix: 'ay',
+          style: 'kebab-case',
+        },
+      ],
+    },
+  },
   prettierConfig,
 ]);
