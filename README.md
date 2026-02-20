@@ -6,7 +6,7 @@
 [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/ngiakhanh96/angular-youtube/ci.yml?branch=main&style=for-the-badge)](https://github.com/ngiakhanh96/angular-youtube/actions/workflows/ci.yml?query=branch%3Amain)
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg&style=for-the-badge)](https://www.gnu.org/licenses/agpl-3.0)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg?style=for-the-badge)](https://www.gnu.org/licenses/agpl-3.0)
 [![Code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=for-the-badge)](https://github.com/prettier/prettier)
 
 > A modern, feature-rich YouTube clone built with latest Angular
