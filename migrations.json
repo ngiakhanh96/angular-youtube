@@ -1,0 +1,10 @@
+{
+  "nx-console": {
+    "initialGitRef": {
+      "ref": "e7b4d1dd3b3dc8944799f3f59e976091ce2242b9",
+      "subject": "feat: add skills for Nx workspace management"
+    },
+    "targetVersion": "latest",
+    "confirmedPackageUpdates": true
+  }
+}
