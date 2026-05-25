@@ -4,13 +4,17 @@
   "sourceRoot": "modules/search-page/data-access/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": ["scope:search-page-data-access"],
+  "tags": [
+    "scope:search-page-data-access"
+  ],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
-        "reportsDirectory": "../../../coverage/modules/search-page/data-access",
+        "reportsDirectory": "{projectRoot}/../../../coverage/modules/search-page/data-access",
         "passWithNoTests": true
       }
     },

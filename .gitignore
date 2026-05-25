@@ -50,3 +50,6 @@ vitest.config.*.timestamp*
 
 test-results
 docs
+.claude/worktrees
+.nx/polygraph
+.nx/self-healing

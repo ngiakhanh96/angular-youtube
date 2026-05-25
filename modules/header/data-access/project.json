@@ -4,13 +4,17 @@
   "sourceRoot": "modules/header/data-access/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": ["scope:header-data-access"],
+  "tags": [
+    "scope:header-data-access"
+  ],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
-        "reportsDirectory": "../../../coverage/modules/header/data-access",
+        "reportsDirectory": "{projectRoot}/../../../coverage/modules/header/data-access",
         "passWithNoTests": true
       }
     },

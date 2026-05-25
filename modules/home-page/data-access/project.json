@@ -4,13 +4,17 @@
   "sourceRoot": "modules/home-page/data-access/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": ["scope:home-page-data-access"],
+  "tags": [
+    "scope:home-page-data-access"
+  ],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
-        "reportsDirectory": "../../../coverage/modules/home-page/data-access",
+        "reportsDirectory": "{projectRoot}/../../../coverage/modules/home-page/data-access",
         "passWithNoTests": true
       }
     },

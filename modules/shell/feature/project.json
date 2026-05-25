@@ -4,13 +4,17 @@
   "sourceRoot": "modules/shell/feature/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": ["scope:shell-feature"],
+  "tags": [
+    "scope:shell-feature"
+  ],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
-        "reportsDirectory": "../../../coverage/modules/shell/feature",
+        "reportsDirectory": "{projectRoot}/../../../coverage/modules/shell/feature",
         "passWithNoTests": true
       }
     },

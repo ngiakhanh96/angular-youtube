@@ -4,13 +4,17 @@
   "sourceRoot": "modules/shared/ui/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": ["scope:shared-ui"],
+  "tags": [
+    "scope:shared-ui"
+  ],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
-        "reportsDirectory": "../../../coverage/modules/shared/ui",
+        "reportsDirectory": "{projectRoot}/../../../coverage/modules/shared/ui",
         "passWithNoTests": true
       }
     },

@@ -4,13 +4,17 @@
   "sourceRoot": "modules/details-page/ui/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": ["scope:details-page-ui"],
+  "tags": [
+    "scope:details-page-ui"
+  ],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
-        "reportsDirectory": "../../../coverage/modules/details-page/ui",
+        "reportsDirectory": "{projectRoot}/../../../coverage/modules/details-page/ui",
         "passWithNoTests": true
       }
     },

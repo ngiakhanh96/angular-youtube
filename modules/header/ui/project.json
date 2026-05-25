@@ -4,13 +4,17 @@
   "sourceRoot": "modules/header/ui/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": ["scope:header-ui"],
+  "tags": [
+    "scope:header-ui"
+  ],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
-        "reportsDirectory": "../../../coverage/modules/header/ui",
+        "reportsDirectory": "{projectRoot}/../../../coverage/modules/header/ui",
         "passWithNoTests": true
       }
     },

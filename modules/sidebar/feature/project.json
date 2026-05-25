@@ -4,13 +4,17 @@
   "sourceRoot": "modules/sidebar/feature/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": ["scope:sidebar-feature"],
+  "tags": [
+    "scope:sidebar-feature"
+  ],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
-        "reportsDirectory": "../../../coverage/modules/sidebar/feature",
+        "reportsDirectory": "{projectRoot}/../../../coverage/modules/sidebar/feature",
         "passWithNoTests": true
       }
     },

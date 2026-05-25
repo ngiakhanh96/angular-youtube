@@ -4,13 +4,17 @@
   "sourceRoot": "modules/details-page/feature/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": ["scope:details-page-feature"],
+  "tags": [
+    "scope:details-page-feature"
+  ],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
-        "reportsDirectory": "../../../coverage/modules/details-page/feature",
+        "reportsDirectory": "{projectRoot}/../../../coverage/modules/details-page/feature",
         "passWithNoTests": true
       }
     },

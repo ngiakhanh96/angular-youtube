@@ -5,11 +5,15 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "./src",
-  "tags": ["scope:master"],
+  "tags": [
+    "scope:master"
+  ],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": {
           "base": "docs",
@@ -73,7 +77,9 @@
     },
     "build-csr": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": {
           "base": "docs",
@@ -139,14 +145,18 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["./src"]
+        "lintFilePatterns": [
+          "./src"
+        ]
       }
     },
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
-        "reportsDirectory": "coverage/angular-youtube",
+        "reportsDirectory": "{projectRoot}/coverage/angular-youtube",
         "passWithNoTests": true
       }
     },
