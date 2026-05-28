@@ -1,18 +1,13 @@
-
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
-import { ImageDirective } from '../directives/image/image.directive';
-import { RippleOnHoverDirective } from '../directives/ripple-on-hover/ripple-on-hover.directive';
+import { ImageDirective } from '../../directives/image/image.directive';
+import { RippleOnHoverDirective } from '../../directives/ripple-on-hover/ripple-on-hover.directive';
 
 @Component({
   selector: 'ay-img',
   templateUrl: './image.component.html',
   styleUrls: ['./image.component.scss'],
-  imports: [
-    MatRippleModule,
-    RippleOnHoverDirective,
-    ImageDirective
-],
+  imports: [MatRippleModule, RippleOnHoverDirective, ImageDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageComponent {

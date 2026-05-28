@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SectionItemDirective } from '../directives/section-item/section-item.directive';
+import { SectionItemDirective } from '../../directives/section-item/section-item.directive';
 
 @Component({
   selector: 'ay-section-item-content',

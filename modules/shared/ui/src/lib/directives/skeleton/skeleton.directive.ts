@@ -8,8 +8,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
+import { AySkeletonLoaderComponent } from '../../components/skeleton-loader/skeleton-loader.component';
 import { DynamicComponentService } from '../../services/dynamic-component.service';
-import { AySkeletonLoaderComponent } from '../../skeleton-loader/skeleton-loader.component';
 
 @Directive({
   selector: '[aySkeleton]',

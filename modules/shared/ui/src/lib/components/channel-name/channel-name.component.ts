@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { IconDirective } from '../directives/icon/icon.directive';
+import { IconDirective } from '../../directives/icon/icon.directive';
 import { TextRenderComponent } from '../text-renderer/text-renderer.component';
 @Component({
   selector: 'ay-channel-name',

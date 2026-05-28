@@ -7,8 +7,8 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { IconDirective } from '../directives/icon/icon.directive';
-import { RippleOnHoverDirective } from '../directives/ripple-on-hover/ripple-on-hover.directive';
+import { IconDirective } from '../../directives/icon/icon.directive';
+import { RippleOnHoverDirective } from '../../directives/ripple-on-hover/ripple-on-hover.directive';
 
 @Component({
   selector: 'ay-text-icon-button',

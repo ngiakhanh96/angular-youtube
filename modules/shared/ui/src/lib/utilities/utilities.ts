@@ -1,4 +1,4 @@
-import { IVideoPlayerCardInfo } from '../video-player-card/video-player-card.component';
+import { IVideoPlayerCardInfo } from '../components/video-player-card/video-player-card.component';
 
 export class Utilities {
   static secondsInOneMinute = 60;

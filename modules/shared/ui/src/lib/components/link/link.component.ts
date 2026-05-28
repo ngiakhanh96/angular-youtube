@@ -9,8 +9,8 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { ImageDirective } from '../directives/image/image.directive';
-import { ExternalNavigationService } from '../services/external-navigation.service';
+import { ImageDirective } from '../../directives/image/image.directive';
+import { ExternalNavigationService } from '../../services/external-navigation.service';
 
 @Component({
   selector: 'ay-link',

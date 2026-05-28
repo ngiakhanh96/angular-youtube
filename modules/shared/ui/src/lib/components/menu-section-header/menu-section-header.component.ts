@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { IconDirective } from '../directives/icon/icon.directive';
+import { IconDirective } from '../../directives/icon/icon.directive';
 
 @Component({
   selector: 'ay-menu-section-header',

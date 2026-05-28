@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { IconDirective } from '../directives/icon/icon.directive';
-import { SectionItemDirective } from '../directives/section-item/section-item.directive';
+import { IconDirective } from '../../directives/icon/icon.directive';
+import { SectionItemDirective } from '../../directives/section-item/section-item.directive';
 import { MenuSectionHeaderComponent } from '../menu-section-header/menu-section-header.component';
 import { ISection } from '../menu/menu.component';
 import { SectionItemContentComponent } from '../section-item-content/section-item-content.component';

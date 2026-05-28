@@ -9,13 +9,13 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { ImageDirective } from '../directives/image/image.directive';
-import { SkeletonDirective } from '../directives/skeleton/skeleton.directive';
+import { ImageDirective } from '../../directives/image/image.directive';
+import { SkeletonDirective } from '../../directives/skeleton/skeleton.directive';
+import { Utilities } from '../../utilities/utilities';
 import { DropdownButtonComponent } from '../dropdown-button/dropdown-button.component';
 import { ISection } from '../menu/menu.component';
 import { NativeYouTubePlayerComponent } from '../native-youtube-player/native-youtube-player.component';
 import { OverviewVideoInfoComponent } from '../overview-video-info/overview-video-info.component';
-import { Utilities } from '../utilities/utilities';
 
 export interface IVideoPlayerCardInfo {
   isSkeleton: boolean;

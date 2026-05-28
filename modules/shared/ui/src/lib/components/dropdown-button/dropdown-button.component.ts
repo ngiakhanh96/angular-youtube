@@ -6,7 +6,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { OverlayDirective } from '../directives/overlay/overlay.directive';
+import { OverlayDirective } from '../../directives/overlay/overlay.directive';
 import { ISection, MenuComponent } from '../menu/menu.component';
 import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
 

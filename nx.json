@@ -72,5 +72,6 @@
       "style": "scss"
     }
   },
-  "defaultProject": "angular-youtube"
+  "defaultProject": "angular-youtube",
+  "analytics": false
 }

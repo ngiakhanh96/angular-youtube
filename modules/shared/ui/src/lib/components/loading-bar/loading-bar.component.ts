@@ -18,7 +18,7 @@ import {
   Router,
 } from '@angular/router';
 import { distinctUntilChanged, filter } from 'rxjs';
-import { LoadingBarService } from '../services/loading-bar.service';
+import { LoadingBarService } from '../../services/loading-bar.service';
 
 @Component({
   selector: 'ay-loading-bar',

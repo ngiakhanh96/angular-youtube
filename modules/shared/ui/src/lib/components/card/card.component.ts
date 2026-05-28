@@ -14,7 +14,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
-import { DynamicComponentService } from '../services/dynamic-component.service';
+import { DynamicComponentService } from '../../services/dynamic-component.service';
 import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
 
 @Component({

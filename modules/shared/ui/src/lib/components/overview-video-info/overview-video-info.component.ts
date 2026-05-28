@@ -4,11 +4,11 @@ import {
   computed,
   input,
 } from '@angular/core';
+import { ImageDirective } from '../../directives/image/image.directive';
+import { SkeletonDirective } from '../../directives/skeleton/skeleton.directive';
+import { Utilities } from '../../utilities/utilities';
 import { ChannelNameComponent } from '../channel-name/channel-name.component';
-import { ImageDirective } from '../directives/image/image.directive';
-import { SkeletonDirective } from '../directives/skeleton/skeleton.directive';
 import { TextRenderComponent } from '../text-renderer/text-renderer.component';
-import { Utilities } from '../utilities/utilities';
 
 @Component({
   selector: 'ay-overview-video-info',
@@ -41,7 +41,7 @@ export class OverviewVideoInfoComponent {
   viewCountString = computed(() =>
     this.viewCount() != null
       ? Utilities.numberToString(this.viewCount()!, 'view', 'No')
-      : undefined
+      : undefined,
   );
   publishedDate = input<Date | undefined>(undefined);
   isVerified = input(false);
@@ -54,7 +54,7 @@ export class OverviewVideoInfoComponent {
   publishedDateString = computed(() =>
     this.publishedDate() != null
       ? Utilities.publishedDateToString(this.publishedDate()!)
-      : undefined
+      : undefined,
   );
   channelInfoHeight = input('24px');
 }

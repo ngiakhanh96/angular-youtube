@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SidebarService } from '../services/sidebar.service';
+import { SidebarService } from '../../services/sidebar.service';
 import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
 
 @Component({
