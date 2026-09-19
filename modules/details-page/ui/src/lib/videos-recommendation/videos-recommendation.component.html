@@ -26,17 +26,19 @@
       </div>
     </ng-template>
     @for (video of displayedVideos(); track video.videoId) {
-      @defer (prefetch on idle) {
+      @defer (on viewport; prefetch on idle) {
         <ng-container
           *ngTemplateOutlet="videoCard; context: { video: video }"
         ></ng-container>
       } @placeholder (minimum 500ms) {
-        <ng-container
-          *ngTemplateOutlet="
-            videoCard;
-            context: { video: Utilities.convertToPlayerSkeletonItem(video) }
-          "
-        ></ng-container>
+        <div>
+          <ng-container
+            *ngTemplateOutlet="
+              videoCard;
+              context: { video: Utilities.convertToPlayerSkeletonItem(video) }
+            "
+          ></ng-container>
+        </div>
       }
     }
   </div>

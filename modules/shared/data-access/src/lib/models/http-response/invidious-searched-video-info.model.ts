@@ -1,7 +1,4 @@
-import {
-  IAuthorThumbnail,
-  IVideoThumbnail,
-} from './invidious-video-info.model';
+import { IVideoThumbnail } from './invidious-video-info.model';
 
 export interface IInvidiousSearchedVideoInfo {
   type: 'video' | 'scheduled' | 'livestream';
@@ -11,7 +8,7 @@ export interface IInvidiousSearchedVideoInfo {
   authorId: string;
   authorUrl: string;
   authorVerified: boolean;
-  authorThumbnails: IAuthorThumbnail[];
+  authorThumbnail: string;
   videoThumbnails: IVideoThumbnail[];
   description: string;
   descriptionHtml: string;

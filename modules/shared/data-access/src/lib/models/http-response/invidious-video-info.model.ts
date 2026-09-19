@@ -22,7 +22,7 @@ export interface IInvidiousVideoInfo {
   authorId: string;
   authorUrl: string;
   authorVerified: boolean;
-  authorThumbnails: IAuthorThumbnail[];
+  authorThumbnail: string;
   subCountText: string;
   lengthSeconds: number;
   allowRatings: boolean;
@@ -55,12 +55,6 @@ export interface IStoryboard {
   storyboardWidth: number;
   storyboardHeight: number;
   storyboardCount: number;
-}
-
-export interface IAuthorThumbnail {
-  url: string;
-  width: number;
-  height: number;
 }
 
 export interface IFormatStream {

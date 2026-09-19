@@ -165,7 +165,7 @@ export class VideoDetailsComponent
       return {
         id: videoInfo.videoId,
         title: videoInfo.title,
-        authorLogoUrl: videoInfo.authorThumbnails[1]?.url ?? '',
+        authorLogoUrl: videoInfo.authorThumbnail ?? '',
         author: videoInfo.author,
         subscriberCountText: this.convertToSubscriberCountText(
           videoInfo.subCountText,

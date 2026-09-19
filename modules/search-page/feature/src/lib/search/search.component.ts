@@ -62,7 +62,7 @@ export class SearchComponent
           publishedDate: Utilities.epochToDate(p.published),
           //TODO dont understand why youtube keep duration in seconds - 1 when playing the video in details page but keep it in seconds when showing in search section
           lengthSeconds: p.lengthSeconds,
-          channelLogoUrl: p.authorThumbnails[0]?.url ?? '',
+          channelLogoUrl: p.authorThumbnail ?? '',
           videoUrl: p.formatStreams[0]?.url ?? '',
           isVerified: p.authorVerified ?? false,
         })) ?? []
@@ -74,7 +74,7 @@ export class SearchComponent
     searchPageEventGroup.searchYoutubeVideos({
       searchTerm: this.searchQuery() ?? '',
       page: this.page(),
-    })
+    }),
   );
   private titleService = inject(Title);
   private sidebarService = inject(SidebarService);
@@ -90,7 +90,7 @@ export class SearchComponent
     this.dispatchEventFromSignal(this.searchYoutubeVideosInfo);
     effect(() => {
       this.titleService.setTitle(
-        `${this.searchQuery() ?? ''} - Angular Youtube`
+        `${this.searchQuery() ?? ''} - Angular Youtube`,
       );
     });
     effect(() => {

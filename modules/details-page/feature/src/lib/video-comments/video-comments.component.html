@@ -77,10 +77,12 @@
       commentViewModel of commentViewModels();
       track commentViewModel.comment.commentId
     ) {
-      @defer (prefetch on idle) {
+      @defer (on viewport; prefetch on idle) {
         <ay-video-comment
           [commentViewModel]="commentViewModel"
         ></ay-video-comment>
+      } @placeholder {
+        <div class="video-comment-placeholder" aria-hidden="true"></div>
       }
     }
   </div>

@@ -48,6 +48,10 @@ export class VideoCommentComponent implements OnDestroy {
   avatarWidthHeight = input<number>(40);
   commentViewModel = input.required<IVideoCommentViewModel>();
   comment = computed(() => this.commentViewModel().comment);
+  authorThumbnailUrl = computed(
+    () =>
+      this.comment().authorThumbnail ?? 'https://yt3.ggpht.com/a/default-user',
+  );
   sanitizer = inject(DomSanitizer);
   sanitizedCommentHtml = computed(() =>
     this.sanitizer.bypassSecurityTrustHtml(this.comment().contentHtml),

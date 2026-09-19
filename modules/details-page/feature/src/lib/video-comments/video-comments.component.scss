@@ -43,5 +43,9 @@
 
   .video-comments-list {
     @apply flex flex-col gap-[16px];
+
+    .video-comment-placeholder {
+      @apply min-h-[84px];
+    }
   }
 }

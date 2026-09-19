@@ -1,5 +1,3 @@
-import { IAuthorThumbnail } from './invidious-video-info.model';
-
 export interface IInvidiousVideoCommentsInfo {
   commentCount: number;
   videoId: string;
@@ -10,7 +8,7 @@ export interface IInvidiousVideoCommentsInfo {
 export interface IVideoComment {
   commentId: string;
   author: string;
-  authorThumbnails: IAuthorThumbnail[];
+  authorThumbnail: string;
   authorUrl: string;
   authorId: string;
   verified: boolean;
