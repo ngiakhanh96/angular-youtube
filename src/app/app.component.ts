@@ -2,7 +2,7 @@ import {
   LoadingBarComponent,
   SpinnerComponent,
 } from '@angular-youtube/shared-ui';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -10,7 +10,6 @@ import { RouterModule } from '@angular/router';
   selector: 'ay-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '(dragover)': 'onDragOver($event)',
     '(dragenter)': 'onDragEnter($event)',

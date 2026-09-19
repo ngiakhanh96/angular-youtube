@@ -3,12 +3,7 @@ import {
   LogoMenuComponent,
   MenuComponent,
 } from '@angular-youtube/shared-ui';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  signal,
-} from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { BaseSidebarComponent } from '../base-sidebar.component';
@@ -18,7 +13,6 @@ import { BaseSidebarComponent } from '../base-sidebar.component';
   imports: [LogoMenuComponent, MatListModule, MatIconModule, MenuComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent extends BaseSidebarComponent {
   isLoggedIn = computed(() => this.sandbox.sharedStore.myChannelInfo() != null);
@@ -127,7 +121,7 @@ export class SidebarComponent extends BaseSidebarComponent {
     },
   ]);
 
-  //TODO handle filled icon on selected item
+  // TODO handle filled icon on selected item
   loggedInMenuItems = signal<ISection[]>([
     {
       sectionItems: [

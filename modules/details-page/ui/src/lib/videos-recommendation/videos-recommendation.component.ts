@@ -8,7 +8,6 @@ import {
 } from '@angular-youtube/shared-ui';
 import { NgTemplateOutlet } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -24,7 +23,6 @@ import {
     VideoPlayerCardComponent,
     NgTemplateOutlet,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideosRecommendationInfoComponent {
   videoCategories = input.required<IVideoCategory[]>();

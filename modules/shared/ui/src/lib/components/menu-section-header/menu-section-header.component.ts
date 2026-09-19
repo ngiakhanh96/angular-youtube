@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { IconDirective } from '../../directives/icon/icon.directive';
 
@@ -7,7 +7,6 @@ import { IconDirective } from '../../directives/icon/icon.directive';
   imports: [MatIconModule, IconDirective],
   templateUrl: './menu-section-header.component.html',
   styleUrl: './menu-section-header.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuSectionHeaderComponent {
   displayText = input.required<string>();

@@ -1,6 +1,5 @@
 import { RouteData } from '@angular-youtube/shared-data-access';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -24,7 +23,6 @@ import { LoadingBarService } from '../../services/loading-bar.service';
   selector: 'ay-loading-bar',
   templateUrl: './loading-bar.component.html',
   styleUrls: ['./loading-bar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoadingBarComponent implements OnInit {
   detectRouteTransitions = input(true);

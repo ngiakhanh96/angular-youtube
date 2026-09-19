@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -17,7 +16,6 @@ export interface CombinedTextIcon {
   templateUrl: './combined-text-icon-button.component.html',
   styleUrls: ['./combined-text-icon-button.component.scss'],
   imports: [TextIconButtonComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CombinedTextIconButtonComponent {
   combinedTextIcons = input.required<CombinedTextIcon[]>();

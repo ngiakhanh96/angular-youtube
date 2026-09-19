@@ -1,6 +1,5 @@
 import { IMyChannelInfo } from '@angular-youtube/shared-data-access';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -12,7 +11,6 @@ import { AccountAvatarComponent } from '../account-avatar/account-avatar.compone
     imports: [AccountAvatarComponent],
     templateUrl: './account-quick-info.component.html',
     styleUrl: './account-quick-info.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountQuickInfoComponent {
   public user = input.required<IMyChannelInfo | undefined>();

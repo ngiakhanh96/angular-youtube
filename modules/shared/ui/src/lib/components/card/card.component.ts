@@ -1,6 +1,5 @@
 import {
   afterRenderEffect,
-  ChangeDetectionStrategy,
   Component,
   ComponentRef,
   computed,
@@ -21,7 +20,6 @@ import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.co
   selector: 'ay-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatRippleModule, TextIconButtonComponent],
   host: {
     '[style.--background-color]': 'clickedBackgroundColor()',

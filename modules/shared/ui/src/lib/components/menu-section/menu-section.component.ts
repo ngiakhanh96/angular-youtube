@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -30,7 +29,6 @@ export interface ISectionItem {
     SectionItemContentComponent,
     MenuSectionHeaderComponent,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.--margin-right]': 'marginRight()',
     '[style.--margin-left]': 'marginLeft()',

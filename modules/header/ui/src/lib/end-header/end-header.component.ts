@@ -8,7 +8,6 @@ import {
 } from '@angular-youtube/shared-ui';
 import { OverlayModule } from '@angular/cdk/overlay';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -32,7 +31,6 @@ import { LoginButtonComponent } from '../login-button/login-button.component';
     TextIconButtonComponent,
     AccountAvatarComponent,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EndHeaderComponent {
   public user = input.required<IMyChannelInfo | undefined>();

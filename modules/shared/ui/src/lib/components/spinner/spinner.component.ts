@@ -1,6 +1,5 @@
 import { SpinnerService } from '@angular-youtube/shared-data-access';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -21,7 +20,6 @@ import { filter, tap } from 'rxjs';
   templateUrl: './spinner.component.html',
   styleUrls: ['./spinner.component.scss'],
   imports: [MatProgressSpinnerModule, RouterModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.opacity]': 'opacity()',
     '[style.zIndex]': 'zIndex()',

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { ImageDirective } from '../../directives/image/image.directive';
 import { RippleOnHoverDirective } from '../../directives/ripple-on-hover/ripple-on-hover.directive';
@@ -8,7 +8,6 @@ import { RippleOnHoverDirective } from '../../directives/ripple-on-hover/ripple-
   templateUrl: './image.component.html',
   styleUrls: ['./image.component.scss'],
   imports: [MatRippleModule, RippleOnHoverDirective, ImageDirective],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageComponent {
   public rippleColor = input('rgb(0, 0, 0, 0.2)');

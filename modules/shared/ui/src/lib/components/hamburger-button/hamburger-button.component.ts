@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SidebarService } from '../../services/sidebar.service';
 import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
 
@@ -7,7 +7,6 @@ import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.co
   templateUrl: './hamburger-button.component.html',
   styleUrls: ['./hamburger-button.component.scss'],
   imports: [TextIconButtonComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HamburgerButtonComponent {
   sidebarService = inject(SidebarService);

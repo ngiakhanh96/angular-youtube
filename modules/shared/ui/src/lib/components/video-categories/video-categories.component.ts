@@ -2,7 +2,6 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   afterEveryRender,
   afterNextRender,
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
@@ -25,7 +24,6 @@ export interface IVideoCategory {
   imports: [MatChipsModule, TextIconButtonComponent, NgTemplateOutlet],
   templateUrl: './video-categories.component.html',
   styleUrls: ['./video-categories.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoCategoriesComponent implements OnDestroy {
   videoCategories = input.required<IVideoCategory[]>();

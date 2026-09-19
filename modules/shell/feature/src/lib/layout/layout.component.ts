@@ -11,7 +11,6 @@ import {
 } from '@angular-youtube/sidebar-feature';
 import { MediaMatcher } from '@angular/cdk/layout';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -39,7 +38,6 @@ import { RouterOutlet } from '@angular/router';
     '[style.--sidebar-mini-width]': 'sidebarMiniWidth()',
     '[style.--sidebar-width]': 'sidebarWidth()',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent
   extends BaseWithSandBoxComponent
@@ -84,7 +82,7 @@ export class LayoutComponent
 
   refreshTokenEffect = effect(() => {
     const accessTokenInfo = this.sandbox.sharedStore.accessTokenInfo();
-    //TODO find a way to get refresh token to get new access token silently
+    // TODO find a way to get refresh token to get new access token silently
     if (accessTokenInfo) {
       const milisecondsDiff =
         accessTokenInfo.expired_datetime.getTime() - new Date().getTime();

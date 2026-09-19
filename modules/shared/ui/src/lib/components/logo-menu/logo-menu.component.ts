@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HamburgerButtonComponent } from '../hamburger-button/hamburger-button.component';
 import { LogoRendererComponent } from '../logo-renderer/logo-renderer.component';
@@ -8,7 +8,6 @@ import { LogoRendererComponent } from '../logo-renderer/logo-renderer.component'
   templateUrl: './logo-menu.component.html',
   styleUrls: ['./logo-menu.component.scss'],
   imports: [HamburgerButtonComponent, LogoRendererComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LogoMenuComponent {
   private router = inject(Router);

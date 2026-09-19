@@ -1,7 +1,7 @@
 import { afterEveryRender, Directive, inject, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 
-//TODO convert all icon to use mat-icon
+// TODO convert all icon to use mat-icon
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'mat-icon',

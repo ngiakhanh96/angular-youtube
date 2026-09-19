@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -24,7 +23,6 @@ import {
   selector: 'ay-skeleton-loader',
   templateUrl: './skeleton-loader.component.html',
   styleUrls: ['./skeleton-loader.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AySkeletonLoaderComponent {
   /**

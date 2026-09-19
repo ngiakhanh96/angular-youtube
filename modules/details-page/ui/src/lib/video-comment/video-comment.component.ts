@@ -9,7 +9,6 @@ import {
 } from '@angular-youtube/shared-ui';
 import {
   afterNextRender,
-  ChangeDetectionStrategy,
   Component,
   ComponentRef,
   computed,
@@ -42,15 +41,13 @@ export interface IVideoCommentViewModel {
   templateUrl: './video-comment.component.html',
   styleUrls: ['./video-comment.component.scss'],
   imports: [ImageDirective, TextIconButtonComponent, ChannelNameComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoCommentComponent implements OnDestroy {
   avatarWidthHeight = input<number>(40);
   commentViewModel = input.required<IVideoCommentViewModel>();
   comment = computed(() => this.commentViewModel().comment);
   authorThumbnailUrl = computed(
-    () =>
-      this.comment().authorThumbnail ?? Utilities.defaultUserAvatarUrl,
+    () => this.comment().authorThumbnail ?? Utilities.defaultUserAvatarUrl,
   );
   sanitizer = inject(DomSanitizer);
   sanitizedCommentHtml = computed(() =>
@@ -89,13 +86,10 @@ export class VideoCommentComponent implements OnDestroy {
                   ];
                   this.cachedContinuation = nestedComments?.continuation;
                 }),
-                map(
-                  (nestedComments) =>
-                    <IVideoCommentViewModelsWithContinuation>{
-                      comments: nestedComments.comments ?? [],
-                      continuation: nestedComments.continuation,
-                    },
-                ),
+                map((nestedComments) => ({
+                  comments: nestedComments.comments ?? [],
+                  continuation: nestedComments.continuation,
+                })),
               );
           } else {
             return of(<IVideoCommentViewModelsWithContinuation>{
@@ -109,13 +103,10 @@ export class VideoCommentComponent implements OnDestroy {
               this.cachedNestedComments = nestedComments?.comments;
               this.cachedContinuation = nestedComments?.continuation;
             }),
-            map(
-              (nestedComments) =>
-                <IVideoCommentViewModelsWithContinuation>{
-                  comments: nestedComments.comments ?? [],
-                  continuation: nestedComments.continuation,
-                },
-            ),
+            map((nestedComments) => ({
+              comments: nestedComments.comments ?? [],
+              continuation: nestedComments.continuation,
+            })),
           );
         }
       }

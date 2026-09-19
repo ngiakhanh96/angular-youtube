@@ -1,6 +1,5 @@
 import { AppSettingsService } from '@angular-youtube/shared-data-access';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   DOCUMENT,
@@ -16,7 +15,6 @@ import { ExternalNavigationService } from '../../services/external-navigation.se
   selector: 'ay-link',
   templateUrl: './link.component.html',
   styleUrls: ['./link.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ImageDirective],
   host: {
     '[style.--color]': 'color()',

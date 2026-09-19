@@ -14,7 +14,6 @@ import {
   Utilities,
 } from '@angular-youtube/shared-ui';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -31,7 +30,6 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
   imports: [VideosSearchComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent
   extends BaseWithSandBoxComponent
@@ -60,7 +58,7 @@ export class SearchComponent
           channelName: p.author ?? '',
           viewCount: +(p.viewCount ?? 0),
           publishedDate: Utilities.epochToDate(p.published),
-          //TODO dont understand why youtube keep duration in seconds - 1 when playing the video in details page but keep it in seconds when showing in search section
+          // TODO dont understand why youtube keep duration in seconds - 1 when playing the video in details page but keep it in seconds when showing in search section
           lengthSeconds: p.lengthSeconds,
           channelLogoUrl:
             p.authorThumbnails[0]?.url ?? Utilities.defaultUserAvatarUrl,

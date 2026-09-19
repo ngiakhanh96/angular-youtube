@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -28,7 +27,6 @@ import { TextRenderComponent } from '../text-renderer/text-renderer.component';
     '[style.--channel-margin-top]': 'channelMarginTop()',
     '[style.--channel-info-height]': 'channelInfoHeight()',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverviewVideoInfoComponent {
   isSkeleton = input(false);

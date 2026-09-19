@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -20,7 +19,6 @@ export type PlaceholderImageQuality = 'high' | 'standard' | 'low';
     '[style.borderRadius]': 'borderRadius()',
     '[style.boxShadow]': 'boxShadow()',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class YouTubePlayerPlaceholderComponent {
   showPlayButton = input(true);

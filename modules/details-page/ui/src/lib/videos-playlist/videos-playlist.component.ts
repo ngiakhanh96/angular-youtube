@@ -8,7 +8,6 @@ import {
 import { NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   input,
@@ -33,7 +32,6 @@ export interface IVideoPlaylistInfo {
     TextIconButtonComponent,
     DropdownButtonComponent,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideosPlaylistComponent {
   playlistItemsInfo = input.required<IVideoPlayerCardInfo[]>();

@@ -9,7 +9,6 @@ import {
 import { BaseWithSandBoxComponent } from '@angular-youtube/shared-data-access';
 import { LogoMenuComponent } from '@angular-youtube/shared-ui';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -20,7 +19,6 @@ import {
   templateUrl: './master-header.component.html',
   styleUrls: ['./master-header.component.scss'],
   imports: [LogoMenuComponent, CenterHeaderComponent, EndHeaderComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MasterHeaderComponent extends BaseWithSandBoxComponent {
   headerStore = inject(HeaderStore);

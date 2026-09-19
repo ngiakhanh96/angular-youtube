@@ -25,7 +25,6 @@ import {
 } from '@angular-youtube/shared-ui';
 import {
   afterRenderEffect,
-  ChangeDetectionStrategy,
   Component,
   computed,
   DOCUMENT,
@@ -55,7 +54,6 @@ import {
     VideosRecommendationInfoComponent,
     VideosPlaylistComponent,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.--details-page-container-margin-top]': 'marginTop()',
     '[style.--video-recommendations-margin-top]':
@@ -63,7 +61,7 @@ import {
     '(document:keydown)': 'onKeydown($event, true)',
   },
 })
-//TODO handle responsive design when the screen is <= 1016px
+// TODO handle responsive design when the screen is <= 1016px
 export class VideoDetailsComponent
   extends BaseWithSandBoxComponent
   implements OnInit, ICustomRouteReuseComponent
@@ -181,7 +179,7 @@ export class VideoDetailsComponent
     return undefined;
   });
   currentTime = signal(0);
-  //TODO call api to get channel info/video url same as browse component
+  // TODO call api to get channel info/video url same as browse component
   recommendedVideos = computed<IVideoPlayerCardInfo[]>(() => {
     const videosInfo = this.detailsPageStore.recommendedVideosInfo();
     return videosInfo
@@ -193,7 +191,7 @@ export class VideoDetailsComponent
         channelName: p.author ?? '',
         viewCount: +(p.viewCount ?? 0),
         publishedDate: Utilities.epochToDate(p.published),
-        //TODO dont understand why youtube keep duration in seconds - 1 when playing the video in details page but keep it in seconds when showing in recommendation section
+        // TODO dont understand why youtube keep duration in seconds - 1 when playing the video in details page but keep it in seconds when showing in recommendation section
         lengthSeconds: p.lengthSeconds,
         channelLogoUrl: undefined,
         videoUrl: p.formatStreams[0]?.url ?? '',
@@ -206,7 +204,7 @@ export class VideoDetailsComponent
   marginTop = computed(() =>
     this.viewMode() === ViewMode.Theater ? '0px' : '24px',
   );
-  //TODO Need to find an api to get this
+  // TODO Need to find an api to get this
   videoCategories = signal<IVideoCategory[]>([
     {
       id: 'all',
@@ -290,22 +288,19 @@ export class VideoDetailsComponent
   playlistItemsInfo = computed<IVideoPlayerCardInfo[]>(() => {
     const videosPlaylistInfo =
       this.detailsPageStore.playlist().itemsInfo?.items ?? [];
-    return videosPlaylistInfo.map(
-      (p) =>
-        <IVideoPlayerCardInfo>{
-          isSkeleton: false,
-          videoId: p.contentDetails.videoId ?? '',
-          title: p.snippet.title ?? '',
-          channelName: p.snippet.videoOwnerChannelTitle ?? '',
-          viewCount: undefined,
-          publishedDate: undefined,
-          lengthSeconds: undefined,
-          channelLogoUrl: undefined,
-          videoUrl: '',
-          isVerified: false,
-          hideThumbnailSettingsButton: false,
-        },
-    );
+    return videosPlaylistInfo.map((p) => ({
+      isSkeleton: false,
+      videoId: p.contentDetails.videoId ?? '',
+      title: p.snippet.title ?? '',
+      channelName: p.snippet.videoOwnerChannelTitle ?? '',
+      viewCount: undefined,
+      publishedDate: undefined,
+      lengthSeconds: undefined,
+      channelLogoUrl: undefined,
+      videoUrl: '',
+      isVerified: false,
+      hideThumbnailSettingsButton: false,
+    }));
   });
   playlistItemVideoIdToIndexMapping = computed(() =>
     this.playlistItemsInfo().reduce((acc, video, index) => {

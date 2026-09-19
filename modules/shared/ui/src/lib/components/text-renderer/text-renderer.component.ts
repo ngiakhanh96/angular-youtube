@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -9,7 +8,6 @@ import {
   selector: 'ay-text-renderer',
   templateUrl: './text-renderer.component.html',
   styleUrls: ['./text-renderer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.--font-weight]': 'fontWeight()',
     '[style.--line-clamp]': 'lineClamp()',

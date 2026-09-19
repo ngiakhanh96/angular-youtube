@@ -9,7 +9,6 @@ import { OverlayModule } from '@angular/cdk/overlay';
 
 import {
   afterNextRender,
-  ChangeDetectionStrategy,
   Component,
   computed,
   DestroyRef,
@@ -45,7 +44,6 @@ import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs';
     MenuComponent,
     TextIconButtonComponent,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.--search-icon-legacy-bg-color]':
       'searchIconLegacyBackgroundColor()',

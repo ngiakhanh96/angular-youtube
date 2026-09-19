@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   input,
   model,
@@ -19,7 +18,6 @@ export interface ISection {
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
   imports: [MenuSectionComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent {
   items = input.required<ISection[]>();

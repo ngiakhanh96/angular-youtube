@@ -1,6 +1,5 @@
 import { Auth } from '@angular-youtube/shared-data-access';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -59,7 +58,6 @@ export enum PlayerPosition {
       'horizontalThumbnailPlayerContainerMarginRight()',
     '(click)': 'onClick($event)',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoPlayerCardComponent {
   videoPlayerCardInfo = input<IVideoPlayerCardInfo>({

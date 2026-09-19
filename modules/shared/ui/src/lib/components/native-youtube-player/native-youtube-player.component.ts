@@ -1,6 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   DOCUMENT,
   ElementRef,
@@ -34,8 +33,8 @@ export enum ScreenMode {
   Full,
 }
 
-//TODO explore to support youtube DASH streaming URL (dashUrl) with Dash.js
-//TODO fix duplicate view-transition-name when navigating to details page
+// TODO explore to support youtube DASH streaming URL (dashUrl) with Dash.js
+// TODO fix duplicate view-transition-name when navigating to details page
 @Component({
   selector: 'ay-native-youtube-player',
   imports: [
@@ -59,7 +58,6 @@ export enum ScreenMode {
     '(document:mouseup)': 'onMouseUp()',
     '(document:mousemove)': 'onDocumentMouseMove($event)',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NativeYouTubePlayerComponent implements OnDestroy {
   /** YouTube Video ID to view */

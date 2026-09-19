@@ -19,7 +19,6 @@ import {
   Utilities,
 } from '@angular-youtube/shared-ui';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -46,7 +45,6 @@ export enum CommentSortOption {
     VideoCommentComponent,
     ImageDirective,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoCommentsComponent extends BaseWithSandBoxComponent {
   detailsPageStore = inject(DetailsPageStore);
@@ -93,7 +91,7 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
     const totalComments = this.commentsInfo()?.commentCount ?? 0;
     return `${Utilities.numberToStringWithCommas(totalComments)} Comment${totalComments > 1 ? 's' : ''}`;
   });
-  //TODO implement comment posting and sorting feature
+  // TODO implement comment posting and sorting feature
   commentInput = new FormControl('');
   isCommentFocused = signal(false);
   isSortOpen = signal(false);

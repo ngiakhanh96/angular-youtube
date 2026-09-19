@@ -23,7 +23,6 @@ import {
 import { NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
-  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -48,7 +47,6 @@ import { Router } from '@angular/router';
   ],
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '(window:resize)': 'resize()',
   },

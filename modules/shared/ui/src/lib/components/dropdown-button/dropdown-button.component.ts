@@ -1,6 +1,5 @@
 import { OverlayModule } from '@angular/cdk/overlay';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -22,7 +21,6 @@ export type DropdownMode = 'horizontal' | 'vertical';
     OverlayDirective,
     TextIconButtonComponent,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.--background-color]': 'backgroundColor()',
   },

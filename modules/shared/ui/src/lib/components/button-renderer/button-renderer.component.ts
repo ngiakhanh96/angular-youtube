@@ -1,6 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   Directive,
   TemplateRef,
@@ -24,7 +23,6 @@ export class ButtonIconTemplateDirective {
   templateUrl: './button-renderer.component.html',
   styleUrls: ['./button-renderer.component.scss'],
   imports: [NgTemplateOutlet],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonRendererComponent {
   public buttonTextTmp = contentChild(ButtonTextTemplateDirective, {

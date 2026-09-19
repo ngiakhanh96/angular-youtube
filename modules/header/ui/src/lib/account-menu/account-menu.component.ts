@@ -1,7 +1,6 @@
 import { IMyChannelInfo } from '@angular-youtube/shared-data-access';
 import { ISection, MenuComponent } from '@angular-youtube/shared-ui';
 import {
-  ChangeDetectionStrategy,
   Component,
   input,
   signal,
@@ -20,7 +19,6 @@ import { AccountQuickInfoComponent } from '../account-quick-info/account-quick-i
   ],
   templateUrl: './account-menu.component.html',
   styleUrl: './account-menu.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountMenuComponent {
   public user = input.required<IMyChannelInfo | undefined>();

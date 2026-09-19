@@ -17,7 +17,6 @@ import {
   Utilities,
 } from '@angular-youtube/shared-ui';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -54,7 +53,6 @@ export interface IVideoDetailsInfo {
     InfiniteScrollDirective,
     ImageDirective,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoDetailsInfoComponent extends BaseWithSandBoxComponent {
   videoInfo = input.required<IVideoDetailsInfo | undefined>();

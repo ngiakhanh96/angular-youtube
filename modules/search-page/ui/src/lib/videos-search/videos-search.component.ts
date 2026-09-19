@@ -11,7 +11,6 @@ import {
 } from '@angular-youtube/shared-ui';
 import { NgTemplateOutlet } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -32,7 +31,6 @@ import { Router } from '@angular/router';
     FixedTopDirective,
     NgTemplateOutlet,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.--max-width]': 'maxWidth()',
   },

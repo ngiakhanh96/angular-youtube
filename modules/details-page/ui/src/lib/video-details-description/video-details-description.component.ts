@@ -1,6 +1,5 @@
 import { CardComponent, Utilities } from '@angular-youtube/shared-ui';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -19,7 +18,6 @@ export enum DisplayMode {
   templateUrl: './video-details-description.component.html',
   styleUrls: ['./video-details-description.component.scss'],
   imports: [CardComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoDetailsDescriptionComponent {
   currentVideoId = input.required<string>();

@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -21,7 +20,6 @@ import { RippleOnHoverDirective } from '../../directives/ripple-on-hover/ripple-
     MatRippleModule,
     RippleOnHoverDirective,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.width]': 'widthHeight()',
     '[style.height]': 'widthHeight()',

@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -14,7 +13,6 @@ import { SectionItemDirective } from '../../directives/section-item/section-item
   imports: [MatListModule],
   templateUrl: './section-item-content.component.html',
   styleUrl: './section-item-content.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionItemContentComponent {
   displayHtml = input.required<string>();
