@@ -4,7 +4,8 @@
     "outDir": "../../../dist/out-tsc",
     "declaration": true,
     "declarationMap": true,
-    "types": []
+    "types": [],
+    "rootDir": "../.."
   },
   "exclude": ["src/**/*.spec.ts", "src/test-setup.ts", "src/**/*.test.ts"],
   "include": ["src/**/*.ts"]
