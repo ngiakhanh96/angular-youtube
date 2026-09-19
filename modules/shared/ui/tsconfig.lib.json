@@ -5,7 +5,7 @@
     "declaration": true,
     "declarationMap": true,
     "types": [],
-    "rootDir": ".."
+    "rootDir": "../../.."
   },
   "exclude": ["src/**/*.spec.ts", "src/test-setup.ts", "src/**/*.test.ts"],
   "include": ["src/**/*.ts"]
