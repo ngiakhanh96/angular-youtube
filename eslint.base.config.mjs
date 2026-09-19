@@ -6,6 +6,24 @@ import tsEslint from 'typescript-eslint';
 import nx from '@nx/eslint-plugin';
 import { defineConfig } from 'eslint/config';
 
+const ngrxSignalsConfigs = ngrxEslintPlugin.configs.signals.map((config) => {
+  const languageOptions = config.languageOptions;
+  if (!languageOptions?.parserOptions?.project) {
+    return config;
+  }
+
+  const parserOptions = { ...languageOptions.parserOptions };
+  delete parserOptions.project;
+
+  return {
+    ...config,
+    languageOptions: {
+      ...languageOptions,
+      parserOptions,
+    },
+  };
+});
+
 export default defineConfig([
   ...nxEslintPlugin.configs['flat/base'],
   ...nxEslintPlugin.configs['flat/typescript'],
@@ -161,7 +179,7 @@ export default defineConfig([
   },
   {
     files: ['**/*.ts'],
-    extends: [...ngrxEslintPlugin.configs.signals],
+    extends: [...ngrxSignalsConfigs],
     rules: {},
   },
   ...tsEslint.configs.recommendedTypeChecked.map((config) => ({

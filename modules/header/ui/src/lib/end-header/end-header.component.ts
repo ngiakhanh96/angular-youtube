@@ -4,6 +4,7 @@ import {
   ISection,
   OverlayDirective,
   TextIconButtonComponent,
+  Utilities,
 } from '@angular-youtube/shared-ui';
 import { OverlayModule } from '@angular/cdk/overlay';
 import {
@@ -38,7 +39,7 @@ export class EndHeaderComponent {
   public userThumbnail = computed(
     () =>
       this.user()?.items[0].snippet.thumbnails.default.url ??
-      'https://yt3.ggpht.com/a/default-user',
+      Utilities.defaultUserAvatarUrl,
   );
   auth = inject(Auth);
   public isLoggedIn = computed(() => this.auth.isLoggedIn());

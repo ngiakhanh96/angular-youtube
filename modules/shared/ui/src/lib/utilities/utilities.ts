@@ -1,6 +1,8 @@
 import { IVideoPlayerCardInfo } from '../components/video-player-card/video-player-card.component';
 
 export class Utilities {
+  static readonly defaultUserAvatarUrl =
+    'https://yt3.ggpht.com/a/default-user';
   static secondsInOneMinute = 60;
   static secondsInOneHour = Utilities.secondsInOneMinute * 60;
   static secondsInOneDay = Utilities.secondsInOneHour * 24;

@@ -71,6 +71,12 @@ export class VideoDetailsInfoComponent extends BaseWithSandBoxComponent {
     const videoInfo = this.videoInfo();
     return Utilities.numberToString(videoInfo?.dislikeCount ?? 0);
   });
+  authorLogoUrl = computed(() =>
+    this.videoInfo()?.authorLogoUrl === '' ||
+    this.videoInfo()?.authorLogoUrl == null
+      ? Utilities.defaultUserAvatarUrl
+      : (this.videoInfo()?.authorLogoUrl ?? ''),
+  );
 
   moreItems = signal<ISection[]>([
     {

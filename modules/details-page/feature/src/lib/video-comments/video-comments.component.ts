@@ -107,7 +107,7 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
   userThumbnail = computed(
     () =>
       this.user()?.items[0].snippet.thumbnails.default.url ??
-      'https://yt3.ggpht.com/a/default-user',
+      Utilities.defaultUserAvatarUrl,
   );
 
   getRepliesCount(comment: IVideoComment) {

@@ -22,7 +22,7 @@ export interface IInvidiousVideoInfo {
   authorId: string;
   authorUrl: string;
   authorVerified: boolean;
-  authorThumbnail: string;
+  authorThumbnails: IAuthorThumbnail[];
   subCountText: string;
   lengthSeconds: number;
   allowRatings: boolean;
@@ -116,4 +116,10 @@ export interface IColorInfo {
   primaries: string;
   transferCharacteristics: string;
   matrixCoefficients: string;
+}
+
+export interface IAuthorThumbnail {
+  url: string;
+  width: number;
+  height: number;
 }

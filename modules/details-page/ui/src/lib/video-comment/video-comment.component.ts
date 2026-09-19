@@ -50,7 +50,7 @@ export class VideoCommentComponent implements OnDestroy {
   comment = computed(() => this.commentViewModel().comment);
   authorThumbnailUrl = computed(
     () =>
-      this.comment().authorThumbnail ?? 'https://yt3.ggpht.com/a/default-user',
+      this.comment().authorThumbnail ?? Utilities.defaultUserAvatarUrl,
   );
   sanitizer = inject(DomSanitizer);
   sanitizedCommentHtml = computed(() =>
