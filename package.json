@@ -8,7 +8,8 @@
     "build": "npx nx build",
     "build-csr": "npx nx build-csr",
     "build-ghp": "npx nx build-csr --baseHref /angular-youtube/",
-    "test": "npx nx test"
+    "test": "npx nx test",
+    "preinstall": "git config core.hooksPath .githooks"
   },
   "private": true,
   "dependencies": {
