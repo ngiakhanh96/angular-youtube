@@ -1,0 +1,7 @@
+#!/bin/sh
+# Run GitNexus analysis before pushing
+echo "Running gitnexus analyze..."
+npx gitnexus analyze || {
+  echo "gitnexus analyze failed. Push aborted."
+  exit 1
+}
