@@ -1,0 +1,35 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "start-csr",
+      "type": "process",
+      "command": "node",
+      "args": ["${workspaceFolder}/tools/start-csr.mjs"],
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^.*$",
+          "endsPattern": "Local.*http://localhost:.*4200"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "stop-csr",
+      "type": "process",
+      "command": "node",
+      "args": ["${workspaceFolder}/tools/start-csr.mjs", "--stop"],
+      "problemMatcher": [],
+      "hide": true
+    }
+  ]
+}
