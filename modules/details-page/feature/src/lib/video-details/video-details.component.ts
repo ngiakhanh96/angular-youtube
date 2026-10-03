@@ -309,14 +309,14 @@ export class VideoDetailsComponent
     }, new Map<string, number>()),
   );
   playlistDetailsInfo = computed<IVideoPlaylistInfo>(() => {
-    const playlistInfo = this.playlistInfo().info;
+    const playlist = this.playlistInfo().info?.items[0];
     return {
-      title: playlistInfo?.items[0]?.snippet.title ?? '',
-      channelName: playlistInfo?.items[0]?.snippet.channelTitle ?? '',
-      totalVideoCount: playlistInfo
-        ? new Date(playlistInfo.items[0].snippet.publishedAt).getTime() === 0
+      title: playlist?.snippet.title ?? '',
+      channelName: playlist?.snippet.channelTitle ?? '',
+      totalVideoCount: playlist
+        ? new Date(playlist.snippet.publishedAt).getTime() === 0
           ? this.playlistItemsInfo().length
-          : (playlistInfo?.items[0]?.contentDetails.itemCount ?? 0)
+          : playlist.contentDetails.itemCount
         : 0,
     };
   });
@@ -418,13 +418,10 @@ export class VideoDetailsComponent
   }
 
   load(params: Params) {
-    this.currentVideoId = params['v'] as string;
+    this.currentVideoId = (params['v'] as string | undefined) ?? '';
     const playlistId = params['list'] as string | undefined;
-    if (playlistId != null && playlistId !== '') {
-      this.playlistId.set(playlistId);
-    } else {
-      this.videoId.set(this.currentVideoId);
-    }
+    this.playlistId.set(playlistId ?? '');
+    this.videoId.set(this.currentVideoId);
     this.currentTime.set((params['t'] as number) ?? 0);
     this.currentUrl = this.router.url;
   }
