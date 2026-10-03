@@ -18,6 +18,7 @@
     >
       <ay-native-youtube-player
         class="thumbnail__player"
+        [viewTransitionNameSuffix]="viewTransitionNameSuffix()"
         [showPlayButton]="false"
         [videoId]="videoId()"
         [videoUrl]="videoUrl()"

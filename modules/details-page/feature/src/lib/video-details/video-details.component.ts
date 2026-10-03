@@ -76,6 +76,7 @@ export class VideoDetailsComponent
   customRouteReuseStrategy = inject(CustomRouteReuseStrategy);
   videoId = signal('');
   videoRecommendationMarginTop = signal('44px');
+  viewTransitionNameSuffix = signal('');
   getVideoInfo = computed(() => {
     if (this.videoId() !== '') {
       return detailsPageEventGroup.loadYoutubeVideo({

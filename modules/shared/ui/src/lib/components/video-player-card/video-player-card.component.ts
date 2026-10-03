@@ -97,6 +97,7 @@ export class VideoPlayerCardComponent {
   showChannelNameFirst = input(false);
   onPlayOnHover = input(true);
   thumbnailSettingButtonCentered = input(false);
+  viewTransitionNameSuffix = input('');
   thumbnailContainerFlexDirection = computed(() =>
     this.playerPosition().toString(),
   );

@@ -39,7 +39,6 @@ type PlayerVideoElement = HTMLVideoElement & {
   disposePlayback?: () => void;
 };
 
-// TODO fix duplicate view-transition-name when navigating to details page
 @Component({
   selector: 'ay-native-youtube-player',
   imports: [
@@ -100,7 +99,10 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
    */
   placeholderImageQuality = input<PlaceholderImageQuality>('low');
 
-  viewTransitionName = computed(() => this.videoId());
+  viewTransitionNameSuffix = input('');
+  viewTransitionName = computed(
+    () => `${this.videoId()}${this.viewTransitionNameSuffix()}`,
+  );
 
   videoPlayerRef =
     viewChild.required<ElementRef<HTMLVideoElement>>('videoPlayer');
