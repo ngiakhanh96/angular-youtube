@@ -1,26 +1,28 @@
 <div class="videos-playlist-container">
   <div class="videos-playlist-header">
-    <div class="video-playlist-info">
-      <div class="video-playlist-overview">
-        <div class="video-playlist-title">
-          {{ playlistInfo().title }}
+    @if (playlistInfo().title) {
+      <div class="video-playlist-info">
+        <div class="video-playlist-overview">
+          <div class="video-playlist-title">
+            {{ playlistInfo().title }}
+          </div>
+          <div class="video-playlist-channel">
+            {{ playlistInfo().channelName }} - {{ currentVideoPosition() }} /
+            {{ playlistInfo().totalVideoCount }}
+          </div>
         </div>
-        <div class="video-playlist-channel">
-          {{ playlistInfo().channelName }} - {{ currentVideoPosition() }} /
-          {{ playlistInfo().totalVideoCount }}
+        <div class="video-playlist-close">
+          <ng-container
+            *ngTemplateOutlet="
+              button;
+              context: {
+                buttonIcon: 'clear',
+              }
+            "
+          />
         </div>
       </div>
-      <div class="video-playlist-close">
-        <ng-container
-          *ngTemplateOutlet="
-            button;
-            context: {
-              buttonIcon: 'clear',
-            }
-          "
-        />
-      </div>
-    </div>
+    }
     <div class="video-playlist-controls">
       <div class="video-playlist-left-controls">
         <ng-container

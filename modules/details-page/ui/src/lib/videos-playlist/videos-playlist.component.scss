@@ -5,7 +5,7 @@
 .videos-playlist-container {
   @apply flex flex-col w-full h-full;
   .videos-playlist-header {
-    @apply flex-shrink-0 flex-grow-0 flex flex-col h-[88px] border-b mt-[12px] pl-[16px] pr-[6px];
+    @apply flex-shrink-0 flex-grow-0 flex flex-col max-h-[88px] border-b mt-[12px] pl-[16px] pr-[6px];
     .video-playlist-info {
       @apply flex justify-between h-[46px] mt-[4px];
       .video-playlist-overview {
