@@ -21,7 +21,7 @@
     .video-comments-input-field {
       @apply flex-1 flex flex-col gap-[8px] text-[14px] mr-[16px];
       input {
-        @apply w-full border-b py-[4px] outline-none focus:border-black;
+        @apply w-full border-b border-gray-200 py-[4px] outline-hidden focus:border-black;
 
         &::placeholder {
           @apply text-[var(--black-color)] opacity-70;

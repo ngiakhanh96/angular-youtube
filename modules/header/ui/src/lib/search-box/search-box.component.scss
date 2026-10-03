@@ -15,7 +15,7 @@
         @apply text-[var(--black-color)] opacity-70;
       }
       .search-input {
-        @apply h-full w-full bg-transparent py-px text-base outline-none;
+        @apply h-full w-full bg-transparent py-px text-base outline-hidden;
       }
     }
   }
