@@ -3,8 +3,10 @@
     <ay-native-youtube-player
       tabindex="0"
       [videoId]="videoId()"
-      [videoUrl]="videoUrl()!"
-      [audioUrl]="audioUrl()!"
+      [dashUrl]="videoInfo()?.dashUrl"
+      [preferredAudioLanguage]="preferredAudioLanguage()"
+      [videoUrl]="videoUrl()"
+      [audioUrl]="audioUrl()"
       [showPlayButton]="false"
       [mini]="false"
       [autoPlay]="true"

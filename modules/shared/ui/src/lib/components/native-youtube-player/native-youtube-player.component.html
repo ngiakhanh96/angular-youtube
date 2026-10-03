@@ -24,6 +24,8 @@
       (click)="onVideoClick()"
       (ended)="onVideoEnded()"
       (loadedmetadata)="onLoadedMetadata()"
+      (durationchange)="onLoadedMetadata()"
+      (error)="onMediaError()"
       (volumechange)="onVolumeChange()"
       (play)="onPlay()"
       (pause)="onPause()"
@@ -35,10 +37,8 @@
       (canplay)="onCanPlay()"
       (canplaythrough)="onCanPlay()"
       (leavepictureinpicture)="onLeavePictureInPicture($event)"
-    >
-      <source [src]="videoUrl()" type="video/mp4" />
-    </video>
-    <audio #audioPlayer [src]="audioUrl() ?? ''"></audio>
+    ></video>
+    <audio #audioPlayer (loadedmetadata)="onAudioLoadedMetadata()"></audio>
     <div class="player_bottom" [style.display]="playerButtonsDisplay()">
       <div
         class="player_bottom_progress-bar-container"

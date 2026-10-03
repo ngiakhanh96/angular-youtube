@@ -320,6 +320,9 @@ export class VideoDetailsComponent
         : 0,
     };
   });
+  preferredAudioLanguage = computed(
+    () => this.appSettingsService.appConfig()?.languageCode ?? 'vi',
+  );
   currentVideoId = '';
   currentPlaylistItemPosition = signal(1);
   static volumeStep = 0.05;
