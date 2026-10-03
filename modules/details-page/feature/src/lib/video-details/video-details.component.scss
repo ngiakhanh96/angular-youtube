@@ -24,7 +24,7 @@
     .details_page_info_others {
       @apply flex flex-col gap-y-[24px] w-[402px] grow-0 shrink-0 mt-[var(--video-recommendations-margin-top)];
       .details_page_info_playlist {
-        @apply max-h-[560px] overflow-y-auto border rounded-[12px] mr-[10px];
+        @apply max-h-[560px] overflow-y-auto border border-gray-200 rounded-[12px] mr-[10px];
       }
     }
   }
