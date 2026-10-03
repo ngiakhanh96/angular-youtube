@@ -1,3 +1,4 @@
+@reference "tailwindcss";
 @mixin autoNext($bgImage: none) {
   @apply relative cursor-pointer w-[36px] h-[16.4px] rounded-[16.4px] bg-cover;
   background-image: $bgImage;
@@ -149,10 +150,10 @@
 :host(.volume-slider-visible) {
   .volume_container {
     .volume_slider_container {
-      @apply w-[52px] #{!important};
-      @apply mr-[8px] #{!important};
+      @apply w-[52px]!;
+      @apply mr-[8px]!;
       .volume_slider_handle {
-        @apply opacity-100 #{!important};
+        @apply opacity-100!;
       }
     }
   }

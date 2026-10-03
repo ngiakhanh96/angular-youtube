@@ -1,11 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* You can add global styles to this file, and also import other style files */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('./styles.css');
+@reference "./styles.css";
 
 :root {
   --white-color: rgb(255, 255, 255);
@@ -59,20 +53,20 @@ body {
 
 @keyframes fade-out {
   from {
-    @apply opacity-100;
+    opacity: 1;
   }
 
   to {
-    @apply opacity-0;
+    opacity: 0;
   }
 }
 
 @keyframes fade-in {
   from {
-    @apply opacity-0;
+    opacity: 0;
   }
 
   to {
-    @apply opacity-100;
+    opacity: 1;
   }
 }

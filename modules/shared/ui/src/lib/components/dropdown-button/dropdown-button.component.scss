@@ -1,3 +1,4 @@
+@reference "tailwindcss";
 :host {
   @apply block h-full bg-[var(--background-color)] rounded-[18px];
   --mat-list-list-item-one-line-container-height: 40px;

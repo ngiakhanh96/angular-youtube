@@ -1,3 +1,4 @@
+@reference "tailwindcss";
 :host {
   @apply block w-full h-full;
 }
@@ -5,11 +6,11 @@
 .videos-playlist-container {
   @apply flex flex-col w-full h-full;
   .videos-playlist-header {
-    @apply flex-shrink-0 flex-grow-0 flex flex-col max-h-[88px] border-b mt-[12px] pl-[16px] pr-[6px];
+    @apply shrink-0 grow-0 flex flex-col max-h-[88px] border-b mt-[12px] pl-[16px] pr-[6px];
     .video-playlist-info {
       @apply flex justify-between h-[46px] mt-[4px];
       .video-playlist-overview {
-        @apply flex flex-col justify-center w-[calc(100%-48px)];
+        @apply flex flex-col justify-center w-[calc(100%_-_48px)];
         .video-playlist-title {
           @apply text-[20px] leading-[20px] h-full font-[family-name:Youtube_Sans] font-semibold overflow-hidden text-ellipsis whitespace-nowrap;
         }

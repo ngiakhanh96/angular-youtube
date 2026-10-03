@@ -1,3 +1,4 @@
+@reference "tailwindcss";
 :host {
   @apply w-full h-full flex items-center justify-center bg-[var(--black-color)] overflow-hidden cursor-pointer bg-center bg-cover transition-shadow duration-300 ease-linear;
 

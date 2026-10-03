@@ -21,5 +21,6 @@
   ],
   "files.associations": {
     "*.scss": "tailwindcss"
-  }
+  },
+  "tailwindCSS.experimental.configFile": "src/styles.css"
 }

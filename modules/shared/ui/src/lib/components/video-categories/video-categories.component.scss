@@ -1,3 +1,4 @@
+@reference "tailwindcss";
 :host {
   @apply block h-full;
   --mat-chip-elevated-container-color: rgba(0, 0, 0, 0.05);

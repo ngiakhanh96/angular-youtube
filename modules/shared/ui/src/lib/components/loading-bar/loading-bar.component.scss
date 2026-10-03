@@ -1,3 +1,4 @@
+@reference "tailwindcss";
 :host {
   @apply w-full h-[2px] z-[var(--layer-2)];
 }

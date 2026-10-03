@@ -1,3 +1,4 @@
+@reference "tailwindcss";
 :host {
   @apply flex-row w-full h-full relative block min-h-full;
 }

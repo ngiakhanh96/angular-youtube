@@ -1,3 +1,4 @@
+@reference "tailwindcss";
 :host {
   @apply flex-row min-h-full w-full relative block pr-[10px] cursor-pointer;
 }

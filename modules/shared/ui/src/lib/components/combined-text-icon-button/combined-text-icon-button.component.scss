@@ -1,3 +1,4 @@
+@reference "tailwindcss";
 :host {
   @apply block h-full w-full;
 }
@@ -21,6 +22,6 @@
   }
 
   .vertical-divider {
-    @apply content-[''] bg-black bg-opacity-10 absolute right-0 top-1.5 h-6 w-px;
+    @apply content-[''] bg-black/10 absolute right-0 top-1.5 h-6 w-px;
   }
 }
