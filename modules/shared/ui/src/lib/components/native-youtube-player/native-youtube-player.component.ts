@@ -59,7 +59,7 @@ type PlayerVideoElement = HTMLVideoElement & {
     '(document:mozfullscreenchange)': 'onFullScreenChange()',
     '(document:msfullscreenchange)': 'onFullScreenChange()',
     '(mousemove)': 'onMouseMove()',
-    '(document:mouseup)': 'onMouseUp()',
+    '(document:mouseup)': 'onMouseUp($event)',
     '(document:mousemove)': 'onDocumentMouseMove($event)',
   },
 })
@@ -246,11 +246,14 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.onMouseEnter();
   }
 
-  onMouseUp() {
+  onMouseUp(event: MouseEvent) {
     if (this.isDraggingProgressBar) {
+      this.seekToFromEvent(event);
+      const time = this.currentTime();
       this.isDraggingProgressBar = false;
+      this.seekTo(time);
       const isVideoJustEnded = this.isVideoEnded();
-      const isVideoEnded = this.videoPlayer().currentTime === this.duration();
+      const isVideoEnded = time === this.duration();
       this.isVideoEnded.set(isVideoEnded);
       if ((isVideoJustEnded || this.isVideoPlayedLastTime()) && !isVideoEnded) {
         this.playVideo();
@@ -547,6 +550,10 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   onProgressBarMouseDown(event: MouseEvent) {
+    if (event.button !== 0 || this.duration() <= 0) {
+      return;
+    }
+    event.preventDefault();
     this.isDraggingProgressBar = true;
     this.isVideoPlayedLastTime.set(this.isVideoPlaying());
     this.pauseVideo();
@@ -932,8 +939,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         this.loadedProgress.set(Math.min(100, Math.max(0, loadedFraction)));
       }
 
-      // Update played progress and current time
-      if (this.duration() > 0) {
+      // Keep the drag preview until the user commits the seek on mouseup.
+      if (!this.isDraggingProgressBar && this.duration() > 0) {
         const playedFraction = (video.currentTime / this.duration()) * 100;
         this.playedProgress.set(Math.min(100, Math.max(0, playedFraction)));
         this.currentTime.set(video.currentTime);
@@ -951,11 +958,16 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   private seekToFromEvent(event: MouseEvent) {
     const progressBar = this.progressBar().nativeElement;
     const rect = progressBar.getBoundingClientRect();
+    if (rect.width <= 0) {
+      return;
+    }
     const position = Math.max(
       0,
       Math.min(1, (event.clientX - rect.left) / rect.width),
     );
-    this.seekTo(position * this.duration());
+    // Preview immediately without restarting media buffering on every move.
+    this.currentTime.set(position * this.duration());
+    this.playedProgress.set(position * 100);
   }
 
   private clearHoverTimer() {
