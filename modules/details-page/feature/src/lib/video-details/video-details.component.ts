@@ -426,7 +426,7 @@ export class VideoDetailsComponent
     const playlistId = params['list'] as string | undefined;
     this.playlistId.set(playlistId ?? '');
     this.videoId.set(this.currentVideoId);
-    this.currentTime.set((params['t'] as number) ?? 0);
+    this.currentTime.set(params['t'] ? Number(params['t']) : 0);
     this.currentUrl = this.router.url;
   }
 
