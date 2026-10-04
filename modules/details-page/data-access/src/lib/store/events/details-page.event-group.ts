@@ -3,6 +3,7 @@ import {
   IInvidiousVideoInfo,
   IPlaylistInfo,
   IPlaylistItemsInfo,
+  IVideoComment,
 } from '@angular-youtube/shared-data-access';
 import { type } from '@ngrx/signals';
 import { eventGroup } from '@ngrx/signals/events';
@@ -27,6 +28,15 @@ export const detailsPageEventGroup = eventGroup({
       commentId?: string;
       commentsInfo: IInvidiousVideoCommentsInfo;
       continuation?: string;
+    }>(),
+    postYoutubeVideoComment: type<{
+      videoId: string;
+      channelId: string;
+      text: string;
+    }>(),
+    postYoutubeVideoCommentSuccess: type<{
+      videoId: string;
+      comment: IVideoComment;
     }>(),
     loadYoutubePlaylistInfo: type<{
       playlistId: string;

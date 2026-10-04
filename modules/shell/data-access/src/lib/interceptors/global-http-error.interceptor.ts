@@ -1,3 +1,4 @@
+import { SKIP_RETRY } from '@angular-youtube/shared-data-access';
 import type {
   HttpHandlerFn,
   HttpInterceptorFn,
@@ -9,6 +10,10 @@ export const globalHttpErrorInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ) => {
+  if (req.context.get(SKIP_RETRY)) {
+    return next(req);
+  }
+
   return next(req).pipe(
     // Exponential backoff retry strategy for transient errors
     retry({

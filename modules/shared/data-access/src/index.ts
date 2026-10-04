@@ -1,5 +1,6 @@
 export * from './lib/components/base-with-sandbox.component';
 export * from './lib/http-context-tokens/authorized.http-context-token';
+export * from './lib/http-context-tokens/skip-retry.http-context-token';
 export * from './lib/injection-tokens/youtube-api-key.injection-token';
 export * from './lib/models/http-request/yt-dlp-videos.request.model';
 export * from './lib/models/http-response/channels-info.model';
@@ -14,6 +15,7 @@ export * from './lib/models/http-response/playlist-info.model';
 export * from './lib/models/http-response/playlist-items-info.model';
 export * from './lib/models/http-response/popular-youtube-videos.model';
 export * from './lib/models/http-response/video-categories-model';
+export * from './lib/models/http-response/youtube-comment-thread.model';
 export * from './lib/models/http-response/yt-dlp-videos.response.model';
 export * from './lib/models/route-data';
 export * from './lib/services/app-settings.service';

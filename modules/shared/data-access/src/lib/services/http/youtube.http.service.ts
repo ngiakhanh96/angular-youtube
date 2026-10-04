@@ -2,6 +2,7 @@ import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AUTHORIZED } from '../../http-context-tokens/authorized.http-context-token';
+import { SKIP_RETRY } from '../../http-context-tokens/skip-retry.http-context-token';
 import { YoutubeApiKey } from '../../injection-tokens/youtube-api-key.injection-token';
 import { IYoutubeChannelsInfo } from '../../models/http-response/channels-info.model';
 import { IMyChannelInfo } from '../../models/http-response/my-channel-info.model';
@@ -9,6 +10,7 @@ import { IPlaylistInfo } from '../../models/http-response/playlist-info.model';
 import { IPlaylistItemsInfo } from '../../models/http-response/playlist-items-info.model';
 import { IPopularYoutubeVideos } from '../../models/http-response/popular-youtube-videos.model';
 import { IVideoCategories } from '../../models/http-response/video-categories-model';
+import { IYoutubeCommentThread } from '../../models/http-response/youtube-comment-thread.model';
 import { AppSettingsService } from '../app-settings.service';
 
 @Injectable({
@@ -20,6 +22,25 @@ export class YoutubeHttpService {
   private appSettingsService = inject(AppSettingsService);
   private baseUrl = this.appSettingsService.appConfig()?.youtubeApiBaseUrl;
   private regionCode = this.appSettingsService.appConfig()?.regionCode ?? 'US';
+
+  insertCommentThread(videoId: string, channelId: string, text: string) {
+    return this.httpClient.post<IYoutubeCommentThread>(
+      `${this.baseUrl}commentThreads`,
+      {
+        snippet: {
+          channelId,
+          videoId,
+          topLevelComment: { snippet: { textOriginal: text } },
+        },
+      },
+      {
+        params: new HttpParams({
+          fromObject: { part: 'snippet', key: this.apiKey },
+        }),
+        context: new HttpContext().set(AUTHORIZED, true).set(SKIP_RETRY, true),
+      },
+    );
+  }
 
   getVideoCategories() {
     const url = `${this.baseUrl}videoCategories`;

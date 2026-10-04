@@ -50,6 +50,32 @@ export function withDetailsPageReducer<_>() {
     { state: type<IDetailsPageState>() },
     withReducer(
       on(
+        detailsPageEventGroup.postYoutubeVideoCommentSuccess,
+        ({ payload: { videoId, comment } }, state) => {
+          const commentsInfo = state.videoCommentsInfo;
+          if (
+            state.videoInfo?.videoId !== videoId ||
+            commentsInfo?.videoId !== videoId ||
+            commentsInfo.comments.some(
+              (item) => item.commentId === comment.commentId,
+            )
+          ) {
+            return {};
+          }
+          return {
+            videoCommentsInfo: {
+              ...commentsInfo,
+              commentCount: commentsInfo.commentCount + 1,
+              comments: [
+                ...commentsInfo.comments.filter((item) => item.isPinned),
+                comment,
+                ...commentsInfo.comments.filter((item) => !item.isPinned),
+              ],
+            },
+          };
+        },
+      ),
+      on(
         detailsPageEventGroup.loadYoutubeVideoSuccess,
         ({ payload: { videoInfo, recommendedVideosInfo } }, state) => ({
           videoInfo: videoInfo,
@@ -67,7 +93,13 @@ export function withDetailsPageReducer<_>() {
                   ...(state.videoCommentsInfo ?? commentsInfo),
                   comments: [
                     ...(state.videoCommentsInfo?.comments ?? []),
-                    ...commentsInfo.comments,
+                    ...commentsInfo.comments.filter(
+                      (comment) =>
+                        !state.videoCommentsInfo?.comments.some(
+                          (existing) =>
+                            existing.commentId === comment.commentId,
+                        ),
+                    ),
                   ],
                   continuation: commentsInfo.continuation,
                 }

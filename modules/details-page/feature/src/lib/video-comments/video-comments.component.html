@@ -13,8 +13,8 @@
     </div>
   </div>
 
-  @if (user()) {
-    <div class="video-comments-input">
+  @if (auth.isLoggedIn() && user()?.items?.length) {
+    <div class="video-comments-input" [attr.aria-busy]="isSubmitting()">
       <div class="video-comments-input-avatar">
         <img
           [ayImgSrc]="userThumbnail()"
@@ -26,9 +26,13 @@
       </div>
       <div class="video-comments-input-field">
         <input
+          #commentInputElement
           id="commentInput"
           type="text"
           placeholder="Add a comment..."
+          aria-label="Add a comment"
+          [attr.aria-describedby]="submissionError() ? 'comment-error' : null"
+          [readOnly]="isSubmitting()"
           [formControl]="commentInput"
           (focus)="isCommentFocused.set(true)"
           autocomplete="off"
@@ -53,20 +57,28 @@
                   [color]="'var(--black-color)'"
                   [backgroundColor]="'var(--white-color)'"
                   [disabledRipple]="true"
+                  [disabled]="isSubmitting()"
                   (click)="cancelComment()"
                 ></ay-text-icon-button>
               </div>
               <div>
                 <ay-text-icon-button
-                  [displayText]="'Comment'"
+                  [displayText]="isSubmitting() ? 'Posting...' : 'Comment'"
                   [color]="'var(--white-color)'"
                   [backgroundColor]="'var(--blue-color)'"
-                  [disabled]="!commentInput.value"
+                  [disabled]="
+                    isSubmitting() || !commentInput.value.trim() || !channelId()
+                  "
                   (click)="submitComment()"
                 ></ay-text-icon-button>
               </div>
             </div>
           </div>
+        }
+        @if (submissionError()) {
+          <p id="comment-error" class="video-comments-error" role="alert">
+            {{ submissionError() }}
+          </p>
         }
       </div>
     </div>

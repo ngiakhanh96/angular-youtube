@@ -28,6 +28,10 @@
         }
       }
 
+      .video-comments-error {
+        @apply text-red-700;
+      }
+
       .video-comments-input-actions {
         @apply flex justify-between h-[36px];
 

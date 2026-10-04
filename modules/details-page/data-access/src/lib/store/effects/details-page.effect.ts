@@ -2,6 +2,7 @@ import {
   createHttpEffectAndUpdateResponse,
   IInvidiousVideoInfo,
   InvidiousHttpService,
+  IVideoComment,
   YoutubeHttpService,
 } from '@angular-youtube/shared-data-access';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -22,6 +23,39 @@ export function withDetailsPageEffects<_>() {
         invidiousService = inject(InvidiousHttpService),
         youtubeService = inject(YoutubeHttpService),
       ) => ({
+        postYoutubeVideoComment$: createHttpEffectAndUpdateResponse(
+          events,
+          detailsPageEventGroup.postYoutubeVideoComment,
+          ({ payload: { videoId, channelId, text } }) =>
+            youtubeService.insertCommentThread(videoId, channelId, text).pipe(
+              map((thread) => {
+                const { id, snippet } = thread.snippet.topLevelComment;
+                const content = snippet.textOriginal ?? text;
+                const comment: IVideoComment = {
+                  commentId: id,
+                  author: snippet.authorDisplayName,
+                  authorThumbnail: snippet.authorProfileImageUrl,
+                  authorUrl: snippet.authorChannelUrl ?? '',
+                  authorId: snippet.authorChannelId?.value ?? '',
+                  verified: false,
+                  content,
+                  contentHtml: snippet.textDisplay,
+                  likeCount: snippet.likeCount,
+                  published: Math.floor(Date.parse(snippet.publishedAt) / 1000),
+                  publishedText: 'Just now',
+                  isEdited: snippet.updatedAt !== snippet.publishedAt,
+                  isPinned: false,
+                  authorIsChannelOwner:
+                    snippet.authorChannelId?.value === channelId,
+                };
+                return detailsPageEventGroup.postYoutubeVideoCommentSuccess({
+                  videoId,
+                  comment,
+                });
+              }),
+            ),
+          false,
+        ),
         loadYoutubeVideoInfo$: createHttpEffectAndUpdateResponse(
           events,
           detailsPageEventGroup.loadYoutubeVideo,
