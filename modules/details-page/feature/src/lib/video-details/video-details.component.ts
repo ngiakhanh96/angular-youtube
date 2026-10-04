@@ -75,6 +75,13 @@ export class VideoDetailsComponent
   document = inject(DOCUMENT);
   customRouteReuseStrategy = inject(CustomRouteReuseStrategy);
   videoId = signal('');
+  dashUrl = computed<string | undefined>(() => {
+    const videoId = this.videoId();
+    const baseUrl = this.appSettingsService.appConfig()?.invidiousApiBaseUrl;
+    return videoId && baseUrl
+      ? new URL(`/api/manifest/dash/id/${videoId}`, baseUrl).href
+      : undefined;
+  });
   videoRecommendationMarginTop = signal('44px');
   viewTransitionNameSuffix = signal('');
   getVideoInfo = computed(() => {
@@ -94,31 +101,27 @@ export class VideoDetailsComponent
     return sharedEventGroup.empty();
   });
   videoUrl = computed(() => {
-    if (
-      this.videoInfo()?.adaptiveFormats.filter((format) => format.url !== '')
-        ?.length ??
-      0 > 0
-    ) {
-      return this.videoInfo()
-        ?.adaptiveFormats.filter(
-          (format) => format.url !== '' && format.fps != null,
-        )
+    const videoInfo = this.videoInfo();
+    if (!videoInfo || videoInfo.videoId !== this.videoId()) {
+      return undefined;
+    }
+    if (videoInfo.adaptiveFormats.some((format) => format.url !== '')) {
+      return videoInfo.adaptiveFormats
+        .filter((format) => format.url !== '' && format.fps != null)
         .sort((a, b) => +b.bitrate - +a.bitrate)[0]?.url;
-    } else if (this.videoInfo()?.formatStreams) {
-      return this.videoInfo()?.formatStreams[0]?.url;
+    } else if (videoInfo.formatStreams) {
+      return videoInfo.formatStreams[0]?.url;
     }
     return undefined;
   });
   audioUrl = computed(() => {
-    if (
-      this.videoInfo()?.adaptiveFormats.filter((format) => format.url !== '')
-        ?.length ??
-      0 > 0
-    ) {
-      return this.videoInfo()
-        ?.adaptiveFormats.filter(
-          (format) => format.url !== '' && format.audioQuality != null,
-        )
+    const videoInfo = this.videoInfo();
+    if (!videoInfo || videoInfo.videoId !== this.videoId()) {
+      return undefined;
+    }
+    if (videoInfo.adaptiveFormats.some((format) => format.url !== '')) {
+      return videoInfo.adaptiveFormats
+        .filter((format) => format.url !== '' && format.audioQuality != null)
         .sort((a, b) => {
           // Priority: lang%3DlanguageCode > lang%3Den > others
           const getLangPriority = (url: string) => {

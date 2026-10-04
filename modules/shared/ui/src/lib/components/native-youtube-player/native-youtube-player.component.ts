@@ -224,6 +224,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   private wantsToPlay = false;
   private pendingSeek?: { videoId: string; time: number };
   private playbackVideoElement?: PlayerVideoElement;
+  private previousDashUrl?: string;
 
   private get hasSeparateAudio() {
     return this.playbackMode === 'direct' && !!this.audioUrl();
@@ -290,10 +291,15 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         const dashUrl = this.dashUrl()?.trim();
         const videoUrl = this.videoUrl();
         const audioUrl = this.audioUrl();
-        const language = this.preferredAudioLanguage();
-        untracked(() =>
-          this.loadSource(videoId, dashUrl, videoUrl, audioUrl, language),
-        );
+        untracked(() => {
+          if (
+            this.previousDashUrl === dashUrl &&
+            this.playbackMode === 'dash'
+          ) {
+            return;
+          }
+          this.loadSource(videoId, dashUrl, videoUrl, audioUrl);
+        });
       },
     });
 
@@ -503,6 +509,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       this.wantsToPlay = false;
       this.isVideoPlaying.set(false);
       this.audioPlayer().pause();
+      this.playbackMode = undefined;
       console.error('Error loading video:', this.videoPlayer().error);
     }
   }
@@ -669,7 +676,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     dashUrl: string | undefined,
     videoUrl: string | undefined,
     audioUrl: string | undefined,
-    language: string | undefined,
   ) {
     if (this.playbackDisposed) {
       return;
@@ -686,6 +692,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     audio.removeAttribute('src');
     video.load();
     audio.load();
+    this.previousDashUrl = dashUrl;
     this.sourceVideoId = videoId;
     if (this.pendingSeek?.videoId !== videoId) {
       this.pendingSeek = undefined;
@@ -703,20 +710,15 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     video.muted = this.muted();
 
     if (dashUrl) {
-      this.playbackMode = 'dash';
-      this.loadDashSource(dashUrl, language, version);
+      this.loadDashSource(dashUrl, version);
     } else {
-      this.playbackMode = 'direct';
       this.loadDirectSource(videoUrl, audioUrl);
     }
   }
 
-  private async loadDashSource(
-    url: string,
-    language: string | undefined,
-    version: number,
-  ) {
+  private async loadDashSource(url: string, version: number) {
     try {
+      this.playbackMode = 'dash';
       const { MediaPlayer } = await import('dashjs');
       if (version !== this.sourceVersion || this.playbackDisposed) {
         return;
@@ -770,7 +772,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         if (!tracks.some((track) => track.type === 'audio')) {
           return tracks;
         }
-        for (const preferred of [language, 'en']) {
+        for (const preferred of [this.preferredAudioLanguage(), 'en']) {
           if (!preferred) {
             continue;
           }
