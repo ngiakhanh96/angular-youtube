@@ -201,6 +201,11 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   isVolumeSliderVisible = computed(() => {
     return this.isKeyboardVolumeActive() || this.isVolumeHovered();
   });
+  hasSeparateAudio = computed(() => {
+    const playbackMode = this.playbackMode();
+    const audioUrl = this.audioUrl();
+    return playbackMode === 'direct' && !!audioUrl;
+  });
 
   private progressUpdateInterval: ReturnType<typeof setInterval> | null = null;
   private isDraggingProgressBar = false;
@@ -218,17 +223,13 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   private dashPlayer?: MediaPlayerClass;
   private sourceVersion = 0;
   private sourceVideoId = '';
-  private playbackMode: 'dash' | 'direct' | undefined;
+  private playbackMode = signal<'dash' | 'direct' | undefined>(undefined);
   private playbackReady = false;
   private playbackDisposed = false;
   private wantsToPlay = false;
   private pendingSeek?: { videoId: string; time: number };
   private playbackVideoElement?: PlayerVideoElement;
   private previousDashUrl?: string;
-
-  private get hasSeparateAudio() {
-    return this.playbackMode === 'direct' && !!this.audioUrl();
-  }
 
   onVolumeSliderWheel(event: WheelEvent) {
     this.volumeSliderWheel.emit(event);
@@ -297,7 +298,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         untracked(() => {
           if (
             this.previousDashUrl === dashUrl &&
-            this.playbackMode === 'dash'
+            this.playbackMode() === 'dash'
           ) {
             return;
           }
@@ -460,14 +461,14 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     }
     this.isVideoPlaying.set(false);
     this.synchronizeAudioWithVideo();
-    if (this.hasSeparateAudio) {
+    if (this.hasSeparateAudio()) {
       this.audioPlayer().pause();
     }
   }
 
   onSeeking() {
     this.isSeeking = true;
-    if (this.hasSeparateAudio) {
+    if (this.hasSeparateAudio()) {
       this.audioPlayer().pause();
     }
   }
@@ -486,7 +487,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   onWaiting() {
-    if (this.hasSeparateAudio) {
+    if (this.hasSeparateAudio()) {
       this.audioPlayer().pause();
     }
   }
@@ -508,11 +509,11 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   onMediaError() {
     // dash.js handles media errors and its own recovery before emitting ERROR.
-    if (this.playbackMode === 'direct') {
+    if (this.playbackMode() === 'direct') {
       this.wantsToPlay = false;
       this.isVideoPlaying.set(false);
       this.audioPlayer().pause();
-      this.playbackMode = undefined;
+      this.playbackMode.set(undefined);
       console.error('Error loading video:', this.videoPlayer().error);
     }
   }
@@ -689,7 +690,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     }
     const version = ++this.sourceVersion;
     this.playbackReady = false;
-    this.playbackMode = undefined;
+    this.playbackMode.set(undefined);
     this.destroyDashPlayer();
     const video = this.videoPlayer();
     const audio = this.audioPlayer();
@@ -725,7 +726,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   private async loadDashSource(url: string, version: number) {
     try {
-      this.playbackMode = 'dash';
+      this.playbackMode.set('dash');
       const { MediaPlayer } = await import('dashjs');
       if (version !== this.sourceVersion || this.playbackDisposed) {
         return;
@@ -805,7 +806,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     if (
       version !== this.sourceVersion ||
       this.playbackDisposed ||
-      this.playbackMode !== 'dash'
+      this.playbackMode() !== 'dash'
     ) {
       return;
     }
@@ -814,7 +815,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.pendingSeek = { videoId: this.videoId(), time };
     ++this.sourceVersion;
     this.playbackReady = false;
-    this.playbackMode = undefined;
+    this.playbackMode.set(undefined);
     this.destroyDashPlayer();
     this.videoPlayer().pause();
     this.isVideoPlaying.set(false);
@@ -826,7 +827,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     videoUrl: string | undefined,
     audioUrl: string | undefined,
   ) {
-    this.playbackMode = 'direct';
+    this.playbackMode.set('direct');
     const video = this.videoPlayer();
     const audio = this.audioPlayer();
     if (!videoUrl) {
@@ -857,7 +858,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     ++this.sourceVersion;
     this.wantsToPlay = false;
     this.playbackReady = false;
-    this.playbackMode = undefined;
+    this.playbackMode.set(undefined);
     this.destroyDashPlayer();
     this.stopProgressTracking();
     const video = this.playbackVideoElement;
@@ -908,7 +909,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   private synchronizeAudioWithVideo() {
-    if (this.hasSeparateAudio && this.audioPlayer().readyState > 0) {
+    if (this.hasSeparateAudio() && this.audioPlayer().readyState > 0) {
       this.audioPlayer().currentTime = this.videoPlayer().currentTime;
     }
   }
