@@ -1,0 +1,36 @@
+<div class="video-categories">
+  @if (shouldShowScrollLeftButton()) {
+    <div class="video-categories-button-container__left">
+      <button
+        type="button"
+        class="video-categories-button"
+        aria-label="Scroll categories left"
+        (click)="onScrollLeft()"
+      >
+        <mat-icon svgIcon="arrow-left" aria-hidden="true" />
+      </button>
+    </div>
+  }
+
+  <mat-chip-set aria-label="Video Categories">
+    @for (videoCategory of videoCategories(); track videoCategory.id) {
+      <mat-chip
+        (click)="selectVideoCategory(videoCategory)"
+        [highlighted]="selectedVideoCategory().id === videoCategory.id"
+        >{{ videoCategory.title }}</mat-chip
+      >
+    }
+  </mat-chip-set>
+  @if (shouldShowScrollRightButton()) {
+    <div class="video-categories-button-container__right">
+      <button
+        type="button"
+        class="video-categories-button"
+        aria-label="Scroll categories right"
+        (click)="onScrollRight()"
+      >
+        <mat-icon svgIcon="arrow-right" aria-hidden="true" />
+      </button>
+    </div>
+  }
+</div>

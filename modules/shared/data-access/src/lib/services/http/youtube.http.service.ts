@@ -6,6 +6,7 @@ import { SKIP_RETRY } from '../../http-context-tokens/skip-retry.http-context-to
 import { YoutubeApiKey } from '../../injection-tokens/youtube-api-key.injection-token';
 import { IYoutubeChannelsInfo } from '../../models/http-response/channels-info.model';
 import { IMyChannelInfo } from '../../models/http-response/my-channel-info.model';
+import { IMyPlaylistsResponse } from '../../models/http-response/my-playlists.model';
 import { IPlaylistInfo } from '../../models/http-response/playlist-info.model';
 import { IPlaylistItemsInfo } from '../../models/http-response/playlist-items-info.model';
 import { IPopularYoutubeVideos } from '../../models/http-response/popular-youtube-videos.model';
@@ -119,6 +120,30 @@ export class YoutubeHttpService {
       params: params,
       context: new HttpContext().set(AUTHORIZED, true),
     });
+  }
+
+  getMyPlaylists(
+    pageToken?: string,
+    maxResults = 200,
+  ): Observable<IMyPlaylistsResponse> {
+    let params = new HttpParams({
+      fromObject: {
+        part: 'snippet,contentDetails,status',
+        mine: true,
+        maxResults,
+        key: this.apiKey,
+      },
+    });
+    if (pageToken) {
+      params = params.set('pageToken', pageToken);
+    }
+    return this.httpClient.get<IMyPlaylistsResponse>(
+      `${this.baseUrl}playlists`,
+      {
+        params,
+        context: new HttpContext().set(AUTHORIZED, true),
+      },
+    );
   }
 
   getPlaylistItemsInfo(

@@ -1,0 +1,77 @@
+<button
+  type="button"
+  class="playlist-card"
+  [disabled]="disabled() || isSkeleton()"
+  [attr.aria-hidden]="isSkeleton() ? true : null"
+  (click)="openPlaylist.emit(playlist().id)"
+>
+  <span class="thumbnail-stack">
+    <span class="thumbnail">
+      <ng-container
+        *aySkeleton="isSkeleton(); theme: { 'border-radius': '12px' }"
+      >
+        @if (thumbnailUrl(); as url) {
+          <img
+            [ngSrc]="url"
+            priority
+            fill
+            sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"
+            alt=""
+            (error)="onThumbnailError()"
+          />
+        } @else {
+          <span class="thumbnail-placeholder" aria-hidden="true">
+            <mat-icon
+              svgIcon="playlist-placeholder"
+              fill="#606060"
+              aria-hidden="true"
+            />
+          </span>
+        }
+        <span class="video-count">
+          <mat-icon
+            svgIcon="playlist-count"
+            fill="currentColor"
+            aria-hidden="true"
+          />
+          <span>
+            {{ playlist().contentDetails.itemCount }}
+            {{ playlist().contentDetails.itemCount === 1 ? 'video' : 'videos' }}
+          </span>
+        </span>
+        <span class="play-overlay" aria-hidden="true">
+          <span class="play-label">
+            <mat-icon
+              svgIcon="play"
+              viewBox="0 0 36 36"
+              fill="currentColor"
+              aria-hidden="true"
+            />
+            Play all
+          </span>
+        </span>
+      </ng-container>
+    </span>
+  </span>
+  <span class="playlist-title" [class.skeleton-text]="isSkeleton()">
+    <ng-container
+      *aySkeleton="isSkeleton(); theme: { width: '80%', height: '16px' }"
+    >
+      <ay-text-renderer [title]="playlist().snippet.title" />
+    </ng-container>
+  </span>
+  <span class="playlist-meta" [class.skeleton-text]="isSkeleton()">
+    <ng-container
+      *aySkeleton="isSkeleton(); theme: { width: '55%', height: '14px' }"
+    >
+      {{ privacyLabel() }}
+    </ng-container>
+  </span>
+  <span class="open-label" [class.skeleton-text]="isSkeleton()">
+    <ng-container
+      *aySkeleton="isSkeleton(); theme: { width: '45%', height: '14px' }"
+    >
+      View full playlist
+    </ng-container>
+  </span>
+</button>

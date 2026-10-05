@@ -1,0 +1,49 @@
+@reference "tailwindcss";
+
+:host {
+  @apply block;
+}
+
+.playlists-page {
+  @apply px-[16px] py-[24px] text-[#0f0f0f];
+}
+
+.playlist-title {
+  @apply h-[44px];
+}
+
+h1 {
+  @apply m-0 mb-[20px] text-[36px] font-bold leading-[44px];
+}
+
+.collection-bar {
+  @apply h-[40px] mb-[16px];
+}
+
+.playlist-grid {
+  @apply grid grid-cols-[repeat(auto-fill,minmax(min(100%,240px),1fr))] gap-x-[16px] gap-y-[32px];
+}
+
+.playlist-grid-item {
+  @apply min-w-[200px] max-w-[420px];
+}
+
+.page-state {
+  @apply py-[56px] px-[16px] text-center;
+
+  h2 {
+    @apply m-0 mb-[12px] text-[22px] font-semibold;
+  }
+
+  p {
+    @apply m-0 mb-[20px] text-[#606060];
+  }
+}
+
+.sign-in-button {
+  @apply inline-block h-[44px];
+
+  &:focus-within {
+    @apply outline-2 outline-solid outline-[#065fd4] outline-offset-[4px];
+  }
+}

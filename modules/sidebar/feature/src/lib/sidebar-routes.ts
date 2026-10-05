@@ -10,4 +10,7 @@ export const ExternalRoutesByCurrentWindowWithoutLocationChange: Map<
 > = new Map([['youtube-music-light', 'https://music.youtube.com/']]);
 
 export const InternalRoutesByCurrentWindow: Map<string | null, string> =
-  new Map([['home', '/']]);
+  new Map([
+    ['home', '/'],
+    ['playlists', '/feed/playlists'],
+  ]);

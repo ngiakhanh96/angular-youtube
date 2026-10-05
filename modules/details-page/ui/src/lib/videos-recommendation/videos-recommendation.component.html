@@ -1,9 +1,9 @@
 <div class="videos-recommendation-container">
   <div class="video-recommendation-categories">
-    <ay-video-categories
+    <ay-pill-list
       [videoCategories]="videoCategories()"
       [scrollingWidth]="150"
-    ></ay-video-categories>
+    ></ay-pill-list>
   </div>
   <div class="video-recommendation-list">
     <ng-template #videoCard let-video="video">

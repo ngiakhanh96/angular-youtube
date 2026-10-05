@@ -41,6 +41,15 @@ export default defineConfig([
           allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$'],
           depConstraints: [
             {
+              sourceTag: 'scope:playlists-feature',
+              onlyDependOnLibsWithTags: [
+                'scope:playlists-ui',
+                'scope:playlists-data-access',
+                'scope:shared-ui',
+                'scope:shared-data-access',
+              ],
+            },
+            {
               sourceTag: 'scope:details-page-feature',
               onlyDependOnLibsWithTags: [
                 'scope:details-page-ui',
@@ -94,6 +103,14 @@ export default defineConfig([
               ],
             },
             {
+              sourceTag: 'scope:playlists-ui',
+              onlyDependOnLibsWithTags: [
+                'scope:shared-data-access',
+                'scope:shared-ui',
+                'scope:shared-data-access',
+              ],
+            },
+            {
               sourceTag: 'scope:details-page-ui',
               onlyDependOnLibsWithTags: [
                 'scope:details-page-data-access',
@@ -142,6 +159,10 @@ export default defineConfig([
             },
             {
               sourceTag: 'scope:shared-ui',
+              onlyDependOnLibsWithTags: ['scope:shared-data-access'],
+            },
+            {
+              sourceTag: 'scope:playlists-data-access',
               onlyDependOnLibsWithTags: ['scope:shared-data-access'],
             },
             {

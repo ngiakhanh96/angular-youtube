@@ -23,8 +23,7 @@ mat-sidenav-container {
 
         .layout_body_content {
           @apply w-[var(--sidenav-content-width)];
-          /* Smooth transition for sidebar content width change */
-          @apply transition-[width] duration-400 delay-200;
+          @apply transition-[width] duration-400 ease-[cubic-bezier(0.25,0.8,0.25,1)];
         }
       }
     }

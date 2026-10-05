@@ -22,7 +22,15 @@
     }
 
     .video-categories-button {
-      @apply h-full bg-[var(--white-color)] flex justify-center items-center rounded-full;
+      @apply w-[32px] h-[32px] cursor-pointer bg-[var(--white-color)] flex justify-center items-center rounded-full;
+
+      &:focus-visible {
+        @apply outline-2 outline-solid outline-[#065fd4] outline-offset-2;
+      }
+
+      mat-icon {
+        @apply w-[32px] h-[32px];
+      }
     }
   }
 

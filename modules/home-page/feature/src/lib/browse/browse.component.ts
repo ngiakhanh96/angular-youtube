@@ -15,9 +15,9 @@ import {
   InfiniteScrollDirective,
   IVideoPlayerCardInfo,
   LoadingBarService,
+  PillListComponent,
   SidebarService,
   Utilities,
-  VideoCategoriesComponent,
   VideoPlayerCardComponent,
 } from '@angular-youtube/shared-ui';
 import { NgTemplateOutlet } from '@angular/common';
@@ -41,7 +41,7 @@ import { Router } from '@angular/router';
   imports: [
     VideoPlayerCardComponent,
     InfiniteScrollDirective,
-    VideoCategoriesComponent,
+    PillListComponent,
     FixedTopDirective,
     NgTemplateOutlet,
   ],

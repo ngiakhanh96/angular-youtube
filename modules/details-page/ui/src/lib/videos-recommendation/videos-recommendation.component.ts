@@ -1,28 +1,19 @@
 import {
   IVideoCategory,
   IVideoPlayerCardInfo,
+  PillListComponent,
   PlayerPosition,
   Utilities,
-  VideoCategoriesComponent,
   VideoPlayerCardComponent,
 } from '@angular-youtube/shared-ui';
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  computed,
-  input,
-  output,
-} from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 
 @Component({
   selector: 'ay-videos-recommendation',
   templateUrl: './videos-recommendation.component.html',
   styleUrls: ['./videos-recommendation.component.scss'],
-  imports: [
-    VideoCategoriesComponent,
-    VideoPlayerCardComponent,
-    NgTemplateOutlet,
-  ],
+  imports: [PillListComponent, VideoPlayerCardComponent, NgTemplateOutlet],
 })
 export class VideosRecommendationInfoComponent {
   videoCategories = input.required<IVideoCategory[]>();

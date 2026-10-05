@@ -1,4 +1,3 @@
-import { NgTemplateOutlet } from '@angular/common';
 import {
   afterEveryRender,
   afterNextRender,
@@ -12,7 +11,7 @@ import {
   signal,
 } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
-import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface IVideoCategory {
   title: string;
@@ -20,12 +19,12 @@ export interface IVideoCategory {
 }
 
 @Component({
-  selector: 'ay-video-categories',
-  imports: [MatChipsModule, TextIconButtonComponent, NgTemplateOutlet],
-  templateUrl: './video-categories.component.html',
-  styleUrls: ['./video-categories.component.scss'],
+  selector: 'ay-pill-list',
+  imports: [MatChipsModule, MatIconModule],
+  templateUrl: './pill-list.component.html',
+  styleUrls: ['./pill-list.component.scss'],
 })
-export class VideoCategoriesComponent implements OnDestroy {
+export class PillListComponent implements OnDestroy {
   videoCategories = input.required<IVideoCategory[]>();
   shouldShowScrollLeftButton = signal(false);
   shouldShowScrollRightButton = signal(false);
@@ -44,6 +43,7 @@ export class VideoCategoriesComponent implements OnDestroy {
           'mdc-evolution-chip-set__chips',
         )[0] as HTMLElement | undefined;
         if (this.videoCategoryList) {
+          this.renderer.setAttribute(this.videoCategoryList, 'tabindex', '0');
           // Use Renderer2.listen so we get an unlisten function we can call on destroy
           this.scrollUnlisten = this.renderer.listen(
             this.videoCategoryList,

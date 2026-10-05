@@ -4,19 +4,13 @@ import {
   InfiniteScrollDirective,
   IVideoCategory,
   IVideoPlayerCardInfo,
+  PillListComponent,
   PlayerPosition,
   Utilities,
-  VideoCategoriesComponent,
   VideoPlayerCardComponent,
 } from '@angular-youtube/shared-ui';
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  computed,
-  inject,
-  input,
-  output,
-} from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { Router } from '@angular/router';
 
 //TODO implement local spinner instead of global spinner
@@ -25,7 +19,7 @@ import { Router } from '@angular/router';
   templateUrl: './videos-search.component.html',
   styleUrls: ['./videos-search.component.scss'],
   imports: [
-    VideoCategoriesComponent,
+    PillListComponent,
     VideoPlayerCardComponent,
     InfiniteScrollDirective,
     FixedTopDirective,

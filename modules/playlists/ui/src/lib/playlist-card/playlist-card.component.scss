@@ -1,0 +1,91 @@
+@reference "tailwindcss";
+
+:host {
+  @apply block w-full min-w-0 max-w-[420px];
+}
+
+.playlist-card {
+  @apply flex flex-col w-full p-0 text-[#0f0f0f] text-left cursor-pointer rounded-[12px];
+
+  &:focus-visible {
+    @apply outline-2 outline-solid outline-[#065fd4] outline-offset-[5px];
+  }
+
+  &:disabled {
+    @apply cursor-wait;
+  }
+
+  &:hover .play-overlay,
+  &:focus-visible .play-overlay {
+    @apply opacity-100;
+  }
+}
+
+.thumbnail-stack {
+  @apply relative w-full pt-[8px];
+
+  &::before,
+  &::after {
+    @apply absolute left-1/2 h-[14px] content-[''] rounded-t-[10px] -translate-x-1/2;
+  }
+
+  &::before {
+    @apply top-0 w-[90%] bg-[#d9d9d9];
+  }
+
+  &::after {
+    @apply top-[4px] w-[95%] bg-[#bdbdbd];
+  }
+}
+
+.thumbnail {
+  @apply relative z-1 block w-full aspect-video overflow-hidden bg-[#ededed] rounded-[12px];
+
+  img {
+    @apply object-cover;
+  }
+}
+
+.thumbnail-placeholder {
+  @apply grid h-full place-items-center;
+
+  mat-icon {
+    @apply w-[48px] h-[48px] fill-[#606060];
+  }
+}
+
+.video-count {
+  @apply absolute right-[8px] bottom-[6px] z-[1] inline-flex items-center gap-[4px] py-[2px] px-[4px] text-white text-[12px] font-semibold leading-[16px] bg-black/60 rounded-[4px];
+
+  mat-icon {
+    @apply w-[12px] h-[12px] shrink-0 fill-current;
+  }
+}
+
+.play-overlay {
+  @apply absolute inset-0 grid text-white font-semibold bg-black/65 opacity-0 place-items-center;
+}
+
+.playlist-title {
+  @apply mt-[12px] mx-0 mb-[2px] text-[16px] font-medium leading-[22px];
+}
+
+.play-label {
+  @apply inline-flex items-center gap-[2px];
+
+  mat-icon {
+    @apply w-[24px] h-[24px] shrink-0;
+  }
+}
+
+.playlist-meta {
+  @apply text-[14px] leading-[22px] text-[#606060];
+}
+
+.open-label {
+  @apply mt-[2px] text-[14px] font-semibold leading-[20px] text-[#606060];
+}
+
+.skeleton-text {
+  @apply w-full h-[22px];
+}

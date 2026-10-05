@@ -14,6 +14,10 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'feed/playlists',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'externalRedirect',
     renderMode: RenderMode.Client, // No SSR needed for redirects
   },

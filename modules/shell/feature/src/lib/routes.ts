@@ -24,6 +24,13 @@ export const SHELL_ROUTES: Routes = [
           ),
       },
       {
+        path: 'feed/playlists',
+        loadChildren: () =>
+          import('@angular-youtube/playlists-feature').then(
+            (m) => m.PLAYLISTS_ROUTES,
+          ),
+      },
+      {
         path: 'results',
         loadChildren: () =>
           import('@angular-youtube/search-page-feature').then(

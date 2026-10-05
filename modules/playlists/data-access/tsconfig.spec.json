@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../dist/out-tsc",
+    "module": "preserve",
+    "target": "es2016",
+    "types": ["node"],
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+    "rootDir": "src"
+  },
+  "files": ["src/test-setup.ts"],
+  "include": ["src/**/*.test.ts", "src/**/*.spec.ts", "src/**/*.d.ts"]
+}
