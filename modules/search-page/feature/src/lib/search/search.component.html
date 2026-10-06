@@ -1,6 +1,7 @@
 <div class="search_container">
   <ay-videos-search
     [videos]="searchedVideosInfo()"
+    [isLoading]="isLoadingVideos()"
     [videoCategories]="videosCategoriesViewModel()"
     (scrollDown)="onScrollDown()"
   ></ay-videos-search>

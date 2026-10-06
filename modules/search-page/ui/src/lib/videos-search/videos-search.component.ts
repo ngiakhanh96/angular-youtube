@@ -33,6 +33,7 @@ export class VideosSearchComponent extends BaseWithSandBoxComponent {
   maxWidth = input('1280px');
   videoCategories = input.required<IVideoCategory[]>();
   videos = input.required<IVideoPlayerCardInfo[]>();
+  isLoading = input(false);
   PlayerPosition: typeof PlayerPosition = PlayerPosition;
   scrollDown = output<void>();
   Utilities = Utilities;
@@ -52,6 +53,8 @@ export class VideosSearchComponent extends BaseWithSandBoxComponent {
   }
 
   onScrollDown() {
+    if (this.isLoading()) return;
+
     this.scrollDown.emit();
   }
 }

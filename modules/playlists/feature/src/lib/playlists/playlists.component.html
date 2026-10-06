@@ -29,7 +29,7 @@
       ayInfiniteScroll
       [infiniteScrollDistance]="3"
       [infiniteScrollThrottle]="50"
-      [infiniteScrollDisabled]="!store.nextPageToken()"
+      [infiniteScrollDisabled]="isLoadingPlaylists()"
       (scrolled)="onScrollDown()"
     >
       <ng-template

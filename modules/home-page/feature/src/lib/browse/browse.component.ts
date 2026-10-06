@@ -5,6 +5,7 @@ import {
 
 import {
   BaseWithSandBoxComponent,
+  HttpResponseStatus,
   IChannelItem,
   IFormatStream,
   IPopularYoutubeVideos,
@@ -56,6 +57,12 @@ export class BrowseComponent
   implements OnInit
 {
   protected homePageStore = inject(HomePageStore);
+  protected isLoadingVideos = computed(
+    () =>
+      this.sandbox.sharedStore.getResponse().details[
+        homePageEventGroup.loadYoutubePopularVideos.type
+      ]?.status === HttpResponseStatus.Pending,
+  );
   protected videos = linkedSignal<
     {
       videosWithMetaData: IPopularYoutubeVideos | undefined;
@@ -152,6 +159,10 @@ export class BrowseComponent
   }
 
   onScrollDown() {
+    if (this.isLoadingVideos() || !this.homePageStore.videos()?.nextPageToken) {
+      return;
+    }
+
     this.dispatchEvent(
       homePageEventGroup.loadYoutubePopularVideos({
         nextPage: true,

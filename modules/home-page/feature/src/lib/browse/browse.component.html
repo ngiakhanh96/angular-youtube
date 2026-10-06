@@ -10,6 +10,7 @@
     ayInfiniteScroll
     [infiniteScrollDistance]="3"
     [infiniteScrollThrottle]="50"
+    [infiniteScrollDisabled]="isLoadingVideos()"
     (scrolled)="onScrollDown()"
   >
     @let channelInfo = "'20px'";

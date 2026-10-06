@@ -78,6 +78,7 @@
         ayInfiniteScroll
         [infiniteScrollDistance]="2"
         [infiniteScrollThrottle]="50"
+        [infiniteScrollDisabled]="isLoadingComments()"
         (scrolled)="onScrollDown()"
       >
         <ay-video-comments [commentsInfo]="commentsInfo()"> </ay-video-comments>
