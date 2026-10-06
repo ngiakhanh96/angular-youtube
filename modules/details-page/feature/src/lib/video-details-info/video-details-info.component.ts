@@ -1,4 +1,7 @@
-import { detailsPageEventGroup } from '@angular-youtube/details-page-data-access';
+import {
+  detailsPageEventGroup,
+  DetailsPageStore,
+} from '@angular-youtube/details-page-data-access';
 import { VideoDetailsDescriptionComponent } from '@angular-youtube/details-page-ui';
 import {
   BaseWithSandBoxComponent,
@@ -16,12 +19,7 @@ import {
   TextRenderComponent,
   Utilities,
 } from '@angular-youtube/shared-ui';
-import {
-  Component,
-  computed,
-  input,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { VideoCommentsComponent } from '../video-comments/video-comments.component';
 
 export interface IVideoDetailsInfo {
@@ -55,6 +53,7 @@ export interface IVideoDetailsInfo {
   ],
 })
 export class VideoDetailsInfoComponent extends BaseWithSandBoxComponent {
+  detailsPageStore = inject(DetailsPageStore);
   videoInfo = input.required<IVideoDetailsInfo | undefined>();
   commentsInfo = input.required<IInvidiousVideoCommentsInfo | undefined>();
   likeCountString = computed(() => {
@@ -119,11 +118,13 @@ export class VideoDetailsInfoComponent extends BaseWithSandBoxComponent {
   );
 
   onScrollDown() {
-    if (this.commentsInfo()?.continuation) {
+    const commentsInfo = this.commentsInfo();
+    if (commentsInfo?.continuation) {
       this.dispatchEvent(
         detailsPageEventGroup.loadYoutubeVideoComments({
           videoId: this.videoInfo()?.id ?? '',
-          continuation: this.commentsInfo()?.continuation,
+          sortBy: this.detailsPageStore.commentSortBy(),
+          continuation: commentsInfo.continuation,
         }),
       );
     }

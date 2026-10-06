@@ -21,7 +21,7 @@ export const detailsPageEventGroup = eventGroup({
     loadYoutubeVideoComments: type<{
       commentId?: string;
       videoId: string;
-      sortBy?: string;
+      sortBy: 'top' | 'new';
       continuation?: string;
     }>(),
     loadYoutubeVideoCommentsSuccess: type<{

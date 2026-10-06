@@ -19,6 +19,7 @@ export interface IDetailsPageState {
   videoInfo: IInvidiousVideoInfo | undefined;
   recommendedVideosInfo: IInvidiousVideoInfo[];
   videoCommentsInfo: IInvidiousVideoCommentsInfo | undefined;
+  commentSortBy: 'top' | 'new';
   nestedVideoCommentsInfo: Record<string, IInvidiousVideoCommentsInfo>;
   playlist: {
     info: IPlaylistInfo | undefined;
@@ -30,6 +31,7 @@ export const initialDetailsPageState: IDetailsPageState = {
   videoInfo: undefined,
   recommendedVideosInfo: [],
   videoCommentsInfo: undefined,
+  commentSortBy: 'top',
   nestedVideoCommentsInfo: {},
   playlist: {
     info: undefined,
@@ -49,6 +51,21 @@ export function withDetailsPageReducer<_>() {
   return signalStoreFeature(
     { state: type<IDetailsPageState>() },
     withReducer(
+      on(
+        detailsPageEventGroup.loadYoutubeVideoComments,
+        ({ payload: { sortBy, commentId, continuation } }, state) => {
+          if (commentId || continuation) return {};
+
+          const commentsInfo = state.videoCommentsInfo;
+          return {
+            commentSortBy: sortBy,
+            videoCommentsInfo: commentsInfo
+              ? { ...commentsInfo, comments: [], continuation: undefined }
+              : undefined,
+            nestedVideoCommentsInfo: {},
+          };
+        },
+      ),
       on(
         detailsPageEventGroup.postYoutubeVideoCommentSuccess,
         ({ payload: { videoId, comment } }, state) => {

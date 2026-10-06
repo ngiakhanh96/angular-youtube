@@ -3,11 +3,11 @@
   "configurations": [
     {
       "name": "Launch CSR",
-      "type": "node",
+      "type": "chrome",
       "request": "launch",
-      "program": "${workspaceFolder}/tools/start-csr.mjs",
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "start-csr",
       "postDebugTask": "stop-csr"
     }
   ]

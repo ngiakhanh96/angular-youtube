@@ -5,11 +5,17 @@
       <ay-text-icon-button
         svgIcon="sort-by"
         displayText="Sort by"
+        color="var(--black-color)"
         backgroundColor="transparent"
         hoverBackgroundColor="transparent"
         borderRadius="0px"
-        [disabledRipple]="false"
-      ></ay-text-icon-button>
+        svgIconMarginLeft="0px"
+        svgIconMarginRight="12px"
+        iconPaddingLeft="0px"
+        iconPaddingRight="0px"
+        cdkOverlayOrigin
+        #sortOrigin="cdkOverlayOrigin"
+      />
     </div>
   </div>
 
@@ -32,8 +38,7 @@
           placeholder="Add a comment..."
           aria-label="Add a comment"
           [attr.aria-describedby]="submissionError() ? 'comment-error' : null"
-          [readOnly]="isSubmitting()"
-          [formControl]="commentInput"
+          [formField]="commentInput"
           (focus)="isCommentFocused.set(true)"
           autocomplete="off"
         />
@@ -67,7 +72,9 @@
                   [color]="'var(--white-color)'"
                   [backgroundColor]="'var(--blue-color)'"
                   [disabled]="
-                    isSubmitting() || !commentInput.value.trim() || !channelId()
+                    isSubmitting() ||
+                    !commentInput().value().trim() ||
+                    !channelId()
                   "
                   (click)="submitComment()"
                 ></ay-text-icon-button>
@@ -99,3 +106,32 @@
     }
   </div>
 </div>
+
+<ng-template
+  ayOverlay
+  [connectedOverlayOrigin]="sortOrigin"
+  [connectedOverlayWidth]="'min(300px, calc(100vw - 32px))'"
+  [(connectedOverlayOpen)]="isSortOpen"
+>
+  <div
+    class="video-comments-sort-menu"
+    (keydown.escape)="isSortOpen.set(false); $event.stopPropagation()"
+  >
+    @for (option of sortOptions; track option.value) {
+      <label class="video-comments-sort-option">
+        <input
+          type="radio"
+          [value]="option.value"
+          class="sr-only"
+          [formField]="selectedSort"
+          (click)="selectSort(option.value)"
+          (change)="selectSort(option.value)"
+        />
+        <span class="video-comments-sort-label">{{ option.label }}</span>
+        <span class="video-comments-sort-description">
+          {{ option.description }}
+        </span>
+      </label>
+    }
+  </div>
+</ng-template>

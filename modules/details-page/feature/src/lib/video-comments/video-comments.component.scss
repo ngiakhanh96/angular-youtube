@@ -9,6 +9,10 @@
     }
   }
 
+  .video-comments-sort {
+    @apply h-9;
+  }
+
   .video-comments-input {
     @apply flex gap-[16px] mb-[10px];
 
@@ -53,4 +57,33 @@
       @apply min-h-[84px];
     }
   }
+}
+
+.video-comments-sort-menu {
+  @apply flex flex-col w-full overflow-hidden rounded-xl py-2 shadow-lg bg-[var(--white-color)] text-[var(--black-color)];
+}
+
+.video-comments-sort-option {
+  @apply flex flex-col gap-1 px-4 py-3 text-left cursor-pointer;
+
+  &:has(input:checked) {
+    @apply bg-black/5;
+  }
+
+  &:hover,
+  &:has(input:focus-visible) {
+    @apply bg-black/10;
+  }
+
+  &:has(input:focus-visible) {
+    @apply outline-2 outline-solid outline-[var(--black-color)] outline-offset-[-2px];
+  }
+}
+
+.video-comments-sort-label {
+  @apply text-[14px] leading-5;
+}
+
+.video-comments-sort-description {
+  @apply text-[12px] leading-4 text-gray-600;
 }

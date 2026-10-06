@@ -16,9 +16,11 @@ import {
 
 import {
   ImageDirective,
+  OverlayDirective,
   TextIconButtonComponent,
   Utilities,
 } from '@angular-youtube/shared-ui';
+import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import {
   Component,
   computed,
@@ -26,11 +28,12 @@ import {
   ElementRef,
   inject,
   input,
-  output,
+  linkedSignal,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { form, FormField, readonly } from '@angular/forms/signals';
 import { DomSanitizer } from '@angular/platform-browser';
 import { finalize, first, map } from 'rxjs';
 
@@ -44,7 +47,9 @@ export enum CommentSortOption {
   templateUrl: './video-comments.component.html',
   styleUrls: ['./video-comments.component.scss'],
   imports: [
-    ReactiveFormsModule,
+    CdkOverlayOrigin,
+    OverlayDirective,
+    FormField,
     TextIconButtonComponent,
     VideoCommentComponent,
     ImageDirective,
@@ -64,6 +69,7 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
       detailsPageEventGroup.loadYoutubeVideoComments({
         videoId: this.videoId(),
         continuation: continuation ?? comment.replies?.continuation,
+        sortBy: this.detailsPageStore.commentSortBy(),
         commentId: comment.commentId,
       }),
     );
@@ -99,21 +105,38 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
     const totalComments = this.commentsInfo()?.commentCount ?? 0;
     return `${Utilities.numberToStringWithCommas(totalComments)} Comment${totalComments > 1 ? 's' : ''}`;
   });
-  // TODO implement sorting feature
-  commentInput = new FormControl('', { nonNullable: true });
   isSubmitting = signal(false);
+  commentInput = form(signal(''), (path) => {
+    readonly(path, { when: () => this.isSubmitting() });
+  });
   submissionError = signal('');
   commentInputElement = viewChild<ElementRef<HTMLInputElement>>(
     'commentInputElement',
   );
   isCommentFocused = signal(false);
   isSortOpen = signal(false);
-  selectedSort = signal<CommentSortOption>(CommentSortOption.TopComments);
+  readonly sortOptions = [
+    {
+      value: CommentSortOption.TopComments,
+      label: 'Top',
+      description: 'Show featured comments',
+    },
+    {
+      value: CommentSortOption.NewestFirst,
+      label: 'Newest',
+      description: 'Show recent comments, including potential spam',
+    },
+  ];
+  selectedSort = form(
+    linkedSignal(() =>
+      this.detailsPageStore.commentSortBy() === 'new'
+        ? CommentSortOption.NewestFirst
+        : CommentSortOption.TopComments,
+    ),
+  );
   sanitizer = inject(DomSanitizer);
   auth = inject(Auth);
-  CommentSortOption = CommentSortOption;
 
-  sortChanged = output<CommentSortOption>();
   user = this.sandbox.sharedStore.myChannelInfo;
   userThumbnail = computed(
     () =>
@@ -125,10 +148,24 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
     super();
     effect(() => {
       this.videoId();
-      this.commentInput.setValue('');
+      untracked(() => this.commentInput().reset(''));
       this.isCommentFocused.set(false);
       this.submissionError.set('');
     });
+  }
+
+  selectSort(sort: CommentSortOption) {
+    this.isSortOpen.set(false);
+    const videoId = this.videoId();
+    const sortBy = sort === CommentSortOption.NewestFirst ? 'new' : 'top';
+    if (sortBy === this.detailsPageStore.commentSortBy()) return;
+
+    this.dispatchEvent(
+      detailsPageEventGroup.loadYoutubeVideoComments({
+        videoId,
+        sortBy,
+      }),
+    );
   }
 
   getRepliesCount(comment: IVideoComment) {
@@ -144,12 +181,12 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
   cancelComment() {
     if (this.isSubmitting()) return;
     this.isCommentFocused.set(false);
-    this.commentInput.setValue('');
+    this.commentInput().reset('');
     this.submissionError.set('');
   }
 
   submitComment() {
-    const text = this.commentInput.value.trim();
+    const text = this.commentInput().value().trim();
     const videoId = this.videoId();
     const channelId = this.channelId();
     if (
@@ -183,7 +220,7 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
       )
       .subscribe((details) => {
         if (details.status === HttpResponseStatus.Success) {
-          this.commentInput.setValue('');
+          this.commentInput().reset('');
           this.commentInputElement()?.nativeElement.focus();
         } else {
           const status = details.errorResponse.errorInfo.status;

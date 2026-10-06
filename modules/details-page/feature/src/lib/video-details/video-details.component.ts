@@ -96,6 +96,7 @@ export class VideoDetailsComponent
     if (this.videoId() !== '') {
       return detailsPageEventGroup.loadYoutubeVideoComments({
         videoId: this.videoId(),
+        sortBy: 'top',
       });
     }
     return sharedEventGroup.empty();

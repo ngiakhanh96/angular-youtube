@@ -116,6 +116,7 @@ export function withDetailsPageEffects<_>() {
                   return of(
                     detailsPageEventGroup.loadYoutubeVideoCommentsSuccess({
                       commentId: event.payload.commentId,
+                      continuation: event.payload.continuation,
                       commentsInfo: {
                         commentCount: 0,
                         videoId: event.payload.videoId,
