@@ -38,7 +38,7 @@
           placeholder="Add a comment..."
           aria-label="Add a comment"
           [attr.aria-describedby]="submissionError() ? 'comment-error' : null"
-          [formField]="commentInput"
+          [formField]="form.commentInput"
           (focus)="isCommentFocused.set(true)"
           autocomplete="off"
         />
@@ -73,7 +73,7 @@
                   [backgroundColor]="'var(--blue-color)'"
                   [disabled]="
                     isSubmitting() ||
-                    !commentInput().value().trim() ||
+                    !form.commentInput().value().trim() ||
                     !channelId()
                   "
                   (click)="submitComment()"
@@ -123,7 +123,7 @@
           type="radio"
           [value]="option.value"
           class="sr-only"
-          [formField]="selectedSort"
+          [formField]="form.selectedSort"
           (click)="selectSort(option.value)"
           (change)="selectSort(option.value)"
         />

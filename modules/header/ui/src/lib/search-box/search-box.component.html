@@ -1,5 +1,5 @@
 <form class="search-form">
-  <div #searchBoxContainer class="search-box-container" [formGroup]="form">
+  <div #searchBoxContainer class="search-box-container">
     <div class="search-box" slot="search-box">
       <input
         #input
@@ -7,7 +7,6 @@
         autocapitalize="none"
         autocomplete="off"
         autocorrect="off"
-        name="search_query"
         tabindex="0"
         type="text"
         spellcheck="false"
@@ -19,7 +18,7 @@
         [attr.aria-controls]="'search-autocomplete'"
         [attr.aria-expanded]="isOpenedSuggestionDropdown()"
         dir="ltr"
-        formControlName="searchQuery"
+        [formField]="form.searchQuery"
         (keydown.enter)="onSubmit($event)"
         cdkOverlayOrigin
         #inputOverlayOrigin="cdkOverlayOrigin"
@@ -42,7 +41,7 @@
           [sectionItemBorderRadius]="'0px'"
         ></ay-menu>
       </ng-template>
-      @if (form.valid) {
+      @if (form().valid()) {
         <div class="clear-icon">
           <ay-text-icon-button
             [svgIcon]="'clear'"

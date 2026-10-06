@@ -106,8 +106,21 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
     return `${Utilities.numberToStringWithCommas(totalComments)} Comment${totalComments > 1 ? 's' : ''}`;
   });
   isSubmitting = signal(false);
-  commentInput = form(signal(''), (path) => {
-    readonly(path, { when: () => this.isSubmitting() });
+  private readonly commentModel = linkedSignal<
+    CommentSortOption,
+    { commentInput: string; selectedSort: CommentSortOption }
+  >({
+    source: () =>
+      this.detailsPageStore.commentSortBy() === 'new'
+        ? CommentSortOption.NewestFirst
+        : CommentSortOption.TopComments,
+    computation: (selectedSort, previous) => ({
+      commentInput: previous?.value.commentInput ?? '',
+      selectedSort,
+    }),
+  });
+  readonly form = form(this.commentModel, (path) => {
+    readonly(path.commentInput, { when: () => this.isSubmitting() });
   });
   submissionError = signal('');
   commentInputElement = viewChild<ElementRef<HTMLInputElement>>(
@@ -127,13 +140,6 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
       description: 'Show recent comments, including potential spam',
     },
   ];
-  selectedSort = form(
-    linkedSignal(() =>
-      this.detailsPageStore.commentSortBy() === 'new'
-        ? CommentSortOption.NewestFirst
-        : CommentSortOption.TopComments,
-    ),
-  );
   sanitizer = inject(DomSanitizer);
   auth = inject(Auth);
 
@@ -148,7 +154,7 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
     super();
     effect(() => {
       this.videoId();
-      untracked(() => this.commentInput().reset(''));
+      untracked(() => this.form.commentInput().reset(''));
       this.isCommentFocused.set(false);
       this.submissionError.set('');
     });
@@ -181,12 +187,12 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
   cancelComment() {
     if (this.isSubmitting()) return;
     this.isCommentFocused.set(false);
-    this.commentInput().reset('');
+    this.form.commentInput().reset('');
     this.submissionError.set('');
   }
 
   submitComment() {
-    const text = this.commentInput().value().trim();
+    const text = this.form.commentInput().value().trim();
     const videoId = this.videoId();
     const channelId = this.channelId();
     if (
@@ -220,7 +226,7 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
       )
       .subscribe((details) => {
         if (details.status === HttpResponseStatus.Success) {
-          this.commentInput().reset('');
+          this.form.commentInput().reset('');
           this.commentInputElement()?.nativeElement.focus();
         } else {
           const status = details.errorResponse.errorInfo.status;

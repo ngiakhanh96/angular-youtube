@@ -11,6 +11,7 @@ import {
   afterNextRender,
   Component,
   computed,
+  debounced,
   DestroyRef,
   DOCUMENT,
   effect,
@@ -18,27 +19,22 @@ import {
   inject,
   input,
   linkedSignal,
-  OnInit,
   output,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  FormBuilder,
-  FormControl,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { form, FormField, required } from '@angular/forms/signals';
 import { NavigationEnd, Router, Event as RouterEvent } from '@angular/router';
-import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'ay-search-box',
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss'],
   imports: [
-    ReactiveFormsModule,
+    FormField,
     OverlayDirective,
     OverlayModule,
     MenuComponent,
@@ -51,7 +47,7 @@ import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs';
       'searchBoxContainerPaddingLeft()',
   },
 })
-export class SearchBoxComponent implements OnInit {
+export class SearchBoxComponent {
   searchIconLegacyBackgroundColor = signal('rgb(248, 248, 248)');
   inputElement = viewChild.required<ElementRef>('input');
   shouldOpenSuggestionDropdown = signal(false);
@@ -65,7 +61,7 @@ export class SearchBoxComponent implements OnInit {
       iconName: 'search',
       displayHtml: this.highlightSearchText(
         v,
-        this.form.controls.searchQuery.value ?? '',
+        this.form.searchQuery().value(),
       ),
     }));
     return [{ sectionItems }];
@@ -77,24 +73,34 @@ export class SearchBoxComponent implements OnInit {
   });
   selectedText = signal<string | null>(null);
   searchQueryChange = output<string>();
-  selectedSuggestion = false;
 
-  private formBuilder = inject(FormBuilder);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
   private document = inject(DOCUMENT);
 
-  form = this.formBuilder.group({
-    searchQuery: new FormControl('', Validators.required),
+  private readonly searchModel = signal({ searchQuery: '' });
+  readonly form = form(this.searchModel, (path) => {
+    required(path.searchQuery);
   });
+  private readonly debouncedSearchQuery = debounced(
+    () =>
+      this.form.searchQuery().dirty()
+        ? this.form.searchQuery().value()
+        : '',
+    300,
+  );
 
   constructor() {
     const tmp = this.document.createElement('DIV');
     effect(() => {
-      tmp.innerHTML = this.selectedText() ?? '';
-      this.form.controls.searchQuery.patchValue(tmp.textContent);
-      this.selectedSuggestion = true;
-      this.search();
+      const selectedText = this.selectedText();
+      if (selectedText === null) return;
+
+      tmp.innerHTML = selectedText;
+      untracked(() => {
+        this.form.searchQuery().reset(tmp.textContent ?? '');
+        this.search();
+      });
     });
 
     afterNextRender({
@@ -115,39 +121,32 @@ export class SearchBoxComponent implements OnInit {
             takeUntilDestroyed(this.destroyRef),
           )
           .subscribe((event: NavigationEnd) => {
+            this.shouldOpenSuggestionDropdown.set(false);
             const url = new URL(event.url, this.document.baseURI);
             if (url.pathname.includes('results')) {
-              this.form.controls.searchQuery.setValue(
-                url.searchParams.get('search_query'),
+              this.form.searchQuery().reset(
+                url.searchParams.get('search_query') ?? '',
               );
+            } else {
+              this.form.searchQuery().reset();
             }
           });
       },
     });
-  }
+    effect(() => {
+      const value = this.debouncedSearchQuery.value().trim();
 
-  ngOnInit(): void {
-    // Listen for search input changes with debounce
-    this.form.controls.searchQuery.valueChanges
-      .pipe(
-        debounceTime(300), // 300ms debounce
-        distinctUntilChanged(),
-        map((value) => value?.trim() || ''),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe((value) => {
-        if (this.selectedSuggestion) {
-          this.selectedSuggestion = false;
+      untracked(() => {
+        if (!value || !this.form.searchQuery().dirty()) {
+          this.shouldOpenSuggestionDropdown.set(false);
           return;
         }
-        if (value.length > 0) {
-          this.searchQueryChange.emit(value);
-          this.suggestions.set([]);
-          this.shouldOpenSuggestionDropdown.set(true);
-        } else {
-          this.shouldOpenSuggestionDropdown.set(false);
-        }
+
+        this.searchQueryChange.emit(value);
+        this.suggestions.set([]);
+        this.shouldOpenSuggestionDropdown.set(true);
       });
+    });
   }
 
   onSubmit(event: Event) {
@@ -156,11 +155,12 @@ export class SearchBoxComponent implements OnInit {
   }
 
   search() {
-    if (this.form.valid) {
+    if (this.form().valid()) {
       this.shouldOpenSuggestionDropdown.set(false);
+      this.form.searchQuery().reset();
       this.router.navigate(['results'], {
         queryParams: {
-          search_query: this.form.value.searchQuery,
+          search_query: this.form.searchQuery().value(),
         },
       });
     }
@@ -176,7 +176,8 @@ export class SearchBoxComponent implements OnInit {
 
   onClear(event: Event) {
     event.preventDefault();
-    this.form.reset();
+    this.form().reset({ searchQuery: '' });
+    this.shouldOpenSuggestionDropdown.set(false);
     this.inputElement().nativeElement.focus();
   }
 
