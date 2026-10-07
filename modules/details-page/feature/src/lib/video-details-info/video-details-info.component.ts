@@ -5,7 +5,6 @@ import {
 import { VideoDetailsDescriptionComponent } from '@angular-youtube/details-page-ui';
 import {
   BaseWithSandBoxComponent,
-  HttpResponseStatus,
   IInvidiousVideoCommentsInfo,
 } from '@angular-youtube/shared-data-access';
 import {
@@ -57,11 +56,8 @@ export class VideoDetailsInfoComponent extends BaseWithSandBoxComponent {
   detailsPageStore = inject(DetailsPageStore);
   videoInfo = input.required<IVideoDetailsInfo | undefined>();
   commentsInfo = input.required<IInvidiousVideoCommentsInfo | undefined>();
-  isLoadingComments = computed(
-    () =>
-      this.sandbox.sharedStore.getResponse().details[
-        detailsPageEventGroup.loadYoutubeVideoComments.type
-      ]?.status === HttpResponseStatus.Pending,
+  isLoadingComments = this.sandbox.sharedStore.getIsPendingRequest(
+    detailsPageEventGroup.loadYoutubeVideoComments.type,
   );
   likeCountString = computed(() => {
     const videoInfo = this.videoInfo();

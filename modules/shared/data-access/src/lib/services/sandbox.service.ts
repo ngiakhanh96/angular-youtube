@@ -24,7 +24,7 @@ export class SandboxService implements OnDestroy {
     });
   }
 
-  getResponseDetailsSignal(event: EventInstance<string, unknown>) {
+  getResponseDetails$(event: EventInstance<string, unknown>) {
     return this.sharedStore.getResponseDetails$(event, {
       injector: this.injector,
     });

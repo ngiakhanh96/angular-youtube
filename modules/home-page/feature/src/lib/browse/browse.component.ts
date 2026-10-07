@@ -5,7 +5,6 @@ import {
 
 import {
   BaseWithSandBoxComponent,
-  HttpResponseStatus,
   IChannelItem,
   IFormatStream,
   IPopularYoutubeVideos,
@@ -57,11 +56,8 @@ export class BrowseComponent
   implements OnInit
 {
   protected homePageStore = inject(HomePageStore);
-  protected isLoadingVideos = computed(
-    () =>
-      this.sandbox.sharedStore.getResponse().details[
-        homePageEventGroup.loadYoutubePopularVideos.type
-      ]?.status === HttpResponseStatus.Pending,
+  protected isLoadingVideos = this.sandbox.sharedStore.getIsPendingRequest(
+    homePageEventGroup.loadYoutubePopularVideos.type,
   );
   protected videos = linkedSignal<
     {

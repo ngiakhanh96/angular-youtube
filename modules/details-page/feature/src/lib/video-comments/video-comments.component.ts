@@ -215,7 +215,7 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
     });
     this.sandbox.dispatchEvent(event);
     this.sandbox
-      .getResponseDetailsSignal(event)
+      .getResponseDetails$(event)
       .pipe(
         first(
           (details) =>

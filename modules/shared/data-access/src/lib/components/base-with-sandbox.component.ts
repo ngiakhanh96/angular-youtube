@@ -35,7 +35,7 @@ export abstract class BaseWithSandBoxComponent {
   ) {
     this.sandbox.dispatchEvent(event);
     setTimeout(() => {
-      const responseDetails = this.sandbox.getResponseDetailsSignal(event);
+      const responseDetails = this.sandbox.getResponseDetails$(event);
       responseDetails
         .pipe(
           first(
@@ -65,8 +65,7 @@ export abstract class BaseWithSandBoxComponent {
         untracked(() => {
           this.sandbox.dispatchEvent(event);
           setTimeout(() => {
-            const responseDetails =
-              this.sandbox.getResponseDetailsSignal(event);
+            const responseDetails = this.sandbox.getResponseDetails$(event);
             responseDetails
               .pipe(
                 first(

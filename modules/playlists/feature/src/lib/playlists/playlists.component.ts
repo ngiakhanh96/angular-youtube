@@ -6,7 +6,6 @@ import { PlaylistCardComponent } from '@angular-youtube/playlists-ui';
 import {
   Auth,
   BaseWithSandBoxComponent,
-  HttpResponseStatus,
 } from '@angular-youtube/shared-data-access';
 import {
   InfiniteScrollDirective,
@@ -19,7 +18,6 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   afterNextRender,
   Component,
-  computed,
   effect,
   ElementRef,
   inject,
@@ -47,12 +45,8 @@ export class PlaylistsComponent
   implements OnDestroy
 {
   protected readonly store = inject(PlaylistsStore);
-  protected readonly isLoadingPlaylists = computed(
-    () =>
-      this.sandbox.sharedStore.getResponse().details[
-        playlistsEventGroup.load.type
-      ]?.status === HttpResponseStatus.Pending,
-  );
+  protected readonly isLoadingPlaylists =
+    this.sandbox.sharedStore.getIsPendingRequest(playlistsEventGroup.load.type);
   protected readonly auth = inject(Auth);
   protected readonly playlistCategories = signal<IVideoCategory[]>([
     { id: 'playlists', title: 'Playlists' },

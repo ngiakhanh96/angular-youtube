@@ -5,7 +5,6 @@ import {
 import { VideosSearchComponent } from '@angular-youtube/search-page-ui';
 import {
   BaseWithSandBoxComponent,
-  HttpResponseStatus,
   sharedEventGroup,
 } from '@angular-youtube/shared-data-access';
 import {
@@ -37,11 +36,8 @@ export class SearchComponent
   implements OnInit
 {
   protected searchPageStore = inject(SearchPageStore);
-  protected isLoadingVideos = computed(
-    () =>
-      this.sandbox.sharedStore.getResponse().details[
-        searchPageEventGroup.searchYoutubeVideos.type
-      ]?.status === HttpResponseStatus.Pending,
+  protected isLoadingVideos = this.sandbox.sharedStore.getIsPendingRequest(
+    searchPageEventGroup.searchYoutubeVideos.type,
   );
   protected videosCategoriesViewModel = computed(() => {
     const videoCategories = this.sandbox.sharedStore.videoCategories();
