@@ -4,13 +4,10 @@
   "projectType": "application",
   "sourceRoot": "e2e/src",
   "implicitDependencies": ["angular-youtube"],
-  "// targets": "to see all targets run: nx show project e2e --web",
   "targets": {
     "e2e": {
-      "executor": "@nx/playwright:playwright",
       "options": {
-        "passWithNoTests": true,
-        "config": "e2e/playwright.config.ts"
+        "args": ["--pass-with-no-tests"]
       }
     }
   }

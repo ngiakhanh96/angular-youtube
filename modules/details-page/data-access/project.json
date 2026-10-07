@@ -5,9 +5,5 @@
   "prefix": "ay",
   "projectType": "library",
   "tags": ["scope:details-page-data-access"],
-  "targets": {
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    }
-  }
+  "targets": {}
 }

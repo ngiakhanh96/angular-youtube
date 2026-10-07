@@ -10,6 +10,7 @@
     "build": {
       "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
         "outputPath": {
           "base": "docs",
@@ -56,12 +57,12 @@
           "extractLicenses": false,
           "sourceMap": true
         }
-      },
-      "defaultConfiguration": "production"
+      }
     },
     "serve": {
       "continuous": true,
       "executor": "@angular/build:dev-server",
+      "defaultConfiguration": "development",
       "configurations": {
         "production": {
           "buildTarget": "angular-youtube:build:production"
@@ -69,12 +70,12 @@
         "development": {
           "buildTarget": "angular-youtube:build:development"
         }
-      },
-      "defaultConfiguration": "development"
+      }
     },
     "build-csr": {
       "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
         "outputPath": {
           "base": "docs",
@@ -116,12 +117,12 @@
           "extractLicenses": false,
           "sourceMap": true
         }
-      },
-      "defaultConfiguration": "production"
+      }
     },
     "serve-csr": {
       "continuous": true,
       "executor": "@angular/build:dev-server",
+      "defaultConfiguration": "development",
       "configurations": {
         "production": {
           "buildTarget": "angular-youtube:build-csr:production"
@@ -129,19 +130,12 @@
         "development": {
           "buildTarget": "angular-youtube:build-csr:development"
         }
-      },
-      "defaultConfiguration": "development"
+      }
     },
     "extract-i18n": {
       "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "angular-youtube:build"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": ["./src"]
       }
     },
     "serve-static": {

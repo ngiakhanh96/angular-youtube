@@ -2,7 +2,6 @@ import { ApplicationConfig, mergeApplicationConfig } from '@angular/core';
 import {
   provideClientHydration,
   withEventReplay,
-  withIncrementalHydration,
 } from '@angular/platform-browser';
 import { provideServerRendering, withAppShell, withRoutes } from '@angular/ssr';
 import { AppComponent } from './app.component';
@@ -15,7 +14,7 @@ const serverConfig: ApplicationConfig = {
       withRoutes(serverRoutes),
       withAppShell(AppComponent),
     ),
-    provideClientHydration(withEventReplay(), withIncrementalHydration()),
+    provideClientHydration(withEventReplay()),
   ],
 };
 

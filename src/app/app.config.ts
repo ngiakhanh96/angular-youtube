@@ -13,11 +13,7 @@ import {
   authInterceptor,
   globalHttpErrorInterceptor,
 } from '@angular-youtube/shell-data-access';
-import {
-  provideHttpClient,
-  withFetch,
-  withInterceptors,
-} from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {
   ApplicationConfig,
   ErrorHandler,
@@ -80,7 +76,6 @@ export const appConfig: ApplicationConfig = {
       useExisting: CustomRouteReuseStrategy,
     },
     provideHttpClient(
-      withFetch(),
       withInterceptors([authInterceptor, globalHttpErrorInterceptor]),
     ),
     provideSocialAuth({
