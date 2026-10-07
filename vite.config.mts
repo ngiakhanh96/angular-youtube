@@ -24,6 +24,5 @@ export default defineConfig(() => ({
       reportsDirectory: './coverage/angular-youtube',
       provider: 'v8' as const,
     },
-    projects: ['modules/**/vite.config.mts'],
   },
 }));

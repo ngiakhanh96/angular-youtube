@@ -4,20 +4,8 @@
   "sourceRoot": "modules/shared/data-access/src",
   "prefix": "ay",
   "projectType": "library",
-  "tags": [
-    "scope:shared-data-access"
-  ],
+  "tags": ["scope:shared-data-access"],
   "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": [
-        "{options.reportsDirectory}"
-      ],
-      "options": {
-        "reportsDirectory": "{projectRoot}/../../../coverage/modules/shared/data-access",
-        "passWithNoTests": true
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint"
     }
