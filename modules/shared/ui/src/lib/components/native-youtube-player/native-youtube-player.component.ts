@@ -58,7 +58,6 @@ type PlayerVideoElement = HTMLVideoElement & {
     '(document:webkitfullscreenchange)': 'onFullScreenChange()',
     '(document:mozfullscreenchange)': 'onFullScreenChange()',
     '(document:msfullscreenchange)': 'onFullScreenChange()',
-    '(mousemove)': 'onMouseMove()',
     '(document:mouseup)': 'onMouseUp($event)',
     '(document:mousemove)': 'onDocumentMouseMove($event)',
   },
@@ -236,10 +235,15 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   onFullScreenChange() {
-    if (!this.document.fullscreenElement) {
-      this.screenMode.set(ScreenMode.Default);
-    } else {
+    if (
+      this.document.fullscreenElement ===
+      this.videoPlayerContainerRef().nativeElement
+    ) {
       this.screenMode.set(ScreenMode.Full);
+      this.onMouseEnter();
+    } else {
+      this.screenMode.set(ScreenMode.Default);
+      this.onMouseLeave();
     }
   }
 
@@ -339,7 +343,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.clearHoverTimer();
     this.hoverTimer = setTimeout(() => {
       this.isHovered.set(false);
-      this.document.body.style.cursor = 'none';
     }, NativeYouTubePlayerComponent.hoverAndRestTimeoutMs);
   }
 
@@ -349,7 +352,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     }
     this.isHovered.set(false);
     this.clearHoverTimer();
-    this.document.body.style.cursor = '';
     this.isKeyboardVolumeActive.set(false);
     this.clearVolumeKeyboardTimer();
   }
@@ -976,7 +978,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       clearTimeout(this.hoverTimer);
       this.hoverTimer = null;
     }
-    this.document.body.style.cursor = '';
   }
 
   private clearVolumeKeyboardTimer() {

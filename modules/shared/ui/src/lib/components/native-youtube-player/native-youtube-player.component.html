@@ -13,9 +13,11 @@
   }
   <div
     class="player"
+    [class.player--controls-hidden]="!mini() && playerButtonsDisplay() === 'none'"
     [style.display]="!isVideoPlaying() && !disablePlaceholder() ? 'none' : ''"
     #videoPlayerContainer
-    (mouseover)="onMouseEnter()"
+    (mouseenter)="onMouseEnter()"
+    (mousemove)="onMouseMove()"
     (mouseleave)="onMouseLeave()"
   >
     <video

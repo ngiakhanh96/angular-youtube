@@ -23,6 +23,10 @@
   .player {
     @apply w-full h-full absolute top-0 left-0;
 
+    &--controls-hidden {
+      cursor: none;
+    }
+
     video {
       @apply w-full h-full rounded-[var(--border-radius)] bg-[var(--black-color)];
     }
