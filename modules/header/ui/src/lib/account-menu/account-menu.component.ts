@@ -1,10 +1,6 @@
 import { IMyChannelInfo } from '@angular-youtube/shared-data-access';
 import { ISection, MenuComponent } from '@angular-youtube/shared-ui';
-import {
-  Component,
-  input,
-  signal,
-} from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { AccountQuickInfoComponent } from '../account-quick-info/account-quick-info.component';
@@ -22,6 +18,7 @@ import { AccountQuickInfoComponent } from '../account-quick-info/account-quick-i
 })
 export class AccountMenuComponent {
   public user = input.required<IMyChannelInfo | undefined>();
+  readonly signOut = output<void>();
   menuItems = signal<ISection[]>([
     {
       sectionItems: [
@@ -106,4 +103,11 @@ export class AccountMenuComponent {
   ]);
 
   selectedIconName = signal('');
+
+  onMenuSelection(iconName: string | null) {
+    this.selectedIconName.set(iconName ?? '');
+    if (iconName === 'sign-out') {
+      this.signOut.emit();
+    }
+  }
 }

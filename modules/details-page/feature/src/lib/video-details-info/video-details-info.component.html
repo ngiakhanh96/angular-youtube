@@ -33,36 +33,41 @@
               ></ay-text-renderer>
             </div>
           </div>
-          <div class="video-details-info-author-channel-buttons">
-            <ay-text-icon-button [displayText]="'Join'"></ay-text-icon-button>
-            <ay-text-icon-button
-              [displayText]="'Subscribe'"
-              [color]="'var(--white-color)'"
-              [backgroundColor]="'var(--black-color)'"
-            ></ay-text-icon-button>
-          </div>
+          @if (auth.isLoggedIn()) {
+            <div class="video-details-info-author-channel-buttons">
+              <ay-text-icon-button [displayText]="'Join'"></ay-text-icon-button>
+              <ay-text-icon-button
+                [displayText]="'Subscribe'"
+                [color]="'var(--white-color)'"
+                [backgroundColor]="'var(--black-color)'"
+              ></ay-text-icon-button>
+            </div>
+          }
         </div>
         <div class="video-details-info-action-buttons">
           <div class="video-details-info-action-button">
             <ay-combined-text-icon-button
               [combinedTextIcons]="likeDislikeCombinedTextIcons()"
+              [disabled]="!auth.isLoggedIn()"
             ></ay-combined-text-icon-button>
           </div>
-          <div class="video-details-info-action-button">
-            <ay-text-icon-button
-              [displayText]="'Share'"
-              [svgIcon]="'share'"
-            ></ay-text-icon-button>
-          </div>
-          <div class="video-details-info-action-button">
-            <ay-dropdown-button
-              [items]="moreItems()"
-              mode="vertical"
-              [mini]="true"
-              [backgroundColor]="'rgba(0, 0, 0, 0.05)'"
-              [dropDownWidth]="'154px'"
-            ></ay-dropdown-button>
-          </div>
+          @if (auth.isLoggedIn()) {
+            <div class="video-details-info-action-button">
+              <ay-text-icon-button
+                [displayText]="'Share'"
+                [svgIcon]="'share'"
+              ></ay-text-icon-button>
+            </div>
+            <div class="video-details-info-action-button">
+              <ay-dropdown-button
+                [items]="moreItems()"
+                mode="vertical"
+                [mini]="true"
+                [backgroundColor]="'rgba(0, 0, 0, 0.05)'"
+                [dropDownWidth]="'154px'"
+              ></ay-dropdown-button>
+            </div>
+          }
         </div>
       </div>
       <div class="video-details-info-description">

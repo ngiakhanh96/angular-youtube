@@ -80,7 +80,7 @@ export class LayoutComponent
     }),
   );
 
-  refreshTokenEffect = effect(() => {
+  refreshTokenEffect = effect((onCleanup) => {
     const accessTokenInfo = this.sandbox.sharedStore.accessTokenInfo();
     // TODO find a way to get refresh token to get new access token silently
     if (accessTokenInfo) {
@@ -89,9 +89,12 @@ export class LayoutComponent
       if (milisecondsDiff <= 10000) {
         this.authService.login();
       } else {
-        setTimeout(() => {
-          this.authService.login();
+        const refreshTimer = setTimeout(() => {
+          if (this.authService.isLoggedIn()) {
+            this.authService.login();
+          }
         }, milisecondsDiff - 10000);
+        onCleanup(() => clearTimeout(refreshTimer));
       }
     }
   });

@@ -4,6 +4,7 @@ import {
 } from '@angular-youtube/details-page-data-access';
 import { VideoDetailsDescriptionComponent } from '@angular-youtube/details-page-ui';
 import {
+  Auth,
   BaseWithSandBoxComponent,
   IInvidiousVideoCommentsInfo,
 } from '@angular-youtube/shared-data-access';
@@ -53,6 +54,7 @@ export interface IVideoDetailsInfo {
   ],
 })
 export class VideoDetailsInfoComponent extends BaseWithSandBoxComponent {
+  readonly auth = inject(Auth);
   detailsPageStore = inject(DetailsPageStore);
   videoInfo = input.required<IVideoDetailsInfo | undefined>();
   commentsInfo = input.required<IInvidiousVideoCommentsInfo | undefined>();

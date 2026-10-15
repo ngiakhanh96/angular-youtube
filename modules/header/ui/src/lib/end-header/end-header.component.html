@@ -32,7 +32,10 @@
         [connectedOverlayWidth]="300"
         [panelClass]="['mdc-list-list-item-one-line-container-height-40px']"
       >
-        <ay-account-menu [user]="user()"></ay-account-menu>
+        <ay-account-menu
+          [user]="user()"
+          (signOut)="signOut.emit()"
+        ></ay-account-menu>
       </ng-template>
     </div>
   } @else {

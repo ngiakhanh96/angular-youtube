@@ -215,8 +215,11 @@ export class GoogleLoginProvider extends BaseLoginProvider {
   }
 
   async signOut(): Promise<void> {
-    getGoogleAccountsOrThrow().id.disableAutoSelect();
+    const accounts = getGoogleAccountsOrThrow();
+    accounts.id.disableAutoSelect();
+    this._accessToken.next(null);
     this._socialUser.next(null);
+    accounts.id.cancel();
   }
 
   private createSocialUser(idToken: string) {

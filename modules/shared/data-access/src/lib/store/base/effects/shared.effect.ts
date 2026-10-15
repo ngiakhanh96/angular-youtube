@@ -19,6 +19,7 @@ import {
   throwError,
 } from 'rxjs';
 import { HttpResponseStatus } from '../../../models/http-response/http-response.model';
+import { Auth } from '../../../services/auth.service';
 import { AuthHttpService } from '../../../services/http/auth.http.service';
 import { YoutubeHttpService } from '../../../services/http/youtube.http.service';
 import { SessionStorage } from '../../../services/session-storage.service';
@@ -33,6 +34,7 @@ export function withSharedEffects<_>() {
       (
         store,
         events = inject(Events),
+        auth = inject(Auth),
         sessionStorageService = inject(SessionStorage),
         authHttpService = inject(AuthHttpService),
         youtubeService = inject(YoutubeHttpService),
@@ -88,15 +90,30 @@ export function withSharedEffects<_>() {
             ),
           ),
         ),
+        signOut$: events.on(sharedEventGroup.signOut).pipe(
+          map(() => {
+            auth.logout();
+            return sharedEventGroup.updateAccessToken({ accessToken: null });
+          }),
+        ),
         updateAccessToken$: events.on(sharedEventGroup.updateAccessToken).pipe(
-          map((event) => {
+          switchMap((event) => {
             if (event.payload.accessToken != null) {
-              return sharedEventGroup.getAccessTokenInfo({
-                accessToken: event.payload.accessToken,
-              });
+              return [
+                sharedEventGroup.getAccessTokenInfo({
+                  accessToken: event.payload.accessToken,
+                }),
+              ];
             }
             sessionStorageService.removeItem('Authorization');
-            return sharedEventGroup.empty();
+            return [
+              sharedEventGroup.cancelRequest({
+                requestEventCreator: sharedEventGroup.getAccessTokenInfo,
+              }),
+              sharedEventGroup.cancelRequest({
+                requestEventCreator: sharedEventGroup.loadMyChannelInfo,
+              }),
+            ];
           }),
         ),
         getAccessTokenInfoSuccess$: events

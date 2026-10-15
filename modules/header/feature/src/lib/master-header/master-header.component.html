@@ -9,6 +9,9 @@
     ></ay-center-header>
   </div>
   <div class="master_header_end">
-    <ay-end-header [user]="user()"></ay-end-header>
+    <ay-end-header
+      [user]="user()"
+      (signOut)="onSignOut()"
+    ></ay-end-header>
   </div>
 </div>

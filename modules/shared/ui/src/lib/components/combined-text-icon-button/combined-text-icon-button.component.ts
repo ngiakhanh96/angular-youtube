@@ -1,8 +1,4 @@
-import {
-  Component,
-  computed,
-  input,
-} from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { TextIconButtonComponent } from '../text-icon-button/text-icon-button.component';
 
 export interface CombinedTextIcon {
@@ -18,6 +14,7 @@ export interface CombinedTextIcon {
   imports: [TextIconButtonComponent],
 })
 export class CombinedTextIconButtonComponent {
+  readonly disabled = input(false);
   combinedTextIcons = input.required<CombinedTextIcon[]>();
   color = input<string>('black');
   svgIconMarginRight = input<string>('6px');

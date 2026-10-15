@@ -246,19 +246,19 @@ export class SocialAuthService {
    * A method used to sign out the currently loggen in user.
    *
    * @param revoke Optional parameter to specify whether a hard sign out is to be performed
+   * @param providerId Provider to sign out when using an access token without a social user
    * @returns A `Promise` that resolves if the operation is successful, rejects otherwise
    */
-  signOut(revoke = false): Promise<void> {
+  signOut(revoke = false, providerId?: string): Promise<void> {
     return new Promise((resolve, reject) => {
       if (!this.initialized) {
         reject(SocialAuthService.ERR_NOT_INITIALIZED);
-      } else if (!this._user) {
+      } else if (!this._user && !providerId) {
         reject(SocialAuthService.ERR_NOT_LOGGED_IN);
       } else {
-        const providerId = this._user.provider;
-        const providerObject = providerId
-          ? this.providers.get(providerId)
-          : undefined;
+        const providerObject = this.providers.get(
+          providerId ?? this._user?.provider ?? '',
+        );
         if (providerObject) {
           providerObject
             .signOut(revoke)

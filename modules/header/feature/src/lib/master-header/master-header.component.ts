@@ -6,7 +6,10 @@ import {
   CenterHeaderComponent,
   EndHeaderComponent,
 } from '@angular-youtube/header-ui';
-import { BaseWithSandBoxComponent } from '@angular-youtube/shared-data-access';
+import {
+  BaseWithSandBoxComponent,
+  sharedEventGroup,
+} from '@angular-youtube/shared-data-access';
 import { LogoMenuComponent } from '@angular-youtube/shared-ui';
 import {
   Component,
@@ -31,5 +34,9 @@ export class MasterHeaderComponent extends BaseWithSandBoxComponent {
     this.dispatchEvent(
       headerEventGroup.loadYoutubeSearchSuggestions({ searchQuery: query }),
     );
+  }
+
+  onSignOut() {
+    this.dispatchEvent(sharedEventGroup.signOut());
   }
 }

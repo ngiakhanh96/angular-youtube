@@ -2,6 +2,8 @@
   @if (firstTextIcon()) {
     <div class="first-text-icons-container">
       <ay-text-icon-button
+        [disabled]="disabled()"
+        [disabledRipple]="disabled()"
         [displayText]="firstTextIcon()!.displayText"
         [svgIcon]="firstTextIcon()!.svgIcon"
         [transform]="firstTextIcon()!.transform"
@@ -18,6 +20,8 @@
     <div class="middle-text-icons-container">
       @for (textIcon of middleTextIcons(); track textIcon.svgIcon) {
         <ay-text-icon-button
+          [disabled]="disabled()"
+          [disabledRipple]="disabled()"
           [displayText]="textIcon.displayText"
           [svgIcon]="textIcon.svgIcon"
           [color]="color()"
@@ -35,6 +39,8 @@
   @if (lastTextIcon()) {
     <div class="last-text-icons-container">
       <ay-text-icon-button
+        [disabled]="disabled()"
+        [disabledRipple]="disabled()"
         [displayText]="lastTextIcon()!.displayText"
         [svgIcon]="lastTextIcon()!.svgIcon"
         [color]="color()"

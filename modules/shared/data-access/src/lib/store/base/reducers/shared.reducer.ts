@@ -50,6 +50,14 @@ export function withSharedReducer<_>() {
   return signalStoreFeature(
     { state: type<ISharedState>() },
     withReducer(
+      on(sharedEventGroup.updateAccessToken, ({ payload }) =>
+        payload.accessToken === null
+          ? {
+              accessTokenInfo: undefined,
+              myChannelInfo: undefined,
+            }
+          : {},
+      ),
       on(
         sharedEventGroup.updateResponse,
         (

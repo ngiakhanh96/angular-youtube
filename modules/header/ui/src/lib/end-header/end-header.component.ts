@@ -12,6 +12,7 @@ import {
   computed,
   inject,
   input,
+  output,
   signal,
 } from '@angular/core';
 import { AccountAvatarComponent } from '../account-avatar/account-avatar.component';
@@ -34,6 +35,7 @@ import { LoginButtonComponent } from '../login-button/login-button.component';
 })
 export class EndHeaderComponent {
   public user = input.required<IMyChannelInfo | undefined>();
+  readonly signOut = output<void>();
   public userThumbnail = computed(
     () =>
       this.user()?.items[0].snippet.thumbnails.default.url ??
