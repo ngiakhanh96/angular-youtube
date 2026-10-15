@@ -12,6 +12,8 @@
   [matRippleCentered]="rippleCentered()"
 >
   <button
+    #button
+    [attr.aria-expanded]="ariaExpanded()"
     [class]="
       svgIcon() && displayText() ? 'text-icon-button' : 'text-or-icon-button'
     "

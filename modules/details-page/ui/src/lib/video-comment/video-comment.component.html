@@ -47,7 +47,36 @@
         >
         </ay-text-icon-button>
       </div>
+      @if (isUserLoggedIn()) {
+        <div class="video-comment-reply-action">
+          <ay-text-icon-button
+            #replyButton
+            displayText="Reply"
+            iconPaddingLeft="8px"
+            iconPaddingRight="8px"
+            fontSize="13px"
+            backgroundColor="transparent"
+            color="var(--black-color)"
+            (click)="openReply()"
+            [ariaExpanded]="isReplyOpen()"
+          />
+        </div>
+      }
     </div>
+    @if (isReplyOpen()) {
+      <ay-comment-input
+        [formField]="replyForm.text"
+        [inputId]="replyInputId()"
+        placeholder="Add a reply..."
+        [inputLabel]="'Reply to ' + comment().author"
+        submitLabel="Reply"
+        [autoFocus]="true"
+        [isSubmitting]="isSubmittingReply()"
+        [error]="replyError()"
+        (submitted)="submitReply($event)"
+        (cancelled)="cancelReply()"
+      />
+    }
     @if (repliesCount() > 0) {
       <div class="video-comment-replies">
         <div class="video-comment-replies-count">
@@ -70,6 +99,7 @@
             ) {
               <ay-video-comment
                 [commentViewModel]="nestedComment"
+                [isUserLoggedIn]="isUserLoggedIn()"
                 [avatarWidthHeight]="24"
               ></ay-video-comment>
             }

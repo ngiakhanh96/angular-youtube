@@ -13,43 +13,6 @@
     @apply h-9;
   }
 
-  .video-comments-input {
-    @apply flex gap-[16px] mb-[10px];
-
-    .video-comments-input-avatar {
-      img {
-        @apply rounded-full;
-      }
-    }
-
-    .video-comments-input-field {
-      @apply flex-1 flex flex-col gap-[8px] text-[14px] mr-[16px];
-      input {
-        @apply w-full border-b border-gray-200 py-[4px] outline-hidden focus:border-black;
-
-        &::placeholder {
-          @apply text-[var(--black-color)] opacity-70;
-        }
-      }
-
-      .video-comments-error {
-        @apply text-red-700;
-      }
-
-      .video-comments-input-actions {
-        @apply flex justify-between h-[36px];
-
-        .video-comments-emotions {
-          @apply w-[40px] h-[40px] ml-[-8px];
-        }
-
-        .video-comments-buttons {
-          @apply flex gap-[8px];
-        }
-      }
-    }
-  }
-
   .video-comments-list {
     @apply flex flex-col gap-[16px];
 

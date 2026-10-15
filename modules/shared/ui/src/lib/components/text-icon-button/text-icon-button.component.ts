@@ -1,7 +1,9 @@
 import {
   Component,
   computed,
+  ElementRef,
   input,
+  viewChild,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
@@ -42,6 +44,8 @@ import { RippleOnHoverDirective } from '../../directives/ripple-on-hover/ripple-
   },
 })
 export class TextIconButtonComponent {
+  private readonly button = viewChild<ElementRef<HTMLButtonElement>>('button');
+  readonly ariaExpanded = input<boolean>();
   widthHeight = input<string>('100%');
   displayText = input<string>();
   svgIcon = input<string>();
@@ -71,6 +75,10 @@ export class TextIconButtonComponent {
   rippleCentered = input<boolean>(false);
   rippleOnHover = input<boolean>(false);
   viewBox = input<string | undefined>(undefined);
+
+  focus() {
+    this.button()?.nativeElement.focus();
+  }
 
   borderLeftRadius = computed(() => {
     const borderRadiusForLeft = this.borderRadiusForLeft();

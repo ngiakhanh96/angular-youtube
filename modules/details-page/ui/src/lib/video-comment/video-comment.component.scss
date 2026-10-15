@@ -13,7 +13,7 @@
   }
 
   .video-comment-content {
-    @apply flex flex-col gap-1;
+    @apply flex flex-col gap-1 min-w-0 flex-1;
 
     .video-comment-header {
       @apply flex items-center gap-1;
@@ -32,14 +32,18 @@
     }
 
     .video-comment-actions {
-      @apply flex items-center mt-[4px];
+      @apply flex items-center mt-[4px] h-10;
 
       .video-comment-like-action {
-        @apply ml-[-10px];
+        @apply ml-[-10px] h-full;
       }
 
       .video-comment-dislike-action {
-        @apply ml-[-10px];
+        @apply ml-[-10px] h-full;
+      }
+
+      .video-comment-reply-action {
+        @apply h-9;
       }
     }
 

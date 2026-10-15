@@ -1,0 +1,41 @@
+@reference "tailwindcss";
+
+:host {
+  @apply block min-w-0;
+}
+
+.comment-input {
+  @apply flex gap-4 mb-[10px];
+}
+
+.comment-input-avatar {
+  @apply rounded-full shrink-0 self-start;
+}
+
+.comment-input-field {
+  @apply min-w-0 flex-1 flex flex-col gap-2 text-sm mr-4;
+
+  input {
+    @apply w-full border-b border-gray-200 py-1 outline-hidden focus:border-black;
+
+    &::placeholder {
+      @apply text-[var(--black-color)] opacity-70;
+    }
+  }
+}
+
+.comment-input-actions {
+  @apply flex justify-between h-9;
+}
+
+.comment-input-emotions {
+  @apply w-10 h-10 -ml-2;
+}
+
+.comment-input-buttons {
+  @apply flex gap-2;
+}
+
+.comment-input-error {
+  @apply text-red-700;
+}

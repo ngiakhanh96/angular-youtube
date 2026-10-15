@@ -3,19 +3,18 @@ import {
   DetailsPageStore,
 } from '@angular-youtube/details-page-data-access';
 import {
+  CommentInputComponent,
   IVideoCommentViewModel,
   VideoCommentComponent,
 } from '@angular-youtube/details-page-ui';
 import {
   Auth,
   BaseWithSandBoxComponent,
-  HttpResponseStatus,
   IInvidiousVideoCommentsInfo,
   IVideoComment,
 } from '@angular-youtube/shared-data-access';
 
 import {
-  ImageDirective,
   OverlayDirective,
   TextIconButtonComponent,
   Utilities,
@@ -25,17 +24,15 @@ import {
   Component,
   computed,
   effect,
-  ElementRef,
   inject,
   input,
   linkedSignal,
   signal,
   untracked,
-  viewChild,
 } from '@angular/core';
-import { form, FormField, readonly } from '@angular/forms/signals';
+import { form, FormField, readonly, required } from '@angular/forms/signals';
 import { DomSanitizer } from '@angular/platform-browser';
-import { finalize, first, map } from 'rxjs';
+import { defer, finalize, map, Observable, of } from 'rxjs';
 
 export enum CommentSortOption {
   TopComments = 'Top comments',
@@ -52,7 +49,7 @@ export enum CommentSortOption {
     FormField,
     TextIconButtonComponent,
     VideoCommentComponent,
-    ImageDirective,
+    CommentInputComponent,
   ],
 })
 export class VideoCommentsComponent extends BaseWithSandBoxComponent {
@@ -65,14 +62,25 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
   });
   comments = computed(() => this.commentsInfo()?.comments ?? []);
   repliesFn = (comment: IVideoComment, continuation?: string) => {
-    this.dispatchEvent(
-      detailsPageEventGroup.loadYoutubeVideoComments({
-        videoId: this.videoId(),
-        continuation: continuation ?? comment.replies?.continuation,
-        sortBy: this.detailsPageStore.commentSortBy(),
-        commentId: comment.commentId,
-      }),
-    );
+    // https://developers.google.com/youtube/v3/docs/comments/list#parentId
+    const postReplyFn: IVideoCommentViewModel['postReplyFn'] = (
+      _parentId,
+      text,
+    ) => this.postReplyFn(comment.commentId, text);
+    if (
+      continuation ||
+      !this.detailsPageStore.nestedVideoCommentsInfo()[comment.commentId]
+    ) {
+      this.dispatchEvent(
+        detailsPageEventGroup.loadYoutubeVideoComments({
+          videoId: this.videoId(),
+          continuation: continuation ?? comment.replies?.continuation,
+          nextPage: !!continuation,
+          sortBy: this.detailsPageStore.commentSortBy(),
+          commentId: comment.commentId,
+        }),
+      );
+    }
     return this.detailsPageStore
       .getNestedVideoCommentsInfoByCommentId$(comment.commentId, {
         injector: this.injector,
@@ -80,11 +88,12 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
       .pipe(
         map((nestedCommentsInfo) => {
           return {
-            comments: nestedCommentsInfo?.comments.map((comment) => {
+            comments: (nestedCommentsInfo?.comments ?? []).map((comment) => {
               return {
                 comment,
                 videoId: this.videoId(),
                 repliesFn: this.repliesFn,
+                postReplyFn,
               };
             }),
             continuation: nestedCommentsInfo?.continuation,
@@ -98,6 +107,7 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
         comment,
         videoId: this.videoId(),
         repliesFn: this.repliesFn,
+        postReplyFn: this.postReplyFn,
       };
     });
   });
@@ -106,6 +116,41 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
     return `${Utilities.numberToStringWithCommas(totalComments)} Comment${totalComments > 1 ? 's' : ''}`;
   });
   isSubmitting = signal(false);
+  private readonly isPostingReply = signal(false);
+  private readonly postReplyFn = (parentId: string, text: string) =>
+    defer(() => {
+      if (this.isPostingReply()) {
+        return of('Another reply is being posted. Please wait and try again.');
+      }
+      this.isPostingReply.set(true);
+      const videoId = this.videoId();
+      const event = detailsPageEventGroup.postYoutubeVideoReply({
+        videoId,
+        parentId,
+        text,
+      });
+      return new Observable<string | undefined>((subscriber) => {
+        this.dispatchEvent(
+          event,
+          () => {
+            subscriber.next(undefined);
+            subscriber.complete();
+          },
+          (error) => {
+            subscriber.next(
+              error.status === 401
+                ? 'Your session expired. Please sign in again to reply.'
+                : error.status === 403
+                  ? 'YouTube did not allow this reply. Check your permissions and whether replies are enabled.'
+                  : error.status === 0
+                    ? 'Could not confirm whether your reply was posted. Check YouTube before trying again.'
+                    : 'Could not post your reply. Please try again.',
+            );
+            subscriber.complete();
+          },
+        );
+      }).pipe(finalize(() => this.isPostingReply.set(false)));
+    });
   private readonly commentModel = linkedSignal<
     CommentSortOption,
     { commentInput: string; selectedSort: CommentSortOption }
@@ -120,13 +165,10 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
     }),
   });
   readonly form = form(this.commentModel, (path) => {
+    required(path.commentInput);
     readonly(path.commentInput, { when: () => this.isSubmitting() });
   });
   submissionError = signal('');
-  commentInputElement = viewChild<ElementRef<HTMLInputElement>>(
-    'commentInputElement',
-  );
-  isCommentFocused = signal(false);
   isSortOpen = signal(false);
   readonly sortOptions = [
     {
@@ -155,7 +197,6 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
     effect(() => {
       this.videoId();
       untracked(() => this.form.commentInput().reset(''));
-      this.isCommentFocused.set(false);
       this.submissionError.set('');
     });
   }
@@ -186,16 +227,15 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
 
   cancelComment() {
     if (this.isSubmitting()) return;
-    this.isCommentFocused.set(false);
     this.form.commentInput().reset('');
     this.submissionError.set('');
   }
 
-  submitComment() {
-    const text = this.form.commentInput().value().trim();
+  submitComment(text: string) {
     const videoId = this.videoId();
     const channelId = this.channelId();
     if (
+      !this.form().valid() ||
       this.isSubmitting() ||
       !text ||
       !videoId ||
@@ -213,33 +253,25 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
       channelId,
       text,
     });
-    this.sandbox.dispatchEvent(event);
-    this.sandbox
-      .getResponseDetails$(event)
-      .pipe(
-        first(
-          (details) =>
-            !!details && details.status !== HttpResponseStatus.Pending,
-        ),
-        this.takeUntilDestroyed(),
-        finalize(() => this.isSubmitting.set(false)),
-      )
-      .subscribe((details) => {
-        if (details.status === HttpResponseStatus.Success) {
-          this.form.commentInput().reset('');
-          this.commentInputElement()?.nativeElement.focus();
-        } else {
-          const status = details.errorResponse.errorInfo.status;
-          this.submissionError.set(
-            status === 401
-              ? 'Your session expired. Please sign in again to post your comment.'
-              : status === 403
-                ? 'YouTube did not allow this comment. Check your account permissions and whether comments are enabled.'
-                : status === 0
-                  ? 'Could not confirm whether your comment was posted. Check YouTube before trying again.'
-                  : 'Could not post your comment. Please try again.',
-          );
-        }
-      });
+    this.dispatchEvent(
+      event,
+      () => {
+        this.isSubmitting.set(false);
+        this.form.commentInput().reset('');
+        this.form.commentInput().focusBoundControl();
+      },
+      (error) => {
+        this.isSubmitting.set(false);
+        this.submissionError.set(
+          error.status === 401
+            ? 'Your session expired. Please sign in again to post your comment.'
+            : error.status === 403
+              ? 'YouTube did not allow this comment. Check your account permissions and whether comments are enabled.'
+              : error.status === 0
+                ? 'Could not confirm whether your comment was posted. Check YouTube before trying again.'
+                : 'Could not post your comment. Please try again.',
+        );
+      },
+    );
   }
 }

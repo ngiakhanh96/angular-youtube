@@ -52,6 +52,55 @@ export function withDetailsPageReducer<_>() {
     { state: type<IDetailsPageState>() },
     withReducer(
       on(
+        detailsPageEventGroup.postYoutubeVideoReplySuccess,
+        ({ payload: { videoId, parentId, comment } }, state) => {
+          const commentsInfo = state.videoCommentsInfo;
+          const parent = commentsInfo?.comments.find(
+            (item) => item.commentId === parentId,
+          );
+          const nested = state.nestedVideoCommentsInfo[parentId];
+          if (
+            state.videoInfo?.videoId !== videoId ||
+            commentsInfo?.videoId !== videoId ||
+            !parent ||
+            nested?.comments.some(
+              (item) => item.commentId === comment.commentId,
+            )
+          ) {
+            return {};
+          }
+          const replyCount = (parent.replies?.replyCount ?? 0) + 1;
+          return {
+            videoCommentsInfo: {
+              ...commentsInfo,
+              commentCount: commentsInfo.commentCount + 1,
+              comments: commentsInfo.comments.map((item) =>
+                item.commentId === parentId
+                  ? {
+                      ...item,
+                      replies: {
+                        replyCount,
+                        continuation: item.replies?.continuation ?? '',
+                      },
+                    }
+                  : item,
+              ),
+            },
+            nestedVideoCommentsInfo: {
+              ...state.nestedVideoCommentsInfo,
+              [parentId]: {
+                videoId,
+                commentCount: replyCount,
+                comments: [comment, ...(nested?.comments ?? [])],
+                continuation: nested
+                  ? nested.continuation
+                  : parent.replies?.continuation,
+              },
+            },
+          };
+        },
+      ),
+      on(
         detailsPageEventGroup.loadYoutubeVideoComments,
         ({ payload: { sortBy, commentId, continuation } }, state) => {
           if (commentId || continuation) return {};
@@ -101,7 +150,10 @@ export function withDetailsPageReducer<_>() {
       ),
       on(
         detailsPageEventGroup.loadYoutubeVideoCommentsSuccess,
-        ({ payload: { commentsInfo, commentId, continuation } }, state) => ({
+        (
+          { payload: { commentsInfo, commentId, continuation, nextPage } },
+          state,
+        ) => ({
           ...state,
           videoCommentsInfo: commentId
             ? state.videoCommentsInfo
@@ -124,17 +176,26 @@ export function withDetailsPageReducer<_>() {
           nestedVideoCommentsInfo: commentId
             ? {
                 ...state.nestedVideoCommentsInfo,
-                [commentId]: state.nestedVideoCommentsInfo[commentId]
-                  ? {
-                      ...state.nestedVideoCommentsInfo[commentId],
-                      comments: [
-                        ...(state.nestedVideoCommentsInfo[commentId].comments ??
-                          []),
-                        ...commentsInfo.comments,
-                      ],
-                      continuation: commentsInfo.continuation,
-                    }
-                  : commentsInfo,
+                [commentId]:
+                  nextPage && state.nestedVideoCommentsInfo[commentId]
+                    ? {
+                        ...state.nestedVideoCommentsInfo[commentId],
+                        comments: [
+                          ...(state.nestedVideoCommentsInfo[commentId]
+                            .comments ?? []),
+                          ...commentsInfo.comments.filter(
+                            (comment) =>
+                              !state.nestedVideoCommentsInfo[
+                                commentId
+                              ].comments.some(
+                                (existing) =>
+                                  existing.commentId === comment.commentId,
+                              ),
+                          ),
+                        ],
+                        continuation: commentsInfo.continuation,
+                      }
+                    : commentsInfo,
               }
             : state.nestedVideoCommentsInfo,
         }),

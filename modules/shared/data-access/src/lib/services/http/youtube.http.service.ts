@@ -11,7 +11,10 @@ import { IPlaylistInfo } from '../../models/http-response/playlist-info.model';
 import { IPlaylistItemsInfo } from '../../models/http-response/playlist-items-info.model';
 import { IPopularYoutubeVideos } from '../../models/http-response/popular-youtube-videos.model';
 import { IVideoCategories } from '../../models/http-response/video-categories-model';
-import { IYoutubeCommentThread } from '../../models/http-response/youtube-comment-thread.model';
+import {
+  IYoutubeComment,
+  IYoutubeCommentThread,
+} from '../../models/http-response/youtube-comment-thread.model';
 import { AppSettingsService } from '../app-settings.service';
 
 @Injectable({
@@ -23,6 +26,19 @@ export class YoutubeHttpService {
   private appSettingsService = inject(AppSettingsService);
   private baseUrl = this.appSettingsService.appConfig()?.youtubeApiBaseUrl;
   private regionCode = this.appSettingsService.appConfig()?.regionCode ?? 'US';
+
+  insertCommentReply(parentId: string, text: string) {
+    return this.httpClient.post<IYoutubeComment>(
+      `${this.baseUrl}comments`,
+      { snippet: { parentId, textOriginal: text } },
+      {
+        params: new HttpParams({
+          fromObject: { part: 'snippet', key: this.apiKey },
+        }),
+        context: new HttpContext().set(AUTHORIZED, true).set(SKIP_RETRY, true),
+      },
+    );
+  }
 
   insertCommentThread(videoId: string, channelId: string, text: string) {
     return this.httpClient.post<IYoutubeCommentThread>(

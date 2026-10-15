@@ -1,0 +1,68 @@
+<div class="comment-input" [attr.aria-busy]="isSubmitting()">
+  @if (avatarUrl()) {
+    <img
+      class="comment-input-avatar"
+      [ayImgSrc]="avatarUrl()"
+      width="40"
+      height="40"
+      alt="User avatar"
+    />
+  }
+  <div class="comment-input-field">
+    <input
+      #inputElement
+      [id]="inputId()"
+      type="text"
+      [placeholder]="placeholder()"
+      [attr.aria-label]="inputLabel()"
+      [attr.aria-describedby]="displayError() ? errorId() : null"
+      [attr.aria-invalid]="invalid() || !!error()"
+      [name]="name()"
+      [value]="value()"
+      [disabled]="disabled()"
+      [readOnly]="readonly()"
+      (input)="value.set($event.target.value)"
+      (blur)="touch.emit()"
+      (focus)="isFocused.set(true)"
+      (keydown.enter)="submit(); $event.preventDefault()"
+      autocomplete="off"
+    />
+    @if (isFocused()) {
+      <div class="comment-input-actions">
+        <div class="comment-input-emotions">
+          <ay-text-icon-button
+            svgIcon="emotion"
+            backgroundColor="transparent"
+            borderRadius="50%"
+            svgIconMarginLeft="0px"
+            svgIconMarginRight="0px"
+            iconPaddingLeft="0px"
+            iconPaddingRight="0px"
+          />
+        </div>
+        <div class="comment-input-buttons">
+          <ay-text-icon-button
+            displayText="Cancel"
+            color="var(--black-color)"
+            backgroundColor="var(--white-color)"
+            [disabledRipple]="true"
+            [disabled]="isSubmitting() || disabled()"
+            (click)="cancel()"
+          />
+          <ay-text-icon-button
+            [displayText]="isSubmitting() ? 'Posting...' : submitLabel()"
+            color="var(--white-color)"
+            backgroundColor="var(--blue-color)"
+            [disabled]="!canSubmit()"
+            (click)="submit()"
+          />
+        </div>
+      </div>
+    }
+    @if (displayError()) {
+      <p [id]="errorId()" class="comment-input-error" role="alert">{{
+        displayError()
+      }}</p>
+    }
+  </div>
+</div>

@@ -12,6 +12,7 @@ import {
   Component,
   ComponentRef,
   computed,
+  DestroyRef,
   ElementRef,
   inject,
   input,
@@ -19,9 +20,11 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { rxResource } from '@angular/core/rxjs-interop';
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { form, FormField, readonly, required } from '@angular/forms/signals';
 import { DomSanitizer } from '@angular/platform-browser';
-import { map, Observable, of, tap } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
+import { CommentInputComponent } from '../comment-input/comment-input.component';
 
 export interface IVideoCommentViewModelsWithContinuation {
   comments: IVideoCommentViewModel[];
@@ -34,15 +37,26 @@ export interface IVideoCommentViewModel {
     comment: IVideoComment,
     continuation?: string,
   ) => Observable<IVideoCommentViewModelsWithContinuation>;
+  postReplyFn: (
+    parentId: string,
+    text: string,
+  ) => Observable<string | undefined>;
 }
 
 @Component({
   selector: 'ay-video-comment',
   templateUrl: './video-comment.component.html',
   styleUrls: ['./video-comment.component.scss'],
-  imports: [ImageDirective, TextIconButtonComponent, ChannelNameComponent],
+  imports: [
+    ImageDirective,
+    TextIconButtonComponent,
+    ChannelNameComponent,
+    CommentInputComponent,
+    FormField,
+  ],
 })
 export class VideoCommentComponent implements OnDestroy {
+  readonly isUserLoggedIn = input(false);
   avatarWidthHeight = input<number>(40);
   commentViewModel = input.required<IVideoCommentViewModel>();
   comment = computed(() => this.commentViewModel().comment);
@@ -58,64 +72,31 @@ export class VideoCommentComponent implements OnDestroy {
     viewChild.required<ElementRef<HTMLElement>>('commentText');
   linkComponentRefs: ComponentRef<unknown>[] = [];
   repliesCollapsed = signal(true);
-  cachedNestedComments?: IVideoCommentViewModel[];
-  cachedContinuation?: string;
-  shouldUpdateCachedNestedComments = false;
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly continuation = signal<string | undefined>(undefined);
+  readonly isReplyOpen = signal(false);
+  readonly isSubmittingReply = signal(false);
+  private readonly replyModel = signal({ text: '' });
+  readonly replyForm = form(this.replyModel, (path) => {
+    required(path.text);
+    readonly(path.text, { when: () => this.isSubmittingReply() });
+  });
+  readonly replyError = signal('');
+  readonly replyButton = viewChild<TextIconButtonComponent>('replyButton');
+  readonly replyInputId = computed(
+    () => `reply-input-${this.comment().commentId}`,
+  );
   nestedCommentsResource = rxResource({
-    params: () => ({ repliesCollapsed: this.repliesCollapsed() }),
-    stream: (request) => {
-      if (request.params.repliesCollapsed) {
-        return of(<IVideoCommentViewModelsWithContinuation>{
-          comments: [],
-          continuation: '',
-        });
-      }
-
-      const commentViewModel = this.commentViewModel();
-      if (commentViewModel.comment.replies) {
-        if (this.cachedNestedComments) {
-          if (this.shouldUpdateCachedNestedComments) {
-            this.shouldUpdateCachedNestedComments = false;
-            return commentViewModel
-              .repliesFn(commentViewModel.comment, this.cachedContinuation)
-              .pipe(
-                tap((nestedComments) => {
-                  this.cachedNestedComments = [
-                    ...(this.cachedNestedComments ?? []),
-                    ...(nestedComments.comments ?? []),
-                  ];
-                  this.cachedContinuation = nestedComments?.continuation;
-                }),
-                map((nestedComments) => ({
-                  comments: nestedComments.comments ?? [],
-                  continuation: nestedComments.continuation,
-                })),
-              );
-          } else {
-            return of(<IVideoCommentViewModelsWithContinuation>{
-              comments: this.cachedNestedComments,
-              continuation: this.cachedContinuation,
-            });
-          }
-        } else {
-          return commentViewModel.repliesFn(commentViewModel.comment).pipe(
-            tap((nestedComments) => {
-              this.cachedNestedComments = nestedComments?.comments;
-              this.cachedContinuation = nestedComments?.continuation;
-            }),
-            map((nestedComments) => ({
-              comments: nestedComments.comments ?? [],
-              continuation: nestedComments.continuation,
-            })),
-          );
-        }
-      }
-      this.cachedNestedComments = [];
-      return of(<IVideoCommentViewModelsWithContinuation>{
-        comments: [],
-        continuation: '',
-      });
-    },
+    params: () =>
+      this.repliesCollapsed()
+        ? undefined
+        : {
+            commentId: this.comment().commentId,
+            videoId: this.commentViewModel().videoId,
+            continuation: this.continuation(),
+          },
+    stream: ({ params }) =>
+      this.commentViewModel().repliesFn(this.comment(), params.continuation),
   });
 
   repliesCount = computed(() => {
@@ -169,12 +150,56 @@ export class VideoCommentComponent implements OnDestroy {
   }
 
   onClickReplies() {
+    if (!this.repliesCollapsed()) this.continuation.set(undefined);
     this.repliesCollapsed.update((v) => !v);
   }
 
   onClickMoreReplies() {
-    this.shouldUpdateCachedNestedComments = true;
-    this.nestedCommentsResource.reload();
+    this.continuation.set(this.nestedCommentsResource.value()?.continuation);
+  }
+
+  openReply() {
+    this.isReplyOpen.set(true);
+  }
+
+  cancelReply() {
+    if (this.isSubmittingReply()) return;
+    this.replyForm.text().reset('');
+    this.isReplyOpen.set(false);
+    this.replyError.set('');
+    this.replyButton()?.focus();
+  }
+
+  submitReply(text: string) {
+    const postReply = this.commentViewModel().postReplyFn;
+    if (
+      !this.replyForm().valid() ||
+      !text ||
+      !postReply ||
+      this.isSubmittingReply()
+    )
+      return;
+    this.isSubmittingReply.set(true);
+    this.replyError.set('');
+    postReply(this.comment().commentId, text)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isSubmittingReply.set(false)),
+      )
+      .subscribe({
+        next: (error) => {
+          if (error) {
+            this.replyError.set(error);
+            return;
+          }
+          this.isReplyOpen.set(false);
+          this.replyForm.text().reset('');
+          this.repliesCollapsed.set(false);
+          this.replyButton()?.focus();
+        },
+        error: () =>
+          this.replyError.set('Could not post your reply. Please try again.'),
+      });
   }
 
   ngOnDestroy(): void {

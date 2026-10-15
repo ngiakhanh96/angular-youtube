@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   DestroyRef,
   effect,
@@ -32,21 +33,25 @@ export abstract class BaseWithSandBoxComponent {
   protected dispatchEvent(
     event: EventInstance<string, any>,
     successfulCallBack?: () => void,
+    errorCallback?: (error: HttpErrorResponse) => void,
   ) {
     this.sandbox.dispatchEvent(event);
     setTimeout(() => {
       const responseDetails = this.sandbox.getResponseDetails$(event);
       responseDetails
         .pipe(
-          first(
-            (details) =>
-              !details || details.status !== HttpResponseStatus.Pending,
-          ),
+          first((details) => {
+            // HTTP callers with an error callback need a confirmed response.
+            if (!details) return !errorCallback;
+            return details.status !== HttpResponseStatus.Pending;
+          }),
           this.takeUntilDestroyed(),
         )
         .subscribe((details) => {
           if (!details || details.status === HttpResponseStatus.Success) {
             successfulCallBack?.();
+          } else if (details.status === HttpResponseStatus.Error) {
+            errorCallback?.(details.errorResponse.errorInfo);
           }
         });
     });

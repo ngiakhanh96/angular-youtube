@@ -23,6 +23,39 @@ export function withDetailsPageEffects<_>() {
         invidiousService = inject(InvidiousHttpService),
         youtubeService = inject(YoutubeHttpService),
       ) => ({
+        postYoutubeVideoReply$: createHttpEffectAndUpdateResponse(
+          events,
+          detailsPageEventGroup.postYoutubeVideoReply,
+          ({ payload: { videoId, parentId, text } }) =>
+            youtubeService.insertCommentReply(parentId, text).pipe(
+              map(({ id, snippet }) =>
+                detailsPageEventGroup.postYoutubeVideoReplySuccess({
+                  videoId,
+                  parentId,
+                  comment: {
+                    commentId: id,
+                    author: snippet.authorDisplayName,
+                    authorThumbnail: snippet.authorProfileImageUrl,
+                    authorUrl: snippet.authorChannelUrl ?? '',
+                    authorId: snippet.authorChannelId?.value ?? '',
+                    verified: false,
+                    content: snippet.textOriginal ?? text,
+                    contentHtml: snippet.textDisplay,
+                    likeCount: snippet.likeCount,
+                    published: Math.floor(
+                      Date.parse(snippet.publishedAt) / 1000,
+                    ),
+                    publishedText: 'Just now',
+                    isEdited: snippet.updatedAt !== snippet.publishedAt,
+                    isPinned: false,
+                    authorIsChannelOwner:
+                      snippet.authorChannelId?.value === snippet.channelId,
+                  },
+                }),
+              ),
+            ),
+          false,
+        ),
         postYoutubeVideoComment$: createHttpEffectAndUpdateResponse(
           events,
           detailsPageEventGroup.postYoutubeVideoComment,
@@ -109,6 +142,7 @@ export function withDetailsPageEffects<_>() {
                     commentId: event.payload.commentId,
                     commentsInfo: commentsInfo,
                     continuation: event.payload.continuation,
+                    nextPage: event.payload.nextPage,
                   });
                 }),
                 catchError((error: HttpErrorResponse) => {
@@ -117,6 +151,7 @@ export function withDetailsPageEffects<_>() {
                     detailsPageEventGroup.loadYoutubeVideoCommentsSuccess({
                       commentId: event.payload.commentId,
                       continuation: event.payload.continuation,
+                      nextPage: event.payload.nextPage,
                       commentsInfo: {
                         commentCount: 0,
                         videoId: event.payload.videoId,

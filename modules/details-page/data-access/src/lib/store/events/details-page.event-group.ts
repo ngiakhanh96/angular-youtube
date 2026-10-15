@@ -23,11 +23,13 @@ export const detailsPageEventGroup = eventGroup({
       videoId: string;
       sortBy: 'top' | 'new';
       continuation?: string;
+      nextPage?: boolean;
     }>(),
     loadYoutubeVideoCommentsSuccess: type<{
       commentId?: string;
       commentsInfo: IInvidiousVideoCommentsInfo;
       continuation?: string;
+      nextPage?: boolean;
     }>(),
     postYoutubeVideoComment: type<{
       videoId: string;
@@ -36,6 +38,16 @@ export const detailsPageEventGroup = eventGroup({
     }>(),
     postYoutubeVideoCommentSuccess: type<{
       videoId: string;
+      comment: IVideoComment;
+    }>(),
+    postYoutubeVideoReply: type<{
+      videoId: string;
+      parentId: string;
+      text: string;
+    }>(),
+    postYoutubeVideoReplySuccess: type<{
+      videoId: string;
+      parentId: string;
       comment: IVideoComment;
     }>(),
     loadYoutubePlaylistInfo: type<{

@@ -20,75 +20,16 @@
   </div>
 
   @if (auth.isLoggedIn() && user()?.items?.length) {
-    <div class="video-comments-input" [attr.aria-busy]="isSubmitting()">
-      <div class="video-comments-input-avatar">
-        <img
-          [ayImgSrc]="userThumbnail()"
-          width="40"
-          height="40"
-          alt="User avatar"
-          priority
-        />
-      </div>
-      <div class="video-comments-input-field">
-        <input
-          #commentInputElement
-          id="commentInput"
-          type="text"
-          placeholder="Add a comment..."
-          aria-label="Add a comment"
-          [attr.aria-describedby]="submissionError() ? 'comment-error' : null"
-          [formField]="form.commentInput"
-          (focus)="isCommentFocused.set(true)"
-          autocomplete="off"
-        />
-        @if (isCommentFocused()) {
-          <div class="video-comments-input-actions">
-            <div class="video-comments-emotions">
-              <ay-text-icon-button
-                svgIcon="emotion"
-                backgroundColor="transparent"
-                borderRadius="50%"
-                [svgIconMarginLeft]="'0px'"
-                [svgIconMarginRight]="'0px'"
-                [iconPaddingLeft]="'0px'"
-                [iconPaddingRight]="'0px'"
-              ></ay-text-icon-button>
-            </div>
-            <div class="video-comments-buttons">
-              <div>
-                <ay-text-icon-button
-                  [displayText]="'Cancel'"
-                  [color]="'var(--black-color)'"
-                  [backgroundColor]="'var(--white-color)'"
-                  [disabledRipple]="true"
-                  [disabled]="isSubmitting()"
-                  (click)="cancelComment()"
-                ></ay-text-icon-button>
-              </div>
-              <div>
-                <ay-text-icon-button
-                  [displayText]="isSubmitting() ? 'Posting...' : 'Comment'"
-                  [color]="'var(--white-color)'"
-                  [backgroundColor]="'var(--blue-color)'"
-                  [disabled]="
-                    isSubmitting() ||
-                    !form.commentInput().value().trim() ||
-                    !channelId()
-                  "
-                  (click)="submitComment()"
-                ></ay-text-icon-button>
-              </div>
-            </div>
-          </div>
-        }
-        @if (submissionError()) {
-          <p id="comment-error" class="video-comments-error" role="alert">
-            {{ submissionError() }}
-          </p>
-        }
-      </div>
-    </div>
+    <ay-comment-input
+      [formField]="form.commentInput"
+      inputId="commentInput"
+      [avatarUrl]="userThumbnail()"
+      [isSubmitting]="isSubmitting()"
+      [submitDisabled]="!channelId()"
+      [error]="submissionError()"
+      (submitted)="submitComment($event)"
+      (cancelled)="cancelComment()"
+    />
   }
 
   <div class="video-comments-list">
@@ -99,6 +40,7 @@
       @defer (on viewport; prefetch on idle) {
         <ay-video-comment
           [commentViewModel]="commentViewModel"
+          [isUserLoggedIn]="auth.isLoggedIn()"
         ></ay-video-comment>
       } @placeholder {
         <div class="video-comment-placeholder" aria-hidden="true"></div>
