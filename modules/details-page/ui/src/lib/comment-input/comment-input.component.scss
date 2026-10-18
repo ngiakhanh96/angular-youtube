@@ -5,23 +5,35 @@
 }
 
 .comment-input {
-  @apply flex gap-4 mb-[10px];
+  @apply grid gap-x-4 gap-y-2 mr-4 mb-[10px];
+  grid-template-columns: auto minmax(0, 1fr);
 }
 
 .comment-input-avatar {
-  @apply rounded-full shrink-0 self-start;
+  @apply rounded-full self-start;
+  grid-column: 1;
+  grid-row: 1 / span 2;
 }
 
 .comment-input-field {
-  @apply min-w-0 flex-1 flex flex-col gap-2 text-sm mr-4;
+  @apply contents text-sm;
+
+  > * {
+    grid-column: 1 / -1;
+  }
 
   input {
-    @apply w-full border-b border-gray-200 py-1 outline-hidden focus:border-black;
+    @apply min-w-0 w-full border-b border-gray-200 py-1 outline-hidden focus:border-black;
+    grid-row: 1;
 
     &::placeholder {
       @apply text-[var(--black-color)] opacity-70;
     }
   }
+}
+
+.comment-input-avatar + .comment-input-field > * {
+  grid-column: 2;
 }
 
 .comment-input-actions {
@@ -41,32 +53,10 @@
 }
 
 .comment-input-reply {
-  @apply grid gap-x-3 gap-y-2 mr-4;
-  grid-template-columns: auto minmax(0, 1fr);
+  @apply gap-x-3;
 
   .comment-input-avatar {
-    @apply row-start-1 self-center;
-  }
-
-  .comment-input-field {
-    display: contents;
-
-    input {
-      grid-column: 1 / -1;
-      grid-row: 1;
-    }
-  }
-
-  .comment-input-avatar + .comment-input-field {
-    input,
-    .comment-input-actions,
-    .comment-input-error {
-      grid-column: 2;
-    }
-  }
-
-  .comment-input-actions,
-  .comment-input-error {
-    grid-column: 1 / -1;
+    @apply self-center;
+    grid-row: 1;
   }
 }
