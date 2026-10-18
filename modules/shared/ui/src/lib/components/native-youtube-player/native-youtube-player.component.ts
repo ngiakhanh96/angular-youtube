@@ -435,7 +435,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   onVolumeChange() {
-    if (!this.hasSeparateAudio) {
+    if (!this.hasSeparateAudio()) {
       return;
     }
     this.audioPlayer().muted = this.videoPlayer().muted;
@@ -514,11 +514,16 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   onCanPlay() {
-    if (this.playbackDisposed || !this.playbackMode) {
+    const video = this.videoPlayer();
+    if (
+      this.playbackDisposed ||
+      !this.playbackMode() ||
+      video.readyState < video.HAVE_FUTURE_DATA
+    ) {
       return;
     }
     this.playbackReady = true;
-    if (this.wantsToPlay && this.videoPlayer().paused) {
+    if (this.wantsToPlay && video.paused) {
       this.playVideo();
     }
     this.canPlay.emit();
@@ -984,12 +989,12 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   private playAudio() {
-    if (!this.hasSeparateAudio || !this.wantsToPlay) {
+    if (!this.hasSeparateAudio() || !this.wantsToPlay) {
       return;
     }
     this.audioPlayer()
       .play()
-      .catch((error) => {
+      .catch((error: unknown) => {
         console.log('Error playing audio:', error);
       });
   }
