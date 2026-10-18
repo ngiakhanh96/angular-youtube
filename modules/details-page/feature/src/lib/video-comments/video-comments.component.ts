@@ -32,7 +32,7 @@ import {
 } from '@angular/core';
 import { form, FormField, readonly, required } from '@angular/forms/signals';
 import { DomSanitizer } from '@angular/platform-browser';
-import { defer, finalize, map, Observable, of } from 'rxjs';
+import { defer, finalize, Observable, of } from 'rxjs';
 
 export enum CommentSortOption {
   TopComments = 'Top comments',
@@ -61,56 +61,9 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
     return videoInfo?.authorId ?? '';
   });
   comments = computed(() => this.commentsInfo()?.comments ?? []);
-  repliesFn = (comment: IVideoComment, continuation?: string) => {
-    // https://developers.google.com/youtube/v3/docs/comments/list#parentId
-    const postReplyFn: IVideoCommentViewModel['postReplyFn'] = (
-      _parentId,
-      text,
-    ) => this.postReplyFn(comment.commentId, text);
-    if (
-      continuation ||
-      !this.detailsPageStore.nestedVideoCommentsInfo()[comment.commentId]
-    ) {
-      this.dispatchEvent(
-        detailsPageEventGroup.loadYoutubeVideoComments({
-          videoId: this.videoId(),
-          continuation: continuation ?? comment.replies?.continuation,
-          nextPage: !!continuation,
-          sortBy: this.detailsPageStore.commentSortBy(),
-          commentId: comment.commentId,
-        }),
-      );
-    }
-    return this.detailsPageStore
-      .getNestedVideoCommentsInfoByCommentId$(comment.commentId, {
-        injector: this.injector,
-      })
-      .pipe(
-        map((nestedCommentsInfo) => {
-          return {
-            comments: (nestedCommentsInfo?.comments ?? []).map((comment) => {
-              return {
-                comment,
-                videoId: this.videoId(),
-                repliesFn: this.repliesFn,
-                postReplyFn,
-              };
-            }),
-            continuation: nestedCommentsInfo?.continuation,
-          };
-        }),
-      );
-  };
-  commentViewModels = computed<IVideoCommentViewModel[]>(() => {
-    return this.comments().map((comment) => {
-      return {
-        comment,
-        videoId: this.videoId(),
-        repliesFn: this.repliesFn,
-        postReplyFn: this.postReplyFn,
-      };
-    });
-  });
+  commentViewModels = computed(() =>
+    this.comments().map((comment) => this.createCommentViewModel(comment)),
+  );
   totalCommentsString = computed(() => {
     const totalComments = this.commentsInfo()?.commentCount ?? 0;
     return `${Utilities.numberToStringWithCommas(totalComments)} Comment${totalComments > 1 ? 's' : ''}`;
@@ -199,6 +152,47 @@ export class VideoCommentsComponent extends BaseWithSandBoxComponent {
       untracked(() => this.form.commentInput().reset(''));
       this.submissionError.set('');
     });
+  }
+
+  private createCommentViewModel(
+    comment: IVideoComment,
+    parentId = comment.commentId,
+  ): IVideoCommentViewModel {
+    return {
+      comment,
+      videoId: this.videoId(),
+      replies: computed(() => {
+        const nestedCommentsInfo =
+          this.detailsPageStore.nestedVideoCommentsInfo()[comment.commentId];
+        return {
+          comments: (nestedCommentsInfo?.comments ?? []).map((reply) =>
+            this.createCommentViewModel(reply, parentId),
+          ),
+          continuation: nestedCommentsInfo?.continuation,
+        };
+      }),
+      loadRepliesFn: (continuation) => this.loadReplies(comment, continuation),
+      // Replies to replies still belong to the top-level YouTube comment.
+      postReplyFn: (_parentId, text) => this.postReplyFn(parentId, text),
+    };
+  }
+
+  private loadReplies(comment: IVideoComment, continuation?: string) {
+    if (
+      !continuation &&
+      this.detailsPageStore.nestedVideoCommentsInfo()[comment.commentId]
+    ) {
+      return;
+    }
+    this.dispatchEvent(
+      detailsPageEventGroup.loadYoutubeVideoComments({
+        videoId: this.videoId(),
+        continuation: continuation ?? comment.replies?.continuation,
+        nextPage: !!continuation,
+        sortBy: this.detailsPageStore.commentSortBy(),
+        commentId: comment.commentId,
+      }),
+    );
   }
 
   selectSort(sort: CommentSortOption) {

@@ -13,7 +13,6 @@ import {
 import { on, withReducer } from '@ngrx/signals/events';
 import { withDetailsPageEffects } from '../effects/details-page.effect';
 import { detailsPageEventGroup } from '../events/details-page.event-group';
-import { withDetailsPageSelectors } from '../selector/details-page.selector';
 
 export interface IDetailsPageState {
   videoInfo: IInvidiousVideoInfo | undefined;
@@ -44,7 +43,6 @@ export const DetailsPageStore = signalStore(
   withState<IDetailsPageState>(initialDetailsPageState),
   withDetailsPageEffects(),
   withDetailsPageReducer(),
-  withDetailsPageSelectors(),
 );
 
 export function withDetailsPageReducer<_>() {

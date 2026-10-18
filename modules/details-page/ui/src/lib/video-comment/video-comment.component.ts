@@ -17,10 +17,11 @@ import {
   inject,
   input,
   OnDestroy,
+  Signal,
   signal,
   viewChild,
 } from '@angular/core';
-import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { form, FormField, readonly, required } from '@angular/forms/signals';
 import { DomSanitizer } from '@angular/platform-browser';
 import { finalize, Observable } from 'rxjs';
@@ -33,10 +34,8 @@ export interface IVideoCommentViewModelsWithContinuation {
 export interface IVideoCommentViewModel {
   comment: IVideoComment;
   videoId: string;
-  repliesFn: (
-    comment: IVideoComment,
-    continuation?: string,
-  ) => Observable<IVideoCommentViewModelsWithContinuation>;
+  replies: Signal<IVideoCommentViewModelsWithContinuation>;
+  loadRepliesFn: (continuation?: string) => void;
   postReplyFn: (
     parentId: string,
     text: string,
@@ -73,7 +72,6 @@ export class VideoCommentComponent implements OnDestroy {
   linkComponentRefs: ComponentRef<unknown>[] = [];
   repliesCollapsed = signal(true);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly continuation = signal<string | undefined>(undefined);
   readonly isReplyOpen = signal(false);
   readonly isSubmittingReply = signal(false);
   private readonly replyModel = signal({ text: '' });
@@ -86,18 +84,7 @@ export class VideoCommentComponent implements OnDestroy {
   readonly replyInputId = computed(
     () => `reply-input-${this.comment().commentId}`,
   );
-  nestedCommentsResource = rxResource({
-    params: () =>
-      this.repliesCollapsed()
-        ? undefined
-        : {
-            commentId: this.comment().commentId,
-            videoId: this.commentViewModel().videoId,
-            continuation: this.continuation(),
-          },
-    stream: ({ params }) =>
-      this.commentViewModel().repliesFn(this.comment(), params.continuation),
-  });
+  readonly replies = computed(() => this.commentViewModel().replies());
 
   repliesCount = computed(() => {
     const repliesCount =
@@ -121,8 +108,8 @@ export class VideoCommentComponent implements OnDestroy {
 
   hasMoreReplies = computed(() => {
     return (
-      this.nestedCommentsResource.value()?.continuation !== '' &&
-      this.nestedCommentsResource.value()?.continuation !== undefined
+      this.replies().continuation !== '' &&
+      this.replies().continuation !== undefined
     );
   });
 
@@ -150,12 +137,17 @@ export class VideoCommentComponent implements OnDestroy {
   }
 
   onClickReplies() {
-    if (!this.repliesCollapsed()) this.continuation.set(undefined);
+    if (this.repliesCollapsed()) {
+      this.commentViewModel().loadRepliesFn();
+    }
     this.repliesCollapsed.update((v) => !v);
   }
 
   onClickMoreReplies() {
-    this.continuation.set(this.nestedCommentsResource.value()?.continuation);
+    const continuation = this.replies().continuation;
+    if (continuation) {
+      this.commentViewModel().loadRepliesFn(continuation);
+    }
   }
 
   openReply() {

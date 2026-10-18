@@ -100,7 +100,7 @@
         @if (!repliesCollapsed()) {
           <div class="video-comment-replies-list">
             @for (
-              nestedComment of nestedCommentsResource.value()?.comments ?? [];
+              nestedComment of replies().comments;
               track nestedComment.comment.commentId
             ) {
               <ay-video-comment
