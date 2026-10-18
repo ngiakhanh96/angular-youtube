@@ -12,6 +12,7 @@ import {
   effect,
   inject,
   input,
+  linkedSignal,
   model,
   output,
   signal,
@@ -143,8 +144,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   volumeSliderWidth = computed(() => {
     return `${this.muted() ? 0 : this.volume() * 100}%`;
   });
-  muted = model<boolean>(false);
-  isMuted = computed(() => this.muted() || this.volume() === 0);
+  muted = linkedSignal(() => this.volume() === 0);
 
   /** Audio URL for separate audio stream */
   audioUrl = input<string | undefined>(undefined);
@@ -194,7 +194,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     return 'play';
   });
   muteButtonIcon = computed(() => {
-    return this.isMuted() ? 'volume-muted' : 'volume';
+    return this.muted() ? 'volume-muted' : 'volume';
   });
   viewModeIcon = computed(() => {
     return this.viewMode() === ViewMode.Theater
@@ -497,6 +497,9 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
 
   onSeeked() {
     this.isSeeking = false;
+    if (this.videoPlayer().currentTime < this.duration()) {
+      this.isVideoEnded.set(false);
+    }
     if (this.isVideoPlaying()) {
       this.playAudio();
     }
@@ -553,7 +556,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   toggleMute(event: MouseEvent) {
-    if (!this.muted() && this.volume() === 0) {
+    if (this.volume() === 0) {
       this.volume.set(1);
     } else {
       this.muted.update((v) => !v);
@@ -758,9 +761,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       Math.min(1, +(this.volume() + volume).toFixed(2)),
     );
     this.volume.set(newVolume);
-    if (newVolume > 0) {
-      this.muted.set(false);
-    }
     this.onMouseEnter();
 
     // Set keyboard volume active state immediately
@@ -982,9 +982,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       Math.min(1, (event.clientX - rect.left) / rect.width),
     );
     this.volume.set(newVolume);
-    if (newVolume > 0) {
-      this.muted.set(false);
-    }
   }
 
   private playAudio() {
