@@ -39,3 +39,34 @@
 .comment-input-error {
   @apply text-red-700;
 }
+
+.comment-input-reply {
+  @apply grid gap-x-3 gap-y-2 mr-4;
+  grid-template-columns: auto minmax(0, 1fr);
+
+  .comment-input-avatar {
+    @apply row-start-1 self-center;
+  }
+
+  .comment-input-field {
+    display: contents;
+
+    input {
+      grid-column: 1 / -1;
+      grid-row: 1;
+    }
+  }
+
+  .comment-input-avatar + .comment-input-field {
+    input,
+    .comment-input-actions,
+    .comment-input-error {
+      grid-column: 2;
+    }
+  }
+
+  .comment-input-actions,
+  .comment-input-error {
+    grid-column: 1 / -1;
+  }
+}

@@ -56,6 +56,7 @@ export interface IVideoCommentViewModel {
 })
 export class VideoCommentComponent implements OnDestroy {
   readonly isUserLoggedIn = input(false);
+  readonly currentUserAvatarUrl = input(Utilities.defaultUserAvatarUrl);
   avatarWidthHeight = input<number>(40);
   commentViewModel = input.required<IVideoCommentViewModel>();
   comment = computed(() => this.commentViewModel().comment);

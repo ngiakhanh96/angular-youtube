@@ -41,6 +41,7 @@
         <ay-video-comment
           [commentViewModel]="commentViewModel"
           [isUserLoggedIn]="auth.isLoggedIn()"
+          [currentUserAvatarUrl]="userThumbnail()"
         ></ay-video-comment>
       } @placeholder {
         <div class="video-comment-placeholder" aria-hidden="true"></div>

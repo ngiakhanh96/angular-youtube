@@ -31,6 +31,7 @@ export class CommentInputComponent implements FormValueControl<string> {
   readonly touch = output<void>();
   readonly inputId = input.required<string>();
   readonly avatarUrl = input('');
+  readonly layout = input<'default' | 'reply'>('default');
   readonly placeholder = input('Add a comment...');
   readonly inputLabel = input('Add a comment');
   readonly submitLabel = input('Comment');
@@ -41,6 +42,9 @@ export class CommentInputComponent implements FormValueControl<string> {
   readonly submitted = output<string>();
   readonly cancelled = output<void>();
   protected readonly isFocused = signal(false);
+  protected readonly avatarSize = computed(() =>
+    this.layout() === 'reply' ? 24 : 40,
+  );
   protected readonly errorId = computed(() => `${this.inputId()}-error`);
   protected readonly displayError = computed(
     () =>

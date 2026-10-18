@@ -73,6 +73,8 @@
       <ay-comment-input
         [formField]="replyForm.text"
         [inputId]="replyInputId()"
+        [avatarUrl]="currentUserAvatarUrl()"
+        layout="reply"
         placeholder="Add a reply..."
         [inputLabel]="'Reply to ' + comment().author"
         submitLabel="Reply"
@@ -106,6 +108,7 @@
               <ay-video-comment
                 [commentViewModel]="nestedComment"
                 [isUserLoggedIn]="isUserLoggedIn()"
+                [currentUserAvatarUrl]="currentUserAvatarUrl()"
                 [avatarWidthHeight]="24"
               ></ay-video-comment>
             }
