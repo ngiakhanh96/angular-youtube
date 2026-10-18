@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  ChangeDetectorRef,
   Component,
   DOCUMENT,
   ElementRef,
@@ -34,9 +35,15 @@ export enum ScreenMode {
   Full,
 }
 
-type PlayerVideoElement = HTMLVideoElement & {
-  audioElement?: HTMLAudioElement;
-  disposePlayback?: () => void;
+type DocumentPictureInPictureWindow = Window & {
+  documentPictureInPicture?: {
+    requestWindow(options: {
+      width: number;
+      height: number;
+      disallowReturnToOpener: boolean;
+      preferInitialWindowPlacement: boolean;
+    }): Promise<Window>;
+  };
 };
 
 @Component({
@@ -54,6 +61,7 @@ type PlayerVideoElement = HTMLVideoElement & {
     '[style.--volume-slider-width]': 'volumeSliderWidth()',
     '[style.view-transition-name]': 'viewTransitionName()',
     '[class.volume-slider-visible]': 'isVolumeSliderVisible()',
+    '[class.document-pip-player]': 'isDocumentPictureInPicture()',
     '(document:fullscreenchange)': 'onFullScreenChange()',
     '(document:webkitfullscreenchange)': 'onFullScreenChange()',
     '(document:mozfullscreenchange)': 'onFullScreenChange()',
@@ -159,8 +167,9 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   nextVideo = output<void>();
   canPlay = output<void>();
   showMiniPlayer = output<void>();
-  leavePictureInPicture = output<PictureInPictureEvent>();
+  returnToVideo = output<boolean>();
   volumeSliderWheel = output<WheelEvent>();
+  readonly isDocumentPictureInPicture = signal(false);
 
   currentTime = signal<number>(0);
   currentTimeString = computed(() => this.formatTime(this.currentTime()));
@@ -211,6 +220,12 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   private isDraggingVolume = false;
   private isSeeking = false;
   private readonly document = inject(DOCUMENT);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private closeDocumentPictureInPicture?: (destroyElement?: boolean) => void;
+  private static readonly documentPictureInPictureSessions = new WeakMap<
+    Document,
+    { close: (destroyElement?: boolean) => void }
+  >();
 
   private keyboardVolumeTimeout: ReturnType<typeof setTimeout> | null = null;
   private isKeyboardVolumeActive = signal(false);
@@ -227,7 +242,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   private playbackDisposed = false;
   private wantsToPlay = false;
   private pendingSeek?: { videoId: string; time: number };
-  private playbackVideoElement?: PlayerVideoElement;
+  private playbackVideoElement?: HTMLVideoElement;
+  private playbackAudioElement?: HTMLAudioElement;
   private previousDashUrl?: string;
 
   onVolumeSliderWheel(event: WheelEvent) {
@@ -283,10 +299,8 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   constructor() {
     afterNextRender({
       write: () => {
-        const video = this.videoPlayer() as PlayerVideoElement;
-        this.playbackVideoElement = video;
-        video.audioElement = this.audioPlayer();
-        video.disposePlayback = () => this.disposePlayback();
+        this.playbackVideoElement = this.videoPlayer();
+        this.playbackAudioElement = this.audioPlayer();
         if (!this.autoPlay()) {
           this.muted.set(true);
         }
@@ -329,6 +343,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
+    this.closeDocumentPictureInPicture?.();
     this.disposePlayback();
     this.clearHoverTimer();
     this.clearVolumeKeyboardTimer();
@@ -520,10 +535,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     }
   }
 
-  onLeavePictureInPicture(event: PictureInPictureEvent) {
-    this.leavePictureInPicture.emit(event);
-  }
-
   toggleScreenMode() {
     if (this.document.fullscreenElement) {
       this.document.exitFullscreen();
@@ -604,26 +615,129 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       this.document,
       destroyElement,
     );
-    if (this.document.pictureInPictureEnabled) {
-      const previousIsVideoPlaying = this.isVideoPlaying();
-      this.videoPlayer()
-        .requestPictureInPicture()
-        .then(() => {
-          {
-            if (previousIsVideoPlaying) {
-              this.playVideo();
-            } else {
-              this.pauseVideo();
-            }
-            successCallback?.();
-          }
-        })
-        .catch((error) => {
-          console.error('Error entering Picture-in-Picture mode:', error);
-        });
+    const pip = (
+      this.document.defaultView as DocumentPictureInPictureWindow | null
+    )?.documentPictureInPicture;
+    if (pip) {
+      this.openDocumentPictureInPicture(pip, successCallback);
     } else {
-      console.warn('Picture-in-Picture is not supported by this browser.');
+      console.warn(
+        'Document Picture-in-Picture is not supported by this browser.',
+      );
     }
+  }
+
+  private async openDocumentPictureInPicture(
+    pip: NonNullable<
+      DocumentPictureInPictureWindow['documentPictureInPicture']
+    >,
+    successCallback?: () => void,
+  ) {
+    const host = this.hostElementRef.nativeElement as HTMLElement;
+    const parent = host.parentNode;
+    if (!parent) {
+      return;
+    }
+    const nextSibling = host.nextSibling;
+    const wasPlaying = this.isVideoPlaying();
+    let pipWindow: Window | undefined;
+    let closed = false;
+    const mouseMove = (event: MouseEvent) => this.onDocumentMouseMove(event);
+    const mouseUp = (event: MouseEvent) => this.onMouseUp(event);
+    const pageHide = () => {
+      this.pauseVideo();
+      close();
+    };
+    const close = (destroyElement = false) => {
+      if (closed) {
+        return;
+      }
+      closed = true;
+      NativeYouTubePlayerComponent.documentPictureInPictureSessions.delete(
+        this.document,
+      );
+      this.closeDocumentPictureInPicture = undefined;
+      if (pipWindow) {
+        pipWindow.removeEventListener('pagehide', pageHide);
+        pipWindow.document.removeEventListener('mousemove', mouseMove);
+        pipWindow.document.removeEventListener('mouseup', mouseUp);
+        // Restore into the cached route even while its DOM is detached.
+        parent.insertBefore(
+          host,
+          nextSibling?.parentNode === parent ? nextSibling : null,
+        );
+      }
+      this.isDocumentPictureInPicture.set(false);
+      this.isDraggingProgressBar = false;
+      this.isDraggingVolume = false;
+      if (destroyElement) {
+        this.disposePlayback();
+      }
+      pipWindow?.close();
+    };
+    this.closeDocumentPictureInPicture = close;
+    NativeYouTubePlayerComponent.documentPictureInPictureSessions.set(
+      this.document,
+      { close },
+    );
+    try {
+      const video = this.videoPlayer();
+      const aspectRatio =
+        video.videoWidth > 0 && video.videoHeight > 0
+          ? video.videoWidth / video.videoHeight
+          : 16 / 9;
+      const width = Math.round(Math.min(480, 480 * aspectRatio));
+      pipWindow = await pip.requestWindow({
+        width,
+        height: Math.round(width / aspectRatio),
+        disallowReturnToOpener: true,
+        preferInitialWindowPlacement: true,
+      });
+      // A route return, a replacement player, or destruction can cancel a request.
+      if (closed || this.playbackDisposed) {
+        pipWindow.close();
+        return;
+      }
+      const pipDocument = pipWindow.document;
+      pipDocument.title = 'Video player';
+      pipDocument.documentElement.lang = this.document.documentElement.lang;
+      pipDocument.documentElement.dir = this.document.documentElement.dir;
+      pipDocument.documentElement.className =
+        this.document.documentElement.className;
+      const base = pipDocument.createElement('base');
+      base.href = this.document.baseURI;
+      pipDocument.head.append(base);
+      for (const style of this.document.querySelectorAll(
+        'style, link[rel="stylesheet"]',
+      )) {
+        pipDocument.head.append(style.cloneNode(true));
+      }
+      pipWindow.addEventListener('pagehide', pageHide, { once: true });
+      pipDocument.addEventListener('mousemove', mouseMove);
+      pipDocument.addEventListener('mouseup', mouseUp);
+      this.isDocumentPictureInPicture.set(true);
+      pipDocument.body.append(host);
+      this.changeDetectorRef.detectChanges();
+      if (wasPlaying) {
+        this.playVideo();
+      } else {
+        this.pauseVideo();
+      }
+      this.onMouseEnter();
+      host.focus();
+      successCallback?.();
+    } catch (error) {
+      close();
+      console.error('Error entering Document Picture-in-Picture mode:', error);
+    }
+  }
+
+  onReturnToVideo(event?: MouseEvent) {
+    event?.stopPropagation();
+    const wasPlaying = this.isVideoPlaying();
+    this.document.defaultView?.focus();
+    this.closeDocumentPictureInPicture?.();
+    this.returnToVideo.emit(wasPlaying);
   }
 
   onButtonsContainerClick() {
@@ -631,33 +745,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   static exitPictureInPicture(document: Document, destroyElement = false) {
-    const videoElement =
-      document.pictureInPictureElement as PlayerVideoElement | null;
-    if (document.pictureInPictureEnabled && videoElement) {
-      if (destroyElement && videoElement) {
-        const audioElement = videoElement.audioElement;
-        videoElement.disposePlayback?.();
-        // Pause and clear
-        videoElement.pause();
-        videoElement.removeAttribute('src');
-        videoElement.load(); // Release memory
-        videoElement.remove(); // Remove from DOM
-
-        if (audioElement) {
-          audioElement.pause();
-          audioElement.removeAttribute('src');
-          audioElement.load();
-          audioElement.remove();
-        }
-      }
-      if (document.pictureInPictureElement) {
-        document.exitPictureInPicture().catch((error) => {
-          console.error('Error exiting Picture-in-Picture mode:', error);
-        });
-      }
-    } else {
-      console.warn('Not currently in Picture-in-Picture mode.');
-    }
+    this.documentPictureInPictureSessions.get(document)?.close(destroyElement);
   }
 
   setVolumeBy(volume: number) {
@@ -864,17 +952,13 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.destroyDashPlayer();
     this.stopProgressTracking();
     const video = this.playbackVideoElement;
-    const audio = video?.audioElement;
+    const audio = this.playbackAudioElement;
     for (const media of [video, audio]) {
       if (media) {
         media.pause();
         media.removeAttribute('src');
         media.load();
       }
-    }
-    if (video) {
-      delete video.disposePlayback;
-      delete video.audioElement;
     }
   }
 
@@ -947,6 +1031,10 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
         const playedFraction = (video.currentTime / this.duration()) * 100;
         this.playedProgress.set(Math.min(100, Math.max(0, playedFraction)));
         this.currentTime.set(video.currentTime);
+      }
+      // The cached details route is detached from Angular's view tree in PiP.
+      if (this.isDocumentPictureInPicture()) {
+        this.changeDetectorRef.detectChanges();
       }
     }, 250);
   }

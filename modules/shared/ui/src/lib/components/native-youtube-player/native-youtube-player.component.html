@@ -13,7 +13,9 @@
   }
   <div
     class="player"
-    [class.player--controls-hidden]="!mini() && playerButtonsDisplay() === 'none'"
+    [class.player--controls-hidden]="
+      !mini() && playerButtonsDisplay() === 'none'
+    "
     [style.display]="!isVideoPlaying() && !disablePlaceholder() ? 'none' : ''"
     #videoPlayerContainer
     (mouseenter)="onMouseEnter()"
@@ -22,6 +24,7 @@
   >
     <video
       preload="auto"
+      disablePictureInPicture
       #videoPlayer
       (click)="onVideoClick()"
       (ended)="onVideoEnded()"
@@ -38,7 +41,6 @@
       (playing)="onPlaying()"
       (canplay)="onCanPlay()"
       (canplaythrough)="onCanPlay()"
-      (leavepictureinpicture)="onLeavePictureInPicture($event)"
     ></video>
     <audio #audioPlayer (loadedmetadata)="onAudioLoadedMetadata()"></audio>
     <div class="player_bottom" [style.display]="playerButtonsDisplay()">
@@ -123,82 +125,100 @@
           </div>
         </div>
         <div class="player_bottom_buttons-right">
-          <div
-            class="player_bottom_button mr-[14px]"
-            (click)="toggleAutoNext()"
-          >
-            <div class="player_bottom_button--autonext">
-              <div
-                [class]="
-                  autoNext()
-                    ? 'player_bottom_button--autonext--enabled'
-                    : 'player_bottom_button--autonext--disabled'
+          @if (isDocumentPictureInPicture()) {
+            <div
+              class="player_bottom_button"
+              title="Expand"
+              (click)="onReturnToVideo($event)"
+            >
+              <ng-container
+                *ngTemplateOutlet="
+                  button;
+                  context: {
+                    viewBox: '0 0 24 24',
+                    buttonIcon: 'player-expand',
+                  }
                 "
-              ></div>
+              />
             </div>
-          </div>
+          } @else {
+            <div
+              class="player_bottom_button mr-[14px]"
+              (click)="toggleAutoNext()"
+            >
+              <div class="player_bottom_button--autonext">
+                <div
+                  [class]="
+                    autoNext()
+                      ? 'player_bottom_button--autonext--enabled'
+                      : 'player_bottom_button--autonext--disabled'
+                  "
+                ></div>
+              </div>
+            </div>
 
-          <div class="player_bottom_button">
-            <ng-container
-              *ngTemplateOutlet="
-                button;
-                context: {
-                  viewBox: '8 8 20 20',
-                  buttonIcon: 'subtitle',
-                }
-              "
-            />
-          </div>
-
-          <div class="player_bottom_button">
-            <ng-container
-              *ngTemplateOutlet="
-                button;
-                context: {
-                  viewBox: '8 8 20 20',
-                  buttonIcon: 'player-settings',
-                }
-              "
-            />
-          </div>
-
-          <div class="player_bottom_button" (click)="showMiniPlayer.emit()">
-            <ng-container
-              *ngTemplateOutlet="
-                button;
-                context: {
-                  viewBox: '6 6 24 24',
-                  buttonIcon: 'player-mini',
-                }
-              "
-            />
-          </div>
-
-          @if (screenMode() === ScreenMode.Default) {
-            <div class="player_bottom_button" (click)="toggleViewMode()">
+            <div class="player_bottom_button">
               <ng-container
                 *ngTemplateOutlet="
                   button;
                   context: {
                     viewBox: '8 8 20 20',
-                    buttonIcon: viewModeIcon(),
+                    buttonIcon: 'subtitle',
+                  }
+                "
+              />
+            </div>
+
+            <div class="player_bottom_button">
+              <ng-container
+                *ngTemplateOutlet="
+                  button;
+                  context: {
+                    viewBox: '8 8 20 20',
+                    buttonIcon: 'player-settings',
+                  }
+                "
+              />
+            </div>
+
+            <div class="player_bottom_button" (click)="showMiniPlayer.emit()">
+              <ng-container
+                *ngTemplateOutlet="
+                  button;
+                  context: {
+                    viewBox: '6 6 24 24',
+                    buttonIcon: 'player-mini',
+                  }
+                "
+              />
+            </div>
+
+            @if (screenMode() === ScreenMode.Default) {
+              <div class="player_bottom_button" (click)="toggleViewMode()">
+                <ng-container
+                  *ngTemplateOutlet="
+                    button;
+                    context: {
+                      viewBox: '8 8 20 20',
+                      buttonIcon: viewModeIcon(),
+                    }
+                  "
+                />
+              </div>
+            }
+
+            <div class="player_bottom_button" (click)="toggleScreenMode()">
+              <ng-container
+                *ngTemplateOutlet="
+                  button;
+                  context: {
+                    viewBox: '8 8 20 20',
+                    buttonIcon: playerScreenIcon(),
                   }
                 "
               />
             </div>
           }
-
-          <div class="player_bottom_button" (click)="toggleScreenMode()">
-            <ng-container
-              *ngTemplateOutlet="
-                button;
-                context: {
-                  viewBox: '8 8 20 20',
-                  buttonIcon: playerScreenIcon(),
-                }
-              "
-            />
-          </div>
         </div>
       </div>
     </div>

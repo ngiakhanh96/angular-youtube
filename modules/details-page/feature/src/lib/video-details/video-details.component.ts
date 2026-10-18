@@ -25,11 +25,13 @@ import {
 } from '@angular-youtube/shared-ui';
 import {
   afterRenderEffect,
+  ChangeDetectorRef,
   Component,
   computed,
   DOCUMENT,
   effect,
   ElementRef,
+  EnvironmentInjector,
   inject,
   linkedSignal,
   OnInit,
@@ -74,6 +76,9 @@ export class VideoDetailsComponent
   appSettingsService = inject(AppSettingsService);
   document = inject(DOCUMENT);
   customRouteReuseStrategy = inject(CustomRouteReuseStrategy);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly environmentInjector = inject(EnvironmentInjector);
+  private readonly isRouteStored = signal(false);
   videoId = signal('');
   dashUrl = computed<string | undefined>(() => {
     const videoId = this.videoId();
@@ -315,11 +320,13 @@ export class VideoDetailsComponent
   );
   playlistDetailsInfo = computed<IVideoPlaylistInfo>(() => {
     const playlist = this.playlistInfo().info?.items[0];
+    const itemsInfo = this.playlistInfo().itemsInfo;
     return {
       title: playlist?.snippet.title ?? '',
       channelName: playlist?.snippet.channelTitle ?? '',
       totalVideoCount: playlist
-        ? new Date(playlist.snippet.publishedAt).getTime() === 0
+        ? new Date(playlist.snippet.publishedAt).getTime() === 0 ||
+          (itemsInfo != null && !itemsInfo.nextPageToken)
           ? this.playlistItemsInfo().length
           : playlist.contentDetails.itemCount
         : 0,
@@ -334,6 +341,25 @@ export class VideoDetailsComponent
 
   constructor() {
     super();
+    // The route is detached while its player is displayed in Document PiP.
+    // A root effect keeps its bindings and data-loading effects up to date.
+    const syncPictureInPicture = effect(
+      () => {
+        if (
+          !this.isRouteStored() ||
+          !this.mainPlayer().isDocumentPictureInPicture()
+        ) {
+          return;
+        }
+        this.videoId();
+        this.videoInfo();
+        this.playlistInfo();
+        this.recommendedVideos();
+        untracked(() => this.changeDetectorRef.detectChanges());
+      },
+      { injector: this.environmentInjector, manualCleanup: true },
+    );
+    this.destroyRef.onDestroy(() => syncPictureInPicture.destroy());
     this.dispatchEventFromSignal(this.getVideoInfo);
     this.dispatchEventFromSignal(this.getVideoCommentsInfo);
     this.dispatchEventFromSignal(this.getPlaylistInfo);
@@ -343,7 +369,6 @@ export class VideoDetailsComponent
     });
     effect(() => {
       const playlistItemsInfo = this.playlistInfo().itemsInfo;
-      const playlistDetailsInfo = this.playlistDetailsInfo();
       const videoId = this.videoId();
       const playlistId = this.playlistId();
       const playlistItemVideoIdToIndexMapping =
@@ -354,7 +379,7 @@ export class VideoDetailsComponent
           playlistItemVideoIdToIndexMapping.get(this.currentVideoId);
         if (
           currentPlaylistItemPosition == null &&
-          playlistItemsInfo.items.length < playlistDetailsInfo.totalVideoCount
+          playlistItemsInfo.nextPageToken
         ) {
           this.loadNextPlaylistPage.set(true);
         } else if (currentPlaylistItemPosition != null) {
@@ -374,7 +399,9 @@ export class VideoDetailsComponent
       const playlistItemVideoIdToIndexMapping = untracked(() =>
         this.playlistItemVideoIdToIndexMapping(),
       );
-      const playlistDetailsInfo = untracked(() => this.playlistDetailsInfo());
+      const nextPageToken = untracked(
+        () => this.playlistInfo().itemsInfo?.nextPageToken,
+      );
       const playlistItemsInfo = untracked(() => this.playlistItemsInfo());
       this.loadingBarService.load(25);
       if (playlistId !== '' && videoId !== '') {
@@ -382,17 +409,19 @@ export class VideoDetailsComponent
           (playlistItemVideoIdToIndexMapping.get(videoId) ?? 0) + 1;
         this.currentPlaylistItemPosition.set(currentPlaylistItemPosition);
         if (
-          playlistItemsInfo.length < playlistDetailsInfo.totalVideoCount &&
+          nextPageToken &&
           currentPlaylistItemPosition > playlistItemsInfo.length - 5
         ) {
           this.loadNextPlaylistPage.set(true);
         }
-        void this.router.navigate(['watch'], {
-          queryParams: {
-            v: videoId,
-            list: playlistId,
-          },
-        });
+        if (!untracked(() => this.isRouteStored())) {
+          void this.router.navigate(['watch'], {
+            queryParams: {
+              v: videoId,
+              list: playlistId,
+            },
+          });
+        }
       }
     });
   }
@@ -467,6 +496,7 @@ export class VideoDetailsComponent
   }
 
   onRetrieveByRouteReuseStrategy() {
+    this.isRouteStored.set(false);
     NativeYouTubePlayerComponent.exitPictureInPicture(this.document);
     this.sidebarService.setMiniSidebarState(false);
     this.sidebarService.setState(false);
@@ -474,20 +504,33 @@ export class VideoDetailsComponent
   }
 
   onStoreByRouteReuseStrategy() {
+    this.isRouteStored.set(true);
     this.sidebarService.setMiniSidebarState(true);
     this.mainPlayer().requestPictureInPicture(undefined, () => {
       this.customRouteReuseStrategy.setOriginalVideoUrl(this.currentUrl);
     });
   }
 
-  async onLeavePictureInPicture(_event: PictureInPictureEvent) {
+  // Only the explicit PiP return button navigates; closing the window does not.
+  async onReturnToVideo(wasPlaying: boolean) {
     const originalVideoUrl =
       this.customRouteReuseStrategy.getOriginalVideoUrl();
     if (!originalVideoUrl) {
       return;
     }
+    const player = this.mainPlayer();
     if (!this.router.url.includes('/watch') && originalVideoUrl) {
-      await this.router.navigateByUrl(originalVideoUrl);
+      if (!(await this.router.navigateByUrl(originalVideoUrl))) {
+        return;
+      }
+    }
+    // Moving the player into the detached route can pause it. Resume only once
+    // navigation has attached that route again, preserving a user's paused state.
+    if (
+      wasPlaying &&
+      (player.hostElementRef.nativeElement as HTMLElement).isConnected
+    ) {
+      player.playVideo();
     }
   }
 
@@ -519,31 +562,42 @@ export class VideoDetailsComponent
   }
 
   async onNextVideo() {
-    if (
-      !this.document.pictureInPictureEnabled ||
-      !this.document.pictureInPictureElement
-    ) {
-      if (this.playlistId() === '') {
-        if (this.recommendedVideos()[0]?.videoId) {
-          this.playlistId.set('');
-          await this.router.navigate(['watch'], {
-            queryParams: {
-              v: this.recommendedVideos()[0].videoId,
-            },
-          });
-        }
-      } else {
-        const currentIndex = this.playlistItemVideoIdToIndexMapping().get(
-          this.videoId(),
-        );
-        if (currentIndex != null) {
-          const nextIndex = currentIndex + 1;
-          if (nextIndex < this.playlistItemsInfo().length) {
-            const nextVideo = this.playlistItemsInfo()[nextIndex];
-            this.videoId.set(nextVideo.videoId);
-          }
-        }
-      }
+    const inDocumentPictureInPicture =
+      this.mainPlayer().isDocumentPictureInPicture();
+    const playlistId = this.playlistId();
+    const currentIndex = this.playlistItemVideoIdToIndexMapping().get(
+      this.videoId(),
+    );
+    const nextVideoId =
+      playlistId === ''
+        ? this.recommendedVideos().find(
+            (video) => video.videoId && video.videoId !== this.videoId(),
+          )?.videoId
+        : currentIndex != null
+          ? this.playlistItemsInfo()[currentIndex + 1]?.videoId
+          : undefined;
+    if (!nextVideoId) {
+      return;
+    }
+    if (inDocumentPictureInPicture) {
+      this.currentUrl = this.router.serializeUrl(
+        this.router.createUrlTree(['/watch'], {
+          queryParams: {
+            v: nextVideoId,
+            ...(playlistId ? { list: playlistId } : {}),
+          },
+        }),
+      );
+      this.customRouteReuseStrategy.setOriginalVideoUrl(this.currentUrl);
+      this.currentVideoId = nextVideoId;
+      this.currentTime.set(0);
+      this.videoId.set(nextVideoId);
+    } else if (playlistId === '') {
+      await this.router.navigate(['watch'], {
+        queryParams: { v: nextVideoId },
+      });
+    } else {
+      this.videoId.set(nextVideoId);
     }
   }
 

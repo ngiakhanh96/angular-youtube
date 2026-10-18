@@ -162,3 +162,36 @@
     }
   }
 }
+
+:host(.document-pip-player) {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  background: #000;
+  overflow: hidden;
+  view-transition-name: none !important;
+
+  .player-container .player video {
+    display: block;
+    object-fit: contain;
+    border-radius: 0;
+  }
+
+  .player-container .player .player_bottom_buttons-container {
+    .player_bottom_buttons-left {
+      min-width: 0;
+    }
+
+    .time-display {
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .player_bottom_buttons-right {
+      flex-shrink: 0;
+    }
+  }
+}

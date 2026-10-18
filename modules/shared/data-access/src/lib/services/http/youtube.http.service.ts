@@ -1,6 +1,6 @@
 import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { AUTHORIZED } from '../../http-context-tokens/authorized.http-context-token';
 import { SKIP_RETRY } from '../../http-context-tokens/skip-retry.http-context-token';
 import { YoutubeApiKey } from '../../injection-tokens/youtube-api-key.injection-token';
@@ -165,8 +165,8 @@ export class YoutubeHttpService {
   getPlaylistItemsInfo(
     playlistId: string,
     pageToken?: string,
-    maxResults = 200,
-  ) {
+    maxResults = 50,
+  ): Observable<IPlaylistItemsInfo> {
     const url = `${this.baseUrl}playlistItems`;
     let params = new HttpParams({
       fromObject: {
@@ -179,10 +179,39 @@ export class YoutubeHttpService {
     if (pageToken) {
       params = params.append('pageToken', pageToken);
     }
-    return this.httpClient.get<IPlaylistItemsInfo>(url, {
-      params: params,
-      context: new HttpContext().set(AUTHORIZED, true),
-    });
+    return this.httpClient
+      .get<IPlaylistItemsInfo>(url, {
+        params: params,
+        context: new HttpContext().set(AUTHORIZED, true),
+      })
+      .pipe(
+        switchMap((response) => {
+          const items = response.items.filter((item) => {
+            const title = item.snippet?.title?.trim().toLowerCase();
+            const unavailablePlaceholder =
+              !item.snippet?.videoOwnerChannelId &&
+              (title === 'private video' || title === 'deleted video');
+            return (
+              !!item.contentDetails?.videoId &&
+              item.status?.privacyStatus !== 'private' &&
+              !unavailablePlaceholder
+            );
+          });
+          // Continue past unavailable-only pages, including when opening a playlist.
+          if (
+            items.length === 0 &&
+            response.nextPageToken &&
+            response.nextPageToken !== pageToken
+          ) {
+            return this.getPlaylistItemsInfo(
+              playlistId,
+              response.nextPageToken,
+              maxResults,
+            );
+          }
+          return of({ ...response, items });
+        }),
+      );
   }
 
   getPlaylistInfo(playlistId: string) {

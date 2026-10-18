@@ -364,6 +364,16 @@
         <path fill="#FFFFFF" fill-rule="evenodd"
             d="m 28,11 0,14 -20,0 0,-14 z m -18,2 16,0 0,10 -16,0 0,-10 z"></path>
     </symbol>
+    <symbol id="player-expand" viewBox="0 0 24 24">
+        <path
+            d="M13.5 4.5h6v6M19.5 4.5l-6 6M10.5 19.5h-6v-6M4.5 19.5l6-6"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        ></path>
+    </symbol>
     <symbol id="player-fullscreen">
         <g>
             <path

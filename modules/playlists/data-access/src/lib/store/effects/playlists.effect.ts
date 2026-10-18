@@ -40,7 +40,7 @@ export function withPlaylistsEffects<_>() {
           events,
           playlistsEventGroup.open,
           ({ payload }) =>
-            youtube.getPlaylistItemsInfo(payload.playlistId, undefined, 1).pipe(
+            youtube.getPlaylistItemsInfo(payload.playlistId).pipe(
               switchMap((response) => {
                 const videoId = response.items[0]?.contentDetails.videoId;
                 if (!videoId) {

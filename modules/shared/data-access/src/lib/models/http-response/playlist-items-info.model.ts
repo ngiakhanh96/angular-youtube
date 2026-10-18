@@ -5,9 +5,8 @@ import {
   IYoutubeResponse,
 } from './common.model';
 
-export interface IPlaylistItemsInfo
-  extends IYoutubeResponse<IPlaylistDetailItem> {
-  nextPageToken: string;
+export interface IPlaylistItemsInfo extends IYoutubeResponse<IPlaylistDetailItem> {
+  nextPageToken?: string;
   pageInfo: IPageInfo;
 }
 
