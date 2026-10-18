@@ -281,7 +281,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       }
       return;
     }
-    this.isVideoEnded.set(false);
     if (this.isDraggingVolume) {
       this.isDraggingVolume = false;
     }
