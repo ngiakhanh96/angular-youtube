@@ -25,6 +25,10 @@ import {
   PlaceholderImageQuality,
   YouTubePlayerPlaceholderComponent,
 } from '../youtube-player-placeholder/youtube-player-placeholder.component';
+import {
+  createInitialDashTrackSelector,
+  createTerminalDashErrorCodes,
+} from './native-youtube-player-dash';
 
 export enum ViewMode {
   Default,
@@ -333,11 +337,11 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     });
 
     effect(() => {
-      this.setVolume(this.volume());
+      this.videoPlayer().volume = this.volume();
     });
 
     effect(() => {
-      this.setMuted(this.muted());
+      this.videoPlayer().muted = this.muted();
     });
   }
 
@@ -346,7 +350,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     this.disposePlayback();
     this.clearHoverTimer();
     this.clearVolumeKeyboardTimer();
-    this.stopProgressTracking();
   }
 
   onMouseEnter() {
@@ -477,16 +480,12 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     }
     this.isVideoPlaying.set(false);
     this.synchronizeAudioWithVideo();
-    if (this.hasSeparateAudio()) {
-      this.audioPlayer().pause();
-    }
+    this.pauseAudio();
   }
 
   onSeeking() {
     this.isSeeking = true;
-    if (this.hasSeparateAudio()) {
-      this.audioPlayer().pause();
-    }
+    this.pauseAudio();
   }
 
   onTimeUpdate() {
@@ -506,9 +505,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
   }
 
   onWaiting() {
-    if (this.hasSeparateAudio()) {
-      this.audioPlayer().pause();
-    }
+    this.pauseAudio();
   }
 
   onPlaying() {
@@ -827,31 +824,7 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       }
       const player = MediaPlayer().create();
       this.dashPlayer = player;
-      const errors = MediaPlayer.errors;
-      const terminalErrors = new Set<number>([
-        // Native media errors reach ERROR only after dash.js exhausts decode recovery.
-        1,
-        2,
-        3,
-        4,
-        5,
-        errors.MANIFEST_LOADER_PARSING_FAILURE_ERROR_CODE,
-        errors.MANIFEST_LOADER_LOADING_FAILURE_ERROR_CODE,
-        errors.MANIFEST_ERROR_ID_PARSE_CODE,
-        errors.MANIFEST_ERROR_ID_NOSTREAMS_CODE,
-        errors.MANIFEST_ERROR_ID_MULTIPLEXED_CODE,
-        errors.CAPABILITY_MEDIASOURCE_ERROR_CODE,
-        errors.CAPABILITY_MEDIAKEYS_ERROR_CODE,
-        errors.MEDIASOURCE_TYPE_UNSUPPORTED_CODE,
-        errors.FRAGMENT_LOADER_LOADING_FAILURE_ERROR_CODE,
-        errors.SEGMENT_BASE_LOADER_ERROR_CODE,
-        errors.DOWNLOAD_ERROR_ID_MANIFEST_CODE,
-        errors.DOWNLOAD_ERROR_ID_CONTENT_CODE,
-        errors.DOWNLOAD_ERROR_ID_INITIALIZATION_CODE,
-        errors.DOWNLOAD_ERROR_ID_SIDX_CODE,
-        errors.URL_RESOLUTION_FAILED_GENERIC_ERROR_CODE,
-        errors.APPEND_ERROR_CODE,
-      ]);
+      const terminalErrors = createTerminalDashErrorCodes(MediaPlayer.errors);
       player.on(MediaPlayer.events.ERROR, (event) => {
         if (
           version === this.sourceVersion &&
@@ -870,25 +843,9 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
           );
         }
       });
-      player.setCustomInitialTrackSelectionFunction((tracks) => {
-        if (!tracks.some((track) => track.type === 'audio')) {
-          return tracks;
-        }
-        for (const preferred of [this.preferredAudioLanguage(), 'en']) {
-          if (!preferred) {
-            continue;
-          }
-          const matches = tracks.filter(
-            (track) =>
-              track.lang?.toLowerCase().split('-')[0] ===
-              preferred.toLowerCase().split('-')[0],
-          );
-          if (matches.length) {
-            return matches;
-          }
-        }
-        return tracks;
-      });
+      player.setCustomInitialTrackSelectionFunction(
+        createInitialDashTrackSelector(this.preferredAudioLanguage),
+      );
       // Native canplay drives autoplay, allowing a queued play or pause during import/loading.
       player.initialize(this.videoPlayer(), url, false);
     } catch (error) {
@@ -966,14 +923,6 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
     }
   }
 
-  private setVolume(volume: number) {
-    this.videoPlayer().volume = volume;
-  }
-
-  private setMuted(muted: boolean) {
-    this.videoPlayer().muted = muted;
-  }
-
   private setVolumeFromEvent(event: MouseEvent) {
     const volumeSlider = this.volumeSlider().nativeElement;
     const rect = volumeSlider.getBoundingClientRect();
@@ -982,6 +931,12 @@ export class NativeYouTubePlayerComponent implements OnDestroy {
       Math.min(1, (event.clientX - rect.left) / rect.width),
     );
     this.volume.set(newVolume);
+  }
+
+  private pauseAudio() {
+    if (this.hasSeparateAudio()) {
+      this.audioPlayer().pause();
+    }
   }
 
   private playAudio() {
