@@ -3,27 +3,26 @@ const VerticalProps = {
   offsetHeight: 'offsetHeight',
   scrollHeight: 'scrollHeight',
   pageYOffset: 'pageYOffset',
-  offsetTop: 'offsetTop',
   scrollTop: 'scrollTop',
   top: 'top',
-};
+} as const;
 
 const HorizontalProps = {
   clientHeight: 'clientWidth',
   offsetHeight: 'offsetWidth',
   scrollHeight: 'scrollWidth',
   pageYOffset: 'pageXOffset',
-  offsetTop: 'offsetLeft',
   scrollTop: 'scrollLeft',
   top: 'left',
-};
+} as const;
 
 export class AxisResolver {
-  private propsMap: any;
+  private readonly propsMap: typeof VerticalProps | typeof HorizontalProps;
 
-  constructor(private vertical = true) {
-    this.propsMap = this.vertical ? VerticalProps : HorizontalProps;
+  constructor(vertical = true) {
+    this.propsMap = vertical ? VerticalProps : HorizontalProps;
   }
+
   clientHeightKey() {
     return this.propsMap.clientHeight;
   }
@@ -35,9 +34,6 @@ export class AxisResolver {
   }
   pageYOffsetKey() {
     return this.propsMap.pageYOffset;
-  }
-  offsetTopKey() {
-    return this.propsMap.offsetTop;
   }
   scrollTopKey() {
     return this.propsMap.scrollTop;

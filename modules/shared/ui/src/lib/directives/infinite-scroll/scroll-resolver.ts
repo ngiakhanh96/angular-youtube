@@ -1,8 +1,4 @@
-import {
-  IPositionStats,
-  IScrollerDistance,
-  IScrollState,
-} from './scroll-state.model';
+import { IPositionStats, IScrollerDistance } from './scroll-state.model';
 
 export function shouldFireScrollEvent(
   container: IPositionStats,
@@ -52,61 +48,4 @@ export function getScrollStats(
     fire: shouldFireScrollEvent(container, distance, scrollDown),
     scrollDown,
   };
-}
-
-export function updateScrollPosition(
-  position: number,
-  scrollState: IScrollState,
-) {
-  return (scrollState.lastScrollPosition = position);
-}
-
-export function updateTotalToScroll(
-  totalToScroll: number,
-  scrollState: IScrollState,
-) {
-  if (scrollState.lastTotalToScroll !== totalToScroll) {
-    scrollState.lastTotalToScroll = scrollState.totalToScroll;
-    scrollState.totalToScroll = totalToScroll;
-  }
-}
-
-export function isSameTotalToScroll(scrollState: IScrollState) {
-  return scrollState.totalToScroll === scrollState.lastTotalToScroll;
-}
-
-export function updateTriggeredFlag(
-  scroll: number,
-  scrollState: IScrollState,
-  triggered: boolean,
-  isScrollingDown: boolean,
-) {
-  if (isScrollingDown) {
-    scrollState.triggered.down = scroll;
-  } else {
-    scrollState.triggered.up = scroll;
-  }
-}
-
-export function isTriggeredScroll(
-  totalToScroll: number,
-  scrollState: IScrollState,
-  isScrollingDown: boolean,
-) {
-  return isScrollingDown
-    ? scrollState.triggered.down === totalToScroll
-    : scrollState.triggered.up === totalToScroll;
-}
-
-export function updateScrollState(
-  scrollState: IScrollState,
-  scrolledUntilNow: number,
-  totalToScroll: number,
-) {
-  updateScrollPosition(scrolledUntilNow, scrollState);
-  updateTotalToScroll(totalToScroll, scrollState);
-  // const isSameTotal = isSameTotalToScroll(scrollState);
-  // if (!isSameTotal) {
-  //   updateTriggeredFlag(scrollState, false, isScrollingDown);
-  // }
 }

@@ -1,6 +1,12 @@
 import { ElementRef } from '@angular/core';
+import { AxisResolver } from './axis-resolver';
 
-export type ContainerRef = Window | ElementRef | any;
+export type ContainerRef = Window | HTMLElement;
+export type ScrollContainer =
+  | ContainerRef
+  | ElementRef<HTMLElement>
+  | string
+  | null;
 
 export interface IInfiniteScrollEvent {
   currentScrollPosition: number;
@@ -8,7 +14,7 @@ export interface IInfiniteScrollEvent {
 
 export interface IPositionElements {
   windowElement: ContainerRef;
-  axis: any;
+  axis: AxisResolver;
 }
 
 export interface IPositionStats {
@@ -29,11 +35,10 @@ export interface IScrollState {
   lastScrollPosition: number;
 }
 
-export interface IResolver {
-  container: ContainerRef;
-  isWindow: boolean;
-  axis: any;
-}
+export type IResolver = { axis: AxisResolver } & (
+  | { container: Window; isWindow: true }
+  | { container: HTMLElement; isWindow: false }
+);
 
 export interface IScrollRegisterConfig {
   container: ContainerRef;
@@ -46,8 +51,9 @@ export interface IScroller {
   disable: boolean;
   throttle: number;
   scrollWindow: boolean;
-  element: ElementRef;
-  scrollContainer: string | ElementRef;
+  element: ElementRef<HTMLElement>;
+  scrollContainer: ScrollContainer;
+  immediateCheck: boolean;
   alwaysCallback: boolean;
   downDistance: number;
   upDistance: number;
@@ -60,7 +66,7 @@ export interface IScrollParams {
 }
 
 export interface IInfiniteScrollAction {
-  type: string;
+  type: '[NGX_ISE] DOWN' | '[NGX_ISE] UP';
   payload: IInfiniteScrollEvent;
 }
 

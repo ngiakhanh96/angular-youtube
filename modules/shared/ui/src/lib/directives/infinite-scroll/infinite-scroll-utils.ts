@@ -1,38 +1,35 @@
 import { ElementRef } from '@angular/core';
+import { ContainerRef, ScrollContainer } from './scroll-state.model';
 
 export function resolveContainerElement(
-  selector: string | any,
+  selector: ScrollContainer,
   scrollWindow: boolean,
-  defaultElement: ElementRef<any>,
+  defaultElement: ElementRef<HTMLElement>,
   fromRoot: boolean,
-): any {
-  const hasWindow =
-    window && !!window.document && window.document.documentElement;
-  let container = hasWindow && scrollWindow ? window : defaultElement;
-  if (selector) {
-    const containerIsString =
-      selector && hasWindow && typeof selector === 'string';
-    container = containerIsString
-      ? findElement(selector, defaultElement.nativeElement, fromRoot)
-      : selector;
+): ContainerRef {
+  const element = defaultElement.nativeElement;
+  if (typeof selector === 'string' && selector) {
+    const container = findElement(selector, element, fromRoot);
     if (!container) {
       throw new Error(
-        'ngx-infinite-scroll {resolveContainerElement()}: selector for',
+        'ayInfiniteScroll: no scroll container matches "' + selector + '".',
       );
     }
+    return container;
   }
-  return container;
+  if (selector instanceof ElementRef) return selector.nativeElement;
+  if (selector && typeof selector !== 'string') return selector;
+
+  return scrollWindow
+    ? (element.ownerDocument.defaultView ?? element)
+    : element;
 }
 
 export function findElement(
-  selector: string | any,
-  customRoot: ElementRef | any,
+  selector: string,
+  customRoot: HTMLElement,
   fromRoot: boolean,
-) {
-  const rootEl = fromRoot ? window.document : customRoot;
-  return rootEl.querySelector(selector);
-}
-
-export function hasWindowDefined(): boolean {
-  return typeof window !== 'undefined';
+): HTMLElement | null {
+  const root = fromRoot ? customRoot.ownerDocument : customRoot;
+  return root.querySelector<HTMLElement>(selector);
 }

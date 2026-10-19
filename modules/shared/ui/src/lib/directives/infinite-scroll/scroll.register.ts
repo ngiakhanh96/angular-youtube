@@ -1,5 +1,13 @@
-import { fromEvent, Observable, of } from 'rxjs';
-import { filter, map, mergeMap, tap, throttleTime } from 'rxjs/operators';
+import {
+  EMPTY,
+  filter,
+  fromEvent,
+  map,
+  Observable,
+  startWith,
+  tap,
+  throttleTime,
+} from 'rxjs';
 
 import { AxisResolver } from './axis-resolver';
 import { shouldTriggerEvents } from './event-trigger';
@@ -16,7 +24,11 @@ import {
   ScrollState,
 } from './scroll-state.model';
 
-export function createScroller(config: IScroller) {
+export function createScroller(
+  config: IScroller,
+): Observable<IInfiniteScrollAction> {
+  if (config.disable) return EMPTY;
+
   const { scrollContainer, scrollWindow, element, fromRoot } = config;
   const resolver = createResolver({
     axis: new AxisResolver(!config.horizontal),
@@ -38,26 +50,31 @@ export function createScroller(config: IScroller) {
     up: config.upDistance,
     down: config.downDistance,
   };
-  return attachScrollEvent(options).pipe(
-    mergeMap(() => of(calculatePoints(element, resolver))),
-    map((positionStats: IPositionStats) =>
-      toInfiniteScrollParams(
-        scrollState.lastScrollPosition,
-        positionStats,
+  const scrollEvents = attachScrollEvent(options);
+  const events = config.immediateCheck
+    ? scrollEvents.pipe(startWith(null))
+    : scrollEvents;
+
+  return events.pipe(
+    map((event) => {
+      const stats = calculatePoints(element, resolver);
+      return toInfiniteScrollParams(
+        event === null ? stats.scrolled - 1 : scrollState.lastScrollPosition,
+        stats,
         distance,
-      ),
-    ),
-    tap(({ stats }: IScrollParams) =>
+      );
+    }),
+    tap(({ stats }) =>
       scrollState.updateScroll(stats.scrolled, stats.totalToScroll),
     ),
-    filter(({ fire, scrollDown, stats: { totalToScroll } }: IScrollParams) =>
+    filter(({ fire, scrollDown, stats: { totalToScroll } }) =>
       shouldTriggerEvents(
         config.alwaysCallback,
         fire,
         scrollState.isTriggeredScroll(totalToScroll, scrollDown),
       ),
     ),
-    tap(({ scrollDown, stats: { totalToScroll } }: IScrollParams) => {
+    tap(({ scrollDown, stats: { totalToScroll } }) => {
       scrollState.updateTriggeredFlag(totalToScroll, scrollDown);
     }),
     map(toInfiniteScrollAction),
@@ -66,13 +83,9 @@ export function createScroller(config: IScroller) {
 
 export function attachScrollEvent(
   options: IScrollRegisterConfig,
-): Observable<object> {
-  let obs = fromEvent(options.container, 'scroll');
-  // For an unknown reason calling `sampleTime()` causes trouble for many users, even with `options.throttle = 0`.
-  // Let's avoid calling the function unless needed.
-  // Replacing with throttleTime seems to solve the problem
-  // See https://github.com/orizens/ngx-infinite-scroll/issues/198
-  if (options.throttle) {
+): Observable<Event> {
+  let obs = fromEvent<Event>(options.container, 'scroll', { passive: true });
+  if (options.throttle > 0) {
     obs = obs.pipe(
       throttleTime(options.throttle, undefined, {
         leading: true,
@@ -80,7 +93,7 @@ export function attachScrollEvent(
       }),
     );
   }
-  return obs as any;
+  return obs;
 }
 
 export function toInfiniteScrollParams(
@@ -103,7 +116,7 @@ export function toInfiniteScrollParams(
 export const InfiniteScrollActions = {
   DOWN: '[NGX_ISE] DOWN',
   UP: '[NGX_ISE] UP',
-};
+} as const;
 
 export function toInfiniteScrollAction(
   response: IScrollParams,
