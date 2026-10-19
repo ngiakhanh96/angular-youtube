@@ -28,19 +28,21 @@ export function withSearchPageEffects<_>() {
               .searchVideosInfo(event.payload.searchTerm, event.payload.page)
               .pipe(
                 switchMap((videosInfo) =>
-                  combineLatest([
-                    ...videosInfo.map((p) =>
-                      invidiousService.getVideoInfo(p.videoId).pipe(
-                        catchError((error: HttpErrorResponse) => {
-                          console.error(error);
-                          return of(<IInvidiousVideoInfo>(<unknown>{
-                            videoId: p.videoId,
-                            formatStreams: [],
-                          }));
-                        }),
-                      ),
-                    ),
-                  ]),
+                  videosInfo.length
+                    ? combineLatest(
+                        videosInfo.map((p) =>
+                          invidiousService.getVideoInfo(p.videoId).pipe(
+                            catchError((error: HttpErrorResponse) => {
+                              console.error(error);
+                              return of(<IInvidiousVideoInfo>(<unknown>{
+                                videoId: p.videoId,
+                                formatStreams: [],
+                              }));
+                            }),
+                          ),
+                        ),
+                      )
+                    : of([]),
                 ),
                 map((searchedVideosInfo) => {
                   return searchPageEventGroup.searchYoutubeVideosSuccess({

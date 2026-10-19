@@ -5,14 +5,7 @@
       [scrollingWidth]="400"
     ></ay-pill-list>
   </div>
-  <div
-    class="videos_search_player_grid"
-    ayInfiniteScroll
-    [infiniteScrollDistance]="3"
-    [infiniteScrollThrottle]="50"
-    [infiniteScrollDisabled]="isLoading()"
-    (scrolled)="onScrollDown()"
-  >
+  <div class="videos_search_player_grid">
     <ng-template #videoCard let-video="video">
       <ay-video-player-card
         [videoPlayerCardInfo]="video"
@@ -53,4 +46,10 @@
       </div>
     }
   </div>
+  <div
+    ayInfiniteScroll
+    [infiniteScrollKey]="paginationKey()"
+    [infiniteScrollDisabled]="isLoading() || !hasMore()"
+    (scrolled)="onScrollDown()"
+  ></div>
 </div>

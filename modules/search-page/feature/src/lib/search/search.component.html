@@ -2,6 +2,13 @@
   <ay-videos-search
     [videos]="searchedVideosInfo()"
     [isLoading]="isLoadingVideos()"
+    [hasMore]="
+      searchPageStore.hasMore() &&
+      searchPageStore.searchTerm() === searchQuery()
+    "
+    [paginationKey]="
+      searchPageStore.searchTerm() + ':' + searchPageStore.page()
+    "
     [videoCategories]="videosCategoriesViewModel()"
     (scrollDown)="onScrollDown()"
   ></ay-videos-search>

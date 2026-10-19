@@ -24,14 +24,7 @@
         [scrollingWidth]="150"
       />
     </div>
-    <div
-      class="playlist-grid"
-      ayInfiniteScroll
-      [infiniteScrollDistance]="3"
-      [infiniteScrollThrottle]="50"
-      [infiniteScrollDisabled]="isLoadingPlaylists()"
-      (scrolled)="onScrollDown()"
-    >
+    <div class="playlist-grid">
       <ng-template
         #playlistCard
         let-playlist="playlist"
@@ -65,5 +58,11 @@
         </div>
       }
     </div>
+    <div
+      ayInfiniteScroll
+      [infiniteScrollKey]="store.nextPageToken() ?? ''"
+      [infiniteScrollDisabled]="isLoadingPlaylists() || !store.nextPageToken()"
+      (scrolled)="onScrollDown()"
+    ></div>
   }
 </main>

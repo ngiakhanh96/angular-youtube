@@ -34,6 +34,8 @@ export class VideosSearchComponent extends BaseWithSandBoxComponent {
   videoCategories = input.required<IVideoCategory[]>();
   videos = input.required<IVideoPlayerCardInfo[]>();
   isLoading = input(false);
+  hasMore = input(false);
+  paginationKey = input.required<string>();
   PlayerPosition: typeof PlayerPosition = PlayerPosition;
   scrollDown = output<void>();
   Utilities = Utilities;
@@ -53,7 +55,7 @@ export class VideosSearchComponent extends BaseWithSandBoxComponent {
   }
 
   onScrollDown() {
-    if (this.isLoading()) return;
+    if (this.isLoading() || !this.hasMore()) return;
 
     this.scrollDown.emit();
   }

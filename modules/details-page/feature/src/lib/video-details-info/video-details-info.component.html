@@ -78,16 +78,17 @@
           [publishedDateEpoch]="videoInfo()!.publishedDateEpoch"
         ></ay-video-details-description>
       </div>
-      <div
-        class="video-details-info-comments"
-        ayInfiniteScroll
-        [infiniteScrollDistance]="2"
-        [infiniteScrollThrottle]="50"
-        [infiniteScrollDisabled]="isLoadingComments()"
-        (scrolled)="onScrollDown()"
-      >
+      <div class="video-details-info-comments">
         <ay-video-comments [commentsInfo]="commentsInfo()"> </ay-video-comments>
       </div>
+      <div
+        ayInfiniteScroll
+        [infiniteScrollKey]="commentsInfo()?.continuation ?? ''"
+        [infiniteScrollDisabled]="
+          isLoadingComments() || !commentsInfo()?.continuation
+        "
+        (scrolled)="onScrollDown()"
+      ></div>
     </div>
   </div>
 }

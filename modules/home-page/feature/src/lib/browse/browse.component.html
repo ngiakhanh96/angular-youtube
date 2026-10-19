@@ -5,14 +5,7 @@
       [scrollingWidth]="400"
     ></ay-pill-list>
   </div>
-  <div
-    class="browse_video_player_grid"
-    ayInfiniteScroll
-    [infiniteScrollDistance]="3"
-    [infiniteScrollThrottle]="50"
-    [infiniteScrollDisabled]="isLoadingVideos()"
-    (scrolled)="onScrollDown()"
-  >
+  <div class="browse_video_player_grid">
     @let channelInfo = "'20px'";
     <ng-template #videoCard let-video="video">
       <ay-video-player-card
@@ -50,4 +43,12 @@
       </div>
     }
   </div>
+  <div
+    ayInfiniteScroll
+    [infiniteScrollKey]="homePageStore.videos()?.nextPageToken ?? ''"
+    [infiniteScrollDisabled]="
+      isLoadingVideos() || !homePageStore.videos()?.nextPageToken
+    "
+    (scrolled)="onScrollDown()"
+  ></div>
 </div>

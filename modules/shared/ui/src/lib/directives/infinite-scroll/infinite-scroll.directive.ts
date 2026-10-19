@@ -5,70 +5,57 @@ import {
   inject,
   input,
   output,
-  untracked,
 } from '@angular/core';
-import {
-  IInfiniteScrollAction,
-  IInfiniteScrollEvent,
-  ScrollContainer,
-} from './scroll-state.model';
-import { createScroller, InfiniteScrollActions } from './scroll.register';
 
 @Directive({
   selector: '[ayInfiniteScroll]',
+  host: {
+    'aria-hidden': 'true',
+    class: 'block h-px',
+  },
 })
 export class InfiniteScrollDirective {
-  scrolled = output<IInfiniteScrollEvent>();
-  scrolledUp = output<IInfiniteScrollEvent>();
-
-  infiniteScrollDistance = input(2);
-  infiniteScrollUpDistance = input(1.5);
-  infiniteScrollThrottle = input(150);
-  infiniteScrollDisabled = input(false);
-  infiniteScrollContainer = input<ScrollContainer>(null);
-  scrollWindow = input(true);
-  immediateCheck = input(false);
-  horizontal = input(false);
-  alwaysCallback = input(false);
-  fromRoot = input(false);
+  readonly scrolled = output<void>();
+  readonly infiniteScrollDisabled = input(false);
+  readonly infiniteScrollKey = input.required<string>();
+  /** Distance below the viewport, in pixels, at which to request the next page. */
+  readonly infiniteScrollDistance = input(400);
 
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
+  private requestedKey: string | undefined;
 
   constructor() {
     afterRenderEffect({
       read: (onCleanup) => {
-        if (!this.infiniteScrollDisabled()) {
-          const subscription = this.setup();
-          onCleanup(() => subscription.unsubscribe());
-        }
+        if (this.infiniteScrollDisabled()) return;
+
+        const key = this.infiniteScrollKey();
+        let active = true;
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (!active || this.infiniteScrollDisabled()) return;
+
+            const entry = entries[entries.length - 1];
+            if (!entry) return;
+            if (!entry.isIntersecting) {
+              this.requestedKey = undefined;
+              return;
+            }
+            if (this.requestedKey === key) return;
+
+            // Rearm after progress, or after leaving and re-entering the viewport.
+            this.requestedKey = key;
+            this.scrolled.emit();
+          },
+          { rootMargin: `0px 0px ${this.infiniteScrollDistance()}px 0px` },
+        );
+
+        observer.observe(this.element.nativeElement);
+        onCleanup(() => {
+          active = false;
+          observer.disconnect();
+        });
       },
     });
-  }
-
-  private setup() {
-    const config = {
-      fromRoot: this.fromRoot(),
-      alwaysCallback: this.alwaysCallback(),
-      disable: this.infiniteScrollDisabled(),
-      downDistance: this.infiniteScrollDistance(),
-      element: this.element,
-      horizontal: this.horizontal(),
-      immediateCheck: this.immediateCheck(),
-      scrollContainer: this.infiniteScrollContainer(),
-      scrollWindow: this.scrollWindow(),
-      throttle: this.infiniteScrollThrottle(),
-      upDistance: this.infiniteScrollUpDistance(),
-    };
-    return untracked(() =>
-      createScroller(config).subscribe((action) => this.handleOnScroll(action)),
-    );
-  }
-
-  private handleOnScroll({ type, payload }: IInfiniteScrollAction) {
-    if (this.infiniteScrollDisabled()) return;
-
-    const emitter =
-      type === InfiniteScrollActions.DOWN ? this.scrolled : this.scrolledUp;
-    emitter.emit(payload);
   }
 }

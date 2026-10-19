@@ -19,7 +19,6 @@ import {
   effect,
   inject,
   input,
-  linkedSignal,
   OnInit,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -78,16 +77,12 @@ export class SearchComponent
   private searchYoutubeVideosInfo = computed(() =>
     searchPageEventGroup.searchYoutubeVideos({
       searchTerm: this.searchQuery() ?? '',
-      page: this.page(),
+      page: 1,
     }),
   );
   private titleService = inject(Title);
   private sidebarService = inject(SidebarService);
   private loadingBarService = inject(LoadingBarService);
-  private page = linkedSignal(() => {
-    this.searchQuery();
-    return 1;
-  });
 
   constructor() {
     super();
@@ -100,7 +95,7 @@ export class SearchComponent
       this.loadingBarService.load(25);
     });
     effect(() => {
-      if (this.searchedVideosInfo().length > 0) {
+      if (!this.isLoadingVideos()) {
         this.loadingBarService.load(100);
       }
     });
@@ -111,8 +106,19 @@ export class SearchComponent
   }
 
   onScrollDown() {
-    if (this.isLoadingVideos()) return;
+    if (
+      this.isLoadingVideos() ||
+      !this.searchPageStore.hasMore() ||
+      this.searchPageStore.searchTerm() !== this.searchQuery()
+    ) {
+      return;
+    }
 
-    this.page.update((p) => p + 1);
+    this.dispatchEvent(
+      searchPageEventGroup.searchYoutubeVideos({
+        searchTerm: this.searchQuery(),
+        page: this.searchPageStore.page() + 1,
+      }),
+    );
   }
 }

@@ -13,11 +13,13 @@ export interface ISearchPageState {
   searchTerm: string;
   searchedVideosInfo: IInvidiousVideoInfo[];
   page: number;
+  hasMore: boolean;
 }
 export const initialSearchPageState: ISearchPageState = {
   searchTerm: '',
   searchedVideosInfo: [],
   page: 1,
+  hasMore: false,
 };
 
 export const SearchPageStore = signalStore(
@@ -38,6 +40,7 @@ export function withSearchPageReducer<_>() {
               ? searchedVideosInfo
               : [...state.searchedVideosInfo, ...searchedVideosInfo],
           page: page,
+          hasMore: searchedVideosInfo.length > 0,
           searchTerm,
         }),
       ),
