@@ -1,231 +1,212 @@
 /// <reference types="google.accounts" />
-import { EventEmitter } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { filter, skip, take } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { ISocialUser } from '../social-user';
 import { BaseLoginProvider } from './base-login-provider';
 
 export interface GoogleInitOptions {
-  /**
-   * enables the One Tap mechanism, and makes auto-login possible
-   */
   oneTapEnabled?: boolean;
-  /**
-   * list of permission scopes to grant in case we request an access token
-   */
   scopes?: string | string[];
-  /**
-   * This attribute sets the DOM ID of the container element. If it's not set, the One Tap prompt is displayed in the top-right corner of the window.
-   */
   prompt_parent_id?: string;
-
-  /**
-   * Optional, defaults to 'select_account'.
-   * A space-delimited, case-sensitive list of prompts to present the
-   * user.
-   * Possible values are:
-   * empty string The user will be prompted only the first time your
-   *     app requests access. Cannot be specified with other values.
-   * 'none' Do not display any authentication or consent screens. Must
-   *     not be specified with other values.
-   * 'consent' Prompt the user for consent.
-   * 'select_account' Prompt the user to select an account.
-   */
   prompt?: '' | 'none' | 'consent' | 'select_account';
 }
 
-const defaultInitOptions: GoogleInitOptions = {
-  oneTapEnabled: true,
-};
-
-const isGoogleAccountsDefined = (): boolean => {
-  return typeof window.google?.accounts !== 'undefined';
-};
-
-const assertGoogleAccountsDefined = (): void => {
-  if (!isGoogleAccountsDefined()) {
-    throw new Error('Google Accounts API is undefined');
-  }
-};
-
-const getGoogleAccountsOrThrow = (): typeof google.accounts => {
-  assertGoogleAccountsDefined();
-
-  return window.google.accounts;
-};
-
 export class GoogleLoginProvider extends BaseLoginProvider {
-  public static readonly PROVIDER_ID: string = 'GOOGLE';
-  public override readonly changeUser: any =
-    new EventEmitter<ISocialUser | null>();
-  private readonly _socialUser = new BehaviorSubject<ISocialUser | null>(null);
-  private readonly _accessToken = new BehaviorSubject<string | null>(null);
-  private readonly _receivedAccessToken = new EventEmitter<string | null>();
-  private _tokenClient: google.accounts.oauth2.TokenClient | undefined;
+  static readonly PROVIDER_ID = 'GOOGLE';
+  private readonly userChanges = new Subject<ISocialUser | null>();
+  override readonly changeUser = this.userChanges.asObservable();
+  private readonly options: GoogleInitOptions;
+  private user: ISocialUser | null = null;
+  private accessToken: string | null = null;
+  private disposed = false;
+  private pendingToken?: {
+    promise: Promise<string>;
+    reject: (error: unknown) => void;
+  };
 
   constructor(
-    private clientId: string,
-    private readonly initOptions?: GoogleInitOptions,
+    private readonly clientId: string,
+    options: GoogleInitOptions = {},
   ) {
     super();
-
-    this.initOptions = { ...defaultInitOptions, ...this.initOptions };
-
-    // emit changeUser events but skip initial value from behaviorSubject
-    this._socialUser.pipe(skip(1)).subscribe(this.changeUser);
-
-    // emit receivedAccessToken but skip initial value from behaviorSubject
-    this._accessToken.pipe(skip(1)).subscribe(this._receivedAccessToken);
+    this.options = { oneTapEnabled: true, ...options };
   }
 
-  initialize(autoLogin?: boolean, lang?: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      try {
-        this.loadScript(
-          GoogleLoginProvider.PROVIDER_ID,
-          this.getGoogleLoginScriptSrc(lang),
-          () => {
-            if (!isGoogleAccountsDefined()) return;
+  async initialize(autoLogin = false, lang = ''): Promise<void> {
+    const src =
+      'https://accounts.google.com/gsi/client' +
+      (lang ? `?hl=${encodeURIComponent(lang)}` : '');
+    await this.loadScript(
+      GoogleLoginProvider.PROVIDER_ID,
+      src,
+      () => typeof window.google?.accounts !== 'undefined',
+    );
+    if (this.disposed) return;
 
-            google.accounts.id.initialize({
-              client_id: this.clientId,
-              auto_select: autoLogin,
-              callback: ({ credential }) => {
-                const socialUser = this.createSocialUser(credential);
-                this._socialUser.next(socialUser);
-              },
-              prompt_parent_id: this.initOptions?.prompt_parent_id,
-              itp_support: this.initOptions?.oneTapEnabled,
-              use_fedcm_for_prompt: this.initOptions?.oneTapEnabled,
-            });
-
-            if (this.initOptions?.oneTapEnabled) {
-              this._socialUser
-                .pipe(filter((user) => user === null))
-                .subscribe(() => google.accounts.id.prompt(console.debug));
-            }
-
-            if (this.initOptions?.scopes) {
-              const scope =
-                this.initOptions.scopes instanceof Array
-                  ? this.initOptions.scopes.filter((s) => s).join(' ')
-                  : this.initOptions.scopes;
-
-              this._tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: this.clientId,
-                scope,
-                prompt: this.initOptions.prompt,
-                callback: (tokenResponse) => {
-                  if (tokenResponse.error) {
-                    this._accessToken.error({
-                      code: tokenResponse.error,
-                      description: tokenResponse.error_description,
-                      uri: tokenResponse.error_uri,
-                    });
-                  } else {
-                    this._accessToken.next(tokenResponse.access_token);
-                  }
-                },
-              });
-            }
-            resolve();
-          },
-        );
-      } catch (err) {
-        reject(err);
-      }
+    this.accounts.id.initialize({
+      client_id: this.clientId,
+      auto_select: autoLogin,
+      callback: ({ credential }) => {
+        if (this.disposed) return;
+        try {
+          this.user = this.createSocialUser(credential);
+          this.userChanges.next(this.user);
+        } catch (error: unknown) {
+          console.error(error);
+        }
+      },
+      prompt_parent_id: this.options.prompt_parent_id,
+      itp_support: this.options.oneTapEnabled,
+      use_fedcm_for_prompt: this.options.oneTapEnabled,
     });
+    if (this.options.oneTapEnabled) this.accounts.id.prompt();
   }
 
   getLoginStatus(): Promise<ISocialUser> {
-    return new Promise((resolve, reject) => {
-      if (this._socialUser.value) {
-        resolve(this._socialUser.value);
-      } else {
-        reject(
-          `No user is currently logged in with ${GoogleLoginProvider.PROVIDER_ID}`,
-        );
-      }
-    });
+    return this.user
+      ? Promise.resolve(this.user)
+      : Promise.reject(new Error('No user is currently logged in with GOOGLE'));
   }
 
-  override refreshToken(): Promise<ISocialUser | null> {
-    return new Promise((resolve, reject) => {
-      if (this._socialUser.value?.id) {
-        getGoogleAccountsOrThrow().id.revoke(
-          this._socialUser.value.id,
-          (response) => {
-            if (response.error) reject(response.error);
-            else resolve(this._socialUser.value);
-          },
-        );
-      } else {
-        reject(
-          `No user is currently logged in with ${GoogleLoginProvider.PROVIDER_ID}`,
-        );
-      }
-    });
-  }
+  getAccessToken(): Promise<string> {
+    if (this.pendingToken) return this.pendingToken.promise;
+    if (this.disposed)
+      return Promise.reject(new Error('Google provider has been disposed'));
+    const scope = Array.isArray(this.options.scopes)
+      ? this.options.scopes.filter(Boolean).join(' ')
+      : this.options.scopes;
+    if (!scope)
+      return Promise.reject(
+        new Error('Google access tokens require configured scopes'),
+      );
 
-  getAccessToken(): Promise<string | null> {
-    return new Promise((resolve, reject) => {
-      if (!this._tokenClient) {
-        if (this._socialUser.value) {
-          reject(
-            'No token client was instantiated, you should specify some scopes.',
-          );
-        } else {
-          reject('You should be logged-in first.');
-        }
-      } else {
-        this._tokenClient.requestAccessToken({
-          hint: this._socialUser.value?.email,
-        });
-        this._receivedAccessToken.pipe(take(1)).subscribe(resolve);
-      }
+    let resolveToken!: (token: string) => void;
+    let rejectToken!: (error: unknown) => void;
+    const promise = new Promise<string>((resolve, reject) => {
+      resolveToken = resolve;
+      rejectToken = reject;
     });
+    const request = { promise, reject: rejectToken };
+    this.pendingToken = request;
+
+    const fail = (error: unknown) => {
+      if (this.pendingToken !== request) return;
+      this.pendingToken = undefined;
+      rejectToken(error);
+    };
+    try {
+      // Each request owns its callbacks, so a cancelled popup cannot resolve a later request.
+      const client = this.accounts.oauth2.initTokenClient({
+        client_id: this.clientId,
+        scope,
+        prompt: this.options.prompt,
+        callback: (response) => {
+          if (this.pendingToken !== request) return;
+          if (response.error || !response.access_token) {
+            fail(
+              new Error(
+                response.error_description ||
+                  response.error ||
+                  'Google did not return an access token',
+              ),
+            );
+            return;
+          }
+          this.pendingToken = undefined;
+          this.accessToken = response.access_token;
+          resolveToken(response.access_token);
+        },
+        error_callback: (error) => fail(new Error(error.message || error.type)),
+      });
+      client.requestAccessToken({ login_hint: this.user?.email });
+    } catch (error: unknown) {
+      fail(error);
+    }
+    return promise;
   }
 
   revokeAccessToken(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (!this._tokenClient) {
-        reject(
-          'No token client was instantiated, you should specify some scopes.',
-        );
-      } else if (!this._accessToken.value) {
-        reject('No access token to revoke');
-      } else {
-        getGoogleAccountsOrThrow().oauth2.revoke(
-          this._accessToken.value,
-          () => {
-            this._accessToken.next(null);
-            resolve();
-          },
-        );
-      }
+    const token = this.accessToken;
+    if (!token) return Promise.reject(new Error('No access token to revoke'));
+    return this.revokeToken(token).then(() => {
+      if (this.accessToken === token) this.accessToken = null;
     });
   }
 
   signIn(): Promise<ISocialUser> {
     return Promise.reject(
-      'You should not call this method directly for Google, use "<asl-google-signin-button>" wrapper ' +
-        'or generate the button yourself with "google.accounts.id.renderButton()" ' +
-        '(https://developers.google.com/identity/gsi/web/guides/display-button#javascript)',
+      new Error(
+        'Use google.accounts.id.renderButton() for Google identity sign-in, or getAccessToken() for OAuth access.',
+      ),
     );
   }
 
-  async signOut(): Promise<void> {
-    const accounts = getGoogleAccountsOrThrow();
-    accounts.id.disableAutoSelect();
-    this._accessToken.next(null);
-    this._socialUser.next(null);
-    accounts.id.cancel();
+  async signOut(revoke = false): Promise<void> {
+    const token = this.accessToken;
+    this.cancelTokenRequest();
+    this.accessToken = null;
+    this.user = null;
+    this.userChanges.next(null);
+    this.accounts.id.disableAutoSelect();
+    this.accounts.id.cancel();
+    if (revoke && token) {
+      await this.revokeToken(token);
+    }
   }
 
-  private createSocialUser(idToken: string) {
+  dispose(): void {
+    this.disposed = true;
+    this.cancelTokenRequest();
+    if (typeof window !== 'undefined' && window.google?.accounts)
+      window.google.accounts.id.cancel();
+    this.userChanges.complete();
+  }
+
+  private cancelTokenRequest(): void {
+    const pending = this.pendingToken;
+    this.pendingToken = undefined;
+    pending?.reject(new Error('Google access token request was cancelled'));
+  }
+
+  private revokeToken(token: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      // The installed Google types omit the response argument documented by GIS.
+      this.accounts.oauth2.revoke(
+        token,
+        (response?: {
+          successful: boolean;
+          error?: string;
+          error_description?: string;
+        }) => {
+          if (
+            response?.successful === false &&
+            response.error !== 'invalid_token'
+          ) {
+            reject(
+              new Error(
+                response.error_description ||
+                  response.error ||
+                  'Google token revocation failed',
+              ),
+            );
+          } else {
+            resolve();
+          }
+        },
+      );
+    });
+  }
+
+  private get accounts(): typeof google.accounts {
+    if (typeof window === 'undefined' || !window.google?.accounts) {
+      throw new Error('Google Accounts API is unavailable');
+    }
+    return window.google.accounts;
+  }
+
+  private createSocialUser(idToken: string): ISocialUser {
     const payload = this.decodeJwt(idToken);
-    const user: ISocialUser = {
-      idToken: idToken,
+    return {
+      idToken,
       id: payload['sub'],
       name: payload['name'],
       email: payload['email'],
@@ -233,28 +214,24 @@ export class GoogleLoginProvider extends BaseLoginProvider {
       firstName: payload['given_name'],
       lastName: payload['family_name'],
     };
-
-    return user;
   }
 
-  private decodeJwt(idToken: string): Record<string, string | undefined> {
-    const base64Url = idToken.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(
-      window
-        .atob(base64)
-        .split('')
-        .map(function (c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        })
-        .join(''),
+  private decodeJwt(idToken: string): Record<string, string> {
+    const encoded = idToken.split('.')[1];
+    if (!encoded) throw new Error('Google returned an invalid ID token');
+    const base64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
+    const bytes = Uint8Array.from(atob(base64), (character) =>
+      character.charCodeAt(0),
     );
-    return JSON.parse(jsonPayload);
-  }
-
-  private getGoogleLoginScriptSrc(lang?: string): string {
-    return lang
-      ? `https://accounts.google.com/gsi/client?hl=${lang}`
-      : 'https://accounts.google.com/gsi/client';
+    const payload: unknown = JSON.parse(new TextDecoder().decode(bytes));
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+      throw new Error('Google returned an invalid ID token payload');
+    }
+    // These claims are display data, not proof of authentication.
+    return Object.fromEntries(
+      Object.entries(payload).filter(
+        (entry): entry is [string, string] => typeof entry[1] === 'string',
+      ),
+    );
   }
 }

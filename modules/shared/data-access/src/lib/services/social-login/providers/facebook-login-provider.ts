@@ -1,121 +1,123 @@
 import { ISocialUser } from '../social-user';
 import { BaseLoginProvider } from './base-login-provider';
 
-declare let FB: any;
+interface FacebookOptions {
+  scope?: string;
+  locale?: string;
+  fields?: string;
+  version?: string;
+}
+interface FacebookLoginResponse {
+  status?: string;
+  authResponse?: { accessToken: string };
+}
+interface FacebookUser {
+  id: string;
+  name: string;
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+  error?: { message: string };
+}
+interface FacebookSdk {
+  init(options: {
+    appId: string;
+    autoLogAppEvents: boolean;
+    cookie: boolean;
+    xfbml: boolean;
+    version: string;
+  }): void;
+  getLoginStatus(callback: (response: FacebookLoginResponse) => void): void;
+  login(
+    callback: (response: FacebookLoginResponse) => void,
+    options: FacebookOptions,
+  ): void;
+  logout(callback: () => void): void;
+  api(path: string, callback: (response: FacebookUser) => void): void;
+}
+declare const FB: FacebookSdk;
 
 export class FacebookLoginProvider extends BaseLoginProvider {
-  public static readonly PROVIDER_ID: string = 'FACEBOOK';
-
-  private requestOptions = {
-    scope: 'email,public_profile',
-    locale: 'en_US',
-    fields: 'name,email,picture,first_name,last_name',
-    version: 'v10.0',
-  };
+  static readonly PROVIDER_ID = 'FACEBOOK';
+  private readonly options: Required<FacebookOptions>;
 
   constructor(
-    private clientId: string,
-    initOptions: object = {},
+    private readonly clientId: string,
+    options: FacebookOptions = {},
   ) {
     super();
-
-    this.requestOptions = {
-      ...this.requestOptions,
-      ...initOptions,
+    this.options = {
+      scope: 'email,public_profile',
+      locale: 'en_US',
+      fields: 'name,email,picture,first_name,last_name',
+      version: 'v10.0',
+      ...options,
     };
   }
 
-  initialize(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      try {
-        this.loadScript(
-          FacebookLoginProvider.PROVIDER_ID,
-          `//connect.facebook.net/${this.requestOptions.locale}/sdk.js`,
-          () => {
-            FB.init({
-              appId: this.clientId,
-              autoLogAppEvents: true,
-              cookie: true,
-              xfbml: true,
-              version: this.requestOptions.version,
-            });
-
-            resolve();
-          },
-        );
-      } catch (err) {
-        reject(err);
-      }
+  async initialize(): Promise<void> {
+    await this.loadScript(
+      FacebookLoginProvider.PROVIDER_ID,
+      `https://connect.facebook.net/${encodeURIComponent(this.options.locale)}/sdk.js`,
+      () => typeof FB !== 'undefined',
+    );
+    FB.init({
+      appId: this.clientId,
+      autoLogAppEvents: true,
+      cookie: true,
+      xfbml: true,
+      version: this.options.version,
     });
   }
 
-  getLoginStatus(): Promise<ISocialUser> {
-    return new Promise((resolve, reject) => {
-      FB.getLoginStatus((response: any) => {
-        if (response.status === 'connected') {
-          const authResponse = response.authResponse;
-          FB.api(`/me?fields=${this.requestOptions.fields}`, (fbUser: any) => {
-            const user: ISocialUser = {
-              id: fbUser.id,
-              name: fbUser.name,
-              email: fbUser.email,
-              photoUrl:
-                'https://graph.facebook.com/' +
-                fbUser.id +
-                '/picture?type=normal&access_token=' +
-                authResponse.accessToken,
-              firstName: fbUser.first_name,
-              lastName: fbUser.last_name,
-              authToken: authResponse.accessToken,
-
-              response: fbUser,
-            };
-
-            resolve(user);
-          });
-        } else {
-          reject(
-            `No user is currently logged in with ${FacebookLoginProvider.PROVIDER_ID}`,
-          );
-        }
+  async getLoginStatus(): Promise<ISocialUser> {
+    const token = await new Promise<string>((resolve, reject) => {
+      FB.getLoginStatus((response) => {
+        if (response.status === 'connected' && response.authResponse)
+          resolve(response.authResponse.accessToken);
+        else reject(new Error('No user is currently logged in with FACEBOOK'));
       });
     });
+    return this.getUser(token, this.options.fields);
   }
 
-  signIn(signInOptions?: any): Promise<ISocialUser> {
-    const options = { ...this.requestOptions, ...signInOptions };
-    return new Promise((resolve, reject) => {
-      FB.login((response: any) => {
-        if (response.authResponse) {
-          const authResponse = response.authResponse;
-          FB.api(`/me?fields=${options.fields}`, (fbUser: any) => {
-            const user: ISocialUser = {
-              id: fbUser.id,
-              name: fbUser.name,
-              email: fbUser.email,
-              photoUrl:
-                'https://graph.facebook.com/' +
-                fbUser.id +
-                '/picture?type=normal',
-              firstName: fbUser.first_name,
-              lastName: fbUser.last_name,
-              authToken: authResponse.accessToken,
-              response: fbUser,
-            };
-
-            resolve(user);
-          });
-        } else {
-          reject('User cancelled login or did not fully authorize.');
-        }
-      }, options);
+  async signIn(options: FacebookOptions = {}): Promise<ISocialUser> {
+    const request = { ...this.options, ...options };
+    const token = await new Promise<string>((resolve, reject) => {
+      FB.login((response) => {
+        if (response.authResponse) resolve(response.authResponse.accessToken);
+        else
+          reject(new Error('Facebook login was cancelled or not authorized'));
+      }, request);
     });
+    return this.getUser(token, request.fields);
   }
 
   signOut(): Promise<void> {
+    return new Promise((resolve) => FB.logout(resolve));
+  }
+
+  private getUser(token: string, fields: string): Promise<ISocialUser> {
     return new Promise((resolve, reject) => {
-      FB.logout((response: any) => {
-        resolve();
+      FB.api(`/me?fields=${encodeURIComponent(fields)}`, (user) => {
+        if (user.error || !user.id) {
+          reject(
+            new Error(
+              user.error?.message || 'Failed to retrieve Facebook profile',
+            ),
+          );
+          return;
+        }
+        resolve({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          photoUrl: `https://graph.facebook.com/${encodeURIComponent(user.id)}/picture?type=normal`,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          authToken: token,
+          response: user,
+        });
       });
     });
   }

@@ -11,5 +11,5 @@ export interface ISocialUser {
   idToken?: string; // Reference https://developers.google.com/identity/sign-in/web/backend-auth
   authorizationCode?: string; // Reference https://developers.google.com/identity/sign-in/web/reference#googleauthgrantofflineaccessoptions
 
-  response?: any;
+  response?: unknown;
 }

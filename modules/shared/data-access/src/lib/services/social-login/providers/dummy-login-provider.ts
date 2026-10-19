@@ -1,38 +1,10 @@
-// Simulates login / logout without actually requiring an Internet connection.
-//
-// Useful for certain development situations.
-//
-// For example, if you want to simulate the greatest football referee England has ever produced:
-//
-//  const dummyUser: SocialUser = {
-//     id: '0123456789',
-//     name: 'Howard Webb',
-//     email: 'howard@webb.com',
-//     firstName: 'Howard',
-//     lastName: 'Webb',
-//     authToken: 'dummyAuthToken',
-//     photoUrl: 'https://en.wikipedia.org/wiki/Howard_Webb#/media/File:Howard_Webb_march11.jpg',
-//     provider: 'DUMMY',
-//     idToken: 'dummyIdToken',
-//     authorizationCode: 'dummyAuthCode'
-// };
-//
-//  let config = new AuthServiceConfig([
-//  { ... },
-//  {
-//       id: DummyLoginProvider.PROVIDER_ID,
-//       provider: new DummyLoginProvider(dummyUser)  // Pass your user into the constructor
-//   },
-//  { ... }
-//  ]);
-
 import { ISocialUser } from '../social-user';
 import { BaseLoginProvider } from './base-login-provider';
 
+/** Local adapter for development without a remote identity service. */
 export class DummyLoginProvider extends BaseLoginProvider {
-  public static readonly PROVIDER_ID: string = 'DUMMY';
-
-  static readonly DEFAULT_USER = {
+  static readonly PROVIDER_ID = 'DUMMY';
+  static readonly DEFAULT_USER: Readonly<ISocialUser> = {
     id: '1234567890',
     name: 'Mickey Mouse',
     email: 'mickey@mouse.com',
@@ -45,50 +17,31 @@ export class DummyLoginProvider extends BaseLoginProvider {
     authorizationCode: 'dummyAuthCode',
     response: {},
   };
+  private loggedIn = false;
+  private readonly user: ISocialUser;
 
-  private dummy: ISocialUser;
-
-  private loggedIn: boolean;
-
-  constructor(dummy?: ISocialUser) {
+  constructor(user: ISocialUser = DummyLoginProvider.DEFAULT_USER) {
     super();
-    if (dummy) {
-      this.dummy = dummy;
-    } else {
-      this.dummy = DummyLoginProvider.DEFAULT_USER;
-    }
-
-    // Start not logged in
-    this.loggedIn = false;
-  }
-
-  getLoginStatus(): Promise<ISocialUser> {
-    return new Promise((resolve, reject) => {
-      if (this.loggedIn) {
-        resolve(this.dummy);
-      } else {
-        reject('No user is currently logged in.');
-      }
-    });
+    this.user = { ...user };
   }
 
   initialize(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      resolve();
-    });
+    return Promise.resolve();
+  }
+
+  getLoginStatus(): Promise<ISocialUser> {
+    return this.loggedIn
+      ? Promise.resolve({ ...this.user })
+      : Promise.reject(new Error('No user is currently logged in with DUMMY'));
   }
 
   signIn(): Promise<ISocialUser> {
-    return new Promise((resolve, reject) => {
-      this.loggedIn = true;
-      resolve(this.dummy);
-    });
+    this.loggedIn = true;
+    return Promise.resolve({ ...this.user });
   }
 
-  signOut(revoke?: boolean): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.loggedIn = false;
-      resolve();
-    });
+  signOut(): Promise<void> {
+    this.loggedIn = false;
+    return Promise.resolve();
   }
 }
