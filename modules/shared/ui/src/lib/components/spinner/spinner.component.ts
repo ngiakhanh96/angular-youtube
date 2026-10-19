@@ -2,18 +2,22 @@ import { SpinnerService } from '@angular-youtube/shared-data-access';
 import {
   Component,
   computed,
+  DestroyRef,
   inject,
   input,
   OnInit,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
+  NavigationCancel,
   NavigationEnd,
+  NavigationError,
   NavigationStart,
   Router,
   RouterModule,
 } from '@angular/router';
-import { filter, tap } from 'rxjs';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'ay-spinner',
@@ -29,6 +33,7 @@ export class SpinnerComponent implements OnInit {
   detectRouteTransitions = input(false);
   spinnerService = inject(SpinnerService);
   router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
   opacity = computed(() => (this.spinnerService.isLoading() ? 1 : 0));
   zIndex = computed(() =>
     this.spinnerService.isLoading() ? 'var(--layer-2)' : '0',
@@ -41,18 +46,19 @@ export class SpinnerComponent implements OnInit {
           filter(
             (event) =>
               event instanceof NavigationStart ||
-              event instanceof NavigationEnd,
+              event instanceof NavigationEnd ||
+              event instanceof NavigationCancel ||
+              event instanceof NavigationError,
           ),
-          // Use tap to perform side effects
-          tap((event) => {
-            if (event instanceof NavigationStart) {
-              this.spinnerService.loadingOn();
-            } else if (event instanceof NavigationEnd) {
-              this.spinnerService.loadingOff();
-            }
-          }),
+          takeUntilDestroyed(this.destroyRef),
         )
-        .subscribe();
+        .subscribe((event) => {
+          if (event instanceof NavigationStart) {
+            this.spinnerService.loadingOn();
+          } else {
+            this.spinnerService.loadingOff();
+          }
+        });
     }
   }
 }

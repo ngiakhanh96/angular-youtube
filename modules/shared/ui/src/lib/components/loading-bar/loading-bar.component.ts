@@ -2,6 +2,7 @@ import { RouteData } from '@angular-youtube/shared-data-access';
 import {
   Component,
   computed,
+  DestroyRef,
   effect,
   ElementRef,
   inject,
@@ -9,14 +10,17 @@ import {
   OnInit,
   viewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ActivatedRoute,
   ChildActivationEnd,
-  Event,
+  NavigationCancel,
   NavigationEnd,
+  NavigationError,
+  NavigationStart,
   Router,
 } from '@angular/router';
-import { distinctUntilChanged, filter } from 'rxjs';
+import { distinctUntilChanged, EMPTY, filter, switchMap, timer } from 'rxjs';
 import { LoadingBarService } from '../../services/loading-bar.service';
 
 @Component({
@@ -35,6 +39,7 @@ export class LoadingBarComponent implements OnInit {
       : 1,
   );
   private router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
   loadingBarRef = viewChild.required<ElementRef<HTMLDivElement>>('loadingBar');
 
   constructor() {
@@ -58,27 +63,40 @@ export class LoadingBarComponent implements OnInit {
         filter(
           (event) =>
             event instanceof ChildActivationEnd ||
-            event instanceof NavigationEnd,
+            event instanceof NavigationStart ||
+            event instanceof NavigationEnd ||
+            event instanceof NavigationCancel ||
+            event instanceof NavigationError,
         ),
         distinctUntilChanged(
           (prev, curr) => prev.constructor === curr.constructor,
         ),
-      )
-      .subscribe((event: Event) => {
-        if (
-          !this.detectRouteTransitions() ||
-          this.getLeafComponentData().detectRouteTransitions === false
-        ) {
-          return;
-        }
-        if (event instanceof ChildActivationEnd) {
-          this.loadingBarService.load(25);
-        } else if (event instanceof NavigationEnd) {
-          setTimeout(() => {
+        switchMap((event) => {
+          if (!this.detectRouteTransitions()) {
+            return EMPTY;
+          }
+          if (
+            event instanceof NavigationCancel ||
+            event instanceof NavigationError
+          ) {
             this.loadingBarService.load(100);
-          }, 1000);
-        }
-      });
+            return EMPTY;
+          }
+
+          if (this.getLeafComponentData().detectRouteTransitions === false) {
+            return EMPTY;
+          }
+
+          if (event instanceof ChildActivationEnd) {
+            this.loadingBarService.load(25);
+          } else if (event instanceof NavigationEnd) {
+            return timer(1000);
+          }
+          return EMPTY;
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => this.loadingBarService.load(100));
   }
 
   private getLeafComponentData() {

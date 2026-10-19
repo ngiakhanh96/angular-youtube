@@ -1,15 +1,19 @@
-import { CdkConnectedOverlay, Overlay } from '@angular/cdk/overlay';
+import {
+  CdkConnectedOverlay,
+  CdkOverlayOrigin,
+  Overlay,
+} from '@angular/cdk/overlay';
 import {
   afterNextRender,
   Directive,
+  ElementRef,
   effect,
   inject,
   input,
   model,
   OnDestroy,
   Renderer2,
-  signal,
-  SimpleChange,
+  untracked,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -37,16 +41,14 @@ export class OverlayDirective implements OnDestroy {
   connectedOverlayOpen = model(false);
   autoOpenOnClick = input(true);
   private cdkConnectedOverlay = inject(CdkConnectedOverlay);
-  private scrollStrategy = signal(
-    inject(Overlay).scrollStrategies.reposition(),
-  );
+  private scrollStrategy = inject(Overlay).scrollStrategies.reposition();
   private renderer = inject(Renderer2);
   private originUnlisten: (() => void) | null = null;
 
   constructor() {
     this.cdkConnectedOverlay.disposeOnNavigation = true;
     this.cdkConnectedOverlay.flexibleDimensions = true;
-    this.cdkConnectedOverlay.scrollStrategy = this.scrollStrategy();
+    this.cdkConnectedOverlay.scrollStrategy = this.scrollStrategy;
     this.cdkConnectedOverlay.positions = [
       {
         originX: 'start',
@@ -90,12 +92,22 @@ export class OverlayDirective implements OnDestroy {
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.connectedOverlayOpen.set(false));
 
+    this.cdkConnectedOverlay.detach
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.connectedOverlayOpen.set(false));
+
     afterNextRender({
       read: () => {
         if (this.autoOpenOnClick()) {
-          const element: Element | null = (<any>(
-            this.cdkConnectedOverlay
-          ))._getOriginElement();
+          const origin = this.cdkConnectedOverlay.origin;
+          const element: Element | null =
+            origin instanceof CdkOverlayOrigin
+              ? origin.elementRef.nativeElement
+              : origin instanceof ElementRef
+                ? origin.nativeElement
+                : origin instanceof Element
+                  ? origin
+                  : null;
           if (element) {
             // Use Renderer2.listen to get an unlisten function we can call on destroy
             this.originUnlisten = this.renderer.listen(
@@ -121,14 +133,13 @@ export class OverlayDirective implements OnDestroy {
     });
 
     effect(() => {
-      const previousOpenValue = this.cdkConnectedOverlay.open;
-      this.cdkConnectedOverlay.open = this.connectedOverlayOpen();
-      this.cdkConnectedOverlay.ngOnChanges({
-        open: new SimpleChange(
-          previousOpenValue,
-          this.connectedOverlayOpen(),
-          false,
-        ),
+      const open = this.connectedOverlayOpen();
+      untracked(() => {
+        if (open) {
+          this.cdkConnectedOverlay.attachOverlay();
+        } else {
+          this.cdkConnectedOverlay.detachOverlay();
+        }
       });
     });
   }
@@ -142,16 +153,10 @@ export class OverlayDirective implements OnDestroy {
     const connectedOverlayBoundedElementWidth =
       this.connectedOverlayBoundedWidthElement();
     if (connectedOverlayBoundedElementWidth) {
-      const previousWidthValue = this.cdkConnectedOverlay.width;
-      this.cdkConnectedOverlay.width =
-        connectedOverlayBoundedElementWidth.offsetWidth;
-      this.cdkConnectedOverlay.ngOnChanges({
-        width: new SimpleChange(
-          previousWidthValue,
-          connectedOverlayBoundedElementWidth.offsetWidth,
-          false,
-        ),
-      });
+      const width = connectedOverlayBoundedElementWidth.offsetWidth;
+      this.cdkConnectedOverlay.width = width;
+      this.cdkConnectedOverlay.overlayRef?.updateSize({ width });
+      this.cdkConnectedOverlay.overlayRef?.updatePosition();
     }
   }
 }

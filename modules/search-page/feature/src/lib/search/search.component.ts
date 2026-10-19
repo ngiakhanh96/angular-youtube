@@ -18,12 +18,11 @@ import {
   computed,
   effect,
   inject,
+  input,
   linkedSignal,
   OnInit,
-  signal,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'ay-search',
@@ -70,8 +69,12 @@ export class SearchComponent
         })) ?? []
     );
   });
-  private route = inject(ActivatedRoute);
-  private searchQuery = signal<string | null>(null);
+  readonly searchQuery = input('', {
+    // eslint-disable-next-line @angular-eslint/no-input-rename -- Preserve the existing watch/search URL query parameter contract.
+    alias: 'search_query',
+    transform: (value: string | string[] | null | undefined) =>
+      (Array.isArray(value) ? value[0] : value) ?? '',
+  });
   private searchYoutubeVideosInfo = computed(() =>
     searchPageEventGroup.searchYoutubeVideos({
       searchTerm: this.searchQuery() ?? '',
@@ -94,6 +97,7 @@ export class SearchComponent
       this.titleService.setTitle(
         `${this.searchQuery() ?? ''} - Angular Youtube`,
       );
+      this.loadingBarService.load(25);
     });
     effect(() => {
       if (this.searchedVideosInfo().length > 0) {
@@ -103,12 +107,6 @@ export class SearchComponent
   }
 
   ngOnInit(): void {
-    this.route.queryParamMap
-      .pipe(this.takeUntilDestroyed())
-      .subscribe((params) => {
-        this.searchQuery.set(params.get('search_query'));
-        this.loadingBarService.load(25);
-      });
     this.sidebarService.setSelectedIconName(null);
   }
 
