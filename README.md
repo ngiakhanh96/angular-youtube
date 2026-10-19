@@ -20,7 +20,8 @@ Experience YouTube reimagined with modern web technologies! This project showcas
 - 🚀 **Latest Angular** with standalone components and signals
 - 🏗️ **Enterprise Architecture** using Nx monorepo and domain-driven design
 - 🎥 **Custom Video Player** with theater mode, PiP, and keyboard controls
-- 🎞️ **Full Playlist Support** with YouTube playlist loading and management
+- 🎞️ **Playlist Browsing & Playback** with a signed-in My Playlists page and automatic next video playback
+- 💬 **Comments & Replies** with Top/Newest sorting and authenticated posting
 - 👤 **Social Authentication** with Google OAuth integration
 - 🌐 **SSR Support** for better SEO and performance
 - 📱 **Responsive Design** with Angular Material and TailwindCSS
@@ -33,22 +34,33 @@ Experience YouTube reimagined with modern web technologies! This project showcas
 - **Video Details Page**: Comprehensive video information display
 - **Video Recommendations**: Related videos and suggestions
 - **Video Playlists**: YouTube playlist support with loading, auto-scrolling, and automatic next video playback
+- **My Playlists**: Sign in to browse playlists you own at `/feed/playlists`, load more as you scroll, and open a playlist to start playback
 - **Search Functionality**: Video search with suggestions
 - **Home Page**: Grid layout for video browsing
 - **Video Categories**: Organized content categorization
 - **External Navigation**: Safe external link handling
 
+### 💬 **Comments & Replies**
+
+- **Comment Threads**: Read video comments and expand replies with paginated loading
+- **Comment Sorting**: Switch between Top comments and Newest first
+- **Post Comments**: Signed-in users can submit comments from the video details page
+- **Reply to Comments**: Reply within a thread using an input with your account avatar
+- **Submission Feedback**: Show pending and error states, retain drafts after failed submissions, and display successful comments and replies in the thread
+
 ### 🎬 **Video Player**
 
 - **Custom Video Player**: Native HTML5 video player with YouTube-like controls
+- **DASH Playback**: Adaptive streaming through dash.js with direct audio/video stream fallback
 - **Theater & Default View Modes**: Toggle between regular and theater (wide) viewing modes
-- **Picture-in-Picture**: Built-in PiP support for multitasking
+- **Document Picture-in-Picture**: Keep the player and its custom controls in a floating window in browsers that support Document PiP
 - **Keyboard Controls**: Arrow keys for seeking, spacebar for play/pause
 - **Auto-Next**: Automatic video progression with toggle control
-- **Audio & Video Sync**: Separate audio/video streams with perfect synchronization
+- **Audio & Video Sync**: Synchronize separate audio/video streams during direct playback
 - **Volume Control**: Mute/unmute with visual feedback
 - **Progress Bar**: Interactive seeking with visual progress indicators
-- **Fullscreen Support**: Native fullscreen mode with custom controls
+- **Timestamp Navigation**: Seek to a video timestamp supplied in the watch URL
+- **Fullscreen Support**: Native fullscreen mode with custom controls that appear on pointer activity and hide with the cursor after inactivity
 
 ### 🎨 **User Interface**
 
@@ -58,25 +70,29 @@ Experience YouTube reimagined with modern web technologies! This project showcas
 - **Fixed Header**: Sticky header with blur backdrop effect
 - **Dark Theme**: YouTube-inspired dark color scheme
 - **Loading States**: Skeleton screens and loading indicators
+- **Infinite Scrolling**: Load more videos, search results, playlists, and comments while guarding against duplicate requests during loading
 - **Smart Playlist**: Auto-scrolling playlist with selected video highlighting
 
 ### 🔐 **Authentication**
 
 - **Social Login**: Google OAuth integration
+- **Account Sign-Out**: Sign out from the account menu and clear the local authentication session
 - **User Profiles**: Social user management
 - **Session Handling**: Secure authentication state management
 
 ## ⚡ Technology Stack
 
 - **Framework**: Angular with standalone components
-- **Build Tool**: Nx monorepo workspace
+- **Build Tool**: Nx monorepo workspace with inferred tasks
 - **State Management**: NgRx Signals
 - **UI Library**: Angular Material
 - **Styling**: TailwindCSS
 - **Testing**: Vitest + Playwright
 - **Server**: Express.js for SSR
 - **Language**: TypeScript with strict mode
-- **Backend**: Invidious API integration
+- **Forms**: Angular Signal Forms for search and comment inputs
+- **Playback**: dash.js with a native HTML5 player
+- **Backend**: Invidious for video streams, search, and comment reads; YouTube Data API for owned playlists and authenticated comment/reply posting
 
 ## 📁 Project Structure
 
@@ -90,8 +106,9 @@ modules/
 │   └── ui/             # Presentational components
 ├── header/             # Application header and navigation
 ├── home-page/          # Main landing page with video grid
+├── playlists/          # Signed-in playlist browsing and playback
 ├── search-page/        # Search functionality and results
-├── shared/             # Shared components, services, and
+├── shared/             # Shared components, services, and utilities
 ├── shell/              # Application shell and layout
 └── sidebar/            # Sidebar navigation and menu
 ```
@@ -113,7 +130,7 @@ This project follows modern Angular best practices:
 - **OnPush Change Detection**: Optimized performance
 - **Functional Guards**: Router guards using functional approach
 - **Native Control Flow**: Using `@if`, `@for`, `@switch` instead of structural directives
-- **Reactive Forms**: Form handling with reactive patterns
+- **Signal Forms**: Signal-based form handling for search, comments, and replies
 - **SSR Support**: Server-side rendering with hydration (optional)
 
 ## 🚀 Quick Start
@@ -188,7 +205,7 @@ npx nx lint angular-youtube
 
 ## 🔧 Backend Setup
 
-This application integrates with Invidious as a privacy-friendly YouTube backend proxy.
+This application uses Invidious as a YouTube backend proxy for video streams, search, and comment reads. It also uses the YouTube Data API for owned playlists and authenticated comment/reply posting. My Playlists and posting comments or replies require Google sign-in with the relevant YouTube permissions.
 
 ### Invidious Setup
 
