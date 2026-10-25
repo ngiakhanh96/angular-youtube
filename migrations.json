@@ -139,7 +139,7 @@
     "targetVersion": "latest",
     "confirmedPackageUpdates": true,
     "runningMigrations": [
-      "update-24-0-0-add-ready-signal-plugin"
+      "update-24-0-0-upgrade-to-angular-22-2"
     ],
     "completedMigrations": {
       "24-0-0-move-custom-hashers-to-inputs": {
@@ -249,7 +249,7 @@
             "type": "UPDATE"
           }
         ],
-        "ref": "f596f978a3665cd599c0029ca695aaf9d91fcfec",
+        "ref": "82cb1fe61289cc2a68b52273ee0cc21c285f410f",
         "nextSteps": [],
         "acknowledgedPrompt": true,
         "skipAgentic": true
