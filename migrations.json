@@ -139,7 +139,7 @@
     "targetVersion": "latest",
     "confirmedPackageUpdates": true,
     "runningMigrations": [
-      "remove-deprecated-executors-2"
+      "update-24-0-0-replace-set-parser-options-project"
     ],
     "completedMigrations": {
       "24-0-0-move-custom-hashers-to-inputs": {
@@ -192,10 +192,17 @@
         "type": "successful",
         "name": "remove-deprecated-executors-2",
         "changedFiles": [],
-        "ref": "18f144f8b545e6ab9908fbe02dc3a0686cc2fd9a",
+        "ref": "513d637e4f39f29bb990b0e5ac4bdb871ee5e43f",
         "nextSteps": [],
         "acknowledgedPrompt": true,
         "skipAgentic": true
+      },
+      "update-24-0-0-replace-set-parser-options-project": {
+        "type": "successful",
+        "name": "update-24-0-0-replace-set-parser-options-project",
+        "changedFiles": [],
+        "ref": "42d2cec27970a2f8e23c8c689b7614e9920cde24",
+        "nextSteps": []
       }
     }
   }
