@@ -139,7 +139,7 @@
     "targetVersion": "latest",
     "confirmedPackageUpdates": true,
     "runningMigrations": [
-      "remove-deprecated-executors-3"
+      "update-24-0-0-migrate-config-helpers"
     ],
     "completedMigrations": {
       "24-0-0-move-custom-hashers-to-inputs": {
@@ -220,10 +220,17 @@
         "type": "successful",
         "name": "remove-deprecated-executors-3",
         "changedFiles": [],
-        "ref": "bc3d59eab4b4e63cf7fc87935484b8a4e9b22033",
+        "ref": "00d10b117b87674492be441b149f57de28b32e60",
         "nextSteps": [],
         "acknowledgedPrompt": true,
         "skipAgentic": true
+      },
+      "update-24-0-0-migrate-config-helpers": {
+        "type": "successful",
+        "name": "update-24-0-0-migrate-config-helpers",
+        "changedFiles": [],
+        "ref": "09395235376c6fc158dbf9e8a0c8a74839df7a5e",
+        "nextSteps": []
       }
     }
   }
