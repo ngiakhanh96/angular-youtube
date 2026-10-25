@@ -139,7 +139,7 @@
     "targetVersion": "latest",
     "confirmedPackageUpdates": true,
     "runningMigrations": [
-      "24-0-0-rename-ultracache-ignore-options"
+      "remove-deprecated-executors"
     ],
     "completedMigrations": {
       "24-0-0-move-custom-hashers-to-inputs": {
@@ -167,8 +167,17 @@
         "type": "successful",
         "name": "24-0-0-rename-ultracache-ignore-options",
         "changedFiles": [],
-        "ref": "b5371824a2419fd8d0885e04b34ba58c4c2a64fc",
+        "ref": "56e3fb3451543b129643fbdb3b8acaa7f8bced6e",
         "nextSteps": []
+      },
+      "remove-deprecated-executors": {
+        "type": "successful",
+        "name": "remove-deprecated-executors",
+        "changedFiles": [],
+        "ref": "e0596a9e6f75e255aad88935192d228deef4751f",
+        "nextSteps": [],
+        "acknowledgedPrompt": true,
+        "skipAgentic": true
       }
     }
   }
