@@ -139,7 +139,7 @@
     "targetVersion": "latest",
     "confirmedPackageUpdates": true,
     "runningMigrations": [
-      "update-24-0-0-migrate-config-helpers"
+      "update-24-0-0-register-typescript-plugin-for-typecheck"
     ],
     "completedMigrations": {
       "24-0-0-move-custom-hashers-to-inputs": {
@@ -229,7 +229,15 @@
         "type": "successful",
         "name": "update-24-0-0-migrate-config-helpers",
         "changedFiles": [],
-        "ref": "09395235376c6fc158dbf9e8a0c8a74839df7a5e",
+        "ref": "45a5fa9e5424aa3fea60a27d3000aa916cbfd413",
+        "nextSteps": [],
+        "acknowledgedPrompt": true
+      },
+      "update-24-0-0-register-typescript-plugin-for-typecheck": {
+        "type": "successful",
+        "name": "update-24-0-0-register-typescript-plugin-for-typecheck",
+        "changedFiles": [],
+        "ref": "9525e0a03be6a3b0f808d5129f571aab41315c56",
         "nextSteps": []
       }
     }
