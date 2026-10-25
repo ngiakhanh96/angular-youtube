@@ -139,17 +139,29 @@
     "targetVersion": "latest",
     "confirmedPackageUpdates": true,
     "runningMigrations": [
-      "24-0-0-move-custom-hashers-to-inputs"
+      "24-0-0-enable-legacy-affected"
     ],
     "completedMigrations": {
       "24-0-0-move-custom-hashers-to-inputs": {
         "type": "successful",
         "name": "24-0-0-move-custom-hashers-to-inputs",
         "changedFiles": [],
-        "ref": "8f9c9b0d0ce2d939b2b0692d63b3a8fc7f5efa44",
+        "ref": "2d28097b84d7118b873679d071841909a9686842",
         "nextSteps": [],
         "acknowledgedPrompt": true,
         "skipAgentic": true
+      },
+      "24-0-0-enable-legacy-affected": {
+        "type": "successful",
+        "name": "24-0-0-enable-legacy-affected",
+        "changedFiles": [
+          {
+            "path": "nx.json",
+            "type": "UPDATE"
+          }
+        ],
+        "ref": "d66a295f9ac9823121e57c03f0de578a9ece8807",
+        "nextSteps": []
       }
     }
   }

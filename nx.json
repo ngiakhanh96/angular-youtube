@@ -75,5 +75,8 @@
     }
   },
   "defaultProject": "angular-youtube",
-  "analytics": false
+  "analytics": false,
+  "affected": {
+    "legacy": true
+  }
 }
