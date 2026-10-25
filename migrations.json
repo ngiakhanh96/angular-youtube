@@ -137,6 +137,20 @@
       "subject": "chore: update GitNexus project indexing details"
     },
     "targetVersion": "latest",
-    "confirmedPackageUpdates": true
+    "confirmedPackageUpdates": true,
+    "runningMigrations": [
+      "24-0-0-move-custom-hashers-to-inputs"
+    ],
+    "completedMigrations": {
+      "24-0-0-move-custom-hashers-to-inputs": {
+        "type": "successful",
+        "name": "24-0-0-move-custom-hashers-to-inputs",
+        "changedFiles": [],
+        "ref": "8f9c9b0d0ce2d939b2b0692d63b3a8fc7f5efa44",
+        "nextSteps": [],
+        "acknowledgedPrompt": true,
+        "skipAgentic": true
+      }
+    }
   }
 }
