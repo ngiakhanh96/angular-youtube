@@ -18,7 +18,7 @@ export interface ICustomRouteReuseComponent {
 export class CustomRouteReuseStrategy implements RouteReuseStrategy {
   private _originalVideoUrlString?: string | undefined;
   private _cachedComponentNames = new Set<string>();
-  private _storedHandles = new Map<string, DetachedRouteHandle | null>();
+  private _storedHandles = new Map<string, DetachedRouteHandle>();
 
   setOriginalVideoUrl(url: string): void {
     this._originalVideoUrlString = url;
@@ -108,7 +108,7 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
     return handle;
   }
 
-  retrieveStoredRouteHandles(): DetachedRouteHandle | null[] {
+  retrieveStoredRouteHandles(): DetachedRouteHandle[] {
     return Array.from(this._storedHandles.values());
   }
 
