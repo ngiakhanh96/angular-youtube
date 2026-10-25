@@ -139,7 +139,7 @@
     "targetVersion": "latest",
     "confirmedPackageUpdates": true,
     "runningMigrations": [
-      "update-24-0-0-replace-set-parser-options-project"
+      "update-24-0-0-add-ready-when-signal"
     ],
     "completedMigrations": {
       "24-0-0-move-custom-hashers-to-inputs": {
@@ -201,7 +201,19 @@
         "type": "successful",
         "name": "update-24-0-0-replace-set-parser-options-project",
         "changedFiles": [],
-        "ref": "42d2cec27970a2f8e23c8c689b7614e9920cde24",
+        "ref": "aee06120a7169246519473faf8804caf44ac0f83",
+        "nextSteps": []
+      },
+      "update-24-0-0-add-ready-when-signal": {
+        "type": "successful",
+        "name": "update-24-0-0-add-ready-when-signal",
+        "changedFiles": [
+          {
+            "path": "project.json",
+            "type": "UPDATE"
+          }
+        ],
+        "ref": "034c369b88cb1436f1b230426a4567c869fd0c22",
         "nextSteps": []
       }
     }

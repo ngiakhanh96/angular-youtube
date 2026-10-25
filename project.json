@@ -146,7 +146,11 @@
         "port": 4200,
         "staticFilePath": "dist/angular-youtube/browser",
         "spa": true
-      }
+      },
+      "readyWhen": {
+        "signal": true
+      },
+      "dependsOn": ["build"]
     }
   }
 }
