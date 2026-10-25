@@ -70,6 +70,9 @@
         "development": {
           "buildTarget": "angular-youtube:build:development"
         }
+      },
+      "readyWhen": {
+        "signal": true
       }
     },
     "build-csr": {
@@ -130,6 +133,9 @@
         "development": {
           "buildTarget": "angular-youtube:build-csr:development"
         }
+      },
+      "readyWhen": {
+        "signal": true
       }
     },
     "extract-i18n": {
@@ -141,16 +147,16 @@
     "serve-static": {
       "continuous": true,
       "executor": "@nx/web:file-server",
+      "readyWhen": {
+        "signal": true
+      },
+      "dependsOn": ["build"],
       "options": {
         "buildTarget": "angular-youtube:build",
         "port": 4200,
         "staticFilePath": "dist/angular-youtube/browser",
         "spa": true
-      },
-      "readyWhen": {
-        "signal": true
-      },
-      "dependsOn": ["build"]
+      }
     }
   }
 }
