@@ -139,7 +139,7 @@
     "targetVersion": "latest",
     "confirmedPackageUpdates": true,
     "runningMigrations": [
-      "update-24-0-0-register-typescript-plugin-for-typecheck"
+      "update-24-0-0-add-ready-signal-plugin"
     ],
     "completedMigrations": {
       "24-0-0-move-custom-hashers-to-inputs": {
@@ -237,8 +237,22 @@
         "type": "successful",
         "name": "update-24-0-0-register-typescript-plugin-for-typecheck",
         "changedFiles": [],
-        "ref": "9525e0a03be6a3b0f808d5129f571aab41315c56",
+        "ref": "947d0fad630b327d50f3a8d017a6ab36259f2cca",
         "nextSteps": []
+      },
+      "update-24-0-0-add-ready-signal-plugin": {
+        "type": "successful",
+        "name": "update-24-0-0-add-ready-signal-plugin",
+        "changedFiles": [
+          {
+            "path": "vite.config.mts",
+            "type": "UPDATE"
+          }
+        ],
+        "ref": "f596f978a3665cd599c0029ca695aaf9d91fcfec",
+        "nextSteps": [],
+        "acknowledgedPrompt": true,
+        "skipAgentic": true
       }
     }
   }
