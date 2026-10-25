@@ -139,7 +139,7 @@
     "targetVersion": "latest",
     "confirmedPackageUpdates": true,
     "runningMigrations": [
-      "remove-deprecated-executors-1"
+      "remove-deprecated-executors-2"
     ],
     "completedMigrations": {
       "24-0-0-move-custom-hashers-to-inputs": {
@@ -183,7 +183,16 @@
         "type": "successful",
         "name": "remove-deprecated-executors-1",
         "changedFiles": [],
-        "ref": "0501fbff6e48ea8c3541511be06e2d5416b07948",
+        "ref": "19cc3de9048ac6d370a7b44fe71bb124ba0d0272",
+        "nextSteps": [],
+        "acknowledgedPrompt": true,
+        "skipAgentic": true
+      },
+      "remove-deprecated-executors-2": {
+        "type": "successful",
+        "name": "remove-deprecated-executors-2",
+        "changedFiles": [],
+        "ref": "18f144f8b545e6ab9908fbe02dc3a0686cc2fd9a",
         "nextSteps": [],
         "acknowledgedPrompt": true,
         "skipAgentic": true
