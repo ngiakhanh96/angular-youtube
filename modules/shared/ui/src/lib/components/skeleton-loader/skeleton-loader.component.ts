@@ -126,12 +126,11 @@ export class AySkeletonLoaderComponent {
    */
   readonly styles = computed(() => {
     const theme = this.theme();
-    if (this.#config?.theme?.extendsFromRoot) {
-      return {
-        ...this.#config?.theme,
-        ...theme,
-      };
-    }
-    return theme;
+    const styles = this.#config?.theme?.extendsFromRoot
+      ? { ...this.#config.theme, ...theme }
+      : { ...theme };
+    // This controls theme merging and is not a CSS property.
+    delete styles.extendsFromRoot;
+    return styles;
   });
 }
