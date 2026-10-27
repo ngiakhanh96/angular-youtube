@@ -14,17 +14,15 @@ mat-sidenav-container {
   mat-sidenav-content {
     @apply pb-[16px];
     overflow: unset;
-    ::ng-deep {
-      .layout_body {
-        @apply flex flex-row;
-        ay-sidebar-mini {
-          @apply w-[var(--sidebar-mini-width)] shrink-0 grow-0;
-        }
+    .layout_body {
+      @apply flex flex-row;
+      ay-sidebar-mini {
+        @apply w-[var(--sidebar-mini-width)] shrink-0 grow-0;
+      }
 
-        .layout_body_content {
-          @apply w-[var(--sidenav-content-width)];
-          @apply transition-[width] duration-400 ease-[cubic-bezier(0.25,0.8,0.25,1)];
-        }
+      .layout_body_content {
+        @apply w-[var(--sidenav-content-width)];
+        @apply transition-[width] duration-400 ease-[cubic-bezier(0.25,0.8,0.25,1)];
       }
     }
   }

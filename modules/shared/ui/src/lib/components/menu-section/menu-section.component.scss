@@ -12,10 +12,8 @@
     @apply mt-[4px] mb-[4px] ml-[var(--margin-left)] mr-[var(--margin-right)];
   }
 
-  ::ng-deep {
-    .menu_header_item {
-      @extend .menu_section_item;
-      @apply pl-[8px];
-    }
+  .menu_header_item {
+    @extend .menu_section_item;
+    @apply pl-[8px];
   }
 }

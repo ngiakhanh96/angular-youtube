@@ -16,22 +16,8 @@
 
   mat-list {
     @apply mb-[4px] pt-[4px];
-    ::ng-deep {
-      mat-list-item {
-        @apply flex-col pl-0 pr-0;
-        .mdc-list-item__primary-text {
-          @apply mt-[12px] ml-[4px];
-          &::before {
-            @apply w-[16px];
-          }
-        }
-        .mdc-list-item__secondary-text {
-          @apply text-center text-[10px];
-          &::before {
-            @apply h-[16px];
-          }
-        }
-      }
+    mat-list-item {
+      @apply flex-col pl-0 pr-0;
     }
   }
 }

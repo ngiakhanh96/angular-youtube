@@ -32,8 +32,8 @@ import {
   PreloadAllModules,
   provideRouter,
   RouteReuseStrategy,
+  withAutoCleanupInjectors,
   withComponentInputBinding,
-  withExperimentalAutoCleanupInjectors,
   withInMemoryScrolling,
   withPreloading,
   withViewTransitions,
@@ -71,7 +71,7 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling({
         scrollPositionRestoration: 'top',
       }),
-      withExperimentalAutoCleanupInjectors(),
+      withAutoCleanupInjectors(),
     ),
     {
       provide: RouteReuseStrategy,

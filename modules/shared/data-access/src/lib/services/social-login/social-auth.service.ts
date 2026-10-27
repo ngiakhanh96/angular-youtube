@@ -82,11 +82,6 @@ export class SocialAuthService {
     if (version === this.sessionVersion) this.setUser(user, providerId);
   }
 
-  /** @deprecated This historically revokes a token. Use revokeAccessToken instead. */
-  refreshAccessToken(providerId: string): Promise<void> {
-    return this.revokeAccessToken(providerId);
-  }
-
   async revokeAccessToken(providerId: string): Promise<void> {
     const provider = await this.getProvider(providerId);
     if (!provider.revokeAccessToken) {

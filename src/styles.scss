@@ -52,6 +52,42 @@ body {
   --mat-list-list-item-one-line-container-height: 36px;
 }
 
+// Material's internal elements require global rules scoped to their component hosts.
+ay-sidebar-mini .sidebar_mini_container mat-list mat-list-item {
+  .mdc-list-item__primary-text {
+    @apply mt-[12px] ml-[4px];
+
+    &::before {
+      @apply w-[16px];
+    }
+  }
+
+  .mdc-list-item__secondary-text {
+    @apply text-center text-[10px];
+
+    &::before {
+      @apply h-[16px];
+    }
+  }
+}
+
+ay-pill-list .video-categories mat-chip-set {
+  .mdc-evolution-chip-set__chips {
+    @apply flex-nowrap gap-x-[12px] ml-0 overflow-auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      @apply hidden;
+    }
+  }
+
+  mat-chip .mdc-evolution-chip__action {
+    @apply cursor-pointer;
+  }
+}
+
 /* View Transitions */
 ::view-transition-old(root) {
   animation: fade-out 0.6s ease-in-out 0.1s both;

@@ -8,7 +8,6 @@ export class GlobalErrorHandler implements ErrorHandler {
       // Handle HTTP errors
       console.error('HTTP Error occurred:', {
         status: error.status,
-        statusText: error.statusText,
         url: error.url,
         message: error.message,
       });
